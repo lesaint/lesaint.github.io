@@ -57,7 +57,7 @@ Markdown Editing in Sublime Text
 - Excellent resource
   - [http://www.macstories.net/roundups/sublime-text-2-and-markdown-tips-tricks-and-links/](http://www.macstories.net/roundups/sublime-text-2-and-markdown-tips-tricks-and-links/)
 - Install Sublime Text
-  - see [Installing Sublime for my use](/2014/01/08/installing_sublime_for_my_use.html)
+  - see [Installing Sublime for my use]({% post_url 2014-01-08-installing_sublime_for_my_use %})
 - Extends Sublime for better editing experience (via Package Control)
   - Add package MarkdownEditing
     - installation
@@ -91,7 +91,7 @@ Markdown Editing in Sublime Text
         }
         ```
 
-  - Add Syntax highlighting sublime-markdown-extended (not used, MarkdownEditing is better)
+  - Add Syntax highlighting sublime-markdown-extended (for reference, not used, MarkdownEditing is better)
     + [https://github.com/jonschlinkert/sublime-markdown-extended](https://github.com/jonschlinkert/sublime-markdown-extended)
     + CTRL+SHIFT+P > Install Package
     + package name is "Markdown Extended"
