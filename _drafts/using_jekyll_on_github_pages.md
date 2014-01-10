@@ -48,8 +48,17 @@ Installing
   + Source : [https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll](https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll)
 
   ```sh
-  gem install github-pages
+  sudo gem install github-pages
   ```
+
+- Installing Rake
+  + Rake is a build tool that we can use to automate several blog editing task
+  
+  ```sh
+  sudo gem install rake
+  ```
+
+  + Rake build file is name `Rakefile` and is written in pure Ruby
 
 Markdown Editing in Sublime Text
 -----------------------
