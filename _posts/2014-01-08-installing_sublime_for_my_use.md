@@ -67,13 +67,31 @@ Minimal Sublime tuning
 ----------------------
 
 * Install Package Control extension
+    - Package Control is the most convenient way of extending Sublime Text and offers lots of resources
     - see instructions at [https://sublime.wbond.net/installation](https://sublime.wbond.net/installation)
 * Keyboard shortcuts
     - make delete line shortcut actually useable
         + default shurtcut ctrl+shift+k can not be used with a single hand
-        + open use shorcut preferences : Preferences > Key Bindings - User
+        + open shorcut preferences : Preferences > Key Bindings - User
         + add the following line (which overwrite default's ctrl+d key binding for command find_under_expand)
 
         ```json
             { "keys": ["ctrl+d"], "command": "run_macro_file", "args": {"file": "Packages/Default/Delete Line.sublime-macro"} }
         ```
+
+* User preferences
+    - I found several nice ideas of tuning Sublime Text there : [http://www.synbioz.com/blog/sublime_text](http://www.synbioz.com/blog/sublime_text)
+    - open user preferences : Preferences > Settings - User
+    - make sure files have trailing new line
+    ```json
+    "ensure_newline_at_eof_on_save": true,
+    "trim_trailing_white_space_on_save": true
+    ```
+
+    - improve visibility of modified files tabs and hightligh line with cursor
+    
+    ```json
+    "highlight_line": true,
+    "highlight_modified_tabs": true
+    ```
+
