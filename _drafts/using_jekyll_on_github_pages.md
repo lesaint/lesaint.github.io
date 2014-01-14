@@ -14,7 +14,7 @@ Installing
     * ruby-dev package seems required to build gem github-pages
       - otherwise, you might get an error :
         + resource : [http://stackoverflow.com/questions/7645918/require-no-such-file-to-load-mkmf-loaderror](http://stackoverflow.com/questions/7645918/require-no-such-file-to-load-mkmf-loaderror)
-      
+
       ```
       ERROR:  Error installing github-pages:
       ERROR: Failed to build gem native extension.
@@ -53,7 +53,7 @@ Installing
 
 - Installing Rake
   + Rake is a build tool that we can use to automate several blog editing task
-  
+
   ```sh
   sudo gem install rake
   ```
@@ -109,7 +109,7 @@ Markdown Editing in Sublime Text
     + CTRL+SHIFT+P > Install Package
     + package name is "Monokai Extended"
     + select as default color theme
-      * Preferences > Color sheme > Monakai Extended > Monakai Extended
+      * Preferences > Color sheme > Monokai Extended > Monokai Extended
       * Bright sheme hurts my eyes
 
- 
+
