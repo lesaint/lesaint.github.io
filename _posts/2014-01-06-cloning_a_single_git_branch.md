@@ -5,35 +5,65 @@ tags: git
 ---
 
 When I get to checkout an existing repo which purpose is almost only to store binaries, I really would rather avoid cloning all the branches and tags locally because :
+
 * I don't want to store all the useless old binaries
 * I know I will use only one branch as a source and the futur ones
 * I want to save space on my SSD
 
-So I googled a little a found this tip : [http://stackoverflow.com/a/4146786](http://stackoverflow.com/a/4146786)
+### Clone a single branch
+To clone a repository and retrieve a single branch can be done as follow :
+
+(source : [http://stackoverflow.com/a/4146786](http://stackoverflow.com/a/4146786))
 
 ```sh
-mkdir $BRANCH
-cd $BRANCH
+# create clone directory
+mkdir $REPO
+cd $REPO
+# create an empty local master branch
 git init
+# add a remote repository for a specific branch
 git remote add -t $BRANCH -f origin $REMOTE_REPO
+# retrieve remote branch on disk
+git fetch
+# checkout branch locally
 git checkout $BRANCH
 ```
 
+### Checkout new branches
+Checking out any branch/tag from the repo can be done as follow :
+It indeed requires to know the name of the remote branch from another source than your local checkout.
+
+```sh
+cd $REPO
+# add a new remote branch
+git remote set-branches --add origin $NEW_BRANCH
+# fetch all remote branches (the new one included) to disk
+git fetch
+# checkout branch locally
+git co $NEW_BRANCH
+```
+
+If the added remote branche does not exist on the remote repository, you will get the following error and fetch will fail :
+
+```
+fatal: Couldn't find remote ref refs/heads/WRONG_BRANCH
+fatal: The remote end hung up unexpectedly
+```
+
+To fix it, edit file `.git/config` and remove the wrong entry under '[remote origin]' starting with `fetch =`.
+
+(source : [http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399](http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399))
+
+### Discussion
 This technic is a litle bit manual, but has many advantages :
+
 * writing a shell script to automate it is only a few hits on the keyboard away
     - hay ! How hard would it be to create a new Git command ? I must find time to dig into that
     - maybe a simple GIT alias could do the job
 * you don't get pushing problems as you can get when using git shallow cloning
-* you really checking a single reference branch as opposed to using git clone -b option
+* you really are checking a single reference branch as opposed to using git clone -b option
 
 ```sh
+# retrieves all the remote branches locally and then checkout branch_name
 git clone user@git-server:project_name.git -b branch_name
-```
-
-* checking out any branch/tag from the repo can be done by the regular git checkout command
-    - one just need to know the name of the branch/tag from another source
-* retrieving all the missing branches can be done in a single command
-
-```sh
-git fetch --all
 ```
