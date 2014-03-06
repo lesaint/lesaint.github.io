@@ -1,10 +1,11 @@
 ---
-layout: default 
+layout: default
 ---
 {% for post in site.posts %}
-  <li>
-    <a href="{{ post.url }}">{{ post.title }}</a>
+  <div>
+    <h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
     <p>{{ post.content }}</p>
-  </li>
+	<hr/>
+  </div>
 {% endfor %}
 
