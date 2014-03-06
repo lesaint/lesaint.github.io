@@ -39,7 +39,7 @@ sudo apt-get install ruby1.9.1-dev
 ```sh
 sudo unlink /etc/alternatives/ruby
 sudo ln -s /usr/bin/ruby1.9.1 /etc/alternatives/ruby
-̀̀̀
+```
 
 * RubyGems
   + Under Ubuntu 12.04 on my XPS 13, there seems to be an already install rubygems 1.8.11, which was not installed via apt-get 
