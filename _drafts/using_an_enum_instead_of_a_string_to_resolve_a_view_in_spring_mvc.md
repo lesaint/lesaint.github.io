@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Using enum instead of String to resolve view
-tags: SpringMVC
+tags: SpringMVC, Java
 ---
 
 On the current project I'm working on, we are using Spring MVC. This framework is nice, mature and efficient.
