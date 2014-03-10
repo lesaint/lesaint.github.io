@@ -5,8 +5,8 @@ tags: java, JUnit, Mockito, SpringMVC
 ---
 
 Using Mockito annotations in JUnit tests is very convenient.
-To make it even easier, initialisation can be made automatique by using a Runner that will call `MockitoAnnotations.initMocks(Object)` for us.
-The problem is, the runner is executed after the class is initialized by constructor, making it impossible, for example, to have references to mocks or injected objects in rules.
+To make it even easier, initialisation can be made automatic by using a Runner (with annotation `@RunWith(MockitoJUnitRunner.class`) that will call `MockitoAnnotations.initMocks(Object)` for us.
+The problem is : the runner is executed after the class is initialized by constructor (obviously), making it impossible, for example, to have references to mocks or injected objects in rules.
 
 # Using a TestRule to initialize the class
 
@@ -34,11 +34,11 @@ public class MockitoAnnotationsRule implements TestRule {
 }
 ```
 
-This class takes the Unit test as a contructor argument and simply calls `MockitoAnnotations.initMocks(test)` on it.
+This class takes the Unit test as a contructor argument and simply calls `MockitoAnnotations.initMocks()` on it.
 
 # Usage
 
-This TestRule is a method level rule, it is intended to be used as a public, non static property in a JUnit test, annoted with `@Rule`.
+This TestRule is intended to be used as a public, non static property in a JUnit test, annoted with `@Rule`.
 The only constraint is that the property must be placed in the code before any other rule or object instanced during the creation of the test Object which uses a property annoted with either `@Mock` or `@InjectMocks`.
 
 Sample usage in unit test for a Spring MVC controller :
@@ -82,7 +82,7 @@ public class MyControllerTest {
 
 # Comments
 
-## Comparison of using a TestRule instead against using a Runner :
+## Comparison of using a TestRule against using a Runner :
 
 * Pros
     - benefits of the TestRule paradigm over the Runner paradigm
