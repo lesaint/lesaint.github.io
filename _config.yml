@@ -1,1 +1,8 @@
+
+permalink: date
+paginate_path: ':num'
+paginate: 5
+
 markdown: redcarpet
+
+excerpt_separator: "\n\n\n"
