@@ -5,6 +5,9 @@ description: How I installed Sublime Text 2 on Ubuntu
 tags: sublime
 ---
 
+Here I note how I installed [Sublime Text 2](http://www.sublimetext.com/2) on my computer(s) running Ubuntu.
+
+
 Installing
 ----------
 

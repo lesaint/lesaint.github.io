@@ -1,14 +1,16 @@
 ---
 layout: post
 title: Using enum instead of String to resolve view
-tags: SpringMVC, Java
 ---
 
 On the current project I'm working on, we are using Spring MVC. This framework is nice, mature and efficient.
-But we are currently using String as return type of our `@RequestMapping` method (as most people probably do) and I don't like that very much. We end up having magic number Strings in the code or (better but not great) constants in controllers.
-I would rather have all the name of the views in a single place, an enum for exemple. Better, I would like `@RequestMapping` method to return a enum constant representing the view to forward to.
+
+But we are currently using String as return type of our `@RequestMapping` methods (as most people probably do) and I don't like that very much. We end up having magic number Strings in the code or (better but not great) constants in controllers.
+
+I would rather have all the name of the views in a single place, an enum for exemple. Better, I would like `@RequestMapping` methods to return a enum constant representing the view to forward to.
 
 Spring MVC supports a lot of return types out-of-the-box but not enums. Here is how to extends Spring MVC to do it.
+
 
 ## create a enum with a String property
 
