@@ -18,17 +18,17 @@ layout: default
   </article>
 {% endfor %}
 
-<nav>
+<div id="nav">
   <!-- Pagination links -->
-  {% if paginator.previous_page %}
-    <div class="previous"><a href="/{% if page.previous_page > 1 %}{{ paginator.previous_page }}{% endif %}">Previous</a></div>
-  {% else %}
-    <div class="previous">Previous</div>
-  {% endif %}
   {% if paginator.next_page %}
-    <div class="next"><a href="/{{ paginator.next_page }}">Next</a></div>
+    <div class="previous"><a href="/{{ paginator.next_page }}">Older posts</a></div>
   {% else %}
-    <div class="next">Next</div>
-  <div class="current">{{ paginator.page }} / {{ paginator.total_pages }}</div>
+    <div class="previous">&nbsp;</div>
   {% endif %}
-</nav>
+  {% if paginator.previous_page %}
+    <div class="next"><a href="/{% if page.previous_page != '0' %}{{ paginator.previous_page }}{% endif %}">More recent posts</a></div>
+  {% else %}
+    <div class="next">&nbsp;</div>
+  {% endif %}
+  <div class="current">&nbsp;<!--{{ paginator.page }} / {{ paginator.total_pages }}--></div>
+</div>

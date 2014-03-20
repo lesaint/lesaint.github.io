@@ -845,7 +845,7 @@ article summary {
 }
 
 article footer {
-  padding: 10px 0 20px 0;
+  padding: 10px 0 40px 0;
 }
 
 article footer ul {
@@ -854,6 +854,10 @@ article footer ul {
   list-style-image: none;
   padding: 0 0 0 5px;
   margin: 0px 0px 20px; /* cancels inherited margin from ul */
+}
+
+article footer nav {
+  margin-top: 10px;
 }
 
 article footer nav a {
@@ -885,19 +889,20 @@ article hr {
   clear: both;
 }
 
-section nav {
-  margin-bottom: 30px;
+section div#nav {
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
-section nav div.previous {
+section div#nav div.previous {
   float: left;
 }
 
-section nav div.current {
+section div#nav div.current {
   text-align: center;
 }
 
-section nav div.next {
+section div#nav div.next {
   float: right;
 }
 
