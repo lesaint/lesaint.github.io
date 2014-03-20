@@ -819,6 +819,86 @@ section #footer .credits.left {
 }
 section #footer .credits.right {
   float: right;
+  padding-top: 5px;
+}
+
+article {
+
+}
+
+article time {
+  float: right;
+}
+
+article header a,
+article header a:hover,
+article header a:active,
+article header a:focus {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+article summary {
+  clear: both;
+  font-size: 16px;
+  padding-top: 5px;
+}
+
+article footer {
+  padding: 10px 0 20px 0;
+}
+
+article footer ul {
+  float: left;
+  list-style: none;
+  list-style-image: none;
+  padding: 0 0 0 5px;
+  margin: 0px 0px 20px; /* cancels inherited margin from ul */
+}
+
+article footer nav a {
+  float: right;
+  margin-right: 20px;
+  padding-bottom: 20px;
+}
+
+article footer li {
+  list-style: none;
+  display: inline;
+  color: white;
+  margin: 0 0 0 10px;
+  padding: 5px;
+  border: solid white 0.5px;
+}
+
+article footer li a,
+article footer li a:hover,
+article footer li a:active,
+article footer li a:focus {
+  font-family: 'OpenSansLight', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: white;
+}
+
+article hr {
+  clear: both;
+}
+
+section nav {
+  margin-bottom: 30px;
+}
+
+section nav div.previous {
+  float: left;
+}
+
+section nav div.current {
+  text-align: center;
+}
+
+section nav div.next {
+  float: right;
 }
 
 @media print, screen and (max-width: 720px) {
