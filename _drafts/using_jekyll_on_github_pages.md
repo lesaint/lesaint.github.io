@@ -5,13 +5,13 @@ description: Personnal notes for installing and using Jekyll for GitHub pages
 tags: sublime github ruby
 ---
 
-Here I gather notes on how I installed Jekyll for Github pages based mostly one information from [Github's help page](https://help.github.com/articles/using-jekyll-with-pages).
+Here I gather notes on how I installed Jekyll for Github pages based mostly on informations from [Github's help page](https://help.github.com/articles/using-jekyll-with-pages).
 
 
-Installing
-----------
+# Installing
 
-### Ruby and RubyGems as first prerequisite
+## Ruby and RubyGems as first prerequisite
+
 * Ruby 1.9.3 is required (as of now)
   + installing rubygems directly only installs Ruby 1.8.x => need to install ruby manually
   + to list installed packages via APT, you can use `sudo dpkg --get-selections`
@@ -51,13 +51,13 @@ sudo ln -s /usr/bin/ruby1.9.1 /etc/alternatives/ruby
 sudo apt-get install rubygems
 ```
 
-### Installing Jekyll
+## Jekyll
 
   ```sh
   sudo gem install jekyll
   ```
 
-### Installing GitHub Pages
+## GitHub Pages
 
 Source : [https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll](https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll)
 
@@ -65,7 +65,7 @@ Source : [https://help.github.com/articles/using-jekyll-with-pages#installing-je
   sudo gem install github-pages
   ```
 
-### Installing Rake
+## Rake
 
 Rake is a build tool that we can use to automate several blog editing task
 
@@ -75,7 +75,7 @@ Rake is a build tool that we can use to automate several blog editing task
 
   + Rake build file is name `Rakefile` and is written in pure Ruby
 
-### Running Jekyll
+# Using Jekyll
 
 Run the command below on the root of your GitHub pages clone
 

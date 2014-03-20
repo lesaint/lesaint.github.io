@@ -6,6 +6,10 @@ tags: java junit smtp unitTesting
 
 If you ever had to write code that uses JavaMail to send emails, then you necessarily looked for a way of testing that code at some point.
 If you didn't, its bad. Otherwise, you have been looking for a pure-Java implementation of a SMTP server.
+
+I did and ended using `Wiser` and integrate it with `JUnit` by creating a custome `Rule`.
+
+
 The subject is old and googling will return several framework names accross multiple blog posts, forum questions, ... I recently add to do that research and here are my conclusions.
 
 # Several products available

@@ -4,17 +4,15 @@ title: Learning Ruby
 tags: ruby
 ---
 
-Why the Hell ?
---------------
-
-Since my new projet is using quite a bunch of Ruby based technos (Capistrano, Puppet, ...) and since I am now using GitHub pages as a website/blog solution which is also Ruby powered, I believe its time to really learn the language.
+I joined a new project in january with several Ruby based technos (Capistrano, Puppet, ...) and since I am now using GitHub pages as a website/blog solution which is also Ruby powered, I believe its time to really learn the language.
 
 This post will be the place where I will keep notes of this croisade out of Java.
+
 
 Help & Documentation
 --------------------
 
-### Learning resources :
+## Learning resources :
 
 * [Rubylearning.com](http://rubylearning.com)
     - since it was the first result in Google, I started the course right away but then I found ...
@@ -54,7 +52,7 @@ Very useful cheat sheet, for Ruby 1.9 : [http://socrateos.blogspot.fr/2011/05/ru
 #### Ruby minitest cheat sheet
 I haven't started testing, so I don't have an opinion on this sheet yet : [http://danwin.com/2013/03/ruby-minitest-cheat-sheet/](http://danwin.com/2013/03/ruby-minitest-cheat-sheet/)
 
-### Leaning notes
+## Leaning notes
 
 * listing of a Class methods
     - all methods, including inherited ones : `Foo.instance_methods`

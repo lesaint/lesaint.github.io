@@ -5,8 +5,10 @@ description: Personnal notes for tuning Sublime Text 2
 tags: sublime
 ---
 
-Markdown Editing in Sublime Text
------------------------
+Here I keep a few note on how to configure Sublime Test 2 to edit markdow files.
+
+
+# Markdown Editing in Sublime Text
 
 - Excellent resource
   - [http://www.macstories.net/roundups/sublime-text-2-and-markdown-tips-tricks-and-links/](http://www.macstories.net/roundups/sublime-text-2-and-markdown-tips-tricks-and-links/)

@@ -5,8 +5,11 @@ tags: java JUnit Mockito SpringMVC
 ---
 
 Using Mockito annotations in JUnit tests is very convenient.
+
 To make it even easier, initialisation can be made automatic by using a Runner (with annotation `@RunWith(MockitoJUnitRunner.class`) that will call `MockitoAnnotations.initMocks(Object)` for us.
+
 The problem is : the runner is executed after the class is initialized by constructor (obviously), making it impossible, for example, to have references to mocks or injected objects in rules.
+
 
 # Using a TestRule to initialize the class
 

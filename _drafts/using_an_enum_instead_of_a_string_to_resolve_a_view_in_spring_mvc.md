@@ -3,14 +3,27 @@ layout: post
 title: Using enum instead of String to resolve view
 ---
 
-On the current project I'm working on, we are using Spring MVC. This framework is nice, mature and efficient.
+The project I'm currently working on uses Spring MVC. This framework is nice, mature and efficient.
 
-But we are currently using String as return type of our `@RequestMapping` methods (as most people probably do) and I don't like that very much. We end up having magic number Strings in the code or (better but not great) constants in controllers.
+But we are using `String` as return type of our `@RequestMapping` methods (as most people probably do) and I don't like that very much.
 
-I would rather have all the name of the views in a single place, an enum for exemple. Better, I would like `@RequestMapping` methods to return a enum constant representing the view to forward to.
+I want to use and enum instead. I want `@RequestMapping` methods to return a enum constant which will be automatically resolved to a view the same way a `String` is resolved to a view.
 
-Spring MVC supports a lot of return types out-of-the-box but not enums. Here is how to extends Spring MVC to do it.
 
+# Using an enum is good
+
+Using `String` as return value of controller methods to represent view name is bad:
+* bad for maintenance
+* bad for refactoring
+* obviously not type-safe
+* adds magic numbers to your code
+
+Using an enum has many positive side effects :
+* view names are all in the same place
+* if it easy to tell which view is used or not with any IDE
+* refactoring is much easier 
+
+# How to add support for an enum return type in Spring MVC
 
 ## create a enum with a String property
 
@@ -107,3 +120,9 @@ What's important here :
   - existing XML configuration should be usable as is with one very important retriction :
     + the `<annotation-driven/>` tag of the MVC XML namespace should be remove as the `@EnableWebMVC` annotation is its exact programmatic equivalent.
       Not doing so will most likely make Spring fail to load your context, but the error you would get will moke likely not obviously point to the `<annotation-driven/>` tag.
+
+# Conclusion
+
+This solution is working like a charm and I like it very much. Spring easy extensibility was a real pleasure to discover.
+
+I wonder it this solution could be made generic and bundle into Spring MVC...
