@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>{% if page.title %}{{ page.title }} • {% endif %}{{ site.title }}</title>
+    <title>{% if page.title %}{{ page.title }} • {% endif %} Javatronic</title>
     {% if page.description %}
     <meta name="description" content="{{ page.description }}" />
     {% endif %}
@@ -21,18 +21,20 @@
 
   </head>
   <body>
-      <!--<div id="header">
+      <div id="header">
         <nav>
-          <li class="fork"><a href="https://github.com/lesaint">View On GitHub</a></li>
+          <li class=""><a href="/">Articles</a></li>
+          <li class=""><a href="/site_map">Tags &amp; archives</a></li>
+          <li class="title"><a href="https://github.com/lesaint/damapping">DAMapping</a></li>
         </nav>
-      </div>--><!-- end header -->
+      </div><!-- end header -->
 
     <div class="wrapper">
 
       <section>
         <div id="title">
-          <h1>Sébastien Lesaint</h1>
-          <p>GitHub repositories and some kind of technical blog</p>
+          <h1>Javatronic</h1>
+          <p>Technical tips and tricks for Java, Spring, Unit testing, ...</p>
         </div>
 
 {{ content }}
@@ -40,14 +42,14 @@
 
           <div id="footer">
           <hr>
-          <span class="credits left">Sources available on <a href="https://github.com/lesaint">GitHub</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme base on theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+          <span class="credits left">Sources available on <a href="https://github.com/lesaint.github.io/damapping/tree/gh-pages">GitHub</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme based on theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
           </div>
       </section>
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-   
- 
+
+
   </body>
 </html>
