@@ -4,8 +4,14 @@ title: Cloning a single branch
 tags: git
 ---
 
-When I get to checkout an existing repo which purpose is almost only to store binaries, I really would rather avoid cloning all the branches and tags locally because :
+When I get to checkout an huge repository, I really would rather avoid cloning all the branches and tags that I won't need. 
+I would rather later on retrieve remote branches (and tags, very rarely) one by one.
+Using the `-t` option of `git remote` and a serie of commands, we can achieve that.
 
+
+The huge repository I had to clone served mostly as a deployment mean for binaries in the stage and production environnement.
+
+There for it had branches and tag with losts of binaries and I didn't want to fetch the whole repository because :
 * I don't want to store all the useless old binaries
 * I know I will use only one branch as a source and the futur ones
 * I want to save space on my SSD

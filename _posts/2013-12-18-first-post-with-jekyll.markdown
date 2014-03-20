@@ -1,8 +1,10 @@
 ---
 layout: post
 title: First Post in markdown
-description: Cheat sheets and quick references for Git and GitHub commands.
 ---
+
+This a my first article and trial for markdown.
+
 
 subtitle for a try
 ----------
