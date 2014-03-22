@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cloning a single branch
-tags: git
+tags: Git
 ---
 
 When I get to checkout an huge repository, I really would rather avoid cloning all the branches and tags that I won't need. 

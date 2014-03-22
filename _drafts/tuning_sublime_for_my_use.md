@@ -2,7 +2,7 @@
 layout: post
 title: Tuning Sublime for my use
 description: Personnal notes for tuning Sublime Text 2
-tags: sublime
+tags: SublimeText
 ---
 
 Here I keep a few note on how to configure Sublime Test 2 to edit markdow files.

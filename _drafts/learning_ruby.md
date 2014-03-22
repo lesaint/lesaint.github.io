@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Learning Ruby
-tags: ruby
+tags: Ruby
 ---
 
 I joined a new project in january with several Ruby based technos (Capistrano, Puppet, ...) and since I am now using GitHub pages as a website/blog solution which is also Ruby powered, I believe its time to really learn the language.

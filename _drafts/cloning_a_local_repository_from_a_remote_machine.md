@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cloning a local Git repository from a remote machine
-tags: git ssh
+tags: Git SSH
 ---
 
 If you happen to have a Git repository cloned a machine (let's say machine@work) and you want to retrieve it on another machine (let's say machine@home), you have a better (as in faster and efficient) option than scp or rsync : git clone.

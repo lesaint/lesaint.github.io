@@ -2,7 +2,7 @@
 layout: post
 title: Git multiversion branching model for maven
 description: A branching and merging model for Git for application with multiple concurrent versions, managed with Maven
-tags: git maven
+tags: Git Maven
 ---
 
 The following Branch and Merge model for Git has the following goals :

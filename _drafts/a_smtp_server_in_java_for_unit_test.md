@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A SMTP server in Java for unit test
-tags: java junit smtp unitTesting
+tags: Java JUnit Smtp UnitTesting
 ---
 
 If you ever had to write code that uses JavaMail to send emails, then you necessarily looked for a way of testing that code at some point.

@@ -2,7 +2,7 @@
 layout: post
 title: Installing Sublime for my use
 description: How I installed Sublime Text 2 on Ubuntu
-tags: sublime
+tags: Sublime
 ---
 
 In this article, I keep track of how I installed [Sublime Text 2](http://www.sublimetext.com/2) on my computer(s) running Ubuntu, from download to adding a launcher in Unity sidebar.
