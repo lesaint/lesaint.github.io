@@ -1,11 +1,11 @@
 ---
 layout: post
-title: Tuning Sublime for my use
+title: Tuning Sublime for markdown editing
 description: Personnal notes for tuning Sublime Text 2
 tags: SublimeText
 ---
 
-Here I keep a few note on how to configure Sublime Test 2 to edit markdow files.
+Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editing.
 
 
 # Markdown Editing in Sublime Text
