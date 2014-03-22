@@ -1,7 +1,7 @@
 
 permalink: date
 paginate_path: ':num'
-paginate: 5
+paginate: 10
 
 markdown: redcarpet
 
