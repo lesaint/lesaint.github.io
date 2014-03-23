@@ -9,22 +9,23 @@ Using Spring Security with Spring MVC to provide method level security on Contro
 When setting up exactly just that on a project, I ran into a series of problem and got a finer understanding on how Spring Security implements Method Security.
 
 
-## How to enable Method Security
+# How to enable Method Security
 
 As stated by the [documentation](http://docs.spring.io/spring-security/site/docs/3.1.x/reference/el-access.html#d0e5600), enabling Method level security with Spring Security is as simple as added a `global-method-security` tag in your configuration.
 
-It's super easy and it works. You can even choose which annotation set you want to use with the appropriate attributes : 
+It's super easy and it works. You can even choose which annotation set you want to use with the appropriate attributes: 
+
 * `secured-annotations="enabled"` for `@Secured`
 * `jsr250-annotations="enabled"` for `@RolesAllowed`
 * `pre-post-annotations="enabled"` for `@PreAuthorize`, `@PostAuthorize`, ...
 * `metadata-source-ref="extraMethodSecurityMetadataSource"` to use your own annotations
 	- more on that in another article
 
-## Pitfalls when using Method Security on Spring MVC controllers
+# Pitfalls when using Method Security on Spring MVC controllers
 
 But in fact, it's not that easy, especially with Spring MVC controllers.
 
-### The position of `global-method-security` matters
+## The position of `global-method-security` matters
 
 The first problem I encountered when adding `@Secured` annotations on my Controller classes was that it simply didn't work. Spring would not enforce the required role(s), not even applying any control. My Controller classes didn't seem to be secured at all.
 
@@ -45,7 +46,7 @@ The DispatchServlet AP's would fail to start because no FilterChain bean existed
 
 So I put the `global-method-security` tag in the DispatcherServlet AP and was off to meet to the next problems :)
 
-### Having classes annoted with @Controller
+## Having classes annoted with @Controller
 
 To implement Method Security, Spring Security uses Spring AOP to create proxies of the annoted controllers. Proxies implements the security checks and it they are ok, call the user's class.
 By default, Spring will use JDK dynamic proxies to create a proxy object with the same methods as your class but which will not be an instance of your class.
@@ -100,7 +101,7 @@ As the JDK proxy object is **not** an instance of the Controller class, we get a
 A fast and efficient workaround this is to make Spring AOP create another type of proxy by adding `proxy-target-class="true"` to the `global-method-security` tag.
 This will tell Spring to use CGLIB-based subclass proxies instead of JDK dynamic proxies. Such proxies are actual instances of the proxied classes. That fixes our problem.
 
-### Having controller classes without default constructor
+## Having controller classes without default constructor
 
 Happiness won't last though, if you have controllers which does not declare a default constructor. 
 
@@ -190,7 +191,7 @@ public class ManagerController {
 }
 ```
 
-#### Using a private default constructor
+### Using a private default constructor
 
 With Spring 3.2.4, the default constructor used by CGLIB-based proxies does not need to be public, so we can use a private constructor. This will avoid poluting the exposed methods of your class, but it is not very elegant nor practical. 
 In fact, it is very annoying to have to add private default constructor to every Controller class that will use the `@Secured` annotation and a non-default constructor.
@@ -250,7 +251,7 @@ Caused by: java.lang.IllegalArgumentException: Superclass has no null constructo
 	... 35 common frames omitted
 ```
 
-#### Using Controller interfaces
+### Using Controller interfaces
 
 Theoretically, a way around the ugly default constructor is to add Spring MVC and Security annotations on an interface instead of a concrete class.
 
@@ -284,21 +285,21 @@ public class ManagerControllerImpl implements ManagerController {
 }
 ```
 
-Please note that the `@Controller` annotation has been moved to the interface as well as `@RequestMapping` and `@Control` annotations.
 
+> Please note that the `@Controller` annotation has been moved to the interface as well as `@RequestMapping` and `@Control` annotations.
 Unfortunatly, **this doesn't work with Spring MVC**.
 
 In this case as well in the one where we started struggling with Spring-AOP in the first place, we get the `object is not an instance of declaring class` exception from the `Having classes annoted with @Controller` part.
 
 I'm wonder if this is a bug or at least if it could be improved...
 
-## Conclusion
+# Conclusion
 
 For the time beeing I will stick to the CGLIB-enabled proxies with the default controller solution.
 
 But I will try and see later if AspectJ couldn't be used to weave beans at compile time and remove the use of proxy completly.
 
-## Some references
+# Some references
 
 While working and googling on this issue, I found this interrested comment on Stackoverflow which discusses the reasons to use Spring-AOP with controller when many ways to implements cross cutting concerns exist:
 [http://stackoverflow.com/a/12045331](http://stackoverflow.com/a/12045331).
@@ -309,10 +310,12 @@ Also, on the subject of comparing JDK proxies and CGLIB-based proxies, this arti
 [Spring annotation on interface or class implementing the interface??](http://kim.saabye-pedersen.org/2013/05/spring-annotation-on-interface-or-class.html)
 
 References in Spring documentation 
+
 * to the Spring-AOP vs Controller in the information note `Using @RequestMapping On Interface Methods` [here](http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/mvc.html#mvc-ann-requestmapping)
 * to enable Method Security [http://docs.spring.io/spring-security/site/docs/3.1.x/reference/el-access.html#d0e5600](http://docs.spring.io/spring-security/site/docs/3.1.x/reference/el-access.html#d0e5600)
 
 Various articles on the use of `proxy-target-class="true"` on the `global-method-security` tag:
+
 * [http://stackoverflow.com/questions/10726478/spring-securitymvc-annotations-illegal-argument-exception](http://stackoverflow.com/questions/10726478/spring-securitymvc-annotations-illegal-argument-exception)
 * [http://stackoverflow.com/questions/18663475/spring-security-global-method-security-does-not-work](http://stackoverflow.com/questions/18663475/spring-security-global-method-security-does-not-work)
 	- This discusses how to work around proxies completly by using AspectJ weaving at compile time
