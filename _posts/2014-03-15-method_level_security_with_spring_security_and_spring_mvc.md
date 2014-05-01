@@ -105,8 +105,8 @@ This will tell Spring to use CGLIB-based subclass proxies instead of JDK dynamic
 
 Happiness won't last though, if you have controllers which does not declare a default constructor. 
 
-If like me you favour constructor injection over property injection because you can have final properties and explicitly declare that you controller class requires depdencies, your controller classes do not define a default constructor (well, they could, but not mine).
-Then you're in for more trouble because CGLIB-based proxies require a default constructor to be created (see [http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/aop.html#aop-proxying](http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/aop.html#aop-proxying) for details).
+If like me you favour constructor injection over property injection then your controller classes do not define a default constructor (well, they could, but not mine).
+So you're in for more trouble because CGLIB-based proxies require a default constructor to be created (see [http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/aop.html#aop-proxying](http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/aop.html#aop-proxying) for details).
 
 The DispatchServlet AP fails to start with an error such as the following :
 
