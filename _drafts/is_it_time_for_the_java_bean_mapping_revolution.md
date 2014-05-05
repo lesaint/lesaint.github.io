@@ -81,9 +81,9 @@ Some tool such as [ModelMapper](http://modelmapper.org/) provide a solution to t
 
 ### immutability is not a prime citizen
 
-Designing immutable bean whever possible is a big constraint but it solves many issue in the long run.
+Designing immutable bean wherever possible is a big constraint but it solves many issue in the long run.
 
-Unfortunatly, immutable bean are not well supported by bean mapping framework, notably because:
+Unfortunately, immutable bean are not well supported by bean mapping framework, notably because:
 
 * it involves bean not having setters (basic requirement of property based framework)
     - immutable beans only have constructors to initialize their state or, better, builders
@@ -165,7 +165,7 @@ And one strong constraint:
 
 The answer to both questions is "obviously, yes!" and the constraint drove my research from a solution.
 
-I think that what we need it not one tool, but two, very much complementary:
+I think that what we need is not one tool, but two, very much complementary:
 
 1. a framework to structure bean mapping code and handle the wiring with the rest of the application and with other pieces of bean mapping code
     + lets call it a Bean Mapping Wiring Framework
@@ -215,5 +215,3 @@ But this is a way of sharing my opinion on bean mapping and getting feedback. I 
 There is no comment in my blog, but you can contact me on [Twitter](https://twitter.com/LesaintSeb).
 
 More post will follow on the details of the Bean Mapping Wiring Framework and the Bean Mapping Code Generator.
-
-
