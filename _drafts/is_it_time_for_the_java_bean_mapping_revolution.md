@@ -75,9 +75,21 @@ When a new developer joins the project, supposing she has to fix a bug or develo
 
 When the time comes to customise the mapping, you generally lose compile-time feedback and type safety because you end up using strings to designate properties and/or are required to add some XML configuration and/or need to write some obscure implementation of a framework specific interface.
 
-You can then forget about refactoring your bean classes and having the mapping code updated consistently by your IDE. Also forget about the compiler telling you than by changing the type of this property, your bean mapping code is now incorrect.
+You can then forget about refactoring your bean classes and having the mapping code updated consistently by your IDE. Also forget about the compiler telling you that by changing the type of this property, your bean mapping code now fails to execute.
 
-Some tool such as [ModelMapper](http://modelmapper.org/) solve this problem, but at the cost of very complexe and verbose technical solutions. It is way simpler to just write the bean mapping code from the beginning and everyone will understand it.
+Some tool such as [ModelMapper](http://modelmapper.org/) provide a solution to this problem, but at the cost of very complexe and verbose technical solutions. It is way simpler to just write the bean mapping code from the beginning. In addition, everyone will understand it just by looking at it.
+
+### immutability is not a prime citizen
+
+Designing immutable bean whever possible is a big constraint but it solves many issue in the long run.
+
+Unfortunatly, immutable bean are not well supported by bean mapping framework, notably because:
+
+* it involves bean not having setters (basic requirement of property based framework)
+    - immutable beans only have constructors to initialize their state or, better, builders
+    - both constructors and builders can hardly be automatically mapped
+* also mapping tree of immutable bean requires to map beans bottom-up instead of the usual top-bottom way
+    - children of immutable bean must be created before their parent
 
 ### you can't investigate how mapping actually occurs
 
@@ -101,9 +113,9 @@ When it comes to mapping trees of bean, you either do not have control over it o
 
 ### performance ...
 
-Performance is a big issue with reflection based mapping tools, they are very slow and CPU/memory intensive. In addition, this kind of code can never benefit from compiler and/or JVM optimisations.
+Performance is a big issue with reflection based mapping tools, they are very slow and CPU/memory intensive compared to plain Java code. In addition, this kind of code can never benefit from compiler and/or JVM optimisations.
 
-Frameworks based on other technical paradigms never fail to compare each other on that subject but no matter what I don't think they can beat plain java code (unless you just write shitty Java code but that's not a bean mapping issue).
+Frameworks based on other technical paradigms always compare each other on that subject but no matter what I don't think they can beat plain Java code (unless you just write shitty Java code but that's not a bean mapping issue).
 
 ### etc.
 
@@ -111,7 +123,7 @@ Frameworks based on other technical paradigms never fail to compare each other o
 
 ## The down side of bean mapping code in source
 
-Naturally, every aspect stated above are no problems when bean mapping code is part of the application.
+Naturally, every aspect stated above are no problem when bean mapping code is part of the application.
 
 But I am also aware of the main reasons to hide bean mapping code:
 
