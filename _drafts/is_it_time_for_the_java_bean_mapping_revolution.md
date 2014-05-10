@@ -17,9 +17,9 @@ Bean mapping can look like simple/boring/obvious/tedious-to-write code but it st
 
 I have worked for 3 years on a big online application for a major french telco as a senior developer and then as a technical lead.
 
-This application integrates with nearly 100 web services (or other remote services), with a bunch business components, a database, throws DTOs to the client user interface expose as 150+ methods, ..., and internally, the application is obviously made of several software layers. Overall, bean mapping occurs in many places and is a strong aspect of the application.
+This application integrates with nearly 100 web services (or other remote services), with a bunch of business components, a database, throws DTOs to the client user interface exposed as 150+ methods, ..., and internally, the application is made of several software layers. Overall, bean mapping occurs in many places and is a strong aspect of the application.
 
-Developers on this application tested several bean mapping solutions, from Dozer to fully hand coded mapping as the developer feels to write it, to extensive use of Guava's Function, to other exotic approaches. I saw them behave as time goes and as the application lives, and I learned a lot.
+Developers on this application tested several bean mapping solutions, from Dozer to fully hand coded mapping as the developer feels to write it, to extensive use of Guava's [Function](http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/base/Function.html), to other exotic approaches. I saw them behave as time goes and as the application lives, and I learned a lot.
 
 After three years, I must say that I didn't see any solution that ruled them all. I still have nightmare of the time I lost with some of them.
 
@@ -59,7 +59,7 @@ Sure, you are supposed to have unit tests to ensure stability but, supposing uni
 
 To find out where and how class `X` is instanced or property `foo` is set/read, you are on your own.
 
-But when it is time to find out where a problem is coming from, believe me, you will curse the guy who decided to use a bean mapping tool instead of just writing dumb `b.setToto(a.getToto())` lines.
+But when it is time to find out where a problem is coming from, believe me, you will curse the guy who decided to use a bean mapping tool instead of just writing dumb `b.setFoo(a.getFoo())` lines.
 
 ### debugging is usually not easy
 
@@ -77,39 +77,39 @@ When the time comes to customise the mapping, you generally lose compile-time fe
 
 You can then forget about refactoring your bean classes and having the mapping code updated consistently by your IDE. Also forget about the compiler telling you that by changing the type of this property, your bean mapping code now fails to execute.
 
-Some tool such as [ModelMapper](http://modelmapper.org/) provide a solution to this problem, but at the cost of very complexe and verbose technical solutions. It is way simpler to just write the bean mapping code from the beginning. In addition, everyone will understand it just by looking at it.
+Some tool such as [ModelMapper](http://modelmapper.org/) provide a solution to this problem, but at the cost of very complex and verbose technical solutions. It is way simpler to just write the bean mapping code from the beginning. In addition, everyone will understand it just by looking at it.
 
 ### immutability is not a prime citizen
 
-Designing immutable bean wherever possible is a big constraint but it solves many issue in the long run.
+Designing immutable beans wherever possible is a big constraint but it solves many issues in the long run.
 
-Unfortunately, immutable bean are not well supported by bean mapping framework, notably because:
+Unfortunately, immutable beans are not well supported by bean mapping frameworks, notably because:
 
 * it involves bean not having setters (basic requirement of property based framework)
     - immutable beans only have constructors to initialize their state or, better, builders
     - both constructors and builders can hardly be automatically mapped
-* also mapping tree of immutable bean requires to map beans bottom-up instead of the usual top-bottom way
-    - children of immutable bean must be created before their parent
+* also mapping tree of immutable beans requires to map beans in a bottom-up fashion instead of the usual top-bottom way
+    - children of immutable beans must be created before their parent
 
 ### you can't investigate how mapping actually occurs
 
-This applies especially to reflection-based or bytecode generation-based mapping. When you want to make sure the problem is not at the mapping level, good luck.
+This applies especially to reflection-based or bytecode generation-based mapping. Good luck when you want to make sure the problem is not at the mapping level.
 
 ### you can't tell dead code apart
 
 With most tools, it can be hard to tell that mapping configuration and/or customisation is actually dead code:
 
 - is that line of configuration still required for mapping to occur ?
-- is that custom whatever objet still used ?
+- is that custom whatever object still used ?
 
-Unless you have extensive test coverage and remove the suspicious part, sometime, you just can not tell.
+Unless you have extensive test coverage and remove the suspicious part, sometimes, you just can not tell.
 
 ### not much (or none) control over mapping of bean trees
 
-When it comes to mapping trees of bean, you either do not have control over it or need to customize the framework and now code is not that simple any more:
+When it comes to mapping trees of beans, you either do not have control over it or need to customize the framework and you end up with code that is not that simple any more:
 
 - want to write one mapper for each node of a tree of beans, so you can really _unit_ test ? good luck
-- want to keep type dependency between mappers so you can easily tell how your code behaves ? for some framework, that's just impossible
+- want to keep type dependency between mappers so you can easily tell how your code behaves ? for some frameworks, that's just impossible
 
 ### performance ...
 
@@ -119,7 +119,7 @@ Frameworks based on other technical paradigms always compare each other on that 
 
 ### etc.
 
-(add here any other complain you have, I know I didn't write them all)
+(add here any other complaint you have, I know I didn't write them all)
 
 ## The down side of bean mapping code in source
 
@@ -127,7 +127,7 @@ Naturally, every aspect stated above are no problem when bean mapping code is pa
 
 But I am also aware of the main reasons to hide bean mapping code:
 
-* bean mapping code does not have much added value, no need to have it in the application
+* bean mapping code does not add much value, no need to have it in the application
     - as I explain below, I think this statement is wrong
 * if bean mapping code is not written in source, it can automatically adapt to change
     - true, but I think that using the IDE refactoring capabilities is a better way to adapt to change
@@ -144,7 +144,7 @@ After thorough thinking, I found that the most important problem with bean mappi
 
 Yes, bean mapping code *is* business code.
 
-Even exact 1-to-1 mapping is business logic. This code could have been different. Some properties could have been nullified or harcoded to a specific value on purpose. The fact it is not the case should be written in code. It **will** save any question in the future.
+Even exact 1-to-1 mapping is business logic. This code could have been different. Some properties could have been nullified or hardcoded to a specific value on purpose. The fact it is not the case should be written in code. It **will** save any question in the future.
 
 Also, the very facts that so many bugs occur at the bean mapping level and that such big parts of documentation are about mapping are the proof that bean mapping is business logic.
 
@@ -163,7 +163,7 @@ And one strong constraint:
 
 * the developer must always keep control over the code and the tool must stay out of the way
 
-The answer to both questions is "obviously, yes!" and the constraint drove my research from a solution.
+The answer to both questions is "obviously, yes!" and the constraint drove my research for a solution.
 
 I think that what we need is not one tool, but two, very much complementary:
 
@@ -192,7 +192,7 @@ The Bean Mapping Wiring Framework is about letting the developer write the bean 
     - using mapper factories when creating a bean from more than one source bean
     - etc.
 
-To my knowledge, there is no such framework at the moment except [DAMapping](https://github.com/lesaint/damapping) which is at an early stage of developement.
+To my knowledge, there is no such framework at the moment except [DAMapping](https://github.com/lesaint/damapping) which is at an early stage of development.
 
 ## Bean Mapping Code Generator
 
@@ -208,7 +208,7 @@ Generating the initial bean mapping code is relatively easy but this tool will o
 
 People keep on creating new bean mapping tools, changing the technical approach but basically keeping the same paradigm which in my opinion is the root cause of their unhappiness with the solution they had before: hidden bean mapping code.
 
-This post is clearly just a declaration of faith for now. I don't have any concrete solution to provide yet.
+This post is nearly just a declaration of faith for now. I am working on the Bean Mapping Wiring Framework but I haven’t started developing the Bean Mapping Code Generator yet.
 
 But this is a way of sharing my opinion on bean mapping and getting feedback. I know many people (very) unhappy with Dozer and such frameworks, I'm interesting in their opinion in my proposal of a better solution, maybe there contribution.
 
