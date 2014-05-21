@@ -127,7 +127,7 @@ But I am also aware of the main reasons to hide Bean Mapping code in the first p
     - as I explain below, I think this statement is wrong
 * Bean Mapping code written in source does not adapt easily to change
     - I think that using the IDE refactoring capabilities is a better way to adapt to change than having code generated with each build or at runtime
-    - if it doesn’t, it means that we need new tools
+    - if it isn't, it only means that we need new tools
 
 # Bean mapping code is business code
 
