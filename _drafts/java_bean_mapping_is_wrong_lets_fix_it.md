@@ -117,28 +117,17 @@ Performance is a big issue with reflection based mapping tools, they are very sl
 
 Frameworks based on other technical paradigms always compare each other on that subject but no matter what I don't think they can beat plain Java code (unless you just write shitty Java code but that's not a Bean Mapping issue).
 
-### etc.
-
-(add here any other complaint you have, I know I didn't write them all)
-
 ## The down side of Bean Mapping code in source
 
-Naturally, every problems stated above disappear when Bean Mapping code is part of the application.
-
-Since the developer has direct access to the code, they are not a Bean Mapping problem anymore, just general Java coding problem, any relevant solution can be used.
+Naturally, each point made above is addressed as the developer has direct access to the code. Most of them can be dealt with as any regular Java coding problem, any solution can be used.
 
 But I am also aware of the main reasons to hide Bean Mapping code in the first place:
 
 * Bean Mapping code does not add much value, no need to have it in the application
     - as I explain below, I think this statement is wrong
-* if Bean Mapping code is not written in source, it can automatically adapt to change
-    - true, but I think that using the IDE refactoring capabilities is a better way to adapt to change
-    - in addition, I don't like losing control over my business code and as I presented above, this has many inconveniences
-* but what about changes that add properties for example?
-    - I think the developer should explicitly write how the new property should be mapped, exactly as the developer should write the unit test for that mapping
-    - and there again, every IDE is now capable of completion that make adding a setter call is just not a problem
-
-Overall, I think there is more benefits (especially in the long run) than disadvantages in having Bean Mapping code in the application.
+* Bean Mapping code written in source does not adapt easily to change
+    - I think that using the IDE refactoring capabilities is a better way to adapt to change than having code generated with each build or at runtime
+    - if it doesn’t, it means that we need new tools
 
 # Bean mapping code is business code
 
@@ -159,11 +148,9 @@ But I agree, writing Bean Mapping *is* a technical problem.
 Starting from the hypothesis that Bean Mapping code should be part of the application code as any other piece of business code, two questions arise:
 
 1. Shouldn't that code be organized a bit ? If everyone starts writing Bean Mapping code without any guideline of some kind, code will just end up being a mess and it will be worse than before
-2. Some mapping code is just no value to write and is a waste of time to type, shouldn't there be some tool to help the developer ?
+2. Some mapping code is just tedious to write, it feels like a waste of time, shouldn't there be some tool to help the developer ?
 
-And one strong constraint:
-
-1. the developer must always keep control over the code and the tool must stay out of the way
+And one strong constraint: the developer must always keep control over the code and the tool must stay out of the way
 
 The answer to both questions is "obviously, yes!" and the constraint drove my research for a solution.
 
@@ -187,14 +174,14 @@ The Bean Mapping Wiring Framework is about letting the developer write the Bean 
 * complying with Separation Of Concern
     - using a class for each mapping from one class to another
     - side effect, unit testing is much easier
-* integrating with Dependency Injection framework
+* integrating with Dependency Injection frameworks
     - for example, Spring integration would be about generating annotations on classes or XML configuration files or configuration classes
 * providing coding patterns to help mapping complex structures of beans or solve common Bean Mapping problems
     - using Guava's Function to easily convert collections of beans or integrating with Java 8 lambdas
     - using mapper factories when creating a bean from more than one source bean
     - etc.
 
-To my knowledge, there is no such framework at the moment except [DAMapping](https://github.com/lesaint/damapping) which development started recently.
+To my knowledge, there is no such framework at the moment except [DAMapping](https://github.com/lesaint/damapping) which development started several month ago.
 
 ## Bean Mapping Code Generator
 
@@ -215,4 +202,3 @@ This article is the first of a series on this new approach to Bean Mapping. Othe
 I know many people (very) unhappy with Dozer and such frameworks. I'm interesting in their opinion, maybe their contribution, or existing works I am not aware of.
 
 There is no comment in my blog, but you can contact me on [Twitter](https://twitter.com/LesaintSeb).
-
