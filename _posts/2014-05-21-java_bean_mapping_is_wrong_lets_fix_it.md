@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Java Bean Mapping is wrong, lets fix it!
+title: Java Bean Mapping is wrong, let's fix it!
 tags: Java BeanMapping DAMapping
 ---
 
