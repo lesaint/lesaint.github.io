@@ -49,7 +49,7 @@ task :draft do
   abort("rake aborted: missing title.") unless ENV["title"]
   title = ENV["title"] || "new-post"
   tags = ENV["tags"] || "[]"
-  slug = title.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+  slug = title.downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '')
   filename = File.join(CONFIG['drafts'], "#{slug}.#{CONFIG['post_ext']}")
   if File.exist?(filename)
     abort("rake aborted!") if ask("#{filename} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
