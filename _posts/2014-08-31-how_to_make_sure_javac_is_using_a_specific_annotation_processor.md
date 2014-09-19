@@ -52,7 +52,7 @@ mvn clean compile -X -pl :moduleName
 
 4. (optional) send all outputs to a file, add ```> /tmp/compile_clean.log 2>&1```
 
-### make sure the annotation processor is run by ```javac```
+## make sure the annotation processor is run by ```javac```
 
 To make sure there is no problem loading your Annotation Processor class, look for the next 4 log lines.
 
