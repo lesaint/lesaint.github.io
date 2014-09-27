@@ -7,9 +7,9 @@
 #markdown: redcarpet
 #excerpt_separator: "\n\n\n"
 
-title: Site Title
+title: Javatronic
 locale: en_US
-description: Describe your website here.
+description: Technical tips and tricks for Java, Spring, Unit testing, Annotation Processing, ...
 logo: site-logo.png
 search: false
 url: 
