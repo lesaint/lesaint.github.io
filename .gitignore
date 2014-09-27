@@ -1,2 +1,5 @@
 _site
 Gemfile.lock
+codekit-config.json
+node_modules
+.sass-cache
