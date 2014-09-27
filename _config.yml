@@ -1,7 +1,6 @@
 # Site wide configuration
 
 # from previous _config.yml
-#permalink: date
 #paginate_path: ':num'
 #paginate: 10
 #markdown: redcarpet
@@ -17,7 +16,7 @@ url:
 
 # Jekyll configuration
 
-permalink:   /:categories/:title/
+permalink:   date
 markdown:    kramdown
 highlighter: pygments
 sass:
