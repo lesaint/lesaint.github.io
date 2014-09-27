@@ -3,7 +3,6 @@
 # from previous _config.yml
 #paginate_path: ':num'
 #paginate: 10
-#excerpt_separator: "\n\n\n"
 
 title: Javatronic
 locale: en_US
@@ -16,6 +15,7 @@ url:
 # Jekyll configuration
 
 permalink:   date
+excerpt_separator: "\n\n\n"
 markdown: redcarpet
 highlighter: pygments
 sass:
