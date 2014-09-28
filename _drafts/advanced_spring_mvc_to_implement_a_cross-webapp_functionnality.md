@@ -2,6 +2,8 @@
 layout: post
 title: Using advanced Spring MVC to implement Data pagination
 tags: SpringMVC
+image:
+ feature: feature_image_green.png
 ---
 
 This article will present how to use some advanced features of Spring MVC in order to add cross-webapp support for Data pagination.

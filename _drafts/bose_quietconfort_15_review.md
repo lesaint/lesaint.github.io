@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Bose Quietconfort 15 review
+image:
+ feature: feature_image_green.png
 ---
 
 As most IT workers, I work in a open space office with several colleagues.

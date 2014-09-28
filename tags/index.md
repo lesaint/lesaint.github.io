@@ -2,6 +2,8 @@
 layout: page
 title: Tag Index
 excerpt: "An archive of posts sorted by tag."
+image:
+ feature: feature_image_green.png
 ---
 
 {% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}

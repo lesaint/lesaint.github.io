@@ -2,6 +2,8 @@
 layout: post
 title: Introduction to a Bean Mapping Wiring Framework implementation
 tags: Java BeanMapping
+image:
+ feature: feature_image_green.png
 ---
 
 I talked in an previous [article]() of the need of doing Bean Mapping in Java a new way and how that involves designing and developing a Bean Mapping Wiring Framework.

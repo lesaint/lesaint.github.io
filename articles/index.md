@@ -1,6 +1,8 @@
 ---
 layout: page
 title:  All articles
+image:
+ feature: feature_image_green.png
 ---
 
 <ul class="post-list">

@@ -3,6 +3,8 @@ layout: post
 title: Devoxx France 2014, second and last day feedback
 tags: Devoxx Java8 Gradle Cassandra WebSocket Bitcoin
 categories: articles
+image:
+ feature: feature_image_green.png
 ---
 
 This was my second and last day at Devoxx France 2014.

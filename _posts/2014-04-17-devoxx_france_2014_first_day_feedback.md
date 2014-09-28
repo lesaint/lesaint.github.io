@@ -3,6 +3,8 @@ layout: post
 title: Devoxx France 2014, first day feedback
 tags: Devoxx Java8 Docker Redis JBossForge BlueTooth
 categories: articles
+image:
+ feature: feature_image_green.png
 ---
 
 On Wednesday 16 of April, I went to the first day of Devoxx France 2014 in Paris. This university day was indeed crowded and choosing between session

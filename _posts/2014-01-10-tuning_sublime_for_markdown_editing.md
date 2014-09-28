@@ -4,6 +4,8 @@ title: Tuning Sublime for markdown editing
 description: Personnal notes for tuning Sublime Text 2
 tags: SublimeText
 categories: articles
+image:
+ feature: feature_image_green.png
 ---
 
 Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editing.
