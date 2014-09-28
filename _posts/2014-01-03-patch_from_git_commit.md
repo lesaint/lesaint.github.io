@@ -2,6 +2,7 @@
 layout: post
 title: Creating a patch from a GIT commit
 tags: Git
+categories: articles
 ---
 
 Recently I had to create patch from a local commit to apply a totally different branch and on a different clone. Obviously I couldn't use `git cherry-pick` so I tried and found out to create a patch from a GIT commit.

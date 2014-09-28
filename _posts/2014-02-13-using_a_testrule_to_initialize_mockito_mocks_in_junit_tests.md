@@ -2,6 +2,7 @@
 layout: post
 title: Using a TestRule to initialize Mockito Mocks in a JUnit test
 tags: Java JUnit Mockito SpringMVC
+categories: articles
 ---
 
 Using Mockito annotations in JUnit tests is very convenient.

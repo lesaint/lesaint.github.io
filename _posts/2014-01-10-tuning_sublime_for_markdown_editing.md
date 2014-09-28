@@ -3,6 +3,7 @@ layout: post
 title: Tuning Sublime for markdown editing
 description: Personnal notes for tuning Sublime Text 2
 tags: SublimeText
+categories: articles
 ---
 
 Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editing.

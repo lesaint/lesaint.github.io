@@ -2,6 +2,7 @@
 layout: post
 title: "How to debug an annotation processor"
 tags: [Maven AnnotationProcessor]
+categories: articles
 ---
 
 Though it may not sound obvious, it is possible to debug an Annotation Processor, put a break point and look precisely at what is going on.

@@ -2,6 +2,7 @@
 layout: post
 title: "How to make sure javac is using an annotation processor and troubleshoot when it is not"
 tags: [Javac AnnotationProcessor]
+categories: articles
 ---
 
 When developing an annotation processor, one can either declare it to ```javac``` using the ```-processorpath``` command line option or with the service provider-configuration file ```META-INF/services/javax.annotation.processing.Processor```.

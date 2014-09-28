@@ -2,6 +2,7 @@
 layout: post
 title: Cloning a local Git repository from a remote machine
 tags: Git SSH
+categories: articles
 ---
 
 If you happen to have a Git repository cloned a machine (let's say machine@work) and you want to retrieve it on another machine (let's say machine@home),

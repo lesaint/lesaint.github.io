@@ -14,7 +14,7 @@ url:
 
 # Jekyll configuration
 
-permalink:   date
+permalink: /:year/:month/:day/:title.html 
 excerpt_separator: "\n\n\n"
 markdown: redcarpet
 highlighter: pygments
