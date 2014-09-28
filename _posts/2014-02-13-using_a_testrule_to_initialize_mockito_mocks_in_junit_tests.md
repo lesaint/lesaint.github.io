@@ -5,6 +5,8 @@ tags: Java JUnit Mockito SpringMVC
 categories: articles
 image:
  feature: feature_image_green.png
+redirect_from:
+  - /2014/02/13/using_a_testrule_to_initialize_mockito_mocks_in_junit_tests.html
 ---
 
 Using Mockito annotations in JUnit tests is very convenient.

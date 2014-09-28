@@ -9,12 +9,13 @@ locale: en_US
 description: Technical tips and tricks for Java, Spring, Unit testing, Annotation Processing, ...
 logo: site-logo.png
 search: false
-url: 
+url:
 
 
 # Jekyll configuration
 
-permalink: /:year/:month/:day/:title.html 
+permalink: /:categories/:year/:month/:day/:title.html
+#permalink: /:year/:month/:day/:title.html
 excerpt_separator: "\n\n\n"
 markdown: redcarpet
 highlighter: pygments
@@ -23,6 +24,7 @@ sass:
   style: compressed
 gems:
   - jekyll-sitemap
+  - jekyll-redirect-from
 
 redcarpet:
   extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
@@ -38,7 +40,7 @@ owner:
   email:
   disqus-shortname:
   twitter: LesaintSeb
-  facebook: 
+  facebook:
   github: lesaint
   stackexchange:
   linkedin:
@@ -50,5 +52,5 @@ owner:
     analytics:
     verify:
     ad-client:
-    ad-slot: 
+    ad-slot:
   bing-verify:

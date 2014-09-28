@@ -5,6 +5,8 @@ tags: Java BeanMapping DAMapping
 categories: articles
 image:
  feature: feature_image_green.png
+redirect_from:
+  - /2014/05/21/java_bean_mapping_is_wrong_lets_fix_it.html
 ---
 
 When it comes to Bean Mapping, it is surprising to see how many tools/frameworks are available. Some as old and famous as [Dozer](http://dozer.sourceforge.net/), other more recent and innovative as [Selma](https://github.com/xebia-france/selma) (see this [highly referenced post](http://www.javacodegeeks.com/2013/10/java-object-to-object-mapper.html) if you need a list).

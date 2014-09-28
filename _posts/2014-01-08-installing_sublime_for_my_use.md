@@ -6,6 +6,8 @@ tags: Sublime
 categories: articles
 image:
  feature: feature_image_green.png
+redirect_from:
+  - /2014/01/08/installing_sublime_for_my_use.html
 ---
 
 In this article, I keep track of how I installed [Sublime Text 2](http://www.sublimetext.com/2) on my computer(s) running Ubuntu, from download to adding a launcher in Unity sidebar.
