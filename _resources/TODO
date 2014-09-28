@@ -18,6 +18,6 @@ TODO
 [X] home : afficher 5 articles
 [ ] home : afficher le excerpt et un lien lire la suite
 [ ] page articles : add pagination (paginator does not seem to work anymore) ? display by month/year ?
-[ ] add link to home in navigation
+[X] add link to home in navigation
 [ ] add comment on source theme website about page tags broken with redcarpet
 [ ] create a true DAMapping page, with posts from a category DAMapping + link to Github repo, online presentation, ...
