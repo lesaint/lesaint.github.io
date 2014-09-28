@@ -14,6 +14,7 @@ TODO
 [X] fix link convention to articles (must be same as before for google indexation)
 [X] add feature image from all pages (until find a nice picture ?)
 [X] enable comments on posts (via disqus)
+[ ] support for tag name with more than one word ?
 [ ] enable extension of redcarpet to display TOC in articles (utiliser ```{:toc}```)
 [X] enable default extensions of redcarpet (http://stackoverflow.com/a/16126840)
 [X] home : afficher 5 articles
