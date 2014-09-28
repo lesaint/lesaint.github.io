@@ -7,6 +7,7 @@ image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/02/15/a_smtp_server_in_java_for_unit_test.html
+comments: true
 ---
 
 If you ever had to write code that uses JavaMail to send emails, then you necessarily looked for a way of testing that code at some point.

@@ -7,6 +7,7 @@ image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/03/02/using_an_enum_instead_of_a_string_to_resolve_a_view_in_spring_mvc.html
+comments: true
 ---
 
 The project I'm currently working on uses Spring MVC. This framework is nice, mature and efficient.

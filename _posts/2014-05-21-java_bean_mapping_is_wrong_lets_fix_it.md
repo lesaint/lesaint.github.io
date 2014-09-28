@@ -7,6 +7,7 @@ image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/05/21/java_bean_mapping_is_wrong_lets_fix_it.html
+comments: true
 ---
 
 When it comes to Bean Mapping, it is surprising to see how many tools/frameworks are available. Some as old and famous as [Dozer](http://dozer.sourceforge.net/), other more recent and innovative as [Selma](https://github.com/xebia-france/selma) (see this [highly referenced post](http://www.javacodegeeks.com/2013/10/java-object-to-object-mapper.html) if you need a list).
@@ -206,4 +207,4 @@ This article is the first of a series on this new approach to Bean Mapping. Othe
 
 I know many people (very) unhappy with Dozer and such frameworks. I'm interesting in their opinion, maybe their contribution, or existing works I am not aware of.
 
-There is no comment in my blog, but you can contact me on [Twitter](https://twitter.com/LesaintSeb).
+Do not hesitate to comment below or contact me on [Twitter](https://twitter.com/LesaintSeb).

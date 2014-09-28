@@ -13,6 +13,7 @@ TODO
 [X] add link to tag page
 [X] fix link convention to articles (must be same as before for google indexation)
 [X] add feature image from all pages (until find a nice picture ?)
+[X] enable comments on posts (via disqus)
 [ ] enable extension of redcarpet to display TOC in articles (utiliser ```{:toc}```)
 [X] enable default extensions of redcarpet (http://stackoverflow.com/a/16126840)
 [X] home : afficher 5 articles
@@ -21,3 +22,4 @@ TODO
 [X] add link to home in navigation
 [ ] add comment on source theme website about page tags broken with redcarpet
 [ ] create a true DAMapping page, with posts from a category DAMapping + link to Github repo, online presentation, ...
+[ ] leverage octopress because we now have a template of post (default value for feature image, comment, category)

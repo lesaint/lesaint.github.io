@@ -7,6 +7,7 @@ image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/09/22/how_to_debug_an_annotation_processor.html
+comments: true
 ---
 
 Though it may not sound obvious, it is possible to debug an Annotation Processor, put a break point and look precisely at what is going on.

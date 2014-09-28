@@ -7,6 +7,7 @@ image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/01/06/cloning_a_single_git_branch.html
+comments: true
 ---
 
 On this new project I'm working one, there is this huge repository that serves as a deployment mean for binaries in the stage and production environnement.

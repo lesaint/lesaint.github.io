@@ -8,6 +8,7 @@ image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/01/10/tuning_sublime_for_markdown_editing.html
+comments: true
 ---
 
 Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editing.
