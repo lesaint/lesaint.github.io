@@ -15,7 +15,8 @@ TODO
 [X] add feature image from all pages (until find a nice picture ?)
 [ ] enable extension of redcarpet to display TOC in articles (utiliser ```{:toc}```)
 [X] enable default extensions of redcarpet (http://stackoverflow.com/a/16126840)
-[ ] home : afficher 5 articles, le excerpt et un lien lire la suite
+[X] home : afficher 5 articles
+[ ] home : afficher le excerpt et un lien lire la suite
 [ ] page articles : add pagination (paginator does not seem to work anymore) ? display by month/year ?
 [ ] add link to home in navigation
 [ ] add comment on source theme website about page tags broken with redcarpet
