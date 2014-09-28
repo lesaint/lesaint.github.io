@@ -1,0 +1,22 @@
+TODO
+
+[X] tag page broken with redcarpet => liquid not understood ?
+[X] fix author data and picture
+[X] restore analytics (hardcoded in layout as before)
+[X] add category article to existing posts => breaks links to pages => add link posts to provide forward
+[X] add site logo
+[X] formatted code not displayed with kramdown markdown processor (used redcarpet)
+[X] change site title
+[X] add link to Made Mistakes in footer (next to credit for theme)
+[X] costumise copyright in footer
+[X] add link to github and twitter in footer
+[X] add link to tag page
+[X] fix link convention to articles (must be same as before for google indexation)
+[X] add feature image from all pages (until find a nice picture ?)
+[ ] enable extension of redcarpet to display TOC in articles (utiliser ```{:toc}```)
+[X] enable default extensions of redcarpet (http://stackoverflow.com/a/16126840)
+[ ] home : afficher 5 articles, le excerpt et un lien lire la suite
+[ ] page articles : add pagination (paginator does not seem to work anymore) ? display by month/year ?
+[ ] add link to home in navigation
+[ ] add comment on source theme website about page tags broken with redcarpet
+[ ] create a true DAMapping page, with posts from a category DAMapping + link to Github repo, online presentation, ...
