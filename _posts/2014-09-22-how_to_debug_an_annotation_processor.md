@@ -1,7 +1,9 @@
 ---
 layout: post
 title: "How to debug an annotation processor"
-tags: [Maven AnnotationProcessor]
+tags:
+ - Maven
+ - Annotation Processor
 categories: articles
 image:
  feature: feature_image_green.png

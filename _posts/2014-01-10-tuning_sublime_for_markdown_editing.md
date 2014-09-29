@@ -2,7 +2,8 @@
 layout: post
 title: Tuning Sublime for markdown editing
 description: Personnal notes for tuning Sublime Text 2
-tags: SublimeText
+tags:
+ - Sublime Text
 categories: articles
 image:
  feature: feature_image_green.png

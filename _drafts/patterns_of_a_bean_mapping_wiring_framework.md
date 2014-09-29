@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Introduction to a Bean Mapping Wiring Framework implementation
-tags: Java BeanMapping
+tags:
+ - Java
+ - Bean Mapping
 image:
  feature: feature_image_green.png
 ---

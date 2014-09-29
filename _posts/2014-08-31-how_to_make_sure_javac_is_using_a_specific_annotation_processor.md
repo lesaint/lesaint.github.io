@@ -1,7 +1,9 @@
 ---
 layout: post
 title: "How to make sure javac is using an annotation processor and troubleshoot when it is not"
-tags: [Javac AnnotationProcessor]
+tags: 
+ - Javac
+ - Annotation Processor
 categories: articles
 image:
  feature: feature_image_green.png

@@ -1,7 +1,8 @@
 ---
 layout: post
 title: Learning Ruby
-tags: Ruby
+tags:
+ - Ruby
 image:
  feature: feature_image_green.png
 ---

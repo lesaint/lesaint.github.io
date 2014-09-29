@@ -1,6 +1,9 @@
 ---
 layout: post
-title: Bose Quietconfort 15 review
+title:
+ - Bose
+ - Quietconfort 15
+ - review
 image:
  feature: feature_image_green.png
 ---

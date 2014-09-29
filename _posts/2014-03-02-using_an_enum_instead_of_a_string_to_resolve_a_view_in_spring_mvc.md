@@ -1,7 +1,8 @@
 ---
 layout: post
 title: Using enum instead of String to resolve views in Spring MVC
-tags: SpringMVC
+tags:
+ - Spring MVC
 categories: articles
 image:
  feature: feature_image_green.png

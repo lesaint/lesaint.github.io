@@ -1,7 +1,10 @@
 ---
 layout: post
 title: Implementing method-level security with Spring Security and Spring MVC
-tags: SpringMVC SpringSecurity AOP
+tags:
+ - Spring MVC
+ - Spring Security
+ - AOP
 categories: articles
 image:
  feature: feature_image_green.png

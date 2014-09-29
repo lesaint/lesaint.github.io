@@ -2,7 +2,9 @@
 layout: post
 title: Git multiversion branching model for maven
 description: A branching and merging model for Git for application with multiple concurrent versions, managed with Maven
-tags: Git Maven
+tags:
+ - Git
+ - Maven
 image:
  feature: feature_image_green.png
 ---

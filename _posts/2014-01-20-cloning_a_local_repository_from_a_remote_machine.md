@@ -1,7 +1,9 @@
 ---
 layout: post
 title: Cloning a local Git repository from a remote machine
-tags: Git SSH
+tags:
+ - Git
+ - SSH
 categories: articles
 image:
  feature: feature_image_green.png

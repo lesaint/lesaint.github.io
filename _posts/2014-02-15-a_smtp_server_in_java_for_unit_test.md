@@ -1,7 +1,11 @@
 ---
 layout: post
 title: A SMTP server in Java for unit test
-tags: Java JUnit Smtp UnitTesting
+tags:
+ - Java
+ - JUnit
+ - Smtp
+ - Unit Testing
 categories: articles
 image:
  feature: feature_image_green.png

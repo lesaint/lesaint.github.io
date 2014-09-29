@@ -1,7 +1,13 @@
 ---
 layout: post
 title: Devoxx France 2014, first day feedback
-tags: Devoxx Java8 Docker Redis JBossForge BlueTooth
+tags:
+ - Devoxx
+ - Java8
+ - Docker
+ - Redis
+ - JBoss Forge
+ - BlueTooth
 categories: articles
 image:
  feature: feature_image_green.png

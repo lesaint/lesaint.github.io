@@ -1,7 +1,8 @@
 ---
 layout: post
 title: Using advanced Spring MVC to implement Data pagination
-tags: SpringMVC
+tags:
+- Spring MVC
 image:
  feature: feature_image_green.png
 ---

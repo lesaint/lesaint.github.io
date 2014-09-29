@@ -1,7 +1,10 @@
 ---
 layout: post
 title: Java Bean Mapping is wrong, let's fix it!
-tags: Java BeanMapping DAMapping
+tags:
+ - Java
+ - Bean Mapping
+ - DAMapping
 categories: articles
 image:
  feature: feature_image_green.png

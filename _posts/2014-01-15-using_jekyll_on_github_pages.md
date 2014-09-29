@@ -2,7 +2,10 @@
 layout: post
 title: Using Jekyll for GitHub pages
 description: Personnal notes for installing and using Jekyll for GitHub pages
-tags: SublimeTest Github Ruby
+tags:
+ - Sublime Text
+ - Github
+ - Ruby
 categories: articles
 image:
  feature: feature_image_green.png
