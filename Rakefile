@@ -60,8 +60,12 @@ task :draft do
     post.puts "---"
     post.puts "layout: post"
     post.puts "title: \"#{title.gsub(/-/,' ')}\""
-    post.puts 'description: ""'
-    post.puts "tags: #{tags}"
+    post.puts "tags:"
+    post.puts " - "
+    post.puts "categories:"
+    post.puts " - articles"
+    post.puts "image:"
+    post.puts " feature: feature_image_green.png"
     post.puts "---"
     # post.puts "{% include JB/setup %}"
   end
