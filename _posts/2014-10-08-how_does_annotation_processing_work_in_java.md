@@ -3,6 +3,7 @@ layout: post
 title: "How does annotation processing work in Java"
 tags:
  - Annotation Processor
+ - Javac
 categories:
  - articles
 image:
@@ -10,7 +11,7 @@ image:
 comments: true
 ---
 
-This article is an introduction to Annotation Processing in ```Java``` and provides an overview on how Annotation Processing occurs during compilation.
+This article is an introduction to Annotation Processing in ```Java``` and provides an overview on Annotation Processing mechanics during compilation.
 
 
 ## What is annotation processing
