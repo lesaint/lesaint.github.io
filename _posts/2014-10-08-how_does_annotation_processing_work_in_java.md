@@ -4,6 +4,7 @@ title: "How does annotation processing work in Java"
 tags:
  - Annotation Processor
  - Javac
+ - Java
 categories:
  - articles
 image:
