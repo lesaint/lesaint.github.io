@@ -41,11 +41,12 @@ A `Page` is defined by two properties:
 
 * an index, to know which part we are talking about
     - it's a positive integer
-    - it starts at 1 because that how humans will identify the first page
+    - it starts at `1` because that how humans will identify the first page
 * the current number of items per page
     - the content of the page can be totally different depending on the number of items per page
     - it's a positive integer also
-    - it starts at 0, which means no-pagination-at-all or all-on-one-page since a page of 0 item does not make any sense
+    - it starts at `0`, which means no-pagination-at-all or all-on-one-page since a page of `0` item does not make any sense
+        + obviously, only page of index `1` is a valid page with un nomber of `0`
 
 # What we want
 
