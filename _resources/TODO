@@ -1,4 +1,4 @@
-TODO
+TODO javatronic.fr
 
 [X] tag page broken with redcarpet => liquid not understood ?
 [X] fix author data and picture
@@ -26,3 +26,11 @@ TODO
 [ ] add comment on source theme website about page tags broken with redcarpet
 [ ] create a true DAMapping page, with posts from a category DAMapping + link to Github repo, online presentation, ...
 [ ] leverage octopress because we now have a template of post (default value for feature image, comment, category)
+
+TODO Annotation Processor articles
+
+[X] vérifier le comportement si l'annotation Processor retourne la VERSION_7 et on compile pour JAVA_8
+[ ] link to the JSR-269 as the reference of the Annotation Processing API
+[ ] Talk about Annotation Processing instead of Annnotation Processor in text and titles (rename already published article)
+[ ] Rename tag Annotation Processor to Annotation Processing
+[ ] generated files are always overwritten when running an Annotation Processor (see javadoc of Filer)
