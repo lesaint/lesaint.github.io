@@ -1,3 +1,36 @@
+---
+layout: post
+title: "Setting up a Minecraft server on Google Compute Engine"
+tags:
+ - Minecraft
+ - Google Compute Engine
+categories:
+ - articles
+image:
+ feature: feature_image_green.png
+---
+
+## Create Google Cloud account
+
+Go to [https://console.developers.google.com/project](https://console.developers.google.com/project).
+
+This is the Google Developer Console and entry point to the Google Cloud services. You need to login with a Google account.
+
+If you already have Gmail and you are connected, the page will display without any authentication.
+
+### create project
+
+In the Google Developer Console, go to ```projects``` and create a new one.
+
+The name of the project is for your own convenience. Google will generate a human readable project id which is the value you will need to identify a project when using the [Google Cloud SDK](#install-google-cloud-sdk).
+
+### provide billing info
+
+Billing info are required to use Google Compute Engine as creating an instance or a disk will cost you from the first minute (but, so little...).
+
+## install Google Cloud SDK
+
+My installation setup is described in [Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh](TODO link to tip).
 
 ## create instance
 
@@ -7,40 +40,49 @@
 gcloud compute instances create minecraft-server --image debian-7 --zone europe-west1-a
 ```
 
-> creates an instance called 'minecraft-server', a new boot disk from a debian 7 image, which will be deleted when the instance is destroyed and uses default machine type (n1-standard-1)
+> creates an instance called 'minecraft-server', a new boot disk from a debian 7 image (which will be deleted when the instance is destroyed) and uses default machine type (n1-standard-1)
 
-### create new instance with existing disk
+### create instance with existing disk
 
 ```sh
 gcloud compute instances create minecraft-server --zone europe-west1-a --disk name=minecraft-server boot=yes auto-delete=no --tags MINECRAFT
 ```
 
-# TODO: use existing disk
-# --disk name=minecraft-server boot=yes auto-delete=no
-# TODO: specify machine type (gcloud compute machine-types list --zone europe-west1-a)
-# --machine-type g1-small
-# TODO: disable disk autodelete with 
-# --disk auto-delete=no
-# TODO: add tag ```minecraft``` to match firewall rule (uppercase letters are not valid)
-# --tags minecraft
+* use existing disk and keep it even when VM is deleted
+    ```
+    --disk name=minecraft-server boot=yes auto-delete=no
+    ```
+* specify machine type (gcloud compute machine-types list --zone europe-west1-a)
+    ```
+    --machine-type g1-small
+    ```
+* add tag ```minecraft``` to match firewall rule (uppercase letters are not valid)
+    ```
+    --tags minecraft
+    ```
 
-#### describe instance
+### describe instance
 
+```sh
 gcloud compute instances describe minecraft-server --zone europe-west1-a
+```
 
-#### add firewall rule to allow minecraft connections
+#### allow minecraft traffic
 
-gcloud compute firewall-rules create allow-minecraft --description "Incoming minecraft connections allowed." --allow tcp:25565
+```sh
+gcloud compute firewall-rules create allow-minecraft --description "Incoming minecraft connections allowed." --allow tcp:25565 --target-tags MINECRAFT
+```
 
-# TODO : define target tag to restrict the firewall rule to only minecraft servers
-# --target-tags MINECRAFT
+* define target tag to restrict the firewall rule to only minecraft servers
+    ```
+    --target-tags MINECRAFT
+    ```
 
 #### connect to instance
 
 ```sh
 gcloud compute ssh minecraft-server --zone europe-west1-a
 ```
-
 
 #### basic configuration of instance
 
