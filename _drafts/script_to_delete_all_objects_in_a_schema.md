@@ -5,7 +5,7 @@ tags:
  - Oracle
  - script
 categories:
- - articles
+ - tips
 image:
  feature: feature_image_green.png
 ---
