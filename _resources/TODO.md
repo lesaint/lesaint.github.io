@@ -44,7 +44,8 @@ TODO javatronic.fr
 
 # minecraft
 
-[ ] replace "create new instance" by "create disk" and explain the disk will survive instances (because instances cost money)
+[X] replace "create new instance" by "create disk" and explain the disk will survive instances (because instances cost money)
+[ ] find out how to use local world as server world
 [ ] tune java
 [ ] use whitelist.json to restrict connections
 [ ] minecraft in Docker
@@ -52,3 +53,4 @@ TODO javatronic.fr
     [ ] world must be stored out of the Docker process
         - world directory be a symbolic link ?
         - can world directory configured to be somewhere else ?
+[ ] install and use nc-minecraft (not exactly that name, check on work computer)
