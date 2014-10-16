@@ -34,3 +34,7 @@ TODO Annotation Processor articles
 [ ] Talk about Annotation Processing instead of Annnotation Processor in text and titles (rename already published article)
 [ ] Rename tag Annotation Processor to Annotation Processing
 [ ] generated files are always overwritten when running an Annotation Processor (see javadoc of Filer)
+
+TODO Tips
+
+[ ] display Tips Subject (Oracle, Sql, Cloud, ...) before the list of all Tips (see tags/index.md, not easy, dive into other properties offered by site object)
