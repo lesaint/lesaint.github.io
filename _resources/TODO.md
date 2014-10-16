@@ -1,5 +1,7 @@
 TODO javatronic.fr
 
+# javatronic.fr
+
 [X] tag page broken with redcarpet => liquid not understood ?
 [X] fix author data and picture
 [X] restore analytics (hardcoded in layout as before)
@@ -17,7 +19,7 @@ TODO javatronic.fr
 [X] support for tag name with more than one word ? yes, use item list in front matter
 [ ] re-enable paginator by adding the paginate option to config http://jekyllrb.com/docs/variables/#global-variables
 [ ] page articles : add pagination (paginator does not seem to work anymore) ? display by month/year (see http://mmistakes.github.io/minimal-mistakes/posts/) ?
-[ ] modify RakeFile to include other Front-YAML properties (image feature, category articles)
+[X] modify RakeFile to include other Front-YAML properties (image feature, category articles)
 [ ] enable extension of redcarpet to display TOC in articles (utiliser ```{:toc}```)
 [X] enable default extensions of redcarpet (http://stackoverflow.com/a/16126840)
 [X] home : afficher 5 articles
@@ -27,7 +29,7 @@ TODO javatronic.fr
 [ ] create a true DAMapping page, with posts from a category DAMapping + link to Github repo, online presentation, ...
 [ ] leverage octopress because we now have a template of post (default value for feature image, comment, category)
 
-TODO Annotation Processor articles
+# Annotation Processor articles
 
 [X] vérifier le comportement si l'annotation Processor retourne la VERSION_7 et on compile pour JAVA_8
 [ ] link to the JSR-269 as the reference of the Annotation Processing API
@@ -35,6 +37,18 @@ TODO Annotation Processor articles
 [ ] Rename tag Annotation Processor to Annotation Processing
 [ ] generated files are always overwritten when running an Annotation Processor (see javadoc of Filer)
 
-TODO Tips
+# Tips
 
-[ ] display Tips Subject (Oracle, Sql, Cloud, ...) before the list of all Tips (see tags/index.md, not easy, dive into other properties offered by site object)
+[ ] display Tips per Subject (Oracle, Sql, Cloud, ...) with abstract before the list of all Tips without abstract (see tags/index.md, not easy, dive into other properties offered by site object)
+[ ] split articles and tips in subdirectory inside `_post` directory
+
+# minecraft
+
+[ ] replace "create new instance" by "create disk" and explain the disk will survive instances (because instances cost money)
+[ ] tune java
+[ ] use whitelist.json to restrict connections
+[ ] minecraft in Docker
+    [ ] run as daemon
+    [ ] world must be stored out of the Docker process
+        - world directory be a symbolic link ?
+        - can world directory configured to be somewhere else ?
