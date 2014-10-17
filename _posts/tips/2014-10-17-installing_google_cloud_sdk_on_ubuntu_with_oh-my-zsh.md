@@ -47,7 +47,7 @@ Just replace the ```bash``` part in the file names with ```zsh``` to use the Zsh
 
 ### Oh-my-zsh compatibility
 
-I'm running using Oh-My-Zsh and unfortunately, the procedure above did not work for me.
+I use Oh-My-Zsh as a shell and unfortunately, the procedure above did not work for me.
 
 When loading a new shell, I got errors such as the following and command line completion did not work.
 
@@ -56,7 +56,7 @@ When loading a new shell, I got errors such as the following and command line co
 /path/to/google-cloud-sdk/completion.bash.inc:19: parse error near `]]'
 ```
 
-I believe these errors are related to me using Oh-My-Zsh. I did the following to fix the install.
+I did the following to fix the install.
 
 #### load the SDK files before `Oh-My-Zsh`
 
