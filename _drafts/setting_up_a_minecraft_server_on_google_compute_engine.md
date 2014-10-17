@@ -2,6 +2,7 @@
 layout: post
 title: "Setting up a Minecraft server on Google Compute Engine"
 tags:
+ - Cloud
  - Minecraft
  - Google Compute Engine
 categories:
@@ -9,6 +10,9 @@ categories:
 image:
  feature: feature_image_green.png
 ---
+
+This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.
+
 
 ## Create Google Cloud account
 
@@ -26,11 +30,11 @@ The name of the project is for your own convenience. Google will generate a huma
 
 ### provide billing info
 
-Billing info are required to use Google Compute Engine as creating an instance or a disk will cost you from the first minute (but, so little...).
+Billing info are required to use Google Compute Engine because creating an instance or a disk will cost you from the first minute (but, so little...).
 
 ## install Google Cloud SDK
 
-My installation setup is described in [Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh](TODO link to tip).
+My installation setup is described in [Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh]({% post_url tips/2014-10-17-installing_google_cloud_sdk_on_ubuntu_with_oh-my-zsh %}).
 
 ## authenticate with Google Cloud SDK
 
@@ -40,7 +44,7 @@ Run:
 gcloud auth init
 ```
 
-Go to your browser, authenticate or choose a Google account is necessary and authorise the Google Cloud SDK on your computer to access your Google Account.
+Go to your browser, authenticate or choose a Google account if necessary and authorise the Google Cloud SDK on your computer to access your Google Account.
 
 ## set project
 
@@ -57,13 +61,13 @@ cd /some/dir/where/you/can/to/create/googlecloud/project/directories
 gcloud init cagoo-jimba-2345
 ```
 
-## create instance
+## create an instance
 
 ### create a disk
 
-The point here is to set up a instance with a minecraft server but as we will see below, the instance itself can be created and destroyed at will.
+The point here is to set up an instance with a Minecraft server but as we will see below, the instance itself can be created and destroyed at will.
 
-What matters really is the disk where minecraft server program is set up and where the world's data is stored. As long as we keep the disk, we can create a new instance latter with the same disk and it will feel as it was still the first instance.
+What matters really is the disk where Minecraft server program is set up and where the world's data is stored. As long as we keep the disk, we can create a new instance latter with the same disk and it will feel as it was still the first instance.
 
 So, we start by creating a disk:
 
@@ -73,7 +77,7 @@ gcloud compute disks create minecraft-server --image debian-7 --zone europe-west
 
 >this will create a standard disk (non-SSD) of 10Gb from a debian 7 image
 
-### create instance with existing disk
+### create an instance with an existing disk
 
 ```sh
 gcloud compute instances create minecraft-server --zone europe-west1-a --disk name=minecraft-server boot=yes auto-delete=no --tags minecraft
@@ -88,33 +92,39 @@ gcloud compute instances create minecraft-server --zone europe-west1-a --disk na
     --tags minecraft
     ```
 
-#### allow minecraft traffic
+## allow Minecraft traffic
 
 ```sh
-gcloud compute firewall-rules create allow-minecraft --description "Incoming minecraft connections allowed." --allow tcp:25565 --target-tags MINECRAFT
+gcloud compute firewall-rules create allow-minecraft --description "Incoming minecraft connections allowed." --allow tcp:25565 --target-tags minecraft
 ```
 
-* define target tag to restrict the firewall rule to only minecraft servers
+>allow tcp traffic on port `25565`, which is the default port used by Minecraft server. You can make sure your Minecraft server is listening to this port by checking the first log lines of the server when it starts up.
+
+* define target tag to restrict the firewall rule to only instances with the tag `minecraft`
     ```
-    --target-tags MINECRAFT
+    --target-tags minecraft
     ```
 
-#### connect to instance
+## connect to the instance with SSH
 
 ```sh
 gcloud compute ssh minecraft-server --zone europe-west1-a
 ```
 
-#### basic configuration of instance
+If this is the first time you attempt to connect to an instance via SSH with the current Google Cloud SDK installation, you will be asked to create a private-public key paar. Just follow the instructions. Note that it is best to define a passphrase to protect your keys.
 
-You will need `vim` to edit files and `screen` to run the minecraft server without beeing connected to the instance.
+## install the instance
+
+### required basics
+
+You will need `vim` to edit files and `screen` to run the Minecraft server without beeing connected to the instance.
 
 ```sh
 sudo apt-get update
 sudo apt-get install vim screen
 ```
 
-#### download Java and install
+### download and install Oracle Java
 
 ```sh
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz
@@ -123,25 +133,34 @@ rm jdk-8u5-linux-x64.tar.gz
 ln -s jdk1.8.0_05 jdk
 ```
 
-#### download and install minecraft
+>Found out how to download the JDK from Oracle website thanks to this StackOverflow post [How to automate download and installation of Java JDK on Linux?](http://stackoverflow.com/questions/10268583/how-to-automate-download-and-installation-of-java-jdk-on-linux).
+
+#### note on open-jdk
+
+Alternatively you could install `open-jdk` via `apt-get` but I found it requires installing to much stuff on the server (and it is slower) so I'll rather go with Oracle JDK.
+
+```sh
+sudo apt-get install openjdk-8-jre
+```
+
+### download and install Minecraft
 
 ```sh
 mkdir minecraft
 cd minecraft
 wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8/minecraft_server.1.8.jar
 
-echo "#!/bin/bash" > /home/lesaint/minecraft.sh
-echo "cd /home/lesaint/minecraft && /home/lesaint/jdk/bin/java -jar /home/lesaint/minecraft/minecraft_server.1.8.jar -Xmx1024M -Xms1024M nogui" >> /home/lesaint/minecraft.sh
+echo '#!/bin/bash
+cd /home/lesaint/minecraft && /home/lesaint/jdk/bin/java -jar /home/lesaint/minecraft/minecraft_server.1.8.jar -Xmx1024M -Xms1024M nogui' > /home/lesaint/minecraft.sh
 chmod +x /home/lesaint/minecraft.sh
 ```
 
 >this script starts the Minecraft server with 1Gb heap. Make sure you choose an instance with enough memory or change the `-Xmx` and `-Xms` values.
 
-#### configure Minecraft
 
-Minimal configuration needed is to create a file which minecraft will read to know wheter you accepted the Minecraft EULA or not.
+Minimal configuration needed is to create a file which Minecraft will read to know wheter you accepted the Minecraft EULA or not.
 
-When run for the first time, minecraft server create the file and asks you to modify it and restart the server.
+When run for the first time, Minecraft server create the file and asks you to modify it and restart the server.
 
 To save one server run, we just create it ourselves.
 
@@ -149,17 +168,17 @@ To save one server run, we just create it ourselves.
 echo "eula=TRUE" > /home/lesaint/minecraft/eula.txt
 ```
 
-#### start the server
+## start the server
 
 ```sh
 /home/lesaint/minecraft.sh
 ```
 
-You must stay connected to the instance for the minecraft server to run, we will discuss below how to [let it run in the background](#let-it-run-in-the-background).
+You must stay connected to the instance for the Minecraft server to run, we will discuss below how to [let it run in the background](#let-it-run-in-the-background).
 
 ## connect to the server
 
-The minecraft server is running and you can now to connect to it with a minecraft client (ie. the game).
+The Minecraft server is running and you can now to connect to it with a Minecraft client (ie. the game).
 
 ### get the server's IP address
 
@@ -179,31 +198,33 @@ minecraft-server europe-west1-a n1-standard-1 10.240.197.56 104.155.10.4 RUNNING
 
 ### connect to the server
 
-Start minecraft, go to `Multiplayer`.
+Start Minecraft, go to `Multiplayer`.
 
 Either click `Direct connect` or `Add server`.
 
 Specifity the server name if you clicked on `Add server` and specify the `EXTERNAL_IP` from above as `Server address`.
 
-Play :)
+Now, connect and play :)
 
-### let it run in the background
+## let it run in the background
 
-The probleme when starting the minecraft server from an SSH session is that the server's process will be ended when the SSH session is ended (ie. when you disconnect).
+The probleme when starting the Minecraft server from an SSH session is that the server's process will be ended when the SSH session is ended (ie. when you disconnect).
 
-To work around this, start the minecraft server using [screen](http://www.gnu.org/software/screen/manual/screen.html). Screen has been installed when doing the [basic configuration of instance](#basic-configuration-of-instance) earlier.
+### use `screen`
+
+To work around this, start the Minecraft server using [screen](http://www.gnu.org/software/screen/manual/screen.html). Screen has been installed when doing the [basic configuration of instance](#basic-configuration-of-instance) earlier.
 
 #### start the server
 
-Start the minecraft server in a new `screen` terminal window.
+Start the Minecraft server in a new `screen` terminal window.
 
 ```sh
 screen /home/lesaint/minecraft.sh
 ```
 
-To exit ```screen``` without killing it, use ```CTRL+a d``` (type `CTRL+A` on your keyboard and then letter `d`). It is called "detaching" from the screen session.
+To exit `screen` without killing it, use ```CTRL+a d``` (type `CTRL+A` on your keyboard and then letter `d`). It is called "detaching" from the `screen` session.
 
-You can check the minecraft server java is actually running with the following command line:
+You can check the Minecraft server java process is actually running with the following command line:
 
 ```sh
 ps -ef | grep java
@@ -211,7 +232,7 @@ ps -ef | grep java
 
 #### get your hands back on the server
 
-To "reattach" to the `screen` terminal, you must find its id. List all screen session on the current host with:
+To "reattach" to the `screen` terminal, you must find its id. List all `screen` session on the current host with:
 
 ```sh
 screen -list
@@ -226,24 +247,26 @@ There is a screen on:
 1 Socket in /var/run/screen/S-lesaint.
 ```
 
-You can reattach to the screen session with the number at the beginning of the line:
+You can reattach to the `screen` session with the number at the beginning of the line:
 
 ```sh
 screen -r 2046
 ```
 
-From that point, you can manage the minecraft server as you would be doing if you had started it from the SSH session directly.
+From that point, you can manage the Minecraft server as you would be doing if you had started it from the SSH session directly.
 
 #### stop the server
 
-To stop the server, reattach to the `screen` session and just type `CTRL+C`. If you started the `screen` session with the minecraft service as an argument, killing the minecraft server will also end the `screen` session. 
+To stop the server, reattach to the `screen` session and just type `CTRL+C`. It will stop the Minecraft server and if you started the `screen` session with the Minecraft service as an argument,it will also end the `screen` session. 
 
 ## destroy the instance
 
-When you don't need the instance, destroy it as it will cost you even if it is not doing anything. Since it is so easy and quick to recreate it, do not hesitate. What matters is the disk and it will not be deleted.
+When you don't need the instance, destroy it as it will cost you even if it is not doing anything. Since it is so easy and quick to recreate it, do not hesitate.
+
+What matters is the disk and it will not be deleted if you correctly specified ```auto-delete=no``` when creating the instance (see [create instance with existing disk](#create-an-instance-with-an-existing-disk)).
+
+In doubt, go to the Google developer console, display the instance properties. A checkbox indicates whether the disk will be deleted when the instance is deleted. You can change the value directly from there.
 
 ```sh
 gcloud compute instances delete minecraft-server --zone europe-west1-a
 ```
-
-This should not delete the disk `minecraft-server` unless you have forgotten to disable the disk's autodelete when creating the instance (see [create instance with existing disk](#create-instance-with-existing-disk)).
