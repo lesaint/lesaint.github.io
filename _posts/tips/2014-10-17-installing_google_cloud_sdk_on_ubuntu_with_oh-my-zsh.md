@@ -10,6 +10,7 @@ categories:
  - Tips
 image:
  feature: feature_image_green.png
+comments: true
 ---
 
 To install the Google Cloud SDK, you can follow the [installation guidelines](https://cloud.google.com/sdk/) available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manual steps.
