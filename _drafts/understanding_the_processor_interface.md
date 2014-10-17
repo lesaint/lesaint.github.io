@@ -14,7 +14,7 @@ image:
 This article describes the ```Processor``` interface that must be implemented to do Annotation Processing in ```Java``` and as such covers almost all the ```Java``` Annotation Processing API. Also, it specifically discusses how ```Javac``` implements the Annotation Processing API with some surprising behaviors.
 
 
-This articles assumes that the reader is familliar with the general Annotation Processing mechanics in ```Java```. If not, please read [How does annotation processing work in Java]({% post_url 2014-10-08-how_does_annotation_processing_work_in_java %}).
+This articles assumes that the reader is familliar with the general Annotation Processing mechanics in ```Java```. If not, please read [How does annotation processing work in Java]({% post_url articles/2014-10-08-how_does_annotation_processing_work_in_java %}).
 
 The ```Processor``` interface is the interface an Annotation Processor class must implement. It defines 7 methods.
 
@@ -152,7 +152,7 @@ The first argument is a ```Set``` of the TypeElement representing the Annotation
 In other words:
 
 * this ```Set``` may be empty
-    - it is always empty during the last round (because there is no input file during the last round, more details [here]({% post_url 2014-10-08-how_does_annotation_processing_work_in_java %}#the-last-round))
+    - it is always empty during the last round (because there is no input file during the last round, more details [here]({% post_url articles/2014-10-08-how_does_annotation_processing_work_in_java %}#the-last-round))
     - it may be empty during a round but non empty during the next. This means some file with Annotation(s) supported by the current Annotation Processor were generated during the previous round
     - it is always empty if the wildcard ```*``` was used as a return value of [getSupportedAnnotationTypes](#getsupportedannotationtypes)
 * when partial wildcard were specified (such as ```com.acme.*```) in the return value of [getSupportedAnnotationTypes](#getsupportedannotationtypes), this ```Set``` lets the Annotation Processor know which concrete annotations were matched for the current round

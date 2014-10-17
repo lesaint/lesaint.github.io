@@ -1,12 +1,15 @@
-    ---
+---
 layout: post
 title: Cloning a single branch
-tags: Git
-categories: articles
+tags:
+ - Git
+categories:
+ - tips
 image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/01/06/cloning_a_single_git_branch.html
+  - /articles/2014/01/06/cloning_a_single_git_branch.html
 comments: true
 ---
 

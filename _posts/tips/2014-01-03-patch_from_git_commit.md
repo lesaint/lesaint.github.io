@@ -1,12 +1,15 @@
 ---
 layout: post
 title: Creating a patch from a GIT commit
-tags: Git
-categories: articles
+tags:
+ - Git
+categories:
+ - tips
 image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/01/03/patch_from_git_commit.html
+  - /articles/2014/01/03/patch_from_git_commit.html
 comments: true
 ---
 

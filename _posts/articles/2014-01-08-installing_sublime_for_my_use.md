@@ -4,7 +4,8 @@ title: Installing Sublime for my use
 description: How I installed Sublime Text 2 on Ubuntu
 tags: 
  - Sublime Text
-categories: articles
+categories:
+ - articles
 image:
  feature: feature_image_green.png
 redirect_from:

@@ -4,11 +4,13 @@ title: Cloning a local Git repository from a remote machine
 tags:
  - Git
  - SSH
-categories: articles
+categories:
+ - Tips
 image:
  feature: feature_image_green.png
 redirect_from:
   - /2014/01/20/cloning_a_local_repository_from_a_remote_machine.html
+  - /articles/2014/01/20/cloning_a_local_repository_from_a_remote_machine.html
 comments: true
 ---
 
