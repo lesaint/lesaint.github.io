@@ -127,9 +127,9 @@ sudo apt-get install vim screen
 ### download and install Oracle Java
 
 ```sh
-wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz
-tar xvzf jdk-8u5-linux-x64.tar.gz
-rm jdk-8u5-linux-x64.tar.gz
+# downlad and unpack Java JDK 8 8u5-b13
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -qO- http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz | tar xvz
+# create symbolic link to allow update of Java without changing the rest
 ln -s jdk1.8.0_05 jdk
 ```
 
