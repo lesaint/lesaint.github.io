@@ -12,7 +12,7 @@ image:
  feature: feature_image_green.png
 ---
 
-To install the Google Cloud SDK, you can follow the [installation guidelines](https://cloud.google.com/sdk/) available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manually.
+To install the Google Cloud SDK, you can follow the [installation guidelines](https://cloud.google.com/sdk/) available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manual steps.
 
 
 ## Install via the bash installer
@@ -56,30 +56,24 @@ When loading a new shell, I got errors such as the following and command line co
 /path/to/google-cloud-sdk/completion.bash.inc:19: parse error near `]]'
 ```
 
-I believe these errors are related to me using Oh-My-Zsh or specific to my installation. Anyway, I did the following to fix the install.
+I believe these errors are related to me using Oh-My-Zsh. I did the following to fix the install.
 
-#### Install gcloud-zsh-completion
+#### load the SDK files before `Oh-My-Zsh`
 
-gcloud-zsh-completion provides awesom completion for ```gcloud``` command line.
+First, move the lines added by the installer _before_ the source command loading `Oh-My-Zsh` (```source $ZSH/oh-my-zsh.sh```).
 
-Clone the [gcloud-zsh-completion repository](https://github.com/littleq0903/gcloud-zsh-completion) somewhere on disk. 
+#### load missing `Zsh` module
 
-```sh
-git clone https://github.com/littleq0903/gcloud-zsh-completion.git
-```
+Then two lines to tell `Zsh` to load and init some specific modules required for completion to work _before_ the `source` command for completion. I a no expert with `Zsh` nor `Oh-My-Zsh`, but looking at `oh-my-zsh.sh` it seems that only `compinit` is loaded.
 
-#### modify .zshrc
-
-Add the following lines to your ```.zshrc``` __before__ the line where oh-my-zsh is loaded (```source $ZSH/oh-my-zsh.sh```).
-
-Personnaly, I have put them at the beginning of my ```.zshrc```.
+You should end up with the following, at the beginning of your `.zshrc`.
 
 ```sh
-# Google Cloud SDK
-source '/path/to/google-cloud-sdk/path.zsh.inc'
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/path.zsh.inc'
 
-# load Google Clound SDK completion for Zsh by Colin Su (LittleQ -- https://github.com/littleq0903/gcloud-zsh-completion)
-fpath=(/path/to/gcloud-zsh-completion/src $fpath)
+# The next lines enables bash completion in Zsh for gcloud. 
 autoload -U compinit compdef
 compinit
+source '/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/completion.zsh.inc'
 ```
