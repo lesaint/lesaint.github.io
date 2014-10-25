@@ -8,7 +8,8 @@ tags:
 categories:
  - articles
 image:
- feature: feature_image_green.png
+ feature: feature_image_minecraft_landscape.png
+comments: true
 ---
 
 This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.
@@ -44,7 +45,7 @@ Run:
 gcloud auth init
 ```
 
-Go to your browser, authenticate or choose a Google account if necessary and authorise the Google Cloud SDK on your computer to access your Google Account.
+Go to your browser, authenticate or choose a Google account if necessary and authorize the Google Cloud SDK on your computer to access your Google Account.
 
 ## set project
 
@@ -117,7 +118,7 @@ If this is the first time you attempt to connect to an instance via SSH with the
 
 ### required basics
 
-You will need `vim` to edit files and `screen` to run the Minecraft server without beeing connected to the instance.
+You will need `vim` to edit files and `screen` to run the Minecraft server without being connected to the instance.
 
 ```sh
 sudo apt-get update
@@ -137,10 +138,12 @@ ln -s jdk1.8.0_05 jdk
 
 #### note on open-jdk
 
-Alternatively you could install `open-jdk` via `apt-get` but I found it requires installing to much stuff on the server (and it is slower) so I'll rather go with Oracle JDK.
+Alternatively you could install `open-jdk` via `apt-get` but I found it requires installing to much stuff on the server (and takes much more time) so I rather went with installing Oracle JDK.
+
+FYI, the command line is:
 
 ```sh
-sudo apt-get install openjdk-8-jre
+sudo apt-get install -y openjdk-8-jre
 ```
 
 ### download and install Minecraft
@@ -157,8 +160,7 @@ chmod +x /home/lesaint/minecraft.sh
 
 >this script starts the Minecraft server with 1Gb heap. Make sure you choose an instance with enough memory or change the `-Xmx` and `-Xms` values.
 
-
-Minimal configuration needed is to create a file which Minecraft will read to know wheter you accepted the Minecraft EULA or not.
+Minimal configuration needed is to create a file which Minecraft will read to know whether you accepted the Minecraft EULA or not.
 
 When run for the first time, Minecraft server create the file and asks you to modify it and restart the server.
 
@@ -182,13 +184,13 @@ The Minecraft server is running and you can now to connect to it with a Minecraf
 
 ### get the server's IP address
 
-Use the following command to get the list of instance and, among other informations, it's external IP addresse:
+Use the following command to get the list of instances and, among other informations, you can find the external IP address of the one you just started:
 
 ```sh
 gcloud compute instances list
 ```
 
-Result will look like the following and we are interrested in what is below `EXTERNAL_IP`:
+Result will look like the following and we are interested in what is below `EXTERNAL_IP`:
 
 ```sh
 [my-machine] $ gcloud compute instances list                                           
@@ -208,7 +210,7 @@ Now, connect and play :)
 
 ## let it run in the background
 
-The probleme when starting the Minecraft server from an SSH session is that the server's process will be ended when the SSH session is ended (ie. when you disconnect).
+The problem when starting the Minecraft server from an SSH session is that the server's process will be ended when the SSH session is ended (ie. when you disconnect).
 
 ### use `screen`
 
