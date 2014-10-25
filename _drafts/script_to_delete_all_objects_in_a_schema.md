@@ -10,8 +10,7 @@ image:
  feature: feature_image_green.png
 ---
 
-Use the following script to drop all objects in a specific schema without droping the schema itself.
-Using this script saves you from recreating the schema, its associated user, its rights, ...
+Use the following script to drop all objects in a specific schema in an Oracle Database without droping the schema itself. It saves you from recreating the schema, its associated user, its rights, etc.
 
 
 ### create script file
@@ -22,44 +21,44 @@ Create a file called ```empty_user.sql``` with the following content:
 purge recyclebin;
 declare
     -- FK first, then unique, then PK
-    cursor const_cur is select table_name, constraint_name
+    cursor cursor_constraints is select table_name, constraint_name
                           from user_constraints
                          where constraint_type in ('P', 'R', 'U')
                         order by decode(constraint_type, 'R', 0, 'U', 1, 'P', 2, 3);
-    cursor mview_cur is select mview_name from user_mviews;
-    cursor view_cur is select view_name from user_views;
-    cursor mvlog_cur is select master from user_mview_logs;
-    cursor tab_cur is select table_name from user_tables;
-    cursor syn_cur is select synonym_name from user_synonyms;
-    cursor seq_cur is select sequence_name from user_sequences;
+    cursor cursor_mviews is select mview_name from user_mviews;
+    cursor cursor_views is select view_name from user_views;
+    cursor cursor_mviews_logs is select master from user_mview_logs;
+    cursor cursor_tables is select table_name from user_tables;
+    cursor cursor_synonyms is select synonym_name from user_synonyms;
+    cursor cursor_sequences is select sequence_name from user_sequences;
 begin
-    for const_val in const_cur
+    for current_val in cursor_constraints
     loop
-        execute immediate 'alter table ' || const_val.table_name || ' drop constraint ' || const_val.constraint_name;
+        execute immediate 'alter table ' || current_val.table_name || ' drop constraint ' || current_val.constraint_name;
     end loop;
-    for mview_val in mview_cur
+    for current_val in cursor_mviews
     loop
-        execute immediate 'drop materialized view ' || mview_val.mview_name;
+        execute immediate 'drop materialized view ' || current_val.mview_name;
     end loop;
-    for view_val in view_cur
+    for current_val in cursor_views
     loop
-        execute immediate 'drop view ' || view_val.view_name;
+        execute immediate 'drop view ' || current_val.view_name;
     end loop;
-    for mvlog_val in mvlog_cur
+    for current_val in cursor_mviews_logs
     loop
-        execute immediate 'drop materialized view log on ' || mvlog_val.master;
+        execute immediate 'drop materialized view log on ' || current_val.master;
     end loop;
-    for tab_val in tab_cur
+    for current_val in cursor_tables
     loop
-        execute immediate 'drop table ' || tab_val.table_name || ' purge';
+        execute immediate 'drop table ' || current_val.table_name || ' purge';
     end loop;
-    for syn_val in syn_cur
+    for current_val in cursor_synonyms
     loop
-        execute immediate 'drop synonym ' || syn_val.synonym_name;
+        execute immediate 'drop synonym ' || current_val.synonym_name;
     end loop;
-    for seq_val in seq_cur
+    for current_val in cursor_sequences
     loop
-        execute immediate 'drop sequence ' || seq_val.sequence_name;
+        execute immediate 'drop sequence ' || current_val.sequence_name;
     end loop;
 end;
 /
@@ -99,5 +98,4 @@ PL/SQL procedure successfully completed.
 Disconnected from Oracle Database 11g Enterprise Edition Release 11.2.0.3.0 - 64bit Production
 With the Partitioning, Automatic Storage Management, OLAP, Data Mining
 and Real Application Testing options
-my_machine:$
 ```
