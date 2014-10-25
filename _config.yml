@@ -1,16 +1,11 @@
 # Site wide configuration
 
-# from previous _config.yml
-#paginate_path: ':num'
-#paginate: 10
-
 title: Javatronic
 locale: en_US
 description: Technical tips and tricks for Java, Spring, Unit testing, Annotation Processing, ...
 logo: site-logo.png
 search: false
 url:
-
 
 # Jekyll configuration
 
@@ -32,6 +27,9 @@ redcarpet:
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md", "vendor"]
 
+# pagination (uncomment paginate to enable)
+# paginate: 10
+# paginate_path: ':num'
 
 # Site owner
 owner:
