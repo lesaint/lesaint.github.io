@@ -8,9 +8,10 @@ categories:
  - Tips
 image:
  feature: feature_image_green.png
+comments: true
 ---
 
-Use the following script to refresh all materialized view in a schema of Oracle SGDB.
+Use the following script to refresh all materialized view in a schema of an Oracle database. This script can be run very easily from SqlPlus.
 
 
 Connect to the user of the schema where you can to refresh all materalized views and execute the following PL/SQL procedure:
