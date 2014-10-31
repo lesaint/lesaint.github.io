@@ -11,7 +11,7 @@ image:
  feature: feature_image_green.png
 ---
 
-This article describes the ```Processor``` interface that must be implemented to do Annotation Processing in ```Java``` and as such covers almost all the ```Java``` Annotation Processing API. Also, it specifically discusses how ```Javac``` implements the Annotation Processing API with some surprising behaviors.
+This article describes the ```Processor``` interface that must be implemented to do Annotation Processing in ```Java```. This article is the first of two which will cover the whole `Java Annotation processing API`. Also, it specifically discusses how ```Javac``` implements the Annotation Processing API with some surprising behaviors.
 
 
 This articles assumes that the reader is familliar with the general Annotation Processing mechanics in ```Java```. If not, please read [How does annotation processing work in Java]({% post_url articles/2014-10-08-how_does_annotation_processing_work_in_java %}).
@@ -28,7 +28,7 @@ Using the 3 following methods, an Annotation Processor describes what annotation
 Set<String> getSupportedAnnotationTypes()
 ```
 
-The [getSupportedAnnotationTypes](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#getSupportedAnnotationTypes()) method returns a ```Set``` of ```String``` which can be:
+The [getSupportedAnnotationTypes](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#getSupportedAnnotationTypes()) method returns a ```Set``` of ```String``` where each `String` can be:
 
 * the full qualified name of an annotation type
 * a String in the form ```name.*``` which represents all annotation types which qualified name starts with ```name.```
@@ -36,7 +36,7 @@ The [getSupportedAnnotationTypes](http://docs.oracle.com/javase/7/docs/api/javax
 
 #### an empty ```Set``` is the same as ```*```
 
-When experimenting with Annotation Processor implementations, I noticed that, if I implement a ```getSupportedAnnotationTypes``` method that returns an empty ```Set```, the way ```Javac``` treats the Annotation Processor is exactly the same as when I return ```*```: the Annotation Processor is feed all the annotations found in source and generated files.
+When experimenting with writing Annotation Processors, I noticed that, if I implement a ```getSupportedAnnotationTypes``` method that returns an empty ```Set```, the way ```Javac``` treats the Annotation Processor is exactly the same as when I return ```*```: the Annotation Processor is feed all the annotations found in source and generated files.
 
 Initially I though it was a specific behavior of ```Javac``` but the following quote from the [getSupportedAnnotationTypes](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#getSupportedAnnotationTypes()) method javadoc may say that it is the expected behavior:
 
@@ -52,7 +52,7 @@ SourceVersion getSupportedSourceVersion()
 
 The [getSupportedSourceVersion](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#getSupportedSourceVersion()) method returns the latest version of ```Java``` supported by the compiler represented by a value of the enum ```SourceVersion```.
 
-This method is used to avoid calling an Annotation Processor when compiling with a source code version later that the one it was written for.
+This method is used to avoid calling an Annotation Processor when compiling with a source code version more recent that the one it was written for.
 
 Note that it implicitly means that Annotation Processors are supposed to support one version of ```Java``` and all the previous ones. This is usually not a problem.
 
@@ -76,7 +76,7 @@ java.lang.EnumConstantNotPresentException: javax.lang.model.SourceVersion.RELEAS
 
 ##### best strategy when targeting ```Javac```
 
-As we discussed above, specifying a recent version may limit the use of your Annotation Processor and specifying a older version is practically useless.
+As we discussed above, specifying a recent version may limit the use of your Annotation Processor and specifying an older version is practically useless.
 
 So, if your Annotation Processor does not have any java-version-specific code, the best strategy in my opinion is to implement ```getSupportedSourceVersion``` and return [SourceVersion.latestSupported()](http://docs.oracle.com/javase/7/docs/api/javax/lang/model/SourceVersion.html#latestSupported()) as it guarantess compatibility with any version of Java.
 
@@ -135,7 +135,9 @@ This method is guaranteed to be called once and only once and before any call to
 
 #### first argument
 
-The ```ProcessingEnvironment``` argument is never ```null```. It is described in details [below](#the-processingenvironment-object).
+The ```ProcessingEnvironment``` argument is never ```null```.
+
+See [description of ProcessingEnvironnement interface](TODO link to next article) in the next article to get more details about it.
 
 ### process
 
@@ -147,13 +149,13 @@ The [process](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processi
 
 #### first argument
 
-The first argument is a ```Set``` of the TypeElement representing the Annotations the Annotation Processor registered to process via the [getSupportedAnnotationTypes](#getsupportedannotationtypes) method which are effectively available in the current round.
+The first argument is a ```Set``` of the `TypeElement` representing the Annotations the Annotation Processor registered to process via the [getSupportedAnnotationTypes](#getsupportedannotationtypes) method which are effectively available in the current round.
 
 In other words:
 
 * this ```Set``` may be empty
     - it is always empty during the last round (because there is no input file during the last round, more details [here]({% post_url articles/2014-10-08-how_does_annotation_processing_work_in_java %}#the-last-round))
-    - it may be empty during a round but non empty during the next. This means some file with Annotation(s) supported by the current Annotation Processor were generated during the previous round
+    - it may be empty during a round but non empty during the next. This means no file with Annotation(s) supported by the Annotation Processor were generated during the previous round, but some are generated during the current round and will be available in the next round
     - it is always empty if the wildcard ```*``` was used as a return value of [getSupportedAnnotationTypes](#getsupportedannotationtypes)
 * when partial wildcard were specified (such as ```com.acme.*```) in the return value of [getSupportedAnnotationTypes](#getsupportedannotationtypes), this ```Set``` lets the Annotation Processor know which concrete annotations were matched for the current round
 
@@ -161,7 +163,9 @@ The ```Set``` is never ```null```.
 
 #### second argument
 
-The second argument is a ```RoundEnvironment``` and is never ```null```. It is detailed [below](#the-roundenvironment-object).
+The second argument is a ```RoundEnvironment``` and is never ```null```.
+
+See [description of the RoundEnvironment interfce](TODO link to next article) in the next article to get more details about this it.
 
 #### returned value
 
@@ -173,80 +177,3 @@ Quoting the Javadoc:
 
 Returning ```true``` must be used carefully, as it will prevent other Annotation Processor to process these annotations during the current round.
 More specifically, when using the ```*``` wildcard, it means that no other Annotation Processor will be able to process any Annotation during the current round.
-
-## the ```ProcessingEnvironment``` object
-
-The roles of the [ProcessingEnvironment](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/ProcessingEnvironment.html) object passed to the Annotation Processor as an argument of the ```init``` method is to give access to (quoting from the Javadoc):
-
->facilities provided by the framework to write new files, report error messages, and find other utilities
-
-### environnement methods
-
-#### getSourceVersion
-
-This value identifies the version of the source code, which can be specified to ```Javac``` using the ```-source``` argument. It does not identify the Java version the code is beeing compiled to (which is specified by the ```-target``` argument).
-
-#### getOptions
-
-#### getLocale
-
-### utilities methods
-
-#### getElementUtils
-
-#### getTypeUtils
-
-### facilities methods
-
-#### getFilter
-
-#### getMessager
-
-```java
-  private void investigatingLogging(Set<? extends TypeElement> typeElements, RoundEnvironment roundEnv) {
-    // Diagnostic.Kind.WARNING and NOTE ne sont pas affichés dans la console maven, il faut utiliser
-    // Diagnostic.Kind.MADATORY_WARNING pour être sûr d'afficher un message visible lorsque le compilateur
-    // est lancé avec ses options par défaut. Le message est prefixé d'un "[WARNING] "
-    // D'autre part, System.out.println fonctionne sous maven (et forcément System.err aussi) et affiche un message
-    // lors du lancement du compilateur sans option particulière. Le message n'a pas de prefix.
-    // passer le javac en debug ou verbose ne semble pas permettre l'affichage des Kind.NOTE ou WARNING
-
-    System.out.println("System.out.println message");
-    System.err.println("System.err.println message");
-    Messager messager = processingEnv.getMessager();
-
-    messager.printMessage(Diagnostic.Kind.NOTE, "Note level message");
-    for (TypeElement te : typeElements) {
-//            messager.printMessage(Diagnostic.Kind.MANDATORY_WARNING, "Traitement annotation " + te.getQualifiedName
-// ());
-      System.err.println("Traitement annotation " + te.getQualifiedName());
-
-      for (Element element : roundEnv.getElementsAnnotatedWith(te)) {
-//                messager.printMessage(Diagnostic.Kind.MANDATORY_WARNING, "  Traitement element " + element
-// .getSimpleName());
-        System.err.println("  Traitement element " + element.getSimpleName());
-      }
-    }
-  }
-```
-
-
-## the ```RoundEnvironment``` object
-
-### status methods
-
-#### processingOver
-
-#### errorRaised
-
-### methods to access round Element objects
-
-#### getRootElements
-
-The [getRootElements](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/RoundEnvironment.html#getRootElements()) method basically returns the Element for each file in the round. It could be a Package Element or a Class/Interface/Enum Element.
-
-Note that root Element are not necessarily annotated themself dfmkjhfmjdshfmdfh sdqjmfh mqdkjfh mkjdqf hmkjds m 
-
-#### getElementsAnnotatedWith
-
-Two versions of the ```getElementsAnnotatedWith``` method are provided. The first one allow to retrieve elements annotated with a specific annotation [using its class](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/RoundEnvironment.html#getElementsAnnotatedWith(java.lang.Class)), the seond one, using [a TypeElement representing the annotation](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/RoundEnvironment.html#getElementsAnnotatedWith(javax.lang.model.element.TypeElement)).
