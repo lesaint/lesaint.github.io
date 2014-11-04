@@ -2,7 +2,7 @@
 layout: post
 title: "Understanding the ProcessingEnvironment and RoundEnvironment interfaces"
 tags:
- - Annotation Processor 
+ - Annotation Processing
  - Javac
  - Java
 categories:

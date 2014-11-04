@@ -2,7 +2,7 @@
 layout: post
 title: "How to write a Annotation Processor in Java"
 tags:
- - Annotation Processor
+ - Annotation Processing
  - Javac
  - Java
 categories:

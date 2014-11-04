@@ -2,7 +2,7 @@
 layout: post
 title: "Understanding the Processor interface"
 tags:
- - Annotation Processor 
+ - Annotation Processing
  - Javac
  - Java
 categories:
