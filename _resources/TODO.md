@@ -17,11 +17,24 @@ TODO javatronic.fr
 [X] add feature image from all pages (until find a nice picture ?)
 [X] enable comments on posts (via disqus)
 [X] support for tag name with more than one word ? yes, use item list in front matter
+[ ] find a way to add twitter link under my picture
+[ ] find a way to add summary to page
+    - [ ] on top of the author, deployable layer?
+    - [ ] control with a frontmatter variable
+    - [ ] enable extension of redcarpet to display TOC in articles 
+        - pour ajouter la toc dans un document
+         ```
+        * Table of Contents
+        {:toc}
+        ```
+        - [X] modification css requise pour afficher plus d'un niveau car theme actuel ne supporte pas d'indentation
+        - [ ] modifier tous les blocs de code pour le support syntaxique
+        - [ ] le code inline n'est plus rendu?
+        - [ ] autre différence de rendu?
 [ ] re-enable paginator by adding the paginate option to config http://jekyllrb.com/docs/variables/#global-variables
 [ ] page articles : add pagination (paginator does not seem to work anymore) ? display by month/year (see http://mmistakes.github.io/minimal-mistakes/posts/) ?
 [X] modify RakeFile to include other Front-YAML properties (image feature, category articles)
 [ ] modify RakeFile to create post from draft and automatically enable comment and put date in file name
-[ ] enable extension of redcarpet to display TOC in articles (utiliser ```{:toc}```)
 [X] enable default extensions of redcarpet (http://stackoverflow.com/a/16126840)
 [X] home : afficher 5 articles
 [ ] home : afficher le excerpt et un lien lire la suite
