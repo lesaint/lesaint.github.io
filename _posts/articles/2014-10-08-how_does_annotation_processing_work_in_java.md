@@ -98,7 +98,7 @@ The Compiler will automatically scan for this file in the class path when beeing
 
 This previous [article]({% post_url articles/2014-08-31-how_to_make_sure_javac_is_using_a_specific_annotation_processor %}#customize-the-command-line) describes how to make sure your Annotation Processor is beeing used by ```Javac```.
 
-> (*) projects used to make thoses experiments are available online and described in the [README.md](https://github.com/lesaint/annotation-processing-explained#experimentations-on-annotation-processing). They use ```Javac``` as a compiler.
+> (*) projects used to make thoses experiments are available online and in a project dedicated to [experimenting with Annotation Processing in Java](https://github.com/lesaint/experimenting-annotation-processing). They use ```Javac``` as a compiler.
 
 ## Resources
 
