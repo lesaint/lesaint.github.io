@@ -20,6 +20,7 @@ TODO javatronic.fr
 [ ] re-enable paginator by adding the paginate option to config http://jekyllrb.com/docs/variables/#global-variables
 [ ] page articles : add pagination (paginator does not seem to work anymore) ? display by month/year (see http://mmistakes.github.io/minimal-mistakes/posts/) ?
 [X] modify RakeFile to include other Front-YAML properties (image feature, category articles)
+[ ] modify RakeFile to create post from draft and automatically enable comment and put date in file name
 [ ] enable extension of redcarpet to display TOC in articles (utiliser ```{:toc}```)
 [X] enable default extensions of redcarpet (http://stackoverflow.com/a/16126840)
 [X] home : afficher 5 articles
