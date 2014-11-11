@@ -11,11 +11,11 @@ image:
  feature: feature_image_green.png
 ---
 
-Recently, Gunnar Morling commented on my article [Java bean mapping is wrong, lets fix it](http://www.javatronic.fr/articles/2014/05/21/java_bean_mapping_is_wrong_lets_fix_it.html) and asked for my opinion on [MapStruct](http://mapstruct.org/). MapStruct a bean mapping library from RedHat that generates bean mapping code using an Annotation Processor and Gunner is working on it.
+Recently, Gunnar Morling commented on my article [Java bean mapping is wrong, lets fix it](http://www.javatronic.fr/articles/2014/05/21/java_bean_mapping_is_wrong_lets_fix_it.html) and asked for my opinion on [MapStruct](http://mapstruct.org/). MapStruct is a bean mapping library from RedHat that generates bean mapping code using an Annotation Processor and Gunner is working on it.
 
 I wrote a [response](http://www.javatronic.fr/articles/2014/05/21/java_bean_mapping_is_wrong_lets_fix_it.html#comment-1663100604) to his comment which turned out to be mostly a comparison between MapStruct and DAMapping. They have a troubling lot of things in common.
 
-That's when I realized what makes DAMapping so peculiar: its an new approach to bean mapping by design and principles.
+That's when I realized what makes DAMapping so peculiar: it's a new approach to bean mapping by design and principles.
 
 DAMapping is a bean mapping *lightweight coding paradigm* and a *stack of components* to power the developer who writes bean mapping code. It is not another technical implementation of a bean mapping library as all bean mapping tools have been until now.
 
@@ -39,19 +39,19 @@ DAMapping is a set of complementary elements, hence it should rather be consider
 ---------------------------------
 </pre>
 
-Technical architecture and design principles of DAMapping come from the study of the existing bean mapping tools and a high level analysis of their common points and weaknesses. It also comes from the experience of professionally doing bean mapping on large projects and over a respectably long period of time.
+Technical architecture and design principles of DAMapping come from the study of the existing bean mapping tools and from a high level analysis of their common points and weaknesses. They also come from the experience of professionally doing bean mapping on large projects and over a respectably long period of time.
 
 >related articles on the origin of DAMapping: [genesis of the DAMapping project](TODO link genesis) and [Java Bean Mapping is wrong, let's fix it!]({% post_url articles/2014-05-21-java_bean_mapping_is_wrong_lets_fix_it %})
 
 # Principles of DAMapping
 
-DAMapping has a more humble goal than other tools: *help the developer write* bean mapping code, instead of doing bean mapping in her seat. 
+DAMapping has a more humble goal than other tools: *help the developer write* bean mapping code, instead of doing bean mapping in his or her place. 
 
 In other words, DAMapping _does not do_ bean mapping (yes, that may come as a surprise), it _provides ways to write_ bean mapping code better, faster and stronger (some may see a quote here ;-) ).
 
 ## pure Java bean mapping code
 
-One thing bean mappings tools have in common is that bean mapping logic quickly ends up being spread across over various places in the application: configuration files, annotations elements, specific classes and methods to extend/customize the tool, etc.
+One thing bean mapping tools have in common is that bean mapping logic quickly ends up being spread across over various places in the application: configuration files, annotations elements, specific classes and methods to extend/customize the tool, etc.
 
 DAMapping avoid this pitfall by taking as a principle that *all* bean mapping logic must be plain Java code.
 
@@ -63,7 +63,7 @@ Second principle which is direct consequence of DAMapping being a little invasiv
 
 A direct consequence of the first two principles is that DAMapping does not force any limitation upon the developer with it comes to coding bean mapping logic.
 
-Worse case scenario, DAMapping won't provide the developer with the utility method/class to save her from writing that technical code again and again but that's only until it is implemented.
+Worst case scenario, DAMapping won't provide the developer with the utility method/class to save her from writing that technical code again and again but that's only until it is implemented.
 
 In any case, never will the developer be limited in how bean mapping logic is implemented. This is a design decision.
 
@@ -71,11 +71,11 @@ In any case, never will the developer be limited in how bean mapping logic is im
 
 Much like the Spring framework, DAMapping provides complementary components which form a global solution to do bean mapping in Java but the developer is not constrained to use the whole stack.
 
-It the developer thinks using all of them is the perfect solution for her, then let her.
+If the developer thinks using all of them is the perfect solution for her, then let her do so.
 
 Otherwise, the developer can use only some of the components:
 
-* using only the framework and code all by hand
+* using only the framework and write all code by hand
 * using only the toolkit and neither the framework nor the code generator
 * using the IDE plugin without the framework
 * etc.
@@ -86,13 +86,13 @@ Freedom in code writing is good but some ways of coding are known to be better t
 
 ## introduction to the DAMapping framework
 
-The following practices can easily considered as good practices when it comes to writing bean mapping code (I am open to challenge on this subject).
+The following practices can easily be considered as good practices when it comes to writing bean mapping code (I am open to challenge on this subject).
 
 * use one class for each mapping from one type to another and compose these classes (SOC, KISS, re-usability)
 * use an interface and an implementing class for each mapping and do not use static code (better testability)
 * leverage the Inversion-of-control and dependency injection framework in place within the application if there is any (optional but obviously a good practice)
 
-To help the developer implement them as easily as possible, DAMapping provides an set of [annotations](https://github.com/lesaint/damapping/tree/master/core-parent/annotations/src/main/java/fr/javatronic/damapping/annotation) and an Annotation Processor. They compose the foundation element of the DAMapping stack. It is called the `DAMapping framework`.
+To help the developer implements them as easily as possible, DAMapping provides a set of [annotations](https://github.com/lesaint/damapping/tree/master/core-parent/annotations/src/main/java/fr/javatronic/damapping/annotation) and an Annotation Processor. They compose the foundation element of the DAMapping stack. It is called the `DAMapping framework`.
 
 >the term "framework" is fundamental here as a difference between DAMapping and existing tools. Look at Martin Fowler's widely shared [definition of libraries and frameworks](http://martinfowler.com/bliki/InversionOfControl.html).
 
@@ -267,7 +267,7 @@ Finally, IDEs such as IntelliJ IDEA require a little help to flawlessly (ie. wit
 
 ## integrate with the DAMapping code generator
 
-Since DAMapping's code generator has two levels of functionality, both would be integrated within the IDE thanks the plugin. Integration would obviously take the form of GUI actions or menus.
+Since DAMapping's code generator has two levels of functionality, both would be integrated within the IDE thanks to the plugin. Integration would obviously take the form of GUI actions or menus.
 
 ### method level code generation
 
@@ -285,7 +285,7 @@ For example: select "generate bean mapping" in menu > select "source and target 
 
 The DAMapping's bean mapping toolkit provides utility methods, class and patterns to help write bean mapping code.
 
-The DAMapping code generator will leverage the power of this toolkit to factorize code and most effectively handle the recurrent technical challenges of bean mapping in Java: null value handling, common mappings, enum mappings, collection mapping, etc...
+The DAMapping code generator will leverage the power of this toolkit to factorize code and most effectively handle the recurrent technical challenges of bean mapping in Java: null value handling, common mapping, enum mapping, collection mapping, etc...
 
 The point of making all this code a separate component is to allow the developer to use it independently from DAMapping code generator and framework if she wants.
 
