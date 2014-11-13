@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "DAMapping is a bean mapping stack, not another library"
+title: "DAMapping is a bean mapping stack"
 tags:
  - DAMapping
  - Annotation Processing
@@ -295,10 +295,14 @@ MapStruct and other already have such a toolkit but it is hidden. DAMapping coul
 
 DAMapping is an ambitious project.
 
-Currently, the DAMapping framework gets most of the development power (me, on my private time). The foundations are almost there. Checkout the [issues](https://github.com/lesaint/damapping/issues) and look at the planned [milestones](https://github.com/lesaint/damapping/milestones) to get an idea.
+Currently, the DAMapping framework gets most of the development power (ie. me, on my private time). The foundations are almost there. Checkout the [issues](https://github.com/lesaint/damapping/issues) and look at the planned [milestones](https://github.com/lesaint/damapping/milestones) to get an idea.
 
 The [DAMapping IDE plugin for IntelliJ IDEA](https://github.com/lesaint/damapping-idea) has also been started but is at alpha stage and not yet released. It currently offers integration of the generated classes and interfaces without building the project.
 
 Development of the other two components, the code generator and the toolkit, has not yet started.
 
 Help in the form of feedback or contributions is welcome :)
+
+# Acknowledgments
+
+I would like to thanks [@jcgay](https://twitter.com/jchristophegay) and [@fbiville](https://twitter.com/fbiville) for their feedback on this article and DAMapping in general.
