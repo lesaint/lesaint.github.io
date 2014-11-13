@@ -37,32 +37,32 @@ Comparing the frameworks has already been done, so I will just link to this [art
 
 Add subethasmtp maven dependency to your project :
 
-```xml
+{% highlight xml %}
 <dependency>
   <groupId>org.subethamail</groupId>
   <artifactId>subethasmtp</artifactId>
   <version>3.1.7</version>
   <scope>test</scope>
 </dependency>
-```
+{% endhighlight %}
 
 To Start the Wiser SMTP Server, just create a new instance, setup port and hostname, and start it :
 
-```java
+{% highlight java %}
 Wiser wiser = new Wiser();
 wiser.setPort(25);
 wiser.setHostname("localhost");
 wiser.start();
-```
+{% endhighlight %}
 
 You can then use JavaMail to send mail to the port and hostname you specified and then test received messages as follow :
 
-```java
+{% highlight java %}
 assertThat(wiser.getMessages()).hasSize(1);
 MimeMessage message = wiser.getMessages().iterator().next().getMimeMessage();
 assertThat(message.getSubject()).isEqualTo("Here is a sample subject !");
 [...]
-```
+{% endhighlight %}
 
 # Integrating Wiser with JUnit
 
@@ -70,7 +70,7 @@ I found very convenient when integrating Wiser into JUnit tests to use a Rule.
 And also, when writing unit test, one has to been carreful about the port then want to use. It must either be unique to the maven module (assuming tests are not run in parallel) or unique to the test.
 Either way, assuming it is known to the unit test, I came up with the following implementation :
 
-```java
+{% highlight java %}
 package fr.phan.test.rule;
 
 import com.google.common.base.Preconditions;
@@ -182,11 +182,11 @@ public class SmtpServerRule extends ExternalResource implements TestRule {
     Preconditions.checkState(this.wiser != null, "%s must not be called outside of a JUnit statement", method);
   }
 }
-```
+{% endhighlight %}
 
 And the `SmtpServerSupport` interface which will usually be implemented by the JUnit test :
 
-```java
+{% highlight java %}
 package fr.phan.test.rule;
 
 import javax.annotation.Nonnull;
@@ -210,7 +210,7 @@ public interface SmtpServerSupport {
   @Nonnull
   String getHostname();
 }
-```
+{% endhighlight %}
 
 ## which port to use ?
 

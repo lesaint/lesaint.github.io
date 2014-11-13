@@ -35,7 +35,7 @@ Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editi
         * open user preferences Preferences > Package Settings > MarkdownEditing > Markdown GFM Settings - User
         * change content with below
 
-        ```json
+        {% highlight json %}
         {
           "extensions":
           [
@@ -52,7 +52,7 @@ Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editi
           "word_wrap": false,
           "wrap_width": 120
         }
-        ```
+        {% endhighlight %}
 
   - Add Syntax highlighting sublime-markdown-extended (for reference, not used, MarkdownEditing is better)
     + [https://github.com/jonschlinkert/sublime-markdown-extended](https://github.com/jonschlinkert/sublime-markdown-extended)

@@ -31,9 +31,9 @@ Run ```Maven``` with -X option on the module which uses the annotation processor
 
 For example, run ```Maven``` with the following command line:
 
-```
+{% highlight sh %}
 mvn clean compile -X -pl :moduleName
-```
+{% endhighlight %}
 
 > ```-pl :moduleName``` is a way of specifying a specific module for ```Maven``` to build. It allows to run the ```mvn``` command from the root directory of the project. Obviously, in a single module project, this is useless. In a multi-module project however, its convenient. It saves you from changing the current directory to the module's directory and run the same ```mvn``` command without that option.
 
@@ -67,36 +67,36 @@ To make sure there is no problem loading your Annotation Processor class, look f
 1. look for a log line stating that the .class file of your AnnotationProcessor class is being read.     
     * if the class is in a Jar:
 
-        ```
+        {% highlight sh %}
         [loading ZipFileIndexFileObject[/opt/maven/repository/fr/javatronic/damapping/annotation-processor/0.2.3-bundle-clean-SNAPSHOT/annotation-processor-0.2.3-bundle-clean-SNAPSHOT.jar(fr/javatronic/damapping/processor/DAAnnotationProcessor.class)]]
-        ```
+        {% endhighlight %}
     * if the class is on the file system
 
-        ```
+        {% highlight sh %}
         [loading RegularFileObject[/home/user/DEV/damapping/damapping-samples/spring-project/target/classes/fr/javatronic/damapping/processor/DAAnnotationProcessor.class]]
-        ```
+        {% endhighlight %}
 
 2. look for at least one annotation processor round log
     * look for the ```Round``` string
     * a round log line looks like the following:
 
-        ```
+        {% highlight sh %}
         Round 1:
                 input files: {fr.javatronic.damapping.demo.domain.repository.impl.CourseSlotRepositoryImpl, fr.javatronic.damapping.demo.domain.repository.impl.CourseRepositoryImpl, fr.javatronic.damapping.demo.domain.repository.CourseSlotRepository, fr.javatronic.damapping.demo.domain.model.Teacher, fr.javatronic.damapping.demo.view.service.impl.PeopleIndexServiceImpl, fr.javatronic.damapping.demo.view.model.Day, fr.javatronic.damapping.demo.view.model.TimedClass, fr.javatronic.damapping.demo.view.mapper.IntegerToString, fr.javatronic.damapping.demo.view.model.WeekPlanning, fr.javatronic.damapping.demo.view.model.EveningClasses, fr.javatronic.damapping.demo.MainClass, fr.javatronic.damapping.demo.view.service.impl.WeekPlanningServiceImpl, fr.javatronic.damapping.demo.spring.ApplicationConfig, fr.javatronic.damapping.demo.view.mapper.TeacherToPeople, fr.javatronic.damapping.demo.domain.repository.impl.TeacherRositoryImpl, fr.javatronic.damapping.demo.domain.model.Course, fr.javatronic.damapping.demo.view.model.AfternoonClasses, fr.javatronic.damapping.demo.view.model.Classes, fr.javatronic.damapping.demo.view.service.WeekPlanningService, fr.javatronic.damapping.demo.view.mapper.StudentToPeople, fr.javatronic.damapping.demo.view.model.PeopleIndex, fr.javatronic.damapping.demo.domain.model.CourseSlot, fr.javatronic.damapping.demo.domain.repository.impl.StudentRepositoryImpl, fr.javatronic.damapping.demo.domain.repository.StudentRepository, fr.javatronic.damapping.demo.view.service.PeopleIndexService, fr.javatronic.damapping.demo.view.model.MorningClasses, fr.javatronic.damapping.demo.view.model.People, fr.javatronic.damapping.demo.domain.repository.CourseRepository, fr.javatronic.damapping.demo.domain.model.Student, fr.javatronic.damapping.demo.domain.repository.TeacherRository}
                 annotations: [java.lang.Override, fr.javatronic.damapping.annotation.Mapper, javax.annotation.Nullable, org.springframework.context.annotation.Configuration]
                 last round: false
-        ```
+        {% endhighlight %}
     * make sure your annotation(s) are present in the list in the line before the last line
 3. look for the log line indicating that your AnnotationProcessor has been identified to process one or more annotation
 
-    ```
+    {% highlight sh %}
     Processor [qualified name of your AnnotationProcessor class] matches [name(s) of the annotation(s) your AnnotationProcessor will be invoked for] and returns [true/false].
-    ```
+    {% endhighlight %}
 4. look for a log line stating that your AnnotationProcessor class has been loaded, such as
 
-    ```
+    {% highlight sh %}
     [Loaded fr.javatronic.damapping.processor.DAAnnotationProcessor from file:/opt/maven/repository/fr/javatronic/damapping/annotation-processor/0.2.3-bundle-clean-SNAPSHOT/annotation-processor-0.2.3-bundle-clean-SNAPSHOT.jar]
-    ```
+    {% endhighlight %}
 
 If you cannot find the first log line, your AnnotationProcessor is not in the classpath of the ```javac``` command.
 

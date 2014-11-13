@@ -46,9 +46,9 @@ Since I use IntelliJ IDEA, here is how to set yp a debug connection to attach to
 
 Go to a terminal and run a command such as the following:
 
-```sh
+{% highlight sh %}
 mvnDebug clean install
-```
+{% endhighlight %}
 
 > it is best to always use the ```clean``` phase to make sure all files are compiled when debugging. Also, the command **must** include the compile phase otherwise the Annotation Processor will never be run
 

@@ -62,7 +62,7 @@ By default, Spring will use JDK dynamic proxies to create a proxy object with th
 
 This will more often that not cause errors at some point. The one I encountered is the following one where Spring MVC can not invoke the handler method :
 
-```
+{% highlight sh %}
 java.lang.IllegalArgumentException: object is not an instance of declaring class
 sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
@@ -102,7 +102,7 @@ org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java
 org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:343)
 org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:260)
 org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
-```
+{% endhighlight %}
 
 What happens under the hood it that Spring MVC tries and fails to invoke the method annoted with `@RequestMapping` via refection. The `Method` instance it created when parsing controllers is based on the type of the concrete class of our controller.
 As the JDK proxy object is **not** an instance of the Controller class, we get a `IllegalArgumentException`.
@@ -119,7 +119,7 @@ So you're in for more trouble because CGLIB-based proxies require a default cons
 
 The DispatchServlet AP fails to start with an error such as the following :
 
-```
+{% highlight sh %}
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'managerController' defined in file [********************************/ManagerController.class]: Initialization of bean failed; nested exception is org.springframework.aop.framework.AopConfigException: Could not generate CGLIB subclass of class [class **********************.ManagerController]: Common causes of this problem include using a final class or a non-visible class; nested exception is java.lang.IllegalArgumentException: Superclass has no null constructors but no arguments were given
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:529)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
@@ -170,11 +170,11 @@ Caused by: java.lang.IllegalArgumentException: Superclass has no null constructo
 	at org.springframework.cglib.proxy.Enhancer.create(Enhancer.java:285)
 	at org.springframework.aop.framework.CglibAopProxy.getProxy(CglibAopProxy.java:205)
 	... 35 common frames omitted
-```
+{% endhighlight %}
 
 To fix this error, just add a default constructor to your bean :
 
-```java
+{% highlight java %}
 @Controller
 public class ManagerController {
 
@@ -198,7 +198,7 @@ public class ManagerController {
   	return "viewname";
   }
 }
-```
+{% endhighlight %}
 
 ### Using a private default constructor
 
@@ -207,7 +207,7 @@ In fact, it is very annoying to have to add private default constructor to every
 
 With Spring 3.2.8, this is not possible anyway. The default constructor has to be public otherwise proxy creation fails with the following error:
 
-```
+{% highlight sh %}
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'managerController' defined in file [****************************************/ManagerController.class]: Initialization of bean failed; nested exception is org.springframework.aop.framework.AopConfigException: Could not generate CGLIB subclass of class [class **********************.ManagerController]: Common causes of this problem include using a final class or a non-visible class; nested exception is java.lang.IllegalArgumentException: Superclass has no null constructors but no arguments were given
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:529)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
@@ -258,7 +258,7 @@ Caused by: java.lang.IllegalArgumentException: Superclass has no null constructo
 	at org.springframework.cglib.proxy.Enhancer.create(Enhancer.java:285)
 	at org.springframework.aop.framework.CglibAopProxy.getProxy(CglibAopProxy.java:206)
 	... 35 common frames omitted
-```
+{% endhighlight %}
 
 ### Using Controller interfaces
 
@@ -266,7 +266,7 @@ Theoretically, a way around the ugly default constructor is to add Spring MVC an
 
 This way, we do not need to use CGLIB-based proxies and can stick to JDK proxies.
 
-```java
+{% highlight java %}
 @Controller
 public interface ManagerController {
 
@@ -274,9 +274,9 @@ public interface ManagerController {
   @Secured("ROLE_VIEW_MANAGERS")
   String list();
 }
-```
+{% endhighlight %}
 
-```java
+{% highlight java %}
 @Component
 public class ManagerControllerImpl implements ManagerController {
 
@@ -292,7 +292,7 @@ public class ManagerControllerImpl implements ManagerController {
   	return "viewname";
   }
 }
-```
+{% endhighlight %}
 
 
 > Please note that the `@Controller` annotation has been moved to the interface as well as `@RequestMapping` and `@Control` annotations.

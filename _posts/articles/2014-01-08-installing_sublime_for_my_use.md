@@ -25,34 +25,34 @@ Installing
     - save to `/opt/INSTALL_MEDIA`
 * create `/opt/sublimetext` directory
 
-```sh
+{% highlight sh %}
 cd /opt
 sudo mkdir sublimetext
 sudo chown lesaint:lesaint sublimetext
-```
+{% endhighlight %}
 
 * cp tar file to `/opt/sublime`, decompress it and create symbolic link to the current version
     
-```sh
+{% highlight sh %}
 cp ../INSTALL_MEDIA/Sublime\ Text\ 2.0.2\ x64.tar.bz2 .
 tar xvfj Sublime\ Text\ 2.0.2\ x64.tar.bz2
 mv Sublime\ Text\ 2 2.0.2
 ln -s 2.0.2 sublime
-```
+{% endhighlight %}
 
 Executing
 ---------
 
 * add sublime to local bin directory for convenient command line use
     
-```sh
+{% highlight sh %}
 ln -s /opt/sublimetext/sublime/sublime_text /usr/local/bin/sublime
-```
+{% endhighlight %}
 
 * create sidebar launcher in Unity
     - create a desktop file in `~/.local/share/applications/` called `sublimetext.desktop` with following content
 
-    ```
+    {% highlight sh %}
     [Desktop Entry]
     Name=Sublime Text 2
     Exec="/opt/sublimetext/sublime/sublime_text" %F
@@ -68,7 +68,7 @@ ln -s /opt/sublimetext/sublime/sublime_text /usr/local/bin/sublime
     Exec="/opt/sublimetext/sublime/sublime_text" --new-window
     MimeType=text/plain;
     OnlyShowIn=Unity;
-    ```
+    {% endhighlight %}
 
     - resources :
         + [http://www.sublimetext.com/forum/viewtopic.php?f=2&t=3457#p43852](http://www.sublimetext.com/forum/viewtopic.php?f=2&t=3457#p43852)
@@ -86,23 +86,23 @@ Minimal Sublime tuning
         + open shorcut preferences : Preferences > Key Bindings - User
         + add the following line (which overwrite default's ctrl+d key binding for command find_under_expand)
 
-        ```json
+        {% highlight json %}
             { "keys": ["ctrl+d"], "command": "run_macro_file", "args": {"file": "Packages/Default/Delete Line.sublime-macro"} }
-        ```
+        {% endhighlight %}
 
 * User preferences
     - I found several nice ideas of tuning Sublime Text there : [http://www.synbioz.com/blog/sublime_text](http://www.synbioz.com/blog/sublime_text)
     - open user preferences : Preferences > Settings - User
     - make sure files have trailing new line
-    ```json
+    {% highlight json %}
     "ensure_newline_at_eof_on_save": true,
     "trim_trailing_white_space_on_save": true
-    ```
+    {% endhighlight %}
 
     - improve visibility of modified files tabs and hightligh line with cursor
     
-    ```json
+    {% highlight json %}
     "highlight_line": true,
     "highlight_modified_tabs": true
-    ```
+    {% endhighlight %}
 

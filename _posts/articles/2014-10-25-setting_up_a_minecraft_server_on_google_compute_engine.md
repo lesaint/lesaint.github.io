@@ -41,9 +41,9 @@ My installation setup is described in [Installing Google Cloud SDK on Ubuntu wit
 
 Run:
 
-```sh
+{% highlight sh %}
 gcloud auth init
-```
+{% endhighlight %}
 
 Go to your browser, authenticate or choose a Google account if necessary and authorize the Google Cloud SDK on your computer to access your Google Account.
 
@@ -51,16 +51,16 @@ Go to your browser, authenticate or choose a Google account if necessary and aut
 
 You can either set a project globally with the following command:
 
-```sh
+{% highlight sh %}
 gcloud config set project cagoo-jimba-2345
-```
+{% endhighlight %}
 
 or create a directory for your project so that you can then switch from one project to the other by just changing the current directory:
 
-```sh
+{% highlight sh %}
 cd /some/dir/where/you/can/to/create/googlecloud/project/directories
 gcloud init cagoo-jimba-2345
-```
+{% endhighlight %}
 
 ## create an instance
 
@@ -72,45 +72,45 @@ What matters really is the disk where Minecraft server program is set up and whe
 
 So, we start by creating a disk:
 
-```sh
+{% highlight sh %}
 gcloud compute disks create minecraft-server --image debian-7 --zone europe-west1-a
-```
+{% endhighlight %}
 
 >this will create a standard disk (non-SSD) of 10Gb from a debian 7 image
 
 ### create an instance with an existing disk
 
-```sh
+{% highlight sh %}
 gcloud compute instances create minecraft-server --zone europe-west1-a --disk name=minecraft-server boot=yes auto-delete=no --tags minecraft
-```
+{% endhighlight %}
 
 * use existing disk and keep it even when VM is deleted
-    ```
+    {% highlight sh %}
     --disk name=minecraft-server boot=yes auto-delete=no
-    ```
+    {% endhighlight %}
 * add tag ```minecraft``` to match firewall rule (uppercase letters are not valid)
-    ```
+    {% highlight sh %}
     --tags minecraft
-    ```
+    {% endhighlight %}
 
 ## allow Minecraft traffic
 
-```sh
+{% highlight sh %}
 gcloud compute firewall-rules create allow-minecraft --description "Incoming minecraft connections allowed." --allow tcp:25565 --target-tags minecraft
-```
+{% endhighlight %}
 
 >allow tcp traffic on port `25565`, which is the default port used by Minecraft server. You can make sure your Minecraft server is listening to this port by checking the first log lines of the server when it starts up.
 
 * define target tag to restrict the firewall rule to only instances with the tag `minecraft`
-    ```
+    {% highlight sh %}
     --target-tags minecraft
-    ```
+    {% endhighlight %}
 
 ## connect to the instance with SSH
 
-```sh
+{% highlight sh %}
 gcloud compute ssh minecraft-server --zone europe-west1-a
-```
+{% endhighlight %}
 
 If this is the first time you attempt to connect to an instance via SSH with the current Google Cloud SDK installation, you will be asked to create a private-public key paar. Just follow the instructions. Note that it is best to define a passphrase to protect your keys.
 
@@ -120,19 +120,19 @@ If this is the first time you attempt to connect to an instance via SSH with the
 
 You will need `vim` to edit files and `screen` to run the Minecraft server without being connected to the instance.
 
-```sh
+{% highlight sh %}
 sudo apt-get update
 sudo apt-get install vim screen
-```
+{% endhighlight %}
 
 ### download and install Oracle Java
 
-```sh
+{% highlight sh %}
 # downlad and unpack Java JDK 8 8u5-b13
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -qO- http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz | tar xvz
 # create symbolic link to allow update of Java without changing the rest
 ln -s jdk1.8.0_05 jdk
-```
+{% endhighlight %}
 
 >Found out how to download the JDK from Oracle website thanks to this StackOverflow post [How to automate download and installation of Java JDK on Linux?](http://stackoverflow.com/questions/10268583/how-to-automate-download-and-installation-of-java-jdk-on-linux).
 
@@ -142,13 +142,13 @@ Alternatively you could install `open-jdk` via `apt-get` but I found it requires
 
 FYI, the command line is:
 
-```sh
+{% highlight sh %}
 sudo apt-get install -y openjdk-8-jre
-```
+{% endhighlight %}
 
 ### download and install Minecraft
 
-```sh
+{% highlight sh %}
 mkdir minecraft
 cd minecraft
 wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8/minecraft_server.1.8.jar
@@ -156,7 +156,7 @@ wget https://s3.amazonaws.com/Minecraft.Download/versions/1.8/minecraft_server.1
 echo '#!/bin/bash
 cd /home/lesaint/minecraft && /home/lesaint/jdk/bin/java -jar /home/lesaint/minecraft/minecraft_server.1.8.jar -Xmx1024M -Xms1024M nogui' > /home/lesaint/minecraft.sh
 chmod +x /home/lesaint/minecraft.sh
-```
+{% endhighlight %}
 
 >this script starts the Minecraft server with 1Gb heap. Make sure you choose an instance with enough memory or change the `-Xmx` and `-Xms` values.
 
@@ -166,15 +166,15 @@ When run for the first time, Minecraft server create the file and asks you to mo
 
 To save one server run, we just create it ourselves.
 
-```sh
+{% highlight sh %}
 echo "eula=TRUE" > /home/lesaint/minecraft/eula.txt
-```
+{% endhighlight %}
 
 ## start the server
 
-```sh
+{% highlight sh %}
 /home/lesaint/minecraft.sh
-```
+{% endhighlight %}
 
 You must stay connected to the instance for the Minecraft server to run, we will discuss below how to [let it run in the background](#let-it-run-in-the-background).
 
@@ -186,17 +186,17 @@ The Minecraft server is running and you can now to connect to it with a Minecraf
 
 Use the following command to get the list of instances and, among other informations, you can find the external IP address of the one you just started:
 
-```sh
+{% highlight sh %}
 gcloud compute instances list
-```
+{% endhighlight %}
 
 Result will look like the following and we are interested in what is below `EXTERNAL_IP`:
 
-```sh
+{% highlight sh %}
 [my-machine] $ gcloud compute instances list                                           
 NAME             ZONE           MACHINE_TYPE  INTERNAL_IP   EXTERNAL_IP  STATUS
 minecraft-server europe-west1-a n1-standard-1 10.240.197.56 104.155.10.4 RUNNING
-```
+{% endhighlight %}
 
 ### connect to the server
 
@@ -220,40 +220,40 @@ To work around this, start the Minecraft server using [screen](http://www.gnu.or
 
 Start the Minecraft server in a new `screen` terminal window.
 
-```sh
+{% highlight sh %}
 screen /home/lesaint/minecraft.sh
-```
+{% endhighlight %}
 
 To exit `screen` without killing it, use ```CTRL+a d``` (type `CTRL+A` on your keyboard and then letter `d`). It is called "detaching" from the `screen` session.
 
 You can check the Minecraft server java process is actually running with the following command line:
 
-```sh
+{% highlight sh %}
 ps -ef | grep java
-```
+{% endhighlight %}
 
 #### get your hands back on the server
 
 To "reattach" to the `screen` terminal, you must find its id. List all `screen` session on the current host with:
 
-```sh
+{% highlight sh %}
 screen -list
-```
+{% endhighlight %}
 
 Result will look like the following:
 
-```sh
+{% highlight sh %}
 lesaint@minecraft-server:~$ screen -list
 There is a screen on:
     2046.pts-1.minecraft-server (10/16/14 21:17:03) (Detached)
 1 Socket in /var/run/screen/S-lesaint.
-```
+{% endhighlight %}
 
 You can reattach to the `screen` session with the number at the beginning of the line:
 
-```sh
+{% highlight sh %}
 screen -r 2046
-```
+{% endhighlight %}
 
 From that point, you can manage the Minecraft server as you would be doing if you had started it from the SSH session directly.
 
@@ -269,6 +269,6 @@ What matters is the disk and it will not be deleted if you correctly specified `
 
 In doubt, go to the Google developer console, display the instance properties. A checkbox indicates whether the disk will be deleted when the instance is deleted. You can change the value directly from there.
 
-```sh
+{% highlight sh %}
 gcloud compute instances delete minecraft-server --zone europe-west1-a
-```
+{% endhighlight %}

@@ -37,7 +37,7 @@ Using an enum has many positive side effects :
 
 The string property will hold the String value `@RequestMapping` methods used to return.
 
-```java
+{% highlight java %}
 public enum MyView {
   HOME("home"),
   LOGIN("login"),
@@ -55,7 +55,7 @@ public enum MyView {
     return logicalViewName;
   }
 }
-```
+{% endhighlight %}
 
 ## create a `HandlerMethodReturnValueHandler`
 
@@ -64,7 +64,7 @@ If we make our `@RequestMapping` methods return a value of `MyView` and run our 
 To fix, that, we need to provide with an extra `HandlerMethodReturnValueHandler` which will "convert" our enum to its String property.
 To be more accurate, we need to set the `viewName` in the `ModelAndViewContainer` of the current request.
 
-```java
+{% highlight java %}
 public class MyViewEnumModelAndViewResolver implements HandlerMethodReturnValueHandler {
 
   @Override
@@ -89,7 +89,7 @@ public class MyViewEnumModelAndViewResolver implements HandlerMethodReturnValueH
   }
 }
 
-```
+{% endhighlight %}
 
 (inspiration: Spring's `org.springframework.web.servlet.mvc.method.annotation.ViewNameMethodReturnValueHandler` class)
 
@@ -101,7 +101,7 @@ I found a like to this bug report [https://jira.springsource.org/browse/SPR-8648
 
 Since I already had some XML-based configuration in place, I created a Configuration class which referes to my XML config and therefor is pretty simple :
 
-```java
+{% highlight java %}
 @Configuration
 @EnableWebMvc
 @ImportResource({
@@ -116,7 +116,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
   }
 
 }
-```
+{% endhighlight %}
 
 What's important here :
 
