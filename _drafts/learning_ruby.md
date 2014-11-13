@@ -63,8 +63,8 @@ I haven't started testing, so I don't have an opinion on this sheet yet : [http:
 * to make ruby files executable under a Unix like environement
     - add the following line as the first line of your Ruby file
     
-    ```
+    {% highlight ruby %}
     #!/usr/bin/env ruby
-    ```
+    {% endhighlight %}
 
     - `chmod` the file to make it executable and then run it like a bash script
