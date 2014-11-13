@@ -102,7 +102,7 @@ The class below is a `Mapper` as per DAMapping framework's definition: it is a c
 
 The class is identified by the `@Mapper` annotation.
 
-```java
+{% highlight java %}
 @Mapper
 public class FooToBar {
     public Bar map(Foo foo) {
@@ -110,7 +110,7 @@ public class FooToBar {
         // initialized/populated from the specified Foo instance
     }
 }
-```
+{% endhighlight %}
 
 Please note that this is a class, not an interface. We are not configuring a tool to do bean mapping, we are providing bean mapping code to the framework.
 
@@ -128,16 +128,16 @@ In the example above, the framework generates a `FooToBarMapper` interface and a
 
 The `FooToBarMapper` interface has a single method. Same name, same return type, same parameters and same annotations as the public method of the dedicated class. This interface is referred to as the "Mapper interface".
 
-```java
+{% highlight java %}
 public interface FooToBarMapper {
     Bar map(Foo foo);
 }
-```
+{% endhighlight %}
 
 
 The `FooToBarMapperImpl` class implements this method by instantiating a single instance of the dedicated class and delegating her the implementation of the method defined by `FooToBarMapper`. This class is referred to as the "MapperImpl class".
 
-```java
+{% highlight java %}
 public class FooToBarMapperImpl implements FooToBarMapper {
     private final FooToBar fooToBar = new FooToBar();
     @Override
@@ -145,7 +145,7 @@ public class FooToBarMapperImpl implements FooToBarMapper {
         return this.fooToBar.map(foo);
     }
 }
-```
+{% endhighlight %}
 
 ## mapping bean trees
 
@@ -155,7 +155,7 @@ To map bean trees, the developer composes generated Mapper interfaces into dedic
 
 In the following example, the dedicated class `AcmeToViten` maps the type `Acme` to the type `Viten`. These types are the root of two (very simple) bean trees: `Acme` has a property of type `Foo` which must be mapped to the `Viten`'s property of type `Bar`.
 
-```java
+{% highlight java %}
 @Mapper
 public class AcmeToViten {
     private final FooToBarMapper fooToBarMapper;
@@ -169,13 +169,13 @@ public class AcmeToViten {
         return vilen;
     }
 }
-```
+{% endhighlight %}
 
 The Mapper interface generated from this dedicated class has the same content as the `FooToBarMapper` interface.
 
 The generated `AcmeToVitenMapperImpl` class is a little different from `FooToBarMapperImpl` as it defines a constructor with the same parameters and annotations as the dedicated class's constructor.
 
-```java
+{% highlight java %}
 public class AcmeToVitenMapperImpl implements AcmeToVitenMapper {
     private final AcmeToViten acmeToViten;
     public AcmeToVitenMapperImpl(FooToBarMapper fooToBarMapper) {
@@ -186,7 +186,7 @@ public class AcmeToVitenMapperImpl implements AcmeToVitenMapper {
         return this.acmeToViten.map(acme);
     }
 }
-```
+{% endhighlight %}
 
 ## integrating with the application
 
@@ -194,7 +194,7 @@ When using the DAMapping framework, the developer is supposed to use the MapperI
 
 See below an example of using bean mapping code with DAMapping framework manually.
 
-```java
+{% highlight java %}
 public class MyServiceImpl {
     public void doSomething() {
         // instance mapper for the tree roots   
@@ -205,7 +205,7 @@ public class MyServiceImpl {
         Viten viten = mapper.map(someAcme);
     }
 }
-```
+{% endhighlight %}
 
 >Note that the entry point to the bean mapping code is not some generic class that usually acts as the single point of entry for all code managed by other tools. Here, it is a fully typed and specific interface, meaningfully named and exposing a method named as the developer feels suits best.
 

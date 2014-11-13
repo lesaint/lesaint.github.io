@@ -34,7 +34,7 @@ Let's pretend that we have three classes (class ```Foo```, class ```Bar``` and c
 
 Now, lets say that class ```Foo``` references ```BarMapper``` and class ```Acme``` references some non-existing type ```Miraculous``` (as a constructor parameter for example). 
 
-```java
+{% highlight java %}
 @Mapper
 public Foo {
     private final BarMapper barMapper;
@@ -43,7 +43,7 @@ public Foo {
     }
     [...]
 }
-```
+{% endhighlight %}
 
 > class ```Foo``` has a private property, set by constructor, of type ```BarMapper```.
 > You can imagine class ```Acme``` is just the same, but with the type ```Miraculous```
@@ -66,13 +66,13 @@ During the first round, the compiler will create an annotation processing round 
 
 Since they are annotated with ```@Mapper``` (the annotation registered by DAMapping Annotation Processor), ```DAMapping``` Annotation Processor will be part of this round.
 
-```
+{% highlight sh %}
 Round 1:
     input files: {fr.javatronic.blog.Acme, fr.javatronic.blog.Foo, fr.javatronic.blog.Bar}
     annotations: [fr.javatronic.damapping.annotation.Mapper]
     last round: false
 Processor fr.javatronic.damapping.processor.DAAnnotationProcessor matches [fr.javatronic.damapping.annotation.Mapper] and returns true.
-```
+{% endhighlight %}
 
 DAMapping Annotation Processor will be able to retrieve all type annotated with @Mapper in that round and will generate classes from any of them found valid (such as valid use of annotation, existing mapper method, ...) and which types will all resolve (ie. no variable, property, import, ... references an unkown type).
 
@@ -82,13 +82,13 @@ Unfortunatly, in the case of class ```Foo```, since it has a reference to a gene
 
 Since ```DAMapping``` Annotation Processor generated some classes and interfaces (```BarMapper```) with at least one annotation (here ```@Override```), a second round is created by the compiler.
 
-```
+{% highlight java %}
 Round 2:
     input files: {fr.javatronic.blog.BarMapper, fr.javatronic.blog.BarMapperImpl}
     annotations: [java.lang.Override]
     last round: false
 Processor fr.javatronic.damapping.processor.DAAnnotationProcessor matches [] and returns true.
-```
+{% endhighlight %}
 
 > Notice that neither ```AcmeMapper``` nor ```FooMapper```are in the input files list. The reason is because they do not exists.
 > Also, for the sake of simplicity, we only took the generated interface which name ends with ```Mapper``` into account, but, as you may have notice, ```DAMapping``` actually generated two types from class ```Bar```

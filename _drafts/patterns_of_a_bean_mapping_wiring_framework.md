@@ -227,7 +227,7 @@ Inner classes can be referenced as long as they are at least `default protected`
 
 This kind of class can simply be instanced with the `new` operator. Association is actually a composition.
 
-```java
+{% highlight java %}
 class FooToBarMapperImpl implements FooToBarMapper {
     private final FooToBar instance = new FooToBar();
 
@@ -236,7 +236,7 @@ class FooToBarMapperImpl implements FooToBarMapper {
     }
 
 }
-```
+{% endhighlight %}
 
 ### class without a default constructor
 
@@ -256,7 +256,7 @@ Same problem as above (we do not know how to use the `new` operator) and same so
 
 Singleton enum are very easy to associate with. We can have use a direct static reference to the method. We know the qualified name of the developer's class and finding out the name of the single enum value is easy.
 
-```java
+{% highlight java %}
 class FooToBarMapperImpl implements FooToBarMapper {
 
     public static Bar apply(Foo foo) {
@@ -264,7 +264,7 @@ class FooToBarMapperImpl implements FooToBarMapper {
     }
 
 }
-```
+{% endhighlight %}
 
 ### singleton with static instanciation method
 
@@ -272,7 +272,7 @@ As long as the static factory method for the singleton has no argument, it is ea
 
 This pattern can be detected with certainty only if the `FooToBar` class is `final`, has only `private` constructors and a no `private` `static` method returning a `FooToBar` type.
 
-```java
+{% highlight java %}
 public final class FooToBar {
     private static final FooToBar INSTANCE = new FooToBar();
 
@@ -282,11 +282,11 @@ public final class FooToBar {
         return INSTANCE;
     }
 }
-```
+{% endhighlight %}
 
 The `MapperImpl` source code will then look like that:
 
-```java
+{% highlight java %}
 class FooToBarMapperImpl implements FooToBarMapper {
 
     public static Bar apply(Foo foo) {
@@ -294,7 +294,7 @@ class FooToBarMapperImpl implements FooToBarMapper {
     }
 
 }
-```
+{% endhighlight %}
 
 # Pattern for mapping trees of Beans
 

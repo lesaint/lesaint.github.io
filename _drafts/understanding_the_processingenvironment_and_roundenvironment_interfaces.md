@@ -43,7 +43,7 @@ This value identifies the version of the source code, which can be specified to 
 
 #### getMessager
 
-```java
+{% highlight java %}
   private void investigatingLogging(Set<? extends TypeElement> typeElements, RoundEnvironment roundEnv) {
     // Diagnostic.Kind.WARNING and NOTE ne sont pas affichés dans la console maven, il faut utiliser
     // Diagnostic.Kind.MADATORY_WARNING pour être sûr d'afficher un message visible lorsque le compilateur
@@ -69,7 +69,7 @@ This value identifies the version of the source code, which can be specified to 
       }
     }
   }
-```
+{% endhighlight %}
 
 
 ## the ```RoundEnvironment``` object

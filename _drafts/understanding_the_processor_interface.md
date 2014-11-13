@@ -24,9 +24,9 @@ Using the 3 following methods, an Annotation Processor describes what annotation
 
 ### getSupportedAnnotationTypes
 
-```java
+{% highlight java %}
 Set<String> getSupportedAnnotationTypes()
-```
+{% endhighlight %}
 
 The [getSupportedAnnotationTypes](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#getSupportedAnnotationTypes()) method returns a ```Set``` of ```String``` where each `String` can be:
 
@@ -46,9 +46,9 @@ Personnaly, I would have expected an Annotation Processor with an empty ```Set``
 
 ### getSupportedSourceVersion
 
-```java
+{% highlight java %}
 SourceVersion getSupportedSourceVersion()
-```
+{% endhighlight %}
 
 The [getSupportedSourceVersion](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#getSupportedSourceVersion()) method returns the latest version of ```Java``` supported by the compiler represented by a value of the enum ```SourceVersion```.
 
@@ -70,9 +70,9 @@ The value seems to be purely ignored but what may be going here is that ```Java`
 
 If one specifies a version (lets say ```SourceVersion.RELEASE_8```) more recent than the latest source version supported by the compiler (lets say we use ```JDK``` 1.7), then the compilation will fail with an exception such as the following because the enum value ```RELEASE_8``` does not exist in ```Java``` 1.7.
 
-```java
+{% highlight java %}
 java.lang.EnumConstantNotPresentException: javax.lang.model.SourceVersion.RELEASE_8
-```
+{% endhighlight %}
 
 ##### best strategy when targeting ```Javac```
 
@@ -82,9 +82,9 @@ So, if your Annotation Processor does not have any java-version-specific code, t
 
 ### getSupportedOptions
 
-```java
+{% highlight java %}
 Set<String> getSupportedOptions()
-```
+{% endhighlight %}
 
 The [getSupportedOptions](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#getSupportedOptions()) method declares the options that could be passed to the compiler and that the compiler should forward to the Annotation Processor.
 
@@ -113,9 +113,9 @@ The returned value of getSupportedOptions is just ignored and even if it returns
 
 ### getCompletions
 
-```java
+{% highlight java %}
 Iterable<? extends Completion> getCompletions(Element element, AnnotationMirror annotation, ExecutableElement member, String userText)
-```
+{% endhighlight %}
 
 My understanding it that the [getCompletions](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#getCompletions(javax.lang.model.element.Element,%20javax.lang.model.element.AnnotationMirror,%20javax.lang.model.element.ExecutableElement,%20java.lang.String)) method is used to provide completion when writing Annotations in source code. But I haven't used it yet so I can not provide experimental details about it.
 
@@ -125,9 +125,9 @@ My understanding it that the [getCompletions](http://docs.oracle.com/javase/7/do
 
 ### init
 
-```java
+{% highlight java %}
 void init(ProcessingEnvironment processingEnv)
-```
+{% endhighlight %}
 
 The [init](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#init(javax.annotation.processing.ProcessingEnvironment)) method is used to initialize a Annotation Processor instance after the compiler has created it with the default constructor of the class.
 
@@ -141,9 +141,9 @@ See [description of ProcessingEnvironnement interface](TODO link to next article
 
 ### process
 
-```java
+{% highlight java %}
 boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv)
-```
+{% endhighlight %}
 
 The [process](http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html#process(java.util.Set,%20javax.annotation.processing.RoundEnvironment)) method is called once for every annotation processing round the Annotation Processor is part of.
 

@@ -33,9 +33,9 @@ Help & Documentation
 * RubyLearning has a link to it
 * Intallation
 
-```sh
+{% highlight sh %}
 sudo gem install cheat
-```
+{% endhighlight %}
 
 * Listing sheets with the `cheat sheets` command currently fails with a 404. I fear the projet is not maintained anymore
 * sheets list I compiled and tested
