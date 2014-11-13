@@ -19,7 +19,10 @@ I initially though this would be difficult to test locally but, in fact, with li
 This article will detail how I did it on my computer running Ubuntu and hopefully it will help others setup their own computer.
 
 
-# testing rewrite rules
+* Table of Contents
+{:toc}
+
+# Testing rewrite rules
 
 ## online
 
@@ -60,7 +63,7 @@ cd /etc/apache2/mods-enabled
 ln -s ../mods-available/rewrite.load
 {% endhighlight %}
 
-# modify the default host
+# Modify the default host
 
 ## use a dedicated conf file 
 
@@ -107,7 +110,7 @@ mod_rewrite logs into `/var/log/apache2/error.log` with a `[rewrite` prefix.
 tail -f /var/log/apache2/error.log | fgrep '[rewrite:' 
 {% endhighlight %}
 
-# Add hosts to `/etc/hosts`
+# Add hosts to /etc/hosts
 
 The point here is to make any hostname involved in our rewrite rules point to the local computer (127.0.O.1).
 
