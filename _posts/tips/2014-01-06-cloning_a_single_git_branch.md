@@ -27,7 +27,7 @@ To clone a repository and retrieve a single branch can be done as follow :
 
 (source : [http://stackoverflow.com/a/4146786](http://stackoverflow.com/a/4146786))
 
-```sh
+{% highlight sh %}
 # create clone directory
 mkdir $REPO
 cd $REPO
@@ -39,14 +39,14 @@ git remote add -t $BRANCH -f origin $REMOTE_REPO
 git fetch
 # checkout branch locally
 git checkout $BRANCH
-```
+{% endhighlight %}
 
 ### Checkout new branches
 
 Checking out any branch/tag from the repo can be done as follow :
 It indeed requires to know the name of the remote branch from another source than your local checkout.
 
-```sh
+{% highlight sh %}
 cd $REPO
 # add a new remote branch
 git remote set-branches --add origin $NEW_BRANCH
@@ -54,14 +54,14 @@ git remote set-branches --add origin $NEW_BRANCH
 git fetch
 # checkout branch locally
 git co $NEW_BRANCH
-```
+{% endhighlight %}
 
 If the added remote branche does not exist on the remote repository, you will get the following error, fetch will fail.
 
-```
+{% highlight sh %}
 fatal: Couldn't find remote ref refs/heads/WRONG_BRANCH
 fatal: The remote end hung up unexpectedly
-```
+{% endhighlight %}
 
 The problem is that your local repository get kind of corrupted and all the next `git fetch` command will also fail with the same error.
 
@@ -78,7 +78,7 @@ This technic is a litle bit manual, but has many advantages :
 * you don't get pushing problems as you can get when using git shallow cloning
 * you really are checking a single reference branch as opposed to using `git clone -b option`
 
-```sh
+{% highlight sh %}
 # retrieves all the remote branches locally and then checkout branch_name
 git clone user@git-server:project_name.git -b branch_name
-```
+{% endhighlight %}

@@ -20,13 +20,13 @@ For each Inotify node used by a process, a file descriptor is created in the fil
 
 Use the following command to list the processes with at least one Inotify node.
 
-```sh
+{% highlight sh %}
 ps $(find /proc/*/fd/* -type l -lname 'anon_inode:inotify' 2>/dev/null | sed 's+/proc/\([^/]*\)/fd/.*+\1+')
-```
+{% endhighlight %}
 
 The result is something like the following:
 
-```sh
+{% highlight sh %}
   PID TTY      STAT   TIME COMMAND
  2244 ?        Sl     0:03 /usr/lib/gnome-settings-daemon/gnome-settings-daemon
  2294 ?        Sl     3:22 compiz
@@ -37,32 +37,32 @@ The result is something like the following:
  3543 ?        Sl     0:00 update-notifier
 13246 ?        Sl     0:06 /opt/sublimetext/sublime/sublime_text
 14053 pts/3    Sl+    0:18 ruby2.1 /usr/local/bin/jekyll serve -w --draft
-```
+{% endhighlight %}
 
 You can get more details about the process using the regular `ps` options such as `-f`;
 
 
-```sh
+{% highlight sh %}
 ps -f $(find /proc/*/fd/* -type l -lname 'anon_inode:inotify' 2>/dev/null | sed 's+/proc/\([^/]*\)/fd/.*+\1+')
-```
+{% endhighlight %}
 
 >source: https://bbs.archlinux.org/viewtopic.php?pid=1340024#p1340024
 
 # Count nodes per process
 
-```sh
+{% highlight sh %}
 find /proc/*/fd/* -type l -lname 'anon_inode:inotify' -print
-```
+{% endhighlight %}
 
 Result will look like the following:
 
-```sh
+{% highlight sh %}
 /proc/13246/fd/11
 /proc/13246/fd/12
 /proc/14053/fd/8
 /proc/2232/fd/5
 /proc/2244/fd/11
-```
+{% endhighlight %}
 
 The first number on each line is the process id, the second number is the number of nodes for this process.
 

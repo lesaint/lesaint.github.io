@@ -25,10 +25,10 @@ Pushing local branche from machine@work to Remote is an option but it could polu
 
 Let's say the clone on machine @work is in directory `~/DEV/myclone`, here are the commands to use :
 
-```sh
+{% highlight sh %}
 cd ~/STUFF_FROM_WORK/
 git clone lesaint@lesaint.work.com:~/DEV/myclone/
-```
+{% endhighlight %}
 
 And that's it !
 
@@ -46,7 +46,7 @@ After cloning from machine @work, you might notice that the remote of the clone 
 
 To fix that in the event you would happen to access to remote from home and that you would like to push to remote directly :
 
-```sh
+{% highlight sh %}
 cd ~/STUFF_FROM_WORK/myclone
 git remote set origin lesaint@gitserver.work.com:project.git
-```
+{% endhighlight %}

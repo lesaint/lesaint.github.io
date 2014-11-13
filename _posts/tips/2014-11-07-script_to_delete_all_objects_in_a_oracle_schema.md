@@ -18,7 +18,7 @@ Use the following script to drop all objects in a specific schema in an Oracle D
 
 Create a file called ```empty_user.sql``` with the following content:
 
-```sql
+{% highlight sql %}
 purge recyclebin;
 declare
     -- FK first, then unique, then PK
@@ -64,20 +64,20 @@ begin
 end;
 /
 quit
-```
+{% endhighlight %}
 
 > line with "/" is required to execute the preceding PL/SQL procedure
 > line with "quit" is usefull to automatically exit sqlplus when procedure has been executed
 
 ### Execute with sqlplus
 
-```bash
+{% highlight bash %}
 sqlplus user/user_pwd @empty_user.sql
-```
+{% endhighlight %}
 
 You can expect output such as the following:
 
-```sh
+{% highlight sh %}
 my_machine:$ sqlplus user/user_pwd @empty_user.sql
 
 SQL*Plus: Release 11.2.0.3.0 Production on Tue Oct 14 12:27:32 2014
@@ -99,7 +99,7 @@ PL/SQL procedure successfully completed.
 Disconnected from Oracle Database 11g Enterprise Edition Release 11.2.0.3.0 - 64bit Production
 With the Partitioning, Automatic Storage Management, OLAP, Data Mining
 and Real Application Testing options
-```
+{% endhighlight %}
 
 # Credits
 
