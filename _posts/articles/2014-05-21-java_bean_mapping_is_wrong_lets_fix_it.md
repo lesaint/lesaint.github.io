@@ -22,6 +22,9 @@ In my opinion and experience, this is a wrong approach to Bean Mapping and the c
 Bean mapping can look like simple/boring/obvious/tedious-to-write code but it still holds a lot of business logic and as such must be plain part of the application code. We shouldn't take that code away or hide it.
 
 
+* Table of Contents
+{:toc}
+
 # A little bit on my experience on the subject
 
 I have worked for 3 years on a big online application for a major French telco as a senior developer and then as a technical lead.

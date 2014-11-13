@@ -15,7 +15,10 @@ comments: true
 This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.
 
 
-## Create Google Cloud account
+* Table of Contents
+{:toc}
+
+# Create Google Cloud account
 
 Go to [https://console.developers.google.com/project](https://console.developers.google.com/project).
 
@@ -23,21 +26,23 @@ This is the Google Developer Console and entry point to the Google Cloud service
 
 If you already have Gmail and you are connected, the page will display without any authentication.
 
-### create project
+## create project
 
 In the Google Developer Console, go to ```projects``` and create a new one.
 
 The name of the project is for your own convenience. Google will generate a human readable project id which is the value you will need to identify a project when using the [Google Cloud SDK](#install-google-cloud-sdk).
 
-### provide billing info
+## provide billing info
 
 Billing info are required to use Google Compute Engine because creating an instance or a disk will cost you from the first minute (but, so little...).
 
-## install Google Cloud SDK
+# Google Cloud SDK
+
+## install it
 
 My installation setup is described in [Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh]({% post_url tips/2014-10-17-installing_google_cloud_sdk_on_ubuntu_with_oh-my-zsh %}).
 
-## authenticate with Google Cloud SDK
+## authenticate
 
 Run:
 
@@ -62,9 +67,9 @@ cd /some/dir/where/you/can/to/create/googlecloud/project/directories
 gcloud init cagoo-jimba-2345
 {% endhighlight %}
 
-## create an instance
+# create an instance
 
-### create a disk
+## create a disk
 
 The point here is to set up an instance with a Minecraft server but as we will see below, the instance itself can be created and destroyed at will.
 
@@ -78,7 +83,7 @@ gcloud compute disks create minecraft-server --image debian-7 --zone europe-west
 
 >this will create a standard disk (non-SSD) of 10Gb from a debian 7 image
 
-### create an instance with an existing disk
+## create an instance with an existing disk
 
 {% highlight sh %}
 gcloud compute instances create minecraft-server --zone europe-west1-a --disk name=minecraft-server boot=yes auto-delete=no --tags minecraft
@@ -93,7 +98,7 @@ gcloud compute instances create minecraft-server --zone europe-west1-a --disk na
     --tags minecraft
     {% endhighlight %}
 
-## allow Minecraft traffic
+# allow Minecraft traffic
 
 {% highlight sh %}
 gcloud compute firewall-rules create allow-minecraft --description "Incoming minecraft connections allowed." --allow tcp:25565 --target-tags minecraft
@@ -106,7 +111,7 @@ gcloud compute firewall-rules create allow-minecraft --description "Incoming min
     --target-tags minecraft
     {% endhighlight %}
 
-## connect to the instance with SSH
+# connect to the instance with SSH
 
 {% highlight sh %}
 gcloud compute ssh minecraft-server --zone europe-west1-a
@@ -114,9 +119,9 @@ gcloud compute ssh minecraft-server --zone europe-west1-a
 
 If this is the first time you attempt to connect to an instance via SSH with the current Google Cloud SDK installation, you will be asked to create a private-public key paar. Just follow the instructions. Note that it is best to define a passphrase to protect your keys.
 
-## install the instance
+# install the instance
 
-### required basics
+## required basics
 
 You will need `vim` to edit files and `screen` to run the Minecraft server without being connected to the instance.
 
@@ -125,7 +130,7 @@ sudo apt-get update
 sudo apt-get install vim screen
 {% endhighlight %}
 
-### download and install Oracle Java
+## download and install Oracle Java
 
 {% highlight sh %}
 # downlad and unpack Java JDK 8 8u5-b13
@@ -136,7 +141,7 @@ ln -s jdk1.8.0_05 jdk
 
 >Found out how to download the JDK from Oracle website thanks to this StackOverflow post [How to automate download and installation of Java JDK on Linux?](http://stackoverflow.com/questions/10268583/how-to-automate-download-and-installation-of-java-jdk-on-linux).
 
-#### note on open-jdk
+### note on open-jdk
 
 Alternatively you could install `open-jdk` via `apt-get` but I found it requires installing to much stuff on the server (and takes much more time) so I rather went with installing Oracle JDK.
 
@@ -146,7 +151,7 @@ FYI, the command line is:
 sudo apt-get install -y openjdk-8-jre
 {% endhighlight %}
 
-### download and install Minecraft
+## download and install Minecraft
 
 {% highlight sh %}
 mkdir minecraft
@@ -170,7 +175,7 @@ To save one server run, we just create it ourselves.
 echo "eula=TRUE" > /home/lesaint/minecraft/eula.txt
 {% endhighlight %}
 
-## start the server
+# start the server
 
 {% highlight sh %}
 /home/lesaint/minecraft.sh
@@ -178,11 +183,11 @@ echo "eula=TRUE" > /home/lesaint/minecraft/eula.txt
 
 You must stay connected to the instance for the Minecraft server to run, we will discuss below how to [let it run in the background](#let-it-run-in-the-background).
 
-## connect to the server
+# connect to the server
 
 The Minecraft server is running and you can now to connect to it with a Minecraft client (ie. the game).
 
-### get the server's IP address
+## get the server's IP address
 
 Use the following command to get the list of instances and, among other informations, you can find the external IP address of the one you just started:
 
@@ -198,7 +203,7 @@ NAME             ZONE           MACHINE_TYPE  INTERNAL_IP   EXTERNAL_IP  STATUS
 minecraft-server europe-west1-a n1-standard-1 10.240.197.56 104.155.10.4 RUNNING
 {% endhighlight %}
 
-### connect to the server
+## connect to the server
 
 Start Minecraft, go to `Multiplayer`.
 
@@ -208,15 +213,15 @@ Specifity the server name if you clicked on `Add server` and specify the `EXTERN
 
 Now, connect and play :)
 
-## let it run in the background
+# let it run in the background
 
 The problem when starting the Minecraft server from an SSH session is that the server's process will be ended when the SSH session is ended (ie. when you disconnect).
 
-### use `screen`
+## use `screen`
 
 To work around this, start the Minecraft server using [screen](http://www.gnu.org/software/screen/manual/screen.html). Screen has been installed when doing the [basic configuration of instance](#basic-configuration-of-instance) earlier.
 
-#### start the server
+### start the server
 
 Start the Minecraft server in a new `screen` terminal window.
 
@@ -232,7 +237,7 @@ You can check the Minecraft server java process is actually running with the fol
 ps -ef | grep java
 {% endhighlight %}
 
-#### get your hands back on the server
+### get your hands back on the server
 
 To "reattach" to the `screen` terminal, you must find its id. List all `screen` session on the current host with:
 
@@ -257,11 +262,11 @@ screen -r 2046
 
 From that point, you can manage the Minecraft server as you would be doing if you had started it from the SSH session directly.
 
-#### stop the server
+### stop the server
 
 To stop the server, reattach to the `screen` session and just type `CTRL+C`. It will stop the Minecraft server and if you started the `screen` session with the Minecraft service as an argument,it will also end the `screen` session. 
 
-## destroy the instance
+# destroy the instance
 
 When you don't need the instance, destroy it as it will cost you even if it is not doing anything. Since it is so easy and quick to recreate it, do not hesitate.
 

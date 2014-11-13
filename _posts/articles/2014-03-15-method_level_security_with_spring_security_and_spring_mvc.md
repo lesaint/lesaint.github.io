@@ -18,6 +18,9 @@ Using Spring Security with Spring MVC to provide method level security on Contro
 When setting up exactly just that on a project, I ran into a series of problem and got a finer understanding on how Spring Security implements Method Security.
 
 
+* Table of Contents
+{:toc}
+
 # How to enable Method Security
 
 As stated by the [documentation](http://docs.spring.io/spring-security/site/docs/3.1.x/reference/el-access.html#d0e5600), enabling Method level security with Spring Security is as simple as added a `global-method-security` tag in your configuration.

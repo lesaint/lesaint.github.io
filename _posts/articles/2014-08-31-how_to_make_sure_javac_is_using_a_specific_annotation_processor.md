@@ -19,13 +19,16 @@ In both cases, when our annotation processor seems not to be invoked by ```javac
 We will see in this article how to enable and interpret ```javac``` logs to make sure the annotation processor is run and if not, how to interpret them to get a few leads on where the problem is coming from.
 
 
-## enable and interprete ```javac``` logs
+* Table of Contents
+{:toc}
+
+# enable and interprete ```javac``` logs
 
 Since I am using ```Maven``` to build my project, I am not writing ```javac``` command lines by hand, ```Maven``` does it for me.
 
 Obviouly, one could configure the ```maven-compile``` plugin in the pom.xml file to enable the logs we need in ```javac``` but ```Maven``` has a tendancy in swallowing ```javac``` logs. In addition, running ```Maven``` will flood the terminal with logs we don't care about. So we would rather use the ```javac``` command directly. 
 
-### retrieve the ```javac``` command line from ```Maven```
+## retrieve the ```javac``` command line from ```Maven```
 
 Run ```Maven``` with -X option on the module which uses the annotation processor and copy the log line after log ```[DEBUG] Command line options:```.
 
@@ -37,7 +40,7 @@ mvn clean compile -X -pl :moduleName
 
 > ```-pl :moduleName``` is a way of specifying a specific module for ```Maven``` to build. It allows to run the ```mvn``` command from the root directory of the project. Obviously, in a single module project, this is useless. In a multi-module project however, its convenient. It saves you from changing the current directory to the module's directory and run the same ```mvn``` command without that option.
 
-### customize the command line
+## customize the command line
 
 1. prefix what you just copied with the ```javac``` command
 2. remove ```-nowarn``` option, we need to see any information available, this option removes warnings
@@ -60,7 +63,7 @@ mvn clean compile -X -pl :moduleName
 
 4. (optional) send all outputs to a file, add ```> /tmp/compile_clean.log 2>&1```
 
-## make sure the annotation processor is run by ```javac```
+# make sure the annotation processor is run by ```javac```
 
 To make sure there is no problem loading your Annotation Processor class, look for the next 4 log lines.
 

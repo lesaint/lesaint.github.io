@@ -18,11 +18,14 @@ Though it may not sound obvious, it is possible to debug an Annotation Processor
 This article will dive into the details on how I currently debug the Annotation Processor of [DAMapping](https://github.com/lesaint/damapping).
 
 
+* Table of Contents
+{:toc}
+
 The ```Javac``` compiler internally uses a JVM to do its work. So, the basic idea is to find a way to configure this JVM to accept a debugger connection and to be able to attach to the compiler process **before** the Annotation Processor is run.
 
 Since the ```DAMapping``` project is build with ```Maven```, my debug technic of choice is to use the ```mvnDebug``` command.
 
-## ```mvnDebug```
+# mvnDebug
 
 ```mvnDebug``` is a command that lies in the same directory as the ```mvn``` command. So, as long as the ```bin``` directory of your ```Maven``` installation is in the path, you should be able to use it seamlessly.
 
@@ -30,7 +33,7 @@ Since the ```DAMapping``` project is build with ```Maven```, my debug technic of
 
 As the ```Javac``` command run by the ```maven-compile``` plugin lies in the same process as the ```mvn``` command, attaching to the ```mvn``` process allows to attach to the ```javac``` process.
 
-## Set up a debug connection in IDEA
+# Set up a debug connection in IDEA
 
 Since I use IntelliJ IDEA, here is how to set yp a debug connection to attach to the ```mvnDebug``` process in IDEA:
 
@@ -42,7 +45,7 @@ Since I use IntelliJ IDEA, here is how to set yp a debug connection to attach to
 
 ![screenshot creating a new remove configuration mvnDebug]({{ site.url }}/resources/how_to_debug_an_annotation_processor/new_remote_configuration_mvnDebug.png)
 
-## Debugging
+# Debugging
 
 Go to a terminal and run a command such as the following:
 
@@ -56,7 +59,7 @@ Go to IntelliJ IDEA, run the configuration you created.
 
 It will create a debugger session that will attach to the process on port ```8000``` and the Maven process will resume (you can switch back to the terminal to see the logs moving).
 
-## Debuging Javac directly
+# Debuging Javac directly
 
 This [post](http://www.pingtimeout.fr/2012/10/debugging-annotation-processor-in-every.html) explains how to debug an Annotation Procossor when running ```Javac``` directly.
 

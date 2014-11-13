@@ -18,6 +18,9 @@ But we are using `String` as return type of our `@RequestMapping` methods (as mo
 I want to use and enum instead. I want `@RequestMapping` methods to return a enum constant which will be automatically resolved to a view the same way a `String` is resolved to a view.
 
 
+* Table of Contents
+{:toc}
+
 # Using an enum is good
 
 Using `String` as return value of controller methods to represent view name is bad:
