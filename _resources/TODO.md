@@ -17,6 +17,7 @@ TODO javatronic.fr
 [X] add feature image from all pages (until find a nice picture ?)
 [X] enable comments on posts (via disqus)
 [X] support for tag name with more than one word ? yes, use item list in front matter
+[ ] improve readability by having text use the whole width (remove/move the author block?)
 [ ] find a way to add twitter link under my picture
 [X] find a way to add summary to page
     - [ ] on top of the author, deployable layer?
