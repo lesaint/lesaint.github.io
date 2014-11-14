@@ -29,15 +29,8 @@ DAMapping is a set of complementary elements, hence it should rather be consider
 * IDE plugin(s), to invoke the later and integrate the former with the IDE
 * bean mapping utilities used by the code generator but which can also be used directly: the `DAMapping toolkit`
 
-<pre class="center">
----------------------------------
-|          IDE plugins          |
----------------------------------
-|         code generator        |
----------------------------------
-|   framework    |    toolkit   |
----------------------------------
-</pre>
+![DAMapping stack schema]({{ site.url }}/resources/damapping-is-a-bean-mapping-stack/damapping-stack-schema.png)
+{: .center}
 
 Technical architecture and design principles of DAMapping come from the study of the existing bean mapping tools and from a high level analysis of their common points and weaknesses. They also come from the experience of professionally doing bean mapping on large projects and over a respectably long period of time.
 
@@ -45,9 +38,11 @@ Technical architecture and design principles of DAMapping come from the study of
 
 # Principles of DAMapping
 
+![use damapping and map it your way]({{ site.url }}/resources/damapping-is-a-bean-mapping-stack/use-damapping-and-map-it-your-way.png){: .pull-right}
+
 DAMapping has a more humble goal than other tools: *help the developer write* bean mapping code, instead of doing bean mapping in his or her place. 
 
-In other words, DAMapping _does not do_ bean mapping (yes, that may come as a surprise), it _provides ways to write_ bean mapping code better, faster and stronger (some may see a quote here ;-) ).
+In other words, DAMapping _does not do_ bean mapping (yes, that may come as a surprise), it provides *ways to write* bean mapping code better, faster and stronger (some may see a quote here ;-) ).
 
 ## pure Java bean mapping code
 
@@ -305,4 +300,4 @@ Help in the form of feedback or contributions is welcome :)
 
 # Acknowledgments
 
-I would like to thanks [@jcgay](https://twitter.com/jchristophegay) and [@fbiville](https://twitter.com/fbiville) for their feedback on this article and DAMapping in general.
+I would like to thanks [@jcgay](https://twitter.com/jchristophegay) and [@fbiville](https://twitter.com/fbiville) for their feedback and support on this article and DAMapping in general.
