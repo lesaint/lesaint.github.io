@@ -18,19 +18,30 @@ TODO javatronic.fr
 [X] enable comments on posts (via disqus)
 [X] support for tag name with more than one word ? yes, use item list in front matter
 [ ] find a way to add twitter link under my picture
-[ ] find a way to add summary to page
+[X] find a way to add summary to page
     - [ ] on top of the author, deployable layer?
     - [ ] control with a frontmatter variable
-    - [ ] enable extension of redcarpet to display TOC in articles 
+    - [-] enable extension of redcarpet to display TOC in articles 
+    - [X] use kramdown
         - pour ajouter la toc dans un document
-         ```
+        
+        ```
         * Table of Contents
         {:toc}
         ```
+
         - [X] modification css requise pour afficher plus d'un niveau car theme actuel ne supporte pas d'indentation
-        - [ ] modifier tous les blocs de code pour le support syntaxique
-        - [ ] le code inline n'est plus rendu?
-        - [ ] autre différence de rendu?
+        - [X] modifier tous les blocs de code pour le support syntaxique
+
+        ```
+        # improved version, supports indented fenced blocks
+        find . -name "*.md" -exec sed -i "s#^\(\s*\)\`\`\`\(\\w\+\)\$#\1\{\% highlight \2 \%\}#g" '{}' \;
+        find . -name "*.md" -exec sed -i "s#^\(\s*\)\`\`\`\$#\1\{\% endhighlight \%\}#g" '{}' \;
+        # http://stackoverflow.com/questions/9721253/sed-regex-substitute
+        ```
+
+        - [-] le code inline n'est plus rendu?
+        - [X] autre différence de rendu?
 [ ] re-enable paginator by adding the paginate option to config http://jekyllrb.com/docs/variables/#global-variables
 [ ] page articles : add pagination (paginator does not seem to work anymore) ? display by month/year (see http://mmistakes.github.io/minimal-mistakes/posts/) ?
 [X] modify RakeFile to include other Front-YAML properties (image feature, category articles)
@@ -54,7 +65,7 @@ TODO javatronic.fr
 # Tips
 
 [ ] display Tips per Subject (Oracle, Sql, Cloud, ...) with abstract before the list of all Tips without abstract (see tags/index.md, not easy, dive into other properties offered by site object)
-[ ] split articles and tips in subdirectory inside `_post` directory
+[X] split articles and tips in subdirectory inside `_post` directory
 
 # minecraft
 
