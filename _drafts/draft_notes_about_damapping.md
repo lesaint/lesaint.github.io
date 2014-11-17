@@ -190,3 +190,18 @@ She can't.
 By design, she cannot do any mapping that is not already implemented by the framework.
 
 We are far from the hand written code here, very far, isn't?
+
+
+
+
+
+
+## a single library is not enough
+
+Through out the history of Java bean mapping tools, it is pretty clear that they all took on the target of removing the need for the developer to write bean mapping code.
+
+Some tool aim at taking on the challenge of doing it all, others have a limited scope from the start. The later are actually more lucid, in my opinion. Bean mapping is such a complex and ever evolving matter. The developers needs (or their customers) in this area can never be met.
+
+>As a matter of proof, look at the existing tools issue managers, mailing lists, newsgroups. What you will see is a never ending list of feature requests to support this or that case, to support this new library/framework/tool, etc.
+
+They are all designed as libraries. It's clear enough to me that creating another library will fail all the same. We need to do it differently.

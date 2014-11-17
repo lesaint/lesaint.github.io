@@ -27,13 +27,17 @@ Looking back, I can say that bean mapping as such wasn't a problem, until...
 
 ...until we had to maintain it. Until we had to have it change when mapped types changed. Until we had to make sure of what was going on because we had a bug (using a debugger or just reading through the code).
 
-We lost a tremendous amount of time tracking problems at the bean mapping level. Customer was deeply disappointed with the application's quality, we had major bugs in production. They were hard to fix because what happened in the bean mapping library was obscure, required good knowledge of the tool to be fixed (not everyone could dive in), was barely tested and we couldn't used our regular investigation technics (read code through code, use the debugger -- locally or with [jdb](http://docs.oracle.com/javase/7/docs/technotes/tools/windows/jdb.html) on remote servers, ...).
+We lost a tremendous amount of time tracking problems at the bean mapping level. Customer was deeply disappointed with the application's quality, we had major bugs in production.
+
+They were hard to fix because what happened in the bean mapping library was obscure, required good knowledge of the tool to be fixed (not everyone could dive in), was barely tested and we couldn't used our regular investigation technics (read through code, use the debugger -- locally or with [jdb](http://docs.oracle.com/javase/7/docs/technotes/tools/windows/jdb.html) on remote servers, ....
 
 We tried several approaches to bean mapping, to lower the difficulty with this: we conducted experiments and thoroughly studied existing tools, tried coding all by hand...
 
 ## best solution: write it all by hand
 
-After a while, all the 10-15 developers were writing bean mapping code by hand, all other solutions had been dropped because of their middle and long term issues (listed earlier). It also was the most efficient solution at runtime and the easiest to customize (obviously, plain Java code = complete customization freedom). All code was there in plain view, we could refactor with IDEA, find usages (is that property set? where? is extremely valuable), code was stable and any modification could be tracked down in Git/Svn.
+After a while, all the 10-15 developers were writing bean mapping code by hand, all other solutions had been dropped because of their middle and long term issues (listed earlier). It also was the most efficient solution at runtime and the easiest to customize (obviously, plain Java code = complete customization freedom).
+
+All code was there in plain view, we could refactor with IDEA, find usages (is that property set? where? is extremely valuable), code was stable and any modification could be tracked down in Git/Svn.
 
 The general practice was to use Guava's [Function](http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/base/Function.html) as an interface implemented by every class mapping one type to another. It had the very convenient side effect of allowing to map collections with Guava's transform operation.
 
@@ -63,39 +67,33 @@ Unfortunately, it requires some verbose code ceremony and, as coding took quite 
 
 # Improving hand written bean mapping code
 
-## let's list what the developer needs
-
-Lets sum up what should be done to improve hand written bean mapping code:
+The limitations I listed above from my experience on hand written bean mapping code can be translated into 3 actions to solve them:
 
 1. writing obvious mapping should be automated
 2. recurrent technical code should be factorized
 3. code ceremony to write better bean mapping code should be removed
 
->Writing non obvious mapping could have been some point 4. The reason is that hand written bean mapping code can not be beaten for such mappings. We are here talking specifically about improving hand written code, so there is no point 4. It is left in the developer's hand.
+>Writing non obvious mapping could have been some point 4. It isn't because  hand written bean mapping code can not be beaten for such mappings.
 
-Existing bean mapping tools deal with the first element in the list very well. 
+## existing tool don't do that
 
-On the other hand, they usually solve the other two by just removing hand written bean mapping code all together (except for the extreme corner cases or when providing extensibility) and deal with them internally.
+Existing bean mapping tools deal with the first element in the list very well. The developer does not write any of the obvious bean mapping code.
 
-## a single library is not enough
+The problem is, they stop there.
 
-Through out the history of Java bean mapping tools, it is pretty clear that they all took on the target of removing the need for the developer to write bean mapping code.
+The developer does not write any bean mapping code at all. Most of the time, the developer does tool configuration (provide names of properties the tool couldn't figure to map, exclude some, etc.). The rare pieces of code left to the developer are those the tool couldn't figure.
 
-Some tool aim at taking on the challenge of doing it all, others have a limited scope from the start. The later are actually more lucid, in my opinion. Bean mapping is such a complex and ever evolving matter. The developers needs (or their customers) in this area can never be met.
-
->As a matter of proof, look at the existing tools issue managers, mailing lists, newsgroups. What you will see is a never ending list of feature requests to support this or that case, to support this new library/framework/tool, etc.
-
-They are all designed as libraries. It's clear enough to me that creating another library will fail all the same. We need to do it differently.
+It may be what some people are looking for but not us. We need to create something new.
 
 ## divide and organize complexity
 
 Acknowledging the complexity of the problem, DAMapping is designed accordingly.
 
-The strategy is to split complexity into smaller problems. Its easier to provide easy to understand solutions when scope is limited.
+The strategy is to split complexity into smaller bits for which it is easier to provide easy to understand, extensible and powerful solutions.
 
-### sketching the right toolS for the job
+## several tools instead of a single one
 
-We listed earlier [3 axes of improvements](#let's-list-what-the-developer-needs) to make hand written bean mapping code better.
+We listed earlier [3 axes of improvements](#improving-hand-written-bean-mapping-code) to make hand written bean mapping code better.
 
 Lets see for each axis what kind of tool would do best:
 
@@ -105,7 +103,7 @@ Lets see for each axis what kind of tool would do best:
 
 >quick note on the difference between a framework and a library: check out Martin Fowler's widely shared [definition of libraries and frameworks](http://martinfowler.com/bliki/InversionOfControl.html) enlightened me on the matter.
 
-It is quite visible that these tools we identified will work together, making  DAMapping a [stack](http://en.wikipedia.org/wiki/Solution_stack).
+Well, if three tools is what we need, then, as a whole, what we need is a [stack](http://en.wikipedia.org/wiki/Solution_stack), a bean mapping stack and that's new!
 
 # A code generator
 
@@ -135,17 +133,22 @@ Well, it seems that for the type as well as for the name, the best we can do is 
 
 So, lets use a new definition of the scope of the code generator: *generating guessable mappings*.
 
-Luckily enough, this definition is very much compatible with generating code as part of the application, since code instantly becomes the developer's property and can be fixed as regular plain Java code.
+This definition has two major advantages on the previous one:
 
-## and be open to preferences
+1. there is no arbritary decision to make when implementing it, it's only a matter of technical implementation
+2. improvement is not a matter of extending the number of options, corner cases, it's a matter of doing the same thing better (hence, really "improving")
+
+In addition, it is very much compatible with generating code in the application's code: if guess wasn't write or good enough, fixing it is just natural for the developer.
+
+## be open to preferences
 
 But guessing is not enough.
 
-Quite often, you just can not guess. Well, yes you can (quote?) but you'll get it wrong anyway. You can know the developer's tastes, you can't know the application's constraints. e.g. when instantiating lists, one can prefer using Guava's `ImmutableList`, Java's `ArrayList` or some other implementation.
+Quite often, you just can not guess. Well, yes you can but you'll get it wrong anyway. You can know the developer's tastes, you can't know the application's constraints. e.g. when instantiating lists, one can prefer using Guava's `ImmutableList`, Java's `ArrayList` or some other implementation.
 
-To fix that, it's quite simple, we just need a way to let the code generator know about those developer preferences, those application constraints.
+To fix that, it's quite simple, we just need a way to let the code generator know about those developer preferences, those application constraints, hence being open to preferences.
 
-## pertinent defaults
+## provide pertinent defaults
 
 Of course, specifying preferences should be completely optional.
 
@@ -208,6 +211,11 @@ This part of the framework will be developed as separate modules which will be d
 
 # the extra tool: IDE plugin
 
+~~~
+==============================================================================
+===               from here, it's only draft text                          ===
+==============================================================================
+~~~
 
 
 IDE plugins are here both to provide convenience integration of the  the various components with 
