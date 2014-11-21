@@ -10,6 +10,7 @@ categories:
 image:
  feature: feature_image_minecraft_landscape.png
 comments: true
+share: true
 ---
 
 This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.

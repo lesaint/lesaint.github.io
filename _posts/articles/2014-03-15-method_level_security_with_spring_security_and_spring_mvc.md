@@ -11,6 +11,7 @@ image:
 redirect_from:
   - /2014/03/15/method_level_security_with_spring_security_and_spring_mvc.html
 comments: true
+share: true
 ---
 
 Using Spring Security with Spring MVC to provide method level security on Controller classes can be trooblesome : using CGLIB-based proxies might be mandatory and you might need to tweak your code to fit Spring.

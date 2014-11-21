@@ -7,6 +7,8 @@ categories:
  - tips
 image:
  feature: feature_image_green.png
+comments: true
+share: true
 ---
 
 Here is how to list processes which are using Inotify to watch FileSystem changes under Linux and also list how many Inotify nodes each one is using.

@@ -9,6 +9,7 @@ categories:
 image:
  feature: feature_image_green.png
 comments: true
+share: true
 ---
 
 Use the following script to refresh all materialized view in a schema of an Oracle database. This script can be run very easily from SqlPlus.

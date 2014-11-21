@@ -12,6 +12,7 @@ image:
 redirect_from:
   - /2014/01/15/using_jekyll_on_github_pages.html
 comments: true
+share: true
 ---
 
 Here I gather notes on how I installed Jekyll for Github pages based mostly on informations from [Github's help page](https://help.github.com/articles/using-jekyll-with-pages).

@@ -14,6 +14,7 @@ image:
 redirect_from:
   - /2014/04/17/devoxx_france_2014_first_day_feedback.html
 comments: true
+share: true
 ---
 
 On Wednesday 16 of April, I went to the first day of Devoxx France 2014 in Paris. This university day was indeed crowded and choosing between session

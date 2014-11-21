@@ -19,7 +19,8 @@ TODO javatronic.fr
 [X] support for tag name with more than one word ? yes, use item list in front matter
 [X] use image 400x400 as author pic, pic from Gravata is 80x80, need to reexport from Lightroom
 [ ] improve readability by having text use the whole width (remove/move the author block?)
-[ ] find a way to add twitter link under my picture
+[X] find a way to add twitter link under my picture
+    - add share: true to front YAML
 [X] find a way to add summary to page
     - [ ] on top of the author, deployable layer?
     - [ ] control with a frontmatter variable

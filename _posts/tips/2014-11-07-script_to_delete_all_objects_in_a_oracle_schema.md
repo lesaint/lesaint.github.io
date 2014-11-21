@@ -9,6 +9,7 @@ categories:
 image:
  feature: feature_image_green.png
 comments: true
+share: true
 ---
 
 Use the following script to drop all objects in a specific schema in an Oracle Database without droping the schema itself. It saves you from recreating the schema, its associated user, its rights, etc.

@@ -14,6 +14,7 @@ image:
 redirect_from:
   - /2014/04/18/devoxx_france_2014_second_and_last_day_feedback.html
 comments: true
+share: true
 ---
 
 This was my second and last day at Devoxx France 2014.

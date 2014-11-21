@@ -66,6 +66,8 @@ task :draft do
     post.puts " - articles"
     post.puts "image:"
     post.puts " feature: feature_image_green.png"
+    post.puts "comments: false"
+    post.puts "share: true"
     post.puts "---"
     # post.puts "{% include JB/setup %}"
   end

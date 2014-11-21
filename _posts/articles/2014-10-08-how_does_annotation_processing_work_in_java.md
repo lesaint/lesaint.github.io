@@ -10,6 +10,7 @@ categories:
 image:
  feature: feature_image_green.png
 comments: true
+share: true
 ---
 
 This article is an introduction to Annotation Processing in ```Java``` and provides an overview on Annotation Processing mechanics during compilation.
