@@ -7,20 +7,18 @@ image:
  feature: feature_image_damapping.png
 ---
 
+DAMapping is structured as **stack of components**, complementary and yet individually usable, designed to **power the developer** who writes or maintain bean mapping code in Java.
 
-DAMapping is a new approach to bean mapping, by design and principles.
-
-It is structured as **stack of components**, complementary and yet individually usable, designed to **power the developer** who writes or maintain bean mapping code in Java.
-
-![DAMapping stack schema]({{ site.url }}/resources/damapping/damapping-stack-schema.png)
+![DAMapping stack schema]({{ site.url }}/images/damapping/damapping-stack-schema.png)
 {: .center}
 
 Based on [the principles]({{ site.url }}/damapping/principles.html) that **bean mapping should be code** and that the **developer should own** it, DAMapping provides a way of doing bean mapping in **pure Java** inside your own code.
 
+>more details on the principles on DAMapping [here]({{ site.url }}/damapping/principles.html)
+
 # With DAMapping
 
-[use damapping and map it your way]({{ site.url }}/resources/damapping/use-damapping-and-map-it-your-way.png)
-{: .center}
+![use damapping and map it your way]({{ site.url }}/images/damapping/use-damapping-and-map-it-your-way.png){: .pull-right}
 
 * structure your bean mapping code with the ultra light and flexible **DAMapping framework**
 * write efficient, readable and good-looking bean mapping code with the **DAMapping library**
