@@ -1,7 +1,7 @@
 ---
 layout: damapping
 title: Presentation of the DAMapping library
-excerpt: 
+excerpt: TODO excerpt library presentation 
 css: damapping
 image:
  feature: feature_image_damapping.png
