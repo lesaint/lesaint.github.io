@@ -3,8 +3,6 @@ layout: damapping
 title: The bean mapping stack for Java
 excerpt: DAMapping is the Bean Mapping Stack for Java. It is a new approach to bean mapping, by design and principles. Ground rule, bean mapping must be pure Java code and this code belongs to the developer. DAMapping is fully statically typed, make debug and refactoring prime citizens, is little intrusive and highly customizable. It can be used as a whole to fully automate bean mapping code writing or components can be used individually.
 css: damapping
-image:
- feature: feature_image_damapping.png
 ---
 
 DAMapping is structured as **stack of components**, complementary and yet individually usable, designed to **power the developer** who writes or maintain bean mapping code in Java.

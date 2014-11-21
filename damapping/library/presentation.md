@@ -3,8 +3,6 @@ layout: damapping
 title: Presentation of the DAMapping library
 excerpt: TODO excerpt library presentation 
 css: damapping
-image:
- feature: feature_image_damapping.png
 ---
 
 # The bean mapping library
