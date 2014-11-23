@@ -18,6 +18,7 @@ TODO javatronic.fr
 [X] enable comments on posts (via disqus)
 [X] support for tag name with more than one word ? yes, use item list in front matter
 [X] use image 400x400 as author pic, pic from Gravata is 80x80, need to reexport from Lightroom
+[X] use justify for all text?
 [ ] improve readability by having text use the whole width (remove/move the author block?)
 [X] find a way to add twitter link under my picture
     - add share: true to front YAML
