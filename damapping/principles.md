@@ -2,6 +2,9 @@
 layout: damapping
 title: Principles of DAMapping
 css: damapping
+categories:
+ - damapping
+comments: true
 ---
 
 DAMapping is based on several principles: show the logic and hide the implementation, use only Java code, logic belongs to source, be flexible and open, TOOD finish excerpt

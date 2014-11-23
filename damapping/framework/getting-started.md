@@ -3,6 +3,9 @@ layout: damapping
 title: Getting started with the DAMapping framework
 excerpt: This page will help you to get started with the *DAMapping framework*. How to install it, understand its principles, get started with basic usage, map bean tree, integrate with dependency injection frameworks...
 css: damapping
+categories:
+ - damapping
+comments: true
 ---
 
 This page will help you to get started with the *DAMapping framework*: install it, understand its principles, get started with basic usage and bean tree mapping, integrate with dependency injection frameworks...
