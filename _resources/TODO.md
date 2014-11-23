@@ -55,7 +55,7 @@ TODO javatronic.fr
 [ ] home : afficher le excerpt et un lien lire la suite
 [X] add link to home in navigation
 [ ] add comment on source theme website about page tags broken with redcarpet
-[ ] create a true DAMapping page, with posts from a category DAMapping + link to Github repo, online presentation, ...
+[X] create a true DAMapping page, with posts from a category DAMapping + link to Github repo, online presentation, ...
 [ ] leverage octopress because we now have a template of post (default value for feature image, comment, category)
 
 # Annotation Processor articles
