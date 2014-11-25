@@ -65,6 +65,8 @@ TODO javatronic.fr
 [ ] Talk about Annotation Processing instead of Annnotation Processor in text and titles (rename already published article)
 [ ] Rename tag Annotation Processor to Annotation Processing
 [ ] generated files are always overwritten when running an Annotation Processor (see javadoc of Filer)
+[ ] add a menu to the DAMapping pages
+[ ] show latest version in Development status table
 
 # Tips
 
