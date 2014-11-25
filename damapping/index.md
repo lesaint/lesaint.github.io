@@ -51,11 +51,14 @@ Doing pure Java bean mapping code and as part of the developer's code has many b
 
 Check out the documentation to get a better understanding of DAMapping, how it works and how to use it:
 
-* [principles of DAMapping]({{ site.url }}/damapping/principles.html)
-* [getting started with the DAMapping framework]({{ site.url }}/damapping/framework/getting-started.html)
+* DAMapping
+    - [principles of DAMapping]({{ site.url }}/damapping/principles.html)
+* DAMapping framework
+    - [getting started with the DAMapping framework]({{ site.url }}/damapping/framework/getting-started.html)
+* DAMapping library
+    - [presentation of the DAMapping library]({{ site.url }}/damapping/library/presentation.html)
 
 <!--
-* [presentation of the DAMapping library]({{ site.url }}/damapping/library/presentation.html)
 * [principles of a new code generator]({{ site.url }}/damapping/generator/principles.html)
 * [presentation of the IntelliJ IDEA plugin]({{ site.url }}/damapping/ide-plugin/for-intellij-idea.html)
 -->
@@ -68,7 +71,7 @@ Contributors are welcome, any feedback as well
 
 # Development status
 
-| Component | Status | Code |
+| Component | Status | Source |
 |:--------|:-------:|--------:|
 | *framework*   | beta release is almost there: bean tree mapping support, CDI integration | [[Github](https://github.com/lesaint/damapping)] [![Build Status](https://travis-ci.org/lesaint/damapping.svg?branch=master)](https://travis-ci.org/lesaint/damapping) |
 | *library*   | dev will start soon, working on the road map for now | [[Github](https://github.com/lesaint/damapping-library)] [![Build Status](https://travis-ci.org/lesaint/damapping-library.svg?branch=master)](https://travis-ci.org/lesaint/damapping-library) |
