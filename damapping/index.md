@@ -71,7 +71,7 @@ Contributors are welcome, any feedback as well
 | Component | Status | Code |
 |:--------|:-------:|--------:|
 | *framework*   | beta release is almost there: bean tree mapping support, CDI integration | [[Github](https://github.com/lesaint/damapping)] [![Build Status](https://travis-ci.org/lesaint/damapping.svg?branch=master)](https://travis-ci.org/lesaint/damapping) |
-| *library*   | dev will start soon, working on the road map for now |
+| *library*   | dev will start soon, working on the road map for now | [[Github](https://github.com/lesaint/damapping-library)] [![Build Status](https://travis-ci.org/lesaint/damapping-library.svg?branch=master)](https://travis-ci.org/lesaint/damapping-library) |
 | *code generator*   | dev has not started yet, working on high level specifications | |
 | *IntelliJ IDEA plugin*   |  plugin is in alpha stage (not released yet), it supports generated class integration | [[Github](https://github.com/lesaint/damapping-idea)] |
 | other *plugins* | dev not started | |
