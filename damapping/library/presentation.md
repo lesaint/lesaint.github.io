@@ -10,17 +10,17 @@ categories:
 * Table of Contents
 {:toc}
 
-# The bean mapping library
+# The object mapping library
 
-The DAMapping's bean mapping library provides utility methods, class and patterns to help write all those recurrent, technical, bean mapping code: null and default value handling, Object to primitives mappings, enum mapping, collection mapping, etc... 
+The DAMapping's object mapping library provides utility methods, class and patterns to help write all those recurrent, technical, object mapping code: null and default value handling, Object to primitives mappings, enum mapping, collection mapping, etc...
 
 ## anybody can use it, anywhere
 
 The library is obviously used by the code generator. But this implies that the developer will use it too, since the code is generated in the application's source code.
 
-Apart for putting additional pressure on the quality of the documentation, this is good. This is where DAMapping really hands over the reins to the developer and give her all the power to write bean mapping code the way she likes.
+Apart for putting additional pressure on the quality of the documentation, this is good. This is where DAMapping really hands over the reins to the developer and give her all the power to write object mapping code the way she likes.
 
-A barely hidden wish is that the library will provide powerful enough classes and methods that they will be used by the developer in pieces of code far from being bean mapping code.
+A barely hidden wish is that the library will provide powerful enough classes and methods that they will be used by the developer in pieces of code far from being object mapping code.
 
 ## modular design
 
@@ -34,7 +34,7 @@ Other modules will be provided with specific implementations of the classes in t
 
 ## 1: expressiveness
 
-Using the DAMapping library classes and methods should lead to bean mapping being as expressive as possible.
+Using the DAMapping library classes and methods should lead to object mapping being as expressive as possible.
 
 For example, the following concepts should be easily understood by just reading the code: 
 
@@ -43,7 +43,7 @@ For example, the following concepts should be easily understood by just reading 
 * precision loss or change of data structure
 * ...
 
-The library should use a combination of [method chaining](http://en.wikipedia.org/wiki/Method_chaining), [fluent interface](http://en.wikipedia.org/wiki/Fluent_interface) and static imports to achieve a near bean mapping DSL for Java.
+The library should use a combination of [method chaining](http://en.wikipedia.org/wiki/Method_chaining), [fluent interface](http://en.wikipedia.org/wiki/Fluent_interface) and static imports to achieve a near object mapping DSL for Java.
 
 ## 2: clean stacktraces
 

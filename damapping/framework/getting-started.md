@@ -1,14 +1,14 @@
 ---
 layout: damapping
 title: Getting started with the DAMapping framework
-excerpt: This page will help you to get started with the *DAMapping framework*. How to install it, understand its principles, get started with basic usage, map bean tree, integrate with dependency injection frameworks...
+excerpt: This page will help you to get started with the *DAMapping framework*. How to install it, understand its principles, get started with basic usage, map object tree, integrate with dependency injection frameworks...
 css: damapping
 categories:
  - damapping
 comments: true
 ---
 
-This page will help you to get started with the *DAMapping framework*: install it, understand its principles, get started with basic usage and bean tree mapping, integrate with dependency injection frameworks...
+This page will help you to get started with the *DAMapping framework*: install it, understand its principles, get started with basic usage and object tree mapping, integrate with dependency injection frameworks...
 
 * Table of Contents
 {:toc}
@@ -32,10 +32,10 @@ For Maven users, you can do so by adding the following dependency:
 
 That's it!
 
-Structure bean mapping code
+Structure object mapping code
 ===========================
 
-When it comes to bean mapping, assuming you want it all written in Java, you need to get organized.
+When it comes to object mapping, assuming you want it all written in Java, you need to get organized.
 
 The following practices can easily be considered as best practices in the matter:
 
@@ -45,26 +45,26 @@ The following practices can easily be considered as best practices in the matter
 
 Unfortunately, to implement these principles, we need a lot of boiler plate code (one class + one interface for each type-to-type mapping?!).
 
-The goal of the *DAMapping framework* is to handle that problem: the developer writes bean mapping code in specific classes and only that. Still, he or she gets all the benefits of the principles above.
+The goal of the *DAMapping framework* is to handle that problem: the developer writes object mapping code in specific classes and only that. Still, he or she gets all the benefits of the principles above.
 
 How it works
 ============
 
 The *DAMapping framework* achieves that by generating pure Java "glue" code:
-* between each bean mapping class
-* between bean mapping class and the rest of the application
-* between bean mapping class and the dependency injection frameworks
+* between each object mapping class
+* between object mapping class and the rest of the application
+* between object mapping class and the dependency injection frameworks
 
-Mind it! The *DAMapping framework* does not generate any bean mapping code and it is always **fully statically typed**!
+Mind it! The *DAMapping framework* does not generate any object mapping code and it is always **fully statically typed**!
 
 The *DAMapping framework* is implemented as a (volontarily) limited set of [annotations](https://github.com/lesaint/damapping/tree/master/core-parent/annotations/src/main/java/fr/javatronic/damapping/annotation) and an Annotation Processor.
 
-As you will see below, using the *DAMapping framework* is very simple and it enforces little to no constraint at all on the way you should structure your bean mapping code.
+As you will see below, using the *DAMapping framework* is very simple and it enforces little to no constraint at all on the way you should structure your object mapping code.
 
 Basic usage of the framework
 ============================
 
-The class below is a `Mapper` as per DAMapping framework's definition: it is a class with a method doing bean mapping (talk about KISS).
+The class below is a `Mapper` as per DAMapping framework's definition: it is a class with a method doing object mapping (talk about KISS).
 
 The class is identified by the `@Mapper` annotation.
 
@@ -78,9 +78,9 @@ public class FooToBar {
 }
 {% endhighlight %}
 
-Please note that this is a class, not an interface. We are not configuring a tool to do bean mapping, we are providing bean mapping code to the framework.
+Please note that this is a class, not an interface. We are not configuring a tool to do object mapping, we are providing object mapping code to the framework.
 
-A class annotated with `@Mapper` is the atomic component of bean mapping code according to DAMapping's bean mapping code paradigm. It is also referred to as the "dedicated class".
+A class annotated with `@Mapper` is the atomic component of object mapping code according to DAMapping's object mapping code paradigm. It is also referred to as the "dedicated class".
 
 Although the example above is a dedicated class mapping a single type to another, the DAMapping framework does not enforce such a rule (though it is best to follow it), nor does it enforce any naming convention.
 
@@ -93,7 +93,7 @@ When using the DAMapping framework, the developer is supposed to use the MapperI
 
 ## integrates like regular code
 
-See below an example of using bean mapping code with DAMapping framework manually.
+See below an example of using object mapping code with DAMapping framework manually.
 
 {% highlight java %}
 public class MyServiceImpl {
@@ -110,7 +110,7 @@ public class MyServiceImpl {
 
 ## no all-purpose entry point
 
-Note that the entry point to the bean mapping code is not some generic class that usually acts as the single point of entry for all code managed by other tools.
+Note that the entry point to the object mapping code is not some generic class that usually acts as the single point of entry for all code managed by other tools.
 
 Here, it is a fully typed and specific interface, meaningfully named and exposing a method named as the developer feels suits best.
 
@@ -142,14 +142,14 @@ public class FooToBarMapperImpl implements FooToBarMapper {
 }
 {% endhighlight %}
 
-Mapping bean trees
-==================
+Mapping object trees
+====================
 
-The next added value of the DAMapping coding paradigm is to remove all the coding ceremony when mapping a bean tree to another thanks to the DAMapping framework.
+The next added value of the DAMapping coding paradigm is to remove all the coding ceremony when mapping a object tree to another thanks to the DAMapping framework.
 
-To map bean trees, the developer composes generated Mapper interfaces into dedicated classes.
+To map object trees, the developer composes generated Mapper interfaces into dedicated classes.
 
-In the following example, the dedicated class `AcmeToViten` maps the type `Acme` to the type `Viten`. These types are the root of two (very simple) bean trees: `Acme` has a property of type `Foo` which must be mapped to the `Viten`'s property of type `Bar`.
+In the following example, the dedicated class `AcmeToViten` maps the type `Acme` to the type `Viten`. These types are the root of two (very simple) object trees: `Acme` has a property of type `Foo` which must be mapped to the `Viten`'s property of type `Bar`.
 
 {% highlight java %}
 @Mapper
@@ -189,7 +189,7 @@ Integrating with DI frameworks
 
 Obviously, few applications will instance concrete class directly. They will rather use a dependency-injection framework (Spring, Guice, Dagger, ...) that will manage object instantiation and injection.
 
-The DAMapping framework supports integrating with those frameworks, but as it is not a core functionality to writing bean mapping code, we won't go into too much details here.
+The DAMapping framework supports integrating with those frameworks, but as it is not a core functionality to writing object mapping code, we won't go into too much details here.
 
 The planned idea is to initially provide minimal support through the support of the JSR-330 specification (work in progress).
 

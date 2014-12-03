@@ -8,7 +8,7 @@ categories:
 comments: false
 ---
 
-The DAMapping framework is a component of the [DAMapping bean mapping stack for Java](http://damapping.javatronic.fr).
+The DAMapping framework is a component of the [DAMapping object mapping stack for Java](http://damapping.javatronic.fr).
 
 The DAMapping framework provides a way to structure object mapping code as fragments while still being free from writing all the code ceremony required to glue these fragments together or with the rest of the application respecting loose coupling and good testability.
 
