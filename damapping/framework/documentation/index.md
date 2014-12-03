@@ -5,7 +5,7 @@ excerpt: Documentation of the DAMapping framework current version
 css: damapping
 categories:
  - damapping
-comments: false
+comments: true
 ---
 
 This page provides the documentation of the current version (0.5.0) of the DAMapping framework.
