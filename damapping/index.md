@@ -55,10 +55,11 @@ Check out the documentation to get a better understanding of DAMapping, how it w
     - [principles of DAMapping]({{ site.url }}/damapping/principles.html)
 * DAMapping framework
     - [getting started with the DAMapping framework]({{ site.url }}/damapping/framework/getting-started.html)
-* DAMapping library
-    - [presentation of the DAMapping library]({{ site.url }}/damapping/library/presentation.html)
+    - [documentation of the DAMapping framework]({{ site.url }}/damapping/framework/documentation/)
 
 <!--
+* DAMapping library
+    - [presentation of the DAMapping library]({{ site.url }}/damapping/library/presentation.html)
 * [principles of a new code generator]({{ site.url }}/damapping/generator/principles.html)
 * [presentation of the IntelliJ IDEA plugin]({{ site.url }}/damapping/ide-plugin/for-intellij-idea.html)
 -->
@@ -90,21 +91,4 @@ Contributors are welcome, any feedback as well
     <li><article><a href="http://localhost:4000/articles/2014/11/04/genesis-of-the-damapping-project.html">Genesis of the DAMapping project</a> <span class="entry-date"><time datetime="2014-05-21T00:00:00+02:00">May 21, 2014</time></span></article></li>
 </ul>
 
-# Documentation
-
-## Java Annotation processing explained
-
-<ul class="post-list">
-    <li><article><a href="{% post_url articles/2014-10-08-how_does_annotation_processing_work_in_java %}">How does annotation processing work in Java</a></article></li>
-    <li><article><a href="http://localhost:4000/articles/2014/11/05/understanding_the_processor_interface.html">Understanding the Processor interface</a></article></li>
-    <li><article><a href="http://localhost:4000/articles/2014/11/05/understanding_the_processingenvironment_and_roundenvironment_interfaces.html">Understanding the ProcessingEnvironment and RoundEnvironment interfaces</a></article></li>
-</ul>
-
-## Annotation Processor coding tips
-
-<ul class="post-list">
-    <li><article><a href="articles/2014/11/05/how_to_write_a_annotation_processor_in_java.html">How to write a Annotation Processor in Java</a></article></li>
-    <li><article><a href="{% post_url articles/2014-09-22-how_to_debug_an_annotation_processor %}">How to debug an Annotation Processor</a></article></li>
-    <li><article><a href="{% post_url articles/2014-08-31-how_to_make_sure_javac_is_using_a_specific_annotation_processor %}">How to make sure javac is using an Annotation Processor and troubleshoot when it is not</a></article></li>
-</ul>
 -->
