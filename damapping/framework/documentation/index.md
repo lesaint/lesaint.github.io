@@ -33,6 +33,28 @@ There is very little constraints on how to write a *dedicated class*:
 
 Content of the *dedicated class* is totally free, the DAMapping framework cares only of its "interface".
 
+## singleton enum
+
+Enums as dedicated classes are supported by the DAMapping framework.
+
+The only constraint is that they must define a single value (which name does not matter).
+
+Using enums with a single value is the most recommended way to implement a Singleton in Java.
+
+The developer may find it relevant to use a singleton for a dedicated class.
+
+{% highlight java %}
+@Mapper
+public enum EnumBasedFooToBar {
+  THE_ONE;
+
+  @Override
+  public Bar apply(@Nullable Foo foo) {
+    // [...]
+  }
+}
+{% endhighlight %}
+
 ## usage
 
 The DAMapping framework assumes ownership of dedicated classes, therefor they are not really intended to be used directly except for unit tests.
@@ -213,16 +235,26 @@ You can check out the integration tests of the DAMapping framework to get exampl
 * the [Dagger 1 Framework](http://square.github.io/dagger/): [DaggerHotelControllerTest](https://github.com/lesaint/damapping/blob/master/integration-test/use-mapper/src/test/java/fr/javatronic/damapping/test/injectable/DaggerHotelControllerTest.java)
 
 <!--
-Mapper factories
-================
 
-There might be time where object mapping code should be configured from a data which can not be injected, because it is only available at runtime for example.
+Mapper factory
+==============
 
-In such case you need to use a factory which will return a *Mapper interface* which implementation will be configured for this runtime data.
+There might be times:
+* when object mapping code should be configured from a data which can not be injected, which is not available when instantiating the mapper
+* because it is only available at runtime for example
+* when the mapper should be stateful (hum... code smell?) and therefor a new instance used each time it is used
+* when two or more mappers are only slight variations of the same one
 
-You could also be writing several mappings from one type to another which only very slightly differ. You don't want to create two *dedicating class*, you should rather use a Factory which, based on a flag or an enum, will return the right implementation.
+In all theses cases (and maybe some others) you need to use a factory which will return multiples implementations of a *Mapper interface* instead of a single one.
 
-## definition
+## how to create one
+
+A Mapper factory is defined as a *dedicated class* with at least one method annotated with `@MapperFactory`.
+
+The `@MapperFactory` annotation can be added to:
+
+* either on all constructors of the dedicated class
+* or static method(s) of the dedicated class
 
 -->
 
