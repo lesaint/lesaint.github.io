@@ -33,15 +33,13 @@ There is very little constraints on how to write a *dedicated class*:
 
 Content of the *dedicated class* is totally free, the DAMapping framework cares only of its "interface".
 
-## singleton enum
+## dedicated enum
 
-Enums as dedicated classes are supported by the DAMapping framework.
+Using an enum as a *dedicated class* is supported by the DAMapping framework.
 
-The only constraint is that they must define a single value (which name does not matter).
+The only constraint is that they it must define only a single value (which name does not matter).
 
-Using enums with a single value is the most recommended way to implement a Singleton in Java.
-
-The developer may find it relevant to use a singleton for a dedicated class.
+The developer may find it relevant to use an enum in order to make the *dedicated class* a singleton.
 
 {% highlight java %}
 @Mapper
@@ -138,6 +136,8 @@ This class is the one supposed to be used in code. It delegates its implementati
 
 The name of the *MapperImpl class* is created by appending `MapperImpl` to the name of the *dedicated class*, e.g. the name of the *MapperImpl class* for the *dedicated class* `FooToBar` is `FooToBarMapperImpl`.
 
+The *MapperImpl class* is generated in the same package as the *dedicated class*.
+
 ## annotations
 
 The *MapperImpl class* is not generated with class annotation except for the `@Generated` annotation that indicates the type has been generated.
@@ -157,31 +157,6 @@ The constructor of the *MapperImpl class* will have the same parameters, includi
 ## constructor annotations
 
 The constructor of the *MapperImpl class* will have no annotation except the `@Inject` annotation if the *dedicated class* is annotated with `@Injectable`.
-
-Using Mapper interfaces in dedicated class
-==========================================
-
-Using a generated *Mapper interface* in *dedicated class* is supported and actually highly encouraged as it is the basic pattern to implement mapping of trees of objects.
-
-To use a *Mapper interface* in the object mapping code of a *dedicated class*, simply declare a (private and final) property and have it initialized in the constructor of the *dedicated class*.
-
-{% highlight java %}
-@Mapper
-public class AcmeToViten {
-    private final FooToBarMapper fooToBarMapper;
-
-    public AcmeToViten(FooToBarMapper fooToBarMapper) {
-        this.fooToBarMapper = fooToBarMapper;
-    }
-
-    public Viten map(Acme acme) {
-        // [...]
-        vilen.setBar(fooToBarMapper.map(acme.getFoo()));
-        // [...]
-        return vilen;
-    }
-}
-{% endhighlight %}
 
 DI frameworks support
 =====================
@@ -234,29 +209,224 @@ You can check out the integration tests of the DAMapping framework to get exampl
 * the [Spring framework](http://projects.spring.io/spring-framework/): [SpringHotelControllerTest](https://github.com/lesaint/damapping/blob/master/integration-test/use-mapper/src/test/java/fr/javatronic/damapping/test/injectable/SpringHotelControllerTest.java)
 * the [Dagger 1 Framework](http://square.github.io/dagger/): [DaggerHotelControllerTest](https://github.com/lesaint/damapping/blob/master/integration-test/use-mapper/src/test/java/fr/javatronic/damapping/test/injectable/DaggerHotelControllerTest.java)
 
-<!--
-
 Mapper factory
 ==============
 
 There might be times:
+
 * when object mapping code should be configured from a data which can not be injected, which is not available when instantiating the mapper
-* because it is only available at runtime for example
-* when the mapper should be stateful (hum... code smell?) and therefor a new instance used each time it is used
+* when the mapper should be stateful (hum... code smell?) and therefor a new instance used every times
 * when two or more mappers are only slight variations of the same one
 
-In all theses cases (and maybe some others) you need to use a factory which will return multiples implementations of a *Mapper interface* instead of a single one.
+In all theses cases (and maybe some others) you need to use a factory which will return multiples implementations and/or instancces of a *Mapper interface* instead of a single one.
 
-## how to create one
+## @MapperFactory
 
 A Mapper factory is defined as a *dedicated class* with at least one method annotated with `@MapperFactory`.
 
 The `@MapperFactory` annotation can be added to:
 
-* either on all constructors of the dedicated class
-* or static method(s) of the dedicated class
+* constructors of the dedicated class
+* or static method(s) of the dedicated class return the type of the *dedicated class*
 
--->
+Example of a MapperFactory using a runtime parameter as part of the mapping. Note that it uses a constructor mapper factory and that it implements Guava's Function interface (the former is completely optional).
+
+{% highlight java %}
+@Mapper
+public class SaltedBigDecimalToString implements Function<BigDecimal, String> {
+  private final String salt;
+
+  @MapperFactory
+  public SaltedBigDecimalToString(String salt) {
+    this.salt = salt;
+  }
+
+  @Nullable
+  @Override
+  public String apply(@Nullable BigDecimal bigDecimal) {
+    return bigDecimal + "-" + salt;
+  }
+}
+{% endhighlight %}
+
+## specific type generation
+
+Using a MapperFactory causes the DAMapping framework to generate three types instead of two for regular mappers :
+
+1. the *Mapper interface*: the same generated from a regular dedicated class
+2. the *MapperFactory interface*: exposes methods created from the methods/constructors annotated with `@MapperFactory`
+3. the *MapperFactoryImpl class*: implements the *MapperFactory interface* and delegate the implementation of the implemented method to the methods/constructors of the dedicated class
+
+## MapperFactory interface
+
+### name and location
+
+The name of the *MapperFactory interface* is created by appending `MapperFactory` to the name of the *dedicated class*, e.g. the name of the *MapperFactory interface* for the *dedicated class* `FooToBar` is `FooToBarMapperFactory`.
+
+The *MapperFactory interface* is generated in the same package as the *dedicated class*.
+
+### annotations
+
+The generated *MapperFactory interface* does not have any annotation except the `@Generated` annotation which indicates that it is a generated type.
+
+### interfaces
+
+The generated *MapperFactory interface* does not extend any interface.
+
+### methods
+
+The *MapperFactory interface* defines as many methods as there is constructor or static methods annotated with`@MapperFactory` in the dedicated class.
+
+For each static method, a method exists in the *MapperFactory interface* with:
+
+* the same name
+* the same parameters (including annotations) as the static method
+* but the return type is the generated *Mapper interface* instead of the type of the *dedicated class*
+
+For each constructor, a method exists in the *MapperFactory interface* with:
+
+* a constant name "instanceByConstructor"
+* the same parameters (including annotations) as the constructor
+* but the return type is the generated *Mapper interface*
+
+Advice: use a Static method instead of a constructor in order to get fine control over the name of the method expose in the *MapperFactory interface*.
+
+There is no restriction on the number of parameters of methods or constructors annotated with `@MapperFactory`.
+
+>Note 1: it is currently possible to have both static methods and constructors annotated with `@MapperFactory`, this will soon be removed ([issue #50](https://github.com/lesaint/damapping/issues/50))
+>Note 2: methods and constructors annotated with `@MapperFactory` should be public but there is currently no compilation check enforcing it. This control will be implemented soon ([issue #49](https://github.com/lesaint/damapping/issues/49))
+>Note 3: they is no compile check that static methods annotated with `@MapperFactory` return the type of the *dedicated class*, yet ([issue #42](https://github.com/lesaint/damapping/issues/42))
+
+## Mapper interface
+
+This *Mapper interface* is exactly the same has the one generated from a *dedicated class* without any method or constructor annotated with `@MapperFactory`.
+
+Below the *Mapper interface* for the dedicated class is the previous example:
+
+{% highlight java %}
+@javax.annotation.Generated("fr.javatronic.damapping.processor.DAAnnotationProcessor")
+public interface SaltedBigDecimalToStringMapper extends Function<BigDecimal, String> {
+}
+{% endhighlight %}
+
+## MapperFactoryImpl class
+
+### name and location
+
+The name of the *MapperFactoryImpl class* is created by appending `MapperFactoryImpl` to the name of the *dedicated class*, e.g. the name of the *MapperFactoryImpl class* for the *dedicated class* `FooToBar` is `FooToBarMapperFactoryImpl`.
+
+The *MapperFactoryImpl class* is generated in the same package as the *dedicated class*.
+
+### annotations
+
+The *MapperFactoryImpl class* is not generated with class annotation except for the `@Generated` annotation that indicates the type has been generated.
+
+### constructor
+
+The *MapperFactoryImpl class* does not define any constructor.
+
+### methods
+
+The *MapperFactoryImpl class* implements each method defined in the *MapperFactory interface* by returning an private implementation of the *Mapper interface*.
+
+The private implementation is a wrapper around the instance of the *dedicated class* returned by the *dedicated class* constructor or static method. As the *MapperImpl class*, this object delegates the implementation of the method from the *Mapper interface* to its inner *dedicated class* instance.
+
+Example for the *dedicated class* from the previous example:
+
+{% highlight java %}
+@javax.annotation.Generated("fr.javatronic.damapping.processor.DAAnnotationProcessor")
+public class SaltedBigDecimalToStringMapperFactoryImpl implements SaltedBigDecimalToStringMapperFactory {
+
+    @Override
+    public SaltedBigDecimalToStringMapper instanceByConstructor(String salt) {
+        return new SaltedBigDecimalToStringMapperImpl(new SaltedBigDecimalToString(salt));
+    }
+
+    private static class SaltedBigDecimalToStringMapperImpl implements SaltedBigDecimalToStringMapper {
+        private final SaltedBigDecimalToString instance;
+
+        public SaltedBigDecimalToStringMapperImpl(SaltedBigDecimalToString instance) {
+            this.instance = instance;
+        }
+
+        @Override
+        @Nullable
+        public String apply(@Nullable BigDecimal bigDecimal) {
+            return instance.apply(bigDecimal);
+        }
+    }
+}
+{% endhighlight %}
+
+Patterns
+========
+
+## object-tree mapping
+
+Using a generated *Mapper interface* in *dedicated class* is supported and actually highly encouraged as it is the basic pattern to implement mapping of trees of objects.
+
+To use a *Mapper interface* in the object mapping code of a *dedicated class*, simply declare a (private and final) property and have it initialized in the constructor of the *dedicated class*.
+
+{% highlight java %}
+@Mapper
+public class AcmeToViten {
+    private final FooToBarMapper fooToBarMapper;
+
+    public AcmeToViten(FooToBarMapper fooToBarMapper) {
+        this.fooToBarMapper = fooToBarMapper;
+    }
+
+    public Viten map(Acme acme) {
+        // [...]
+        vilen.setBar(fooToBarMapper.map(acme.getFoo()));
+        // [...]
+        return vilen;
+    }
+}
+{% endhighlight %}
+
+## factory of singletons
+
+Using an enum as a *dedicated class* and static method(s) annotated with `@MapperFactory`, one can implement a factory that will return multiple singleton implementations of the same Mapper.
+
+{% highlight java %}
+@Mapper
+public enum MultipleImplementationAsEnum {
+  BIG_DECIMAL(true),
+  INTEGER(false);
+
+  /* parameter-less factory method returning the BIG_DECIMAL instance */
+  @MapperFactory
+  public static MultipleImplementationAsEnum bigDecimal() {
+    return BIG_DECIMAL;
+  }
+
+  /* parameter-less factory method returning the INTEGER instance */
+  @MapperFactory
+  public static MultipleImplementationAsEnum integer() {
+    return INTEGER;
+  }
+
+  /** factory method taking a flag parameter returning either the BIG_DECIMAL instance or the INTEGER instance */
+  @MapperFactory
+  public static MultipleImplementationAsEnum instance(boolean bigDecimal) {
+    if (bigDecimal) {
+      return BIG_DECIMAL;
+    }
+    return INTEGER;
+  }
+
+  private final boolean bigDecimal;
+
+  @Nonnull
+  public Integer apply(@Nullable String input) {
+    if (bigDecimal) {
+      return new BigDecimal(input).intValue();
+    }
+    return Integer.parseInt(input);
+  }
+}
+{% endhighlight %}
 
 # IDE integration
 
