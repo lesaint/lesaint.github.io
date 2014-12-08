@@ -1,7 +1,7 @@
 ---
 layout: damapping
 title: DAMapping framework
-excerpt: TODO excerpt
+excerpt: Home page of the DAMapping framework: getting started and documentation.
 css: damapping
 categories:
  - damapping
@@ -10,14 +10,40 @@ comments: false
 
 The DAMapping framework is a component of the [DAMapping object mapping stack for Java](http://damapping.javatronic.fr).
 
-The DAMapping framework provides a way to structure object mapping code as fragments while still being free from writing all the code ceremony required to glue these fragments together or with the rest of the application respecting loose coupling and good testability.
+The DAMapping framework provides a way to structure object mapping code as fragments isolated in *dedicated classes*.
+
+The framework frees the developer from the interface + class code ceremony required to glue the fragments together and/or with the rest of the application while respecting loose coupling and good testability.
+
+The framework integrates nicely with [Dependency Injection](http://en.wikipedia.org/wiki/Dependency_injection) frameworks in order to reduce the overhead of writing of object mapping even less.
+
+Installation
+============
+
+To use the *DAMapping framework* you only need to add its jar file to your classpath.
+
+For Maven users, you can do so by adding the following dependency:
+
+{% highlight xml %}
+<dependency>
+    <groupId>fr.phan.damapping</groupId>
+    <artifactId>damapping-annotation-processor</artifactId>
+    <version>0.5.0</version>
+    <!-- scope does not need to be explicitly specified, default scope works just fine -->
+    <scope>compile</scope>
+</dependency>
+{% endhighlight %}
+
+That's it!
+
+Getting started
+===============
+
+Checkout the [getting started with DAMapping framework]({{ site.url }}/damapping/framework/getting-started.html) page.
 
 Framework Documentation
 =======================
 
-* [Installation]({{ site.url }}/damapping/framework/getting-started.html#installation)
-* [Getting started]({{ site.url }}/damapping/framework/getting-started.html)
-* [documentation]({{ site.url }}/damapping/framework/documentation)
+To get extending understanding of how to use the framework, checkout the [documentation of the DAMapping framework]({{ site.url }}/damapping/framework/documentation).
 
 <!--
 Annotation processing

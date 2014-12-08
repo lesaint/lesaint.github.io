@@ -37,7 +37,7 @@ Content of the *dedicated class* is totally free, the DAMapping framework cares 
 
 Using an enum as a *dedicated class* is supported by the DAMapping framework.
 
-The only constraint is that they it must define only a single value (which name does not matter).
+The only constraint is that it must define only a single value (which name does not matter).
 
 The developer may find it relevant to use an enum in order to make the *dedicated class* a singleton.
 

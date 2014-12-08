@@ -54,7 +54,8 @@ Check out the documentation to get a better understanding of DAMapping, how it w
 * DAMapping
     - [principles of DAMapping]({{ site.url }}/damapping/principles.html)
 * DAMapping framework
-    - [getting started with the DAMapping framework]({{ site.url }}/damapping/framework/getting-started.html)
+    - [the DAMapping framework home page]({{ site.url }}/damapping/framework/)
+    - [getting started with the DAMapping framework]({{ site.url }}/damapping/framework/)
     - [documentation of the DAMapping framework]({{ site.url }}/damapping/framework/documentation/)
 
 <!--
