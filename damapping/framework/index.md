@@ -1,7 +1,7 @@
 ---
 layout: damapping
 title: DAMapping framework
-excerpt: Home page of the DAMapping framework: getting started and documentation.
+excerpt: Home page of the DAMapping framework, getting started and documentation.
 css: damapping
 categories:
  - damapping
