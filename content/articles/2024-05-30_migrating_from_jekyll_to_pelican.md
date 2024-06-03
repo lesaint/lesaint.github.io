@@ -68,6 +68,7 @@ MARKDOWN = {
 ```
 
 > sources:
+>
 >  * [Pelican's documentation for setting `MARKDOWN`](https://docs.getpelican.com/en/stable/settings.html#basic-settings)
 >  * [Python Markdown built-in extensions](https://python-markdown.github.io/extensions/)
 >  * [Documentation of superfences](https://facelessuser.github.io/pymdown-extensions/extensions/superfences/)
@@ -105,6 +106,7 @@ The following content in markdown must be changed.
     * (resources could also be "attached" but, so far, I haven't seen the use case, so I'll keep to `{static}`)
 
 > sources:
+> 
 > * [Pelican's doc on linking to internal content](https://docs.getpelican.com/en/latest/content.html#linking-to-internal-content)
 > * [Pelican's doc on linking resources](https://docs.getpelican.com/en/latest/content.html#linking-to-static-files)
 
