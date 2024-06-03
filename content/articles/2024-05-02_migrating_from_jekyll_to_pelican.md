@@ -1,4 +1,5 @@
 title: Migrating from Jekyll to Pelican
+tags: pelican, personal website
 
 
 # Boostrap
