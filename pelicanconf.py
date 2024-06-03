@@ -8,6 +8,13 @@ TIMEZONE = "Europe/Paris"
 
 DEFAULT_LANG = "en"
 
+PLUGIN_PATHS = [
+    "plugins"
+]
+PLUGINS = [
+    "extract_toc"
+]
+
 # static resources
 STATIC_PATHS = [
     "images",
@@ -31,8 +38,7 @@ AUTHOR_FEED_RSS = None
 MARKDOWN = {
   "extension_configs": {
     "markdown.extensions.toc": {
-      "title": "Table of contents:",
-      "toc_depth": 2
+        "permalink": "true"
     },
     "markdown.extensions.codehilite": {"css_class": "highlight"},
     "markdown.extensions.extra": {},
