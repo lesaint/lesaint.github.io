@@ -48,8 +48,13 @@ SOCIAL = (
     ("Github", "https://github.com/sns-seb/", "Public Github at SonarSource"),
 )
 
+##################################
+# Elegant theme related settings #
+##################################
 THEME = "theme-elegant"
 
+# no search with local
+SEARCH_URL = ""
 LANDING_PAGE_TITLE = "Sébastien Lesaint"
 PROJECTS_TITLE = "Active projects"
 PROJECTS = [

@@ -20,3 +20,8 @@ DELETE_OUTPUT_DIRECTORY = True
 
 # DISQUS_SITENAME = ""
 # GOOGLE_ANALYTICS = ""
+
+##################################
+# Elegant theme related settings #
+##################################
+SEARCH_URL = "https://www.google.com/search"
