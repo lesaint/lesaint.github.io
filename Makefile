@@ -10,6 +10,7 @@ PUBLISHCONF=$(BASEDIR)/publishconf.py
 
 GITHUB_PAGES_BRANCH=gh-pages
 
+THEME_DIR:=theme-elegant
 HEAD_ID:=$(shell git rev-parse --short HEAD)
 
 
@@ -69,38 +70,43 @@ venv: $(VENV_DIR)/touchfile
 venvclean:
 	rm -rf $(VENV_DIR)
 
-html: venv
+$(THEME_DIR)/README.md:
+	test -d "$(THEME_DIR)" || git clone --depth 1 https://github.com/lesaint/pelicant-theme-elegant "$(THEME_DIR)"
+
+eleganttheme: $(THEME_DIR)/README.md
+
+html: venv eleganttheme
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
 clean: venv
 	[ ! -d "$(OUTPUTDIR)" ] || rm -rf "$(OUTPUTDIR)"
 
-regenerate: venv
+regenerate: venv eleganttheme
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -r "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
-serve: venv
+serve: venv eleganttheme
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -l "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
-serve-global: venv
+serve-global: venv eleganttheme
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -l "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS) -b $(SERVER)
 
-devserver: venv
+devserver: venv eleganttheme
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -lr "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
-devserver-global: venv
+devserver-global: venv eleganttheme
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -lr "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS) -b 0.0.0.0
 
-publish: venv
+publish: venv eleganttheme
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(PUBLISHCONF)" $(PELICANOPTS)
 
-github: publish venv
+github: publish
 	$(ACTIVATE_VENV)
 	ghp-import -m "Generate Pelican site for commit $(HEAD_ID)" -b "$(GITHUB_PAGES_BRANCH)" "$(OUTPUTDIR)"
 	git push origin $(GITHUB_PAGES_BRANCH)
