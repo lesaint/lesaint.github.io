@@ -11,7 +11,7 @@ Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editi
 - Excellent resource
   - [http://www.macstories.net/roundups/sublime-text-2-and-markdown-tips-tricks-and-links/](http://www.macstories.net/roundups/sublime-text-2-and-markdown-tips-tricks-and-links/)
 - Install Sublime Text
-  - see [Installing Sublime for my use]({filename}/articles/2014-01-08-installing_sublime_for_my_use.md)
+  - see [Installing Sublime for my use]({filename}/from_jekyll/articles/2014-01-08-installing_sublime_for_my_use.md)
 - Extends Sublime for better editing experience (via Package Control)
   - Add package MarkdownEditing
     - installation

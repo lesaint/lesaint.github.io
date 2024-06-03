@@ -77,7 +77,7 @@ By the way, any code generated during the last round will never be processed by 
 
 To find out about what is going on during the Annotation Processing, how many round there are and what they are made of, logs can be enabled in ```Javac``` with command line arguments.
 
-See this previous [article]({filename}/articles/2014-08-31-how_to_make_sure_javac_is_using_a_specific_annotation_processor.md#customize-the-command-line) for details.
+See this previous [article]({filename}/from_jekyll/articles/2014-08-31-how_to_make_sure_javac_is_using_a_specific_annotation_processor.md#customize-the-command-line) for details.
 
 ## the discovery process
 
@@ -87,7 +87,7 @@ One can create a file ```META-INF/service/javax.annotation.processing.Processor`
 
 The Compiler will automatically scan for this file in the class path when beeing run and use it to instanciate Annotation Processors.
 
-This previous [article]({filename}/articles/2014-08-31-how_to_make_sure_javac_is_using_a_specific_annotation_processor.md#customize-the-command-line) describes how to make sure your Annotation Processor is beeing used by ```Javac```.
+This previous [article]({filename}/from_jekyll/articles/2014-08-31-how_to_make_sure_javac_is_using_a_specific_annotation_processor.md#customize-the-command-line) describes how to make sure your Annotation Processor is beeing used by ```Javac```.
 
 > (*) projects used to make thoses experiments are available online and in a project dedicated to [experimenting with Annotation Processing in Java](https://github.com/lesaint/experimenting-annotation-processing). They use ```Javac``` as a compiler.
 
