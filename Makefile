@@ -10,6 +10,8 @@ PUBLISHCONF=$(BASEDIR)/publishconf.py
 
 GITHUB_PAGES_BRANCH=gh-pages
 
+HEAD_ID:=$(shell git rev-parse --short HEAD)
+
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -85,7 +87,7 @@ publish: venv
 	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(PUBLISHCONF)" $(PELICANOPTS)
 
 github: publish venv
-	ghp-import -m "Generate Pelican site" -b $(GITHUB_PAGES_BRANCH) "$(OUTPUTDIR)"
+	ghp-import -m "Generate Pelican site for commit $(HEAD_ID)" -b "$(GITHUB_PAGES_BRANCH)" "$(OUTPUTDIR)"
 	git push origin $(GITHUB_PAGES_BRANCH)
 
 
