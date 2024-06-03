@@ -1,59 +1,48 @@
----
-layout: post
-title: "Script to Refresh all materialized views in a schema"
-tags:
- - Oracle
- - script
-categories:
- - Tips
-image:
- feature: feature_image_green.png
-comments: true
-share: true
----
+Title: Script to Refresh all materialized views in a schema
+Tags: Oracle, script
 
 Use the following script to refresh all materialized view in a schema of an Oracle database. This script can be run very easily from SqlPlus.
 
 
 Connect to the user of the schema where you can to refresh all materalized views and execute the following PL/SQL procedure:
 
-{% highlight sql %}
+```sql
 DECLARE
   v_number_of_failures NUMBER(12) := 0;
 BEGIN
   DBMS_MVIEW.REFRESH_ALL_MVIEWS(v_number_of_failures,'C','', TRUE, FALSE);
 END;
-{% endhighlight %}
+```
 
 ### Execute with sqlplus
 
 Create a file called ```refresh_all_materialised_views.sql``` with the following content:
 
-{% highlight sql %}
+```sql
 DECLARE
 v_number_of_failures NUMBER(12) := 0;
 BEGIN
 DBMS_MVIEW.REFRESH_ALL_MVIEWS(v_number_of_failures,'C','', TRUE, FALSE);
 END;
 /
-{% endhighlight %}
+```
 
 > Warning, mind the "/" on the last line, it is required to make oracle execute the PL/SQL procedure
 
 Execute with Sqlplus:
 
-{% highlight bash %}
+```bash
 sqlplus user/user_pwd @refresh_all_materialised_views.sql
-{% endhighlight %}
+```
 You may add an extra line at the end of ```refresh_all_materialised_views.sql``` to automatically exit Sqlplus when the procedure has been executed (successfully or not):
 
-{% highlight sql %}
+```sql
 quit
-{% endhighlight %}
+```
 
 You should see something like the following output:
 
-{% highlight bash %}
+```bash
 my_machine:$ sqlplus user/user_pwd @refresh_all_materialised_views.sql
 
 SQL*Plus: Release 11.2.0.3.0 Production on Tue Oct 14 10:37:04 2014
@@ -74,7 +63,7 @@ With the Partitioning, Automatic Storage Management, OLAP, Data Mining
 and Real Application Testing options
 
 my_machine:$
-{% endhighlight %}
+```
 
 ### Source
 

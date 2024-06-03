@@ -1,17 +1,5 @@
----
-layout: post
-title: "Testing any Apache rewrite rule locally"
-tags:
- - Apache
- - Ubuntu
- - Testing
-categories:
- - tips
-image:
- feature: feature_image_green.png
-comments: true
-share: true
----
+Title: Testing any Apache rewrite rule locally
+Tags: Apache, Ubuntu, Testing
 
 Recently, I had to write a bunch of Apache rewrite rules which applied to the whole URL, including the hostname. I also add to use `RewriteMap` for efficiency.
 
@@ -20,8 +8,7 @@ I initially though this would be difficult to test locally but, in fact, with li
 This article will detail how I did it on my computer running Ubuntu and hopefully it will help others setup their own computer.
 
 
-* Table of Contents
-{:toc}
+[TOC]
 
 # Testing rewrite rules
 
@@ -45,9 +32,9 @@ If you already have Apache installed, skip this.
 
 Installation under Ubuntu is trivial:
 
-{% highlight sh %}
+```sh
 sudo apt-get install apache2
-{% endhighlight %}
+```
 
 By default, the installed Apache instance is bound to port 80 and any host.
 
@@ -59,10 +46,10 @@ When installing Apache, `mod_rewrite` might not be installed by default.
 
 Under Ubuntu, just add a link in directory `/etc/apache2/mods-enabled` to the `rewrite.load` file in `/etc/apache2/mods-available`;
 
-{% highlight sh %}
+```sh
 cd /etc/apache2/mods-enabled
 ln -s ../mods-available/rewrite.load
-{% endhighlight %}
+```
 
 # Modify the default host
 
@@ -70,22 +57,22 @@ ln -s ../mods-available/rewrite.load
 
 Open file `000-default.conf` where the default host is configured.
 
-{% highlight sh %}
+```sh
 sudo vi /etc/apache2/sites-available/000-default.conf
-{% endhighlight %}
+```
 
 The default host is bound to any host on port 80:
 
-{% highlight apacheconf %}
+```apacheconf
 <VirtualHost *:80>
-{% endhighlight %}
+```
 
 Add an `Include` directive before the closing tag of the `VirtualHost` directive to import the configuration file where you will write your Rewrite rules.
 This is optional but you will find it convenient to clean your installation later or disable all changes you made by just commenting this directive.
 
-{% highlight apacheconf %}
+```apacheconf
 Include /etc/apache2/sites-available/my_rewrite_rule_tests.conf
-{% endhighlight %}
+```
 
 ## mod_rewrite logging
 
@@ -95,9 +82,9 @@ Inside the `VirtualHost` directive, look for the [`LogLevel` directive](http://h
 
 What matters is having an argument to the directive starting with `rewrite`, such as the following:
 
-{% highlight sh %}
+```sh
 LogLevel alert rewrite:trace8
-{% endhighlight %}
+```
 
 The part after the colon in `rewrite:trace8` is the logging level.
 
@@ -107,9 +94,9 @@ As we are testing locally, we can use the maximum logging level (level8) but be 
 
 mod_rewrite logs into `/var/log/apache2/error.log` with a `[rewrite` prefix.
 
-{% highlight sh %}
+```sh
 tail -f /var/log/apache2/error.log | fgrep '[rewrite:' 
-{% endhighlight %}
+```
 
 # Add hosts to /etc/hosts
 
@@ -121,15 +108,15 @@ You can then test rewrite rule based on existing host but also on non existing o
 
 Open `/etc/hosts` (sudo required):
 
-{% highlight sh %}
+```sh
 sudo vi /etc/hosts
-{% endhighlight %}
+```
 
 and add a line such as the following:
 
-{% highlight sh %}
+```sh
 127.0.0.1    store.mydomain.com boutique.mydomain.com
-{% endhighlight %}
+```
 
 ### bind Apache to hostnames
 
@@ -137,18 +124,18 @@ Add a `ServerName` directive (if none is already set yet) and any number of `Ser
 
 My advice is to add these directive to the dedicated configuration file created earlier.
 
-{% highlight apacheconf %}
+```apacheconf
 ServerName              store.mydomain.com
 ServerAlias             boutique.mydomain.com
-{% endhighlight %}
+```
 
 ### add rewrite rules
 
 Make sure the mod_rewrite engine is enabled by adding the `RewriteEngine` directive:
 
-{% highlight apacheconf %}
+```apacheconf
 RewriteEngine   On
-{% endhighlight %}
+```
 
 Now, add your [RewriteRule](http://httpd.apache.org/docs/2.4/en/mod/mod_rewrite.html#rewriterule), [RewriteCond](http://httpd.apache.org/docs/2.4/en/mod/mod_rewrite.html#rewritecond) and [RewriteMap](http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html#rewritemap) directives.
 
@@ -156,12 +143,12 @@ Now, add your [RewriteRule](http://httpd.apache.org/docs/2.4/en/mod/mod_rewrite.
 
 You can either start/restart or reload Apache after each change.
 
-{% highlight sh %}
+```sh
 sudo /etc/init.d/apache2 start
 sudo /etc/init.d/apache2 restart
 # only reload the configuration without restarting Apache
 sudo /etc/init.d/apache2 reload
-{% endhighlight %}
+```
 
 Now, open your favorite browser, type in a URL to test, see the result in the browser: are you being redirected or not? to the correct URL?
 

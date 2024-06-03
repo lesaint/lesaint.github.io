@@ -1,19 +1,5 @@
----
-layout: post
-title: Cloning a local Git repository from a remote machine
-tags:
- - Git
- - SSH
-categories:
- - Tips
-image:
- feature: feature_image_green.png
-redirect_from:
-  - /2014/01/20/cloning_a_local_repository_from_a_remote_machine.html
-  - /articles/2014/01/20/cloning_a_local_repository_from_a_remote_machine.html
-comments: true
-share: true
----
+Title: Cloning a local Git repository from a remote machine
+Tags: Git, SSH
 
 If you happen to have a Git repository cloned a machine (let's say machine@work) and you want to retrieve it on another machine (let's say machine@home),
 you have a better (as in faster and more efficient) option than `scp` or `rsync` : `git clone`.
@@ -26,10 +12,10 @@ Pushing local branche from machine@work to Remote is an option but it could polu
 
 Let's say the clone on machine @work is in directory `~/DEV/myclone`, here are the commands to use :
 
-{% highlight sh %}
+```sh
 cd ~/STUFF_FROM_WORK/
 git clone lesaint@lesaint.work.com:~/DEV/myclone/
-{% endhighlight %}
+```
 
 And that's it !
 
@@ -47,7 +33,7 @@ After cloning from machine @work, you might notice that the remote of the clone 
 
 To fix that in the event you would happen to access to remote from home and that you would like to push to remote directly :
 
-{% highlight sh %}
+```sh
 cd ~/STUFF_FROM_WORK/myclone
 git remote set origin lesaint@gitserver.work.com:project.git
-{% endhighlight %}
+```

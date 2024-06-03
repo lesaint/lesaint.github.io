@@ -1,18 +1,5 @@
----
-layout: post
-title: Cloning a single branch
-tags:
- - Git
-categories:
- - tips
-image:
- feature: feature_image_green.png
-redirect_from:
-  - /2014/01/06/cloning_a_single_git_branch.html
-  - /articles/2014/01/06/cloning_a_single_git_branch.html
-comments: true
-share: true
----
+Title: Cloning a single branch
+Tags: Git
 
 On this new project I'm working one, there is this huge repository that serves as a deployment mean for binaries in the stage and production environnement.
 
@@ -28,7 +15,7 @@ To clone a repository and retrieve a single branch can be done as follow :
 
 (source : [http://stackoverflow.com/a/4146786](http://stackoverflow.com/a/4146786))
 
-{% highlight sh %}
+```sh
 # create clone directory
 mkdir $REPO
 cd $REPO
@@ -40,14 +27,14 @@ git remote add -t $BRANCH -f origin $REMOTE_REPO
 git fetch
 # checkout branch locally
 git checkout $BRANCH
-{% endhighlight %}
+```
 
 ### Checkout new branches
 
 Checking out any branch/tag from the repo can be done as follow :
 It indeed requires to know the name of the remote branch from another source than your local checkout.
 
-{% highlight sh %}
+```sh
 cd $REPO
 # add a new remote branch
 git remote set-branches --add origin $NEW_BRANCH
@@ -55,14 +42,14 @@ git remote set-branches --add origin $NEW_BRANCH
 git fetch
 # checkout branch locally
 git co $NEW_BRANCH
-{% endhighlight %}
+```
 
 If the added remote branche does not exist on the remote repository, you will get the following error, fetch will fail.
 
-{% highlight sh %}
+```sh
 fatal: Couldn't find remote ref refs/heads/WRONG_BRANCH
 fatal: The remote end hung up unexpectedly
-{% endhighlight %}
+```
 
 The problem is that your local repository get kind of corrupted and all the next `git fetch` command will also fail with the same error.
 
@@ -79,7 +66,7 @@ This technic is a litle bit manual, but has many advantages :
 * you don't get pushing problems as you can get when using git shallow cloning
 * you really are checking a single reference branch as opposed to using `git clone -b option`
 
-{% highlight sh %}
+```sh
 # retrieves all the remote branches locally and then checkout branch_name
 git clone user@git-server:project_name.git -b branch_name
-{% endhighlight %}
+```

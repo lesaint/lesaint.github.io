@@ -1,18 +1,5 @@
----
-layout: post
-title: "Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh"
-tags:
- - Cloud
- - Google Cloud
- - Ubuntu
- - Oh-My-Zsh
-categories:
- - Tips
-image:
- feature: feature_image_green.png
-comments: true
-share: true
----
+Title: Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh
+Tags: Cloud, Google Cloud, Ubuntu, Oh-My-Zsh
 
 To install the Google Cloud SDK, you can follow the [installation guidelines](https://cloud.google.com/sdk/) available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manual steps.
 
@@ -21,9 +8,9 @@ To install the Google Cloud SDK, you can follow the [installation guidelines](ht
 
 Run the following command to download and install the SDK on your disk.
 
-{% highlight sh %}
+```sh
 curl https://sdk.cloud.google.com | bash
-{% endhighlight %}
+```
 
 ### Bash
 
@@ -37,13 +24,13 @@ You will then have to manually modify your ```.zshrc```.
 
 The installer adds the following lines:
 
-{% highlight sh %}
+```sh
 # The next line updates PATH for the Google Cloud SDK.
 source '/path/to/google-cloud-sdk/path.bash.inc'
 
 # The next line enables bash completion for gcloud.
 source '/path/to/google-cloud-sdk/completion.bash.inc'
-{% endhighlight %}
+```
 
 Just replace the ```bash``` part in the file names with ```zsh``` to use the Zsh specific scripts provided with the SDK.
 
@@ -53,10 +40,10 @@ I use Oh-My-Zsh as a shell and unfortunately, the procedure above did not work f
 
 When loading a new shell, I got errors such as the following and command line completion did not work.
 
-{% highlight sh %}
+```sh
 /path/to/google-cloud-sdk/completion.bash.inc:8: command not found: complete
 /path/to/google-cloud-sdk/completion.bash.inc:19: parse error near `]]'
-{% endhighlight %}
+```
 
 I did the following to fix the install.
 
@@ -70,7 +57,7 @@ Then two lines to tell `Zsh` to load and init some specific modules required for
 
 You should end up with the following, at the beginning of your `.zshrc`.
 
-{% highlight sh %}
+```sh
 # The next line updates PATH for the Google Cloud SDK.
 source '/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/path.zsh.inc'
 
@@ -78,4 +65,4 @@ source '/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/path.zsh.inc'
 autoload -U compinit compdef
 compinit
 source '/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/completion.zsh.inc'
-{% endhighlight %}
+```

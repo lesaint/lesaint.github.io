@@ -1,16 +1,5 @@
----
-layout: post
-title: "Script to delete all objects in a Oracle schema"
-tags:
- - Oracle
- - script
-categories:
- - tips
-image:
- feature: feature_image_green.png
-comments: true
-share: true
----
+Title: Script to delete all objects in a Oracle schema
+Tags: Oracle, script
 
 Use the following script to drop all objects in a specific schema in an Oracle Database without droping the schema itself. It saves you from recreating the schema, its associated user, its rights, etc.
 
@@ -19,7 +8,7 @@ Use the following script to drop all objects in a specific schema in an Oracle D
 
 Create a file called ```empty_user.sql``` with the following content:
 
-{% highlight sql %}
+```sql
 purge recyclebin;
 declare
     -- FK first, then unique, then PK
@@ -65,20 +54,20 @@ begin
 end;
 /
 quit
-{% endhighlight %}
+```
 
 > line with "/" is required to execute the preceding PL/SQL procedure
 > line with "quit" is usefull to automatically exit sqlplus when procedure has been executed
 
 ### Execute with sqlplus
 
-{% highlight bash %}
+```bash
 sqlplus user/user_pwd @empty_user.sql
-{% endhighlight %}
+```
 
 You can expect output such as the following:
 
-{% highlight sh %}
+```sh
 my_machine:$ sqlplus user/user_pwd @empty_user.sql
 
 SQL*Plus: Release 11.2.0.3.0 Production on Tue Oct 14 12:27:32 2014
@@ -100,7 +89,7 @@ PL/SQL procedure successfully completed.
 Disconnected from Oracle Database 11g Enterprise Edition Release 11.2.0.3.0 - 64bit Production
 With the Partitioning, Automatic Storage Management, OLAP, Data Mining
 and Real Application Testing options
-{% endhighlight %}
+```
 
 # Credits
 

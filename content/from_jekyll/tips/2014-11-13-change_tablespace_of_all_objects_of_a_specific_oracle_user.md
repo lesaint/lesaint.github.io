@@ -1,18 +1,5 @@
----
-layout: post
-title: "Change tablespace of all objects of a specific Oracle User"
-tags:
- - Oracle
- - script
- - SqlPlus
- - bash
-categories:
- - tips
-image:
- feature: feature_image_green.png
-comments: true
-share: true
----
+Title: Change tablespace of all objects of a specific Oracle User
+Tags: Oracle, script, SqlPlus, bash
 
 Here is a convenient PL/SQL script to run with SqlPlus to change the tablespace of the objects (tables, indexes, lobs) of a specific user in a blink. It can also be use to fix inconsistency in tablespace used by the user objects.
 
@@ -25,7 +12,7 @@ The PL/SQL script below changes the tablespace of the tables, indexes and lob ob
 
 Create file, e.g. called `change_tablespaces.sql`, with the following content. 
 
-{% highlight sql %}
+```sql
 declare
     cursor tab_cur is select table_name from user_tables where tablespace_name != '&&Data';
     cursor ind_cur is select index_name from user_indexes where tablespace_name != '&&Index' and index_type != 'LOB';
@@ -53,7 +40,7 @@ end;
 /
 -- exits SqlPlus
 quit
-{% endhighlight %}
+```
 
 Please notice that the script uses SqlPlus variables prefixed with `&&`: `&&Data` and `&&Index`. The former holds the name of the tablespace for Data (ie. tables and lobs) and the later the name of the tablespace for Indexes.
 
@@ -67,15 +54,15 @@ To change the tablespace for a specific user, connect to that user with SqlPlus 
 
 You can do that in a single command line (e.g. for user `MYUSER`):
 
-{% highlight sh %}
+```sh
 sqlplus MYUSER/MYUSER @change_tablespaces.sql
-{% endhighlight %}
+```
 
 Sqlplus will prompt the user to provide a value for each variables (first `&&Data`, then `&&Index`). It is best to input the name of the tablespace in upper case.
 
 Here is what it should look like.
 
-{% highlight sh %}
+```sh
 %> sqlplus MYUSER/MYUSER @change_tablespace.sh
 SQL*Plus: Release 11.2.0.3.0 Production on Thu Nov 13 13:02:49 2014
 Copyright (c) 1982, 2011, Oracle.  All rights reserved.
@@ -99,7 +86,7 @@ old  29:    execute immediate 'alter table ' || lob_val.table_name || ' move lob
 new  29:    execute immediate 'alter table ' || lob_val.table_name || ' move lob(' || lob_val.column_name || ') store as (tablespace XAA)';
 PL/SQL procedure successfully completed.
 SQL>
-{% endhighlight %}
+```
 
 # The bash script
 
@@ -119,7 +106,7 @@ The following script:
 * could obviously be improved but does the job, feel free to customize it to meet your needs
 * use several sqlplus options to avoid verbose SqlPlus logs (see comments in the script)
 
-{% highlight sh %}
+```sh
 #!/bin/bash
 
 if [ $# -lt 4 ]; then
@@ -170,26 +157,26 @@ quit
 EOF
 
 exit 0
-{% endhighlight %}
+```
 
 ## use it
 
 Assuming you created a script called `change_tablespace.sh` (and made it executable  `chmod +x change_tablespace.sh`), you can run the script with a command as the following:
 
-{% highlight sh %}
+```sh
 ./change_tablespace.sh MYUSER MYUSER CAA XAA
-{% endhighlight %}
+```
 
 and you will get an output such as the following:
 
-{% highlight sh %}
+```sh
 changing tablespace of user MYUSER (password=MYUSER) 
    - tablespace for data is CAA
    - tablespace for indexes is XAA
 Enter 'y' to proceed, 'n' to exit script : y
 
 PL/SQL procedure successfully completed.
-{% endhighlight %}
+```
 
 # Resources
 

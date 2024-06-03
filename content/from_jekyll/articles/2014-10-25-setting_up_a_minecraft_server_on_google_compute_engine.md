@@ -28,7 +28,7 @@ Billing info are required to use Google Compute Engine because creating an insta
 
 ## install it
 
-My installation setup is described in [Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh]({filename}/tips/2014-10-17-installing_google_cloud_sdk_on_ubuntu_with_oh-my-zsh.md).
+My installation setup is described in [Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh]({filename/from_jekyll/tips/2014-10-17-installing_google_cloud_sdk_on_ubuntu_with_oh-my-zsh.md).
 
 ## authenticate
 
