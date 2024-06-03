@@ -50,8 +50,6 @@ SOCIAL = (
     ("Another social link", "#"),
 )
 
-DEFAULT_PAGINATION = 10
-
 THEME = "theme-elegant"
 
 LANDING_PAGE_TITLE = "Sébastien Lesaint"
