@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Annotation Processing, Javac, articles, " />
+
+<meta property="og:title" content="How to make sure javac is using an annotation processor and troubleshoot when it is not "/>
+<meta property="og:url" content="https://www.javatronic.fr/how-to-make-sure-javac-is-using-an-annotation-processor-and-troubleshoot-when-it-is-not.html" />
+<meta property="og:description" content="When developing an annotation processor, one can either declare it to javac using the -processorpath command line option or with the service provider-configuration file META-INF/services/javax.annotation.processing.Processor. In both cases, when our annotation processor seems not to be invoked by javac, it is not easy to troubleshoot …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2014-08-31T00:00:00+02:00" />
+<meta name="twitter:title" content="How to make sure javac is using an annotation processor and troubleshoot when it is not ">
+<meta name="twitter:description" content="When developing an annotation processor, one can either declare it to javac using the -processorpath command line option or with the service provider-configuration file META-INF/services/javax.annotation.processing.Processor. In both cases, when our annotation processor seems not to be invoked by javac, it is not easy to troubleshoot …">
+
+        <title>How to make sure javac is using an annotation processor and troubleshoot when it is not  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.google.com/search" onsubmit="return validateForm(this.elements['q'][0].value);" target="_blank"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"><input type="hidden" name="q" value="site:https://www.javatronic.fr"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/how-to-make-sure-javac-is-using-an-annotation-processor-and-troubleshoot-when-it-is-not.html">
+                How to make sure javac is using an annotation processor and troubleshoot when it is not
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#enable-and-interprete-javac-logs">enable and interprete javac logs</a><ul>
+<li><a href="#retrieve-the-javac-command-line-from-maven">retrieve the javac command line from Maven</a></li>
+<li><a href="#customize-the-command-line">customize the command line</a></li>
+</ul>
+</li>
+<li><a href="#make-sure-the-annotation-processor-is-run-by-javac">make sure the annotation processor is run by javac</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            <p>When developing an annotation processor, one can either declare it to <code>javac</code> using the <code>-processorpath</code> command line option or with the service provider-configuration file <code>META-INF/services/javax.annotation.processing.Processor</code>.</p>
+<p>In both cases, when our annotation processor seems not to be invoked by <code>javac</code>, it is not easy to troubleshoot why <code>javac</code> is not using it, especially as we are not getting any error.</p>
+<p>We will see in this article how to enable and interpret <code>javac</code> logs to make sure the annotation processor is run and if not, how to interpret them to get a few leads on where the problem is coming from.</p>
+
+<h1 id="enable-and-interprete-javac-logs">enable and interprete <code>javac</code> logs<a class="headerlink" href="#enable-and-interprete-javac-logs" title="Permanent link">¶</a></h1>
+<p>Since I am using <code>Maven</code> to build my project, I am not writing <code>javac</code> command lines by hand, <code>Maven</code> does it for me.</p>
+<p>Obviouly, one could configure the <code>maven-compile</code> plugin in the pom.xml file to enable the logs we need in <code>javac</code> but <code>Maven</code> has a tendancy in swallowing <code>javac</code> logs. In addition, running <code>Maven</code> will flood the terminal with logs we don't care about. So we would rather use the <code>javac</code> command directly. </p>
+<h2 id="retrieve-the-javac-command-line-from-maven">retrieve the <code>javac</code> command line from <code>Maven</code><a class="headerlink" href="#retrieve-the-javac-command-line-from-maven" title="Permanent link">¶</a></h2>
+<p>Run <code>Maven</code> with -X option on the module which uses the annotation processor and copy the log line after log <code>[DEBUG] Command line options:</code>.</p>
+<p>For example, run <code>Maven</code> with the following command line:</p>
+<div class="highlight"><pre><span></span><code>mvn<span class="w"> </span>clean<span class="w"> </span>compile<span class="w"> </span>-X<span class="w"> </span>-pl<span class="w"> </span>:moduleName
+</code></pre></div>
+<blockquote>
+<p><code>-pl :moduleName</code> is a way of specifying a specific module for <code>Maven</code> to build. It allows to run the <code>mvn</code> command from the root directory of the project. Obviously, in a single module project, this is useless. In a multi-module project however, its convenient. It saves you from changing the current directory to the module's directory and run the same <code>mvn</code> command without that option.</p>
+</blockquote>
+<h2 id="customize-the-command-line">customize the command line<a class="headerlink" href="#customize-the-command-line" title="Permanent link">¶</a></h2>
+<ol>
+<li>prefix what you just copied with the <code>javac</code> command</li>
+<li>remove <code>-nowarn</code> option, we need to see any information available, this option removes warnings</li>
+<li>
+<p>add options <code>-verbose -XprintRounds -XprintProcessorInfo -Xlint -J-verbose</code></p>
+<ul>
+<li><code>-verbose</code><ul>
+<li>(doc description) Verbose output. This includes information about each class loaded and each source file compiled.</li>
+</ul>
+</li>
+<li><code>-Xlint</code><ul>
+<li>(doc description) Enable all recommended warnings. In this release, enabling all available warnings is recommended.</li>
+</ul>
+</li>
+<li><code>-XprintProcessorInfo</code><ul>
+<li>(doc description) Print information about which annotations a processor is asked to process.</li>
+</ul>
+</li>
+<li><code>-XprintRounds</code><ul>
+<li>(doc description) Print information about initial and subsequent annotation processing rounds</li>
+</ul>
+</li>
+<li>-J-verbose<ul>
+<li>(doc description) Sets the -verbose option of JVM run internally by javac</li>
+</ul>
+</li>
+<li>warning about <code>-Xprint</code><ul>
+<li>DO NOT USE this option when you want to investigage annotation processors</li>
+<li>this option will use a Java runtime internal annotation processor to display source of compiled files and <code>javac</code> won't log the actual annotation processor(s) that will be run during the round. It seems that this internal annotation processor wraps the actually used annotation processor(s) and we don't see which in logs</li>
+<li>(doc description) Print out textual representation of specified types for debugging purposes; perform neither annotation processing nor compilation. The format of the output may change.</li>
+</ul>
+</li>
+<li>(see http://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html for details)</li>
+</ul>
+</li>
+<li>
+<p>(optional) send all outputs to a file, add <code>&gt; /tmp/compile_clean.log 2&gt;&amp;1</code></p>
+</li>
+</ol>
+<h1 id="make-sure-the-annotation-processor-is-run-by-javac">make sure the annotation processor is run by <code>javac</code><a class="headerlink" href="#make-sure-the-annotation-processor-is-run-by-javac" title="Permanent link">¶</a></h1>
+<p>To make sure there is no problem loading your Annotation Processor class, look for the next 4 log lines.</p>
+<ol>
+<li>look for a log line stating that the .class file of your AnnotationProcessor class is being read.     <ul>
+<li>if the class is in a Jar:</li>
+</ul>
+</li>
+</ol>
+<p><div class="highlight"><pre><span></span><code><span class="w">        </span><span class="o">[</span>loading<span class="w"> </span>ZipFileIndexFileObject<span class="o">[</span>/opt/maven/repository/fr/javatronic/damapping/annotation-processor/0.2.3-bundle-clean-SNAPSHOT/annotation-processor-0.2.3-bundle-clean-SNAPSHOT.jar<span class="o">(</span>fr/javatronic/damapping/processor/DAAnnotationProcessor.class<span class="o">)]]</span>
+</code></pre></div>
+    * if the class is on the file system</p>
+<div class="highlight"><pre><span></span><code><span class="w">        </span><span class="o">[</span>loading<span class="w"> </span>RegularFileObject<span class="o">[</span>/home/user/DEV/damapping/damapping-samples/spring-project/target/classes/fr/javatronic/damapping/processor/DAAnnotationProcessor.class<span class="o">]]</span>
+</code></pre></div>
+<ol start="2">
+<li>look for at least one annotation processor round log<ul>
+<li>look for the <code>Round</code> string</li>
+<li>a round log line looks like the following:</li>
+</ul>
+</li>
+</ol>
+<p><div class="highlight"><pre><span></span><code><span class="w">        </span>Round<span class="w"> </span><span class="m">1</span>:
+<span class="w">                </span>input<span class="w"> </span>files:<span class="w"> </span><span class="o">{</span>fr.javatronic.damapping.demo.domain.repository.impl.CourseSlotRepositoryImpl,<span class="w"> </span>fr.javatronic.damapping.demo.domain.repository.impl.CourseRepositoryImpl,<span class="w"> </span>fr.javatronic.damapping.demo.domain.repository.CourseSlotRepository,<span class="w"> </span>fr.javatronic.damapping.demo.domain.model.Teacher,<span class="w"> </span>fr.javatronic.damapping.demo.view.service.impl.PeopleIndexServiceImpl,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.Day,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.TimedClass,<span class="w"> </span>fr.javatronic.damapping.demo.view.mapper.IntegerToString,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.WeekPlanning,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.EveningClasses,<span class="w"> </span>fr.javatronic.damapping.demo.MainClass,<span class="w"> </span>fr.javatronic.damapping.demo.view.service.impl.WeekPlanningServiceImpl,<span class="w"> </span>fr.javatronic.damapping.demo.spring.ApplicationConfig,<span class="w"> </span>fr.javatronic.damapping.demo.view.mapper.TeacherToPeople,<span class="w"> </span>fr.javatronic.damapping.demo.domain.repository.impl.TeacherRositoryImpl,<span class="w"> </span>fr.javatronic.damapping.demo.domain.model.Course,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.AfternoonClasses,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.Classes,<span class="w"> </span>fr.javatronic.damapping.demo.view.service.WeekPlanningService,<span class="w"> </span>fr.javatronic.damapping.demo.view.mapper.StudentToPeople,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.PeopleIndex,<span class="w"> </span>fr.javatronic.damapping.demo.domain.model.CourseSlot,<span class="w"> </span>fr.javatronic.damapping.demo.domain.repository.impl.StudentRepositoryImpl,<span class="w"> </span>fr.javatronic.damapping.demo.domain.repository.StudentRepository,<span class="w"> </span>fr.javatronic.damapping.demo.view.service.PeopleIndexService,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.MorningClasses,<span class="w"> </span>fr.javatronic.damapping.demo.view.model.People,<span class="w"> </span>fr.javatronic.damapping.demo.domain.repository.CourseRepository,<span class="w"> </span>fr.javatronic.damapping.demo.domain.model.Student,<span class="w"> </span>fr.javatronic.damapping.demo.domain.repository.TeacherRository<span class="o">}</span>
+<span class="w">                </span>annotations:<span class="w"> </span><span class="o">[</span>java.lang.Override,<span class="w"> </span>fr.javatronic.damapping.annotation.Mapper,<span class="w"> </span>javax.annotation.Nullable,<span class="w"> </span>org.springframework.context.annotation.Configuration<span class="o">]</span>
+<span class="w">                </span>last<span class="w"> </span>round:<span class="w"> </span><span class="nb">false</span>
+</code></pre></div>
+    * make sure your annotation(s) are present in the list in the line before the last line
+3. look for the log line indicating that your AnnotationProcessor has been identified to process one or more annotation</p>
+<p><div class="highlight"><pre><span></span><code><span class="w">    </span>Processor<span class="w"> </span><span class="o">[</span>qualified<span class="w"> </span>name<span class="w"> </span>of<span class="w"> </span>your<span class="w"> </span>AnnotationProcessor<span class="w"> </span>class<span class="o">]</span><span class="w"> </span>matches<span class="w"> </span><span class="o">[</span>name<span class="o">(</span>s<span class="o">)</span><span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>annotation<span class="o">(</span>s<span class="o">)</span><span class="w"> </span>your<span class="w"> </span>AnnotationProcessor<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>invoked<span class="w"> </span><span class="k">for</span><span class="o">]</span><span class="w"> </span>and<span class="w"> </span>returns<span class="w"> </span><span class="o">[</span>true/false<span class="o">]</span>.
+</code></pre></div>
+4. look for a log line stating that your AnnotationProcessor class has been loaded, such as</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="o">[</span>Loaded<span class="w"> </span>fr.javatronic.damapping.processor.DAAnnotationProcessor<span class="w"> </span>from<span class="w"> </span>file:/opt/maven/repository/fr/javatronic/damapping/annotation-processor/0.2.3-bundle-clean-SNAPSHOT/annotation-processor-0.2.3-bundle-clean-SNAPSHOT.jar<span class="o">]</span>
+</code></pre></div>
+<p>If you cannot find the first log line, your AnnotationProcessor is not in the classpath of the <code>javac</code> command.</p>
+<p>If you cannot find the second log line, <code>javac</code> did not pick any annotation processor in the classpath at all (so, not yours nor any other) or annotation processing is disabled. Make sure you don't have the <code>-proc:none</code> on your command line.</p>
+<p>If you cannot find your annotation(s) in the second log line, you are just not compiling any class with your annotation(s). Your Annotation Processor will never be run by <code>javac</code>.</p>
+<p>If you cannot find the third log line, your AnnotationProcessor might be incorrectly configured. Make sure the <code>getSupportedOptions()</code> method of your Annotation Processor returns correctly the canonical name of the annotation(s) you want to process.</p>
+<p>If you cannot find the fourth log line, your Annotation Processor class or any class it depends on can not be loaded by <code>javac</code>. There may be various reasons for that but I don't know how to get more details about that from <code>javac</code>.</p>
+<p>Obviously, if you can see all 4 log lines and don't get any error at all, your annotation processor is correctly beeing run by <code>javac</code> and your problem is most likely the code of your Annotation Processor.</p>
+<p>You then need to debug your Annotation Processor and this is not trivial. I will likely post an article on how to debug an Annotation Processor soon.</p>
+<p>Hope this helps.</p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2014-08-31T00:00:00+02:00">dim. 31 août 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#annotation-processing-ref">Annotation Processing
+                    <span class="superscript">3</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#javac-ref">Javac
+                    <span class="superscript">3</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

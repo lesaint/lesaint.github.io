@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Java, Bean Mapping, DAMapping, articles, " />
+
+<meta property="og:title" content="Java Bean Mapping is wrong, let&#39;s fix it! "/>
+<meta property="og:url" content="https://www.javatronic.fr/java-bean-mapping-is-wrong-lets-fix-it.html" />
+<meta property="og:description" content="When it comes to Bean Mapping, it is surprising to see how many tools/frameworks are available. Some as old and famous as Dozer, other more recent and innovative as Selma (see this highly referenced post if you need a list). But no matter how different the technical underlying paradigms …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2014-05-21T00:00:00+02:00" />
+<meta name="twitter:title" content="Java Bean Mapping is wrong, let&#39;s fix it! ">
+<meta name="twitter:description" content="When it comes to Bean Mapping, it is surprising to see how many tools/frameworks are available. Some as old and famous as Dozer, other more recent and innovative as Selma (see this highly referenced post if you need a list). But no matter how different the technical underlying paradigms …">
+
+        <title>Java Bean Mapping is wrong, let&#39;s fix it!  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.google.com/search" onsubmit="return validateForm(this.elements['q'][0].value);" target="_blank"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"><input type="hidden" name="q" value="site:https://www.javatronic.fr"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/java-bean-mapping-is-wrong-lets-fix-it.html">
+                Java Bean Mapping is wrong, let's fix it!
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#a-little-bit-on-my-experience-on-the-subject">A little bit on my experience on the subject</a></li>
+<li><a href="#existing-tools-were-created-to-write-mapping-code">Existing tools were created to write mapping code</a></li>
+<li><a href="#the-practical-problems-of-hidden-mapping-code">The practical problems of hidden mapping code</a><ul>
+<li><a href="#bean-mapping-code-is-not-source-code-in-your-application">Bean Mapping code is not source code in your application</a></li>
+<li><a href="#bean-mapping-code-is-not-stable">Bean Mapping code is not stable</a></li>
+<li><a href="#you-cant-leverage-the-power-of-the-ide">you can't leverage the power of the IDE</a></li>
+<li><a href="#debugging-is-usually-not-easy">debugging is usually not easy</a></li>
+<li><a href="#no-direct-access-to-the-mapping-code-for-new-developers">no direct access to the mapping code for new developers</a></li>
+<li><a href="#need-to-customize-say-goodbye-to-compiler-feedback">need to customize ? say goodbye to compiler feedback</a></li>
+<li><a href="#immutability-is-not-a-prime-citizen">immutability is not a prime citizen</a></li>
+<li><a href="#you-cant-investigate-how-mapping-actually-occurs">you can't investigate how mapping actually occurs</a></li>
+<li><a href="#you-cant-tell-dead-code-apart">you can't tell dead code apart</a></li>
+<li><a href="#not-much-or-none-control-over-mapping-of-bean-trees">not much (or none) control over mapping of bean trees</a></li>
+<li><a href="#performance">performance ...</a></li>
+<li><a href="#the-down-side-of-bean-mapping-code-in-source">The down side of Bean Mapping code in source</a></li>
+</ul>
+</li>
+<li><a href="#bean-mapping-code-is-business-code">Bean mapping code is business code</a></li>
+<li><a href="#bean-mapping-is-dead-long-live-bean-mapping">Bean Mapping is dead, long live Bean Mapping</a><ul>
+<li><a href="#bean-mapping-wiring-framework">Bean Mapping Wiring Framework</a></li>
+<li><a href="#bean-mapping-code-generator">Bean Mapping Code Generator</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            <p>When it comes to Bean Mapping, it is surprising to see how many tools/frameworks are available. Some as old and famous as <a href="http://dozer.sourceforge.net/">Dozer</a>, other more recent and innovative as <a href="https://github.com/xebia-france/selma">Selma</a> (see this <a href="http://www.javacodegeeks.com/2013/10/java-object-to-object-mapper.html">highly referenced post</a> if you need a list).</p>
+<p>But no matter how different the technical underlying paradigms of these tools are, they have one thing in common: they take Bean Mapping code out of the application, either as XML or annotation configuration + reflection, or as generated bytecode or, more recently, as generated classes.</p>
+<p>In my opinion and experience, this is a wrong approach to Bean Mapping and the cause of many problems in the life of an application.</p>
+<p>Bean mapping can look like simple/boring/obvious/tedious-to-write code but it still holds a lot of business logic and as such must be plain part of the application code. We shouldn't take that code away or hide it.</p>
+
+<h1 id="a-little-bit-on-my-experience-on-the-subject">A little bit on my experience on the subject<a class="headerlink" href="#a-little-bit-on-my-experience-on-the-subject" title="Permanent link">¶</a></h1>
+<p>I have worked for 3 years on a big online application for a major French telco as a senior developer and then as a technical lead.</p>
+<p>This application integrates with nearly 100 web services (or other remote services), with a bunch of business components, a database, throws DTOs to the client user interface exposed as 150+ methods, ..., and internally, the application is made of several software layers. Overall, Bean Mapping occurs in many places and is a strong aspect of the application.</p>
+<p>Developers on this application tested several Bean Mapping solutions, from Dozer to fully hand coded mapping as the developer feels to write it, to extensive use of Guava's <a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/base/Function.html">Function</a>, to other exotic approaches. I saw them behave as time goes and as the application lives, and I learned a lot.</p>
+<p>After three years, I must say that I didn't see any solution that ruled them all. I still have nightmare of the time I lost with some of them.</p>
+<p>So, I started thinking about what Bean Mapping is really about, the problems I had and concluded that Bean Mapping should be very different.</p>
+<h1 id="existing-tools-were-created-to-write-mapping-code">Existing tools were created to write mapping code<a class="headerlink" href="#existing-tools-were-created-to-write-mapping-code" title="Permanent link">¶</a></h1>
+<p>Bean mapping frameworks quick descriptions are all pretty much the same:</p>
+<ol>
+<li>include our jar/declare maven dependency/some other kind of quick setup step</li>
+<li>add this config file/this annotation/whatever to your application (optional)</li>
+<li>with these 2/3/4 lines of code, Tadah ! class A is transformed into class B</li>
+</ol>
+<p>Ok, good. This is simple enough and it solves the initial problem of the developer : writing the mapping code from one bean to another.</p>
+<p>Bonus, it seems to also work for tree of beans and offers customization possibilities.</p>
+<p>Then, why should I be unhappy with this solution ?</p>
+<p>Because writing the Bean Mapping code is far from the only concern of the developer, even more of the software architect : maintainability, stability, readability, support for debugging, learning curve for new developers, etc...</p>
+<h1 id="the-practical-problems-of-hidden-mapping-code">The practical problems of hidden mapping code<a class="headerlink" href="#the-practical-problems-of-hidden-mapping-code" title="Permanent link">¶</a></h1>
+<p>As I said earlier, these frameworks remove the mapping code from the application and this introduces many practical problems as the application lives, grows (hopefully) and as developers come and go.</p>
+<h3 id="bean-mapping-code-is-not-source-code-in-your-application">Bean Mapping code is not source code in your application<a class="headerlink" href="#bean-mapping-code-is-not-source-code-in-your-application" title="Permanent link">¶</a></h3>
+<p>Therefore it is not in SCM, you can not tell when nor where a change occurred and who did it. You can't tell either when some mapping code was added or if it actually was added.</p>
+<h3 id="bean-mapping-code-is-not-stable">Bean Mapping code is not stable<a class="headerlink" href="#bean-mapping-code-is-not-stable" title="Permanent link">¶</a></h3>
+<p>The generated code/bytecode can change when upgrading the mapping framework and reflection-based mapping is even worse on that point.</p>
+<p>Sure, you are supposed to have unit tests to ensure stability but, supposing unit tests break, you will waste time to fix pieces of code which had no reason to change in the first place since they were working.</p>
+<h3 id="you-cant-leverage-the-power-of-the-ide">you can't leverage the power of the IDE<a class="headerlink" href="#you-cant-leverage-the-power-of-the-ide" title="Permanent link">¶</a></h3>
+<p>To find out where and how class <code>X</code> is instanced or property <code>foo</code> is set/read, you are on your own.</p>
+<p>But when it is time to find out where a problem is coming from, believe me, you will curse the guy who decided to use a Bean Mapping tool instead of just writing dumb <code>b.setFoo(a.getFoo())</code> lines.</p>
+<h3 id="debugging-is-usually-not-easy">debugging is usually not easy<a class="headerlink" href="#debugging-is-usually-not-easy" title="Permanent link">¶</a></h3>
+<p>Hidden mapping code is acting as a black box: when mapping a single bean to another, it is ok, when mapping tree of beans however, it is <em>not</em>.</p>
+<p>Also, forget about putting a breakpoint in generated byte code or reflection-based frameworks code...</p>
+<h3 id="no-direct-access-to-the-mapping-code-for-new-developers">no direct access to the mapping code for new developers<a class="headerlink" href="#no-direct-access-to-the-mapping-code-for-new-developers" title="Permanent link">¶</a></h3>
+<p>When a new developer joins the project, supposing she has to fix a bug or develop an evolution, she will need to learn some tool to know about know about some dumb 1-to-1 mapping, where it happens and how.</p>
+<h3 id="need-to-customize-say-goodbye-to-compiler-feedback">need to customize ? say goodbye to compiler feedback<a class="headerlink" href="#need-to-customize-say-goodbye-to-compiler-feedback" title="Permanent link">¶</a></h3>
+<p>When the time comes to customize the mapping, you generally lose compile-time feedback and type safety because you end up using strings to designate properties and/or you are required to add some XML configuration.</p>
+<p>You can then forget about refactoring your bean classes and having the mapping code updated consistently by your IDE. Also forget about the compiler telling you that, for example, by changing the type of this property, your Bean Mapping code now fails to execute.</p>
+<p>Some tool such as <a href="http://modelmapper.org/">ModelMapper</a> provide a solution to this problem, but at the cost of very complex and verbose technical solutions. It is way simpler to just write the Bean Mapping code from the beginning. In addition, everyone will understand it just by looking at it.</p>
+<h3 id="immutability-is-not-a-prime-citizen">immutability is not a prime citizen<a class="headerlink" href="#immutability-is-not-a-prime-citizen" title="Permanent link">¶</a></h3>
+<p>Designing immutable beans wherever possible can be tough but it solves many issues in the long run.</p>
+<p>Unfortunately, immutable beans are not well supported by Bean Mapping frameworks, notably because:</p>
+<ul>
+<li>it involves bean not having setters (basic requirement of property based framework)<ul>
+<li>immutable beans only have constructors to initialize their state or, better, builders</li>
+<li>both constructors and builders can hardly be automatically mapped</li>
+</ul>
+</li>
+<li>also mapping tree of immutable beans requires to map beans in a bottom-up fashion instead of the usual top-bottom way<ul>
+<li>children of immutable beans must be created before their parent</li>
+</ul>
+</li>
+</ul>
+<h3 id="you-cant-investigate-how-mapping-actually-occurs">you can't investigate how mapping actually occurs<a class="headerlink" href="#you-cant-investigate-how-mapping-actually-occurs" title="Permanent link">¶</a></h3>
+<p>This applies especially to reflection-based or bytecode generation-based mapping. Good luck when you want to make sure the problem is not at the mapping level.</p>
+<h3 id="you-cant-tell-dead-code-apart">you can't tell dead code apart<a class="headerlink" href="#you-cant-tell-dead-code-apart" title="Permanent link">¶</a></h3>
+<p>With most tools, it can be hard to tell that mapping configuration and/or customization is actually dead code:</p>
+<ul>
+<li>is that line of configuration still required for mapping to occur ?</li>
+<li>is that custom whatever object still used ?</li>
+</ul>
+<p>Unless you have extensive test coverage and remove the suspicious part, sometimes, you just can not tell.</p>
+<h3 id="not-much-or-none-control-over-mapping-of-bean-trees">not much (or none) control over mapping of bean trees<a class="headerlink" href="#not-much-or-none-control-over-mapping-of-bean-trees" title="Permanent link">¶</a></h3>
+<p>When it comes to mapping trees of beans, you either do not have control over it or need to customize the framework and you end up with code that is not that simple any more:</p>
+<ul>
+<li>want to write one mapper for each node of a tree of beans, so you can really <em>unit</em> test ? good luck</li>
+<li>want to keep type dependency between mappers so you can easily tell how your code behaves ? for some frameworks, that's just impossible</li>
+</ul>
+<h3 id="performance">performance ...<a class="headerlink" href="#performance" title="Permanent link">¶</a></h3>
+<p>Performance is a big issue with reflection based mapping tools, they are very slow and CPU/memory intensive compared to plain Java code. In addition, this kind of code can never benefit from compiler and/or JVM optimizations.</p>
+<p>Frameworks based on other technical paradigms always compare each other on that subject but no matter what I don't think they can beat plain Java code (unless you just write shitty Java code but that's not a Bean Mapping issue).</p>
+<h2 id="the-down-side-of-bean-mapping-code-in-source">The down side of Bean Mapping code in source<a class="headerlink" href="#the-down-side-of-bean-mapping-code-in-source" title="Permanent link">¶</a></h2>
+<p>Naturally, each point made above is addressed as the developer has direct access to the code. Most of them can be dealt with as any regular Java coding problem, any solution can be used.</p>
+<p>But I am also aware of the main reasons to hide Bean Mapping code in the first place:</p>
+<ul>
+<li>Bean Mapping code does not add much value, no need to have it in the application<ul>
+<li>as I explain below, I think this statement is wrong</li>
+</ul>
+</li>
+<li>Bean Mapping code written in source does not adapt easily to change<ul>
+<li>I think that using the IDE refactoring capabilities is a better way to adapt to change than having code generated with each build or at runtime</li>
+<li>if it isn't, it only means that we need new tools</li>
+</ul>
+</li>
+</ul>
+<h1 id="bean-mapping-code-is-business-code">Bean mapping code is business code<a class="headerlink" href="#bean-mapping-code-is-business-code" title="Permanent link">¶</a></h1>
+<p>After thorough thinking, I found that the most important problem with Bean Mapping code being out of the application is that it removes business code from the application.</p>
+<p>Yes, Bean Mapping code <em>is</em> business code.</p>
+<p>Even exact 1-to-1 mapping is business logic. This code could have been different. Some properties could have been nullified or hardcoded to a specific value on purpose. The fact it is not the case should be written in code. It <strong>will</strong> save any question in the future.</p>
+<p>Also, the very facts that so many bugs occur at the Bean Mapping level and that such big parts of documentation are about mapping are the proof that Bean Mapping is business logic.</p>
+<p>Bean mapping code is not some technical problem that a framework can hide/remove from the application.</p>
+<p>But I agree, writing Bean Mapping <em>is</em> a technical problem.</p>
+<h1 id="bean-mapping-is-dead-long-live-bean-mapping">Bean Mapping is dead, long live Bean Mapping<a class="headerlink" href="#bean-mapping-is-dead-long-live-bean-mapping" title="Permanent link">¶</a></h1>
+<p>Starting from the hypothesis that Bean Mapping code should be part of the application code as any other piece of business code, two questions arise:</p>
+<ol>
+<li>Shouldn't that code be organized a bit ? If everyone starts writing Bean Mapping code without any guideline of some kind, code will just end up being a mess and it will be worse than before</li>
+<li>Some mapping code is just tedious to write, it feels like a waste of time, shouldn't there be some tool to help the developer ?</li>
+</ol>
+<p>And one strong constraint: the developer must always keep control over the code and the tool must stay out of the way</p>
+<p>The answer to both questions is "obviously, yes!" and the constraint drove my research for a solution.</p>
+<p>I think that what we need is not one tool, but two, very much complementary:</p>
+<ol>
+<li>a framework to structure Bean Mapping code and handle the wiring with the rest of the application and with other pieces of Bean Mapping code<ul>
+<li>lets call it a Bean Mapping Wiring Framework</li>
+</ul>
+</li>
+<li>a tool/plugin at the IDE level to generates mapping code from one class to another<ul>
+<li>lets call it a Bean Mapping Code Generator</li>
+</ul>
+</li>
+</ol>
+<p>Those two tools would solve very different problems and could be used together or not. In addition, they would never be mandatory once you start using them, they would step out of the way anytime. This way the developer keep controls over the code.</p>
+<p>Still, the ultimate goal is that these tools would be so convenient that they will end up in the coding guidelines of the team.</p>
+<h2 id="bean-mapping-wiring-framework">Bean Mapping Wiring Framework<a class="headerlink" href="#bean-mapping-wiring-framework" title="Permanent link">¶</a></h2>
+<p>The Bean Mapping Wiring Framework is about letting the developer write the Bean Mapping code in a class and giving her the power to use that class's code as easily as possible:</p>
+<ul>
+<li>using interfaces for loose coupling<ul>
+<li>developer writes the implementation, the interface which will be used in other classes to call this implementation will be generated by the framework</li>
+</ul>
+</li>
+<li>complying with Separation Of Concern<ul>
+<li>using a class for each mapping from one class to another</li>
+<li>side effect, unit testing is much easier</li>
+</ul>
+</li>
+<li>integrating with Dependency Injection frameworks<ul>
+<li>for example, Spring integration would be about generating annotations on classes or XML configuration files or configuration classes</li>
+</ul>
+</li>
+<li>providing coding patterns to help mapping complex structures of beans or solve common Bean Mapping problems<ul>
+<li>using Guava's Function to easily convert collections of beans or integrating with Java 8 lambdas</li>
+<li>using mapper factories when creating a bean from more than one source bean</li>
+<li>etc.</li>
+</ul>
+</li>
+</ul>
+<p>To my knowledge, there is no such framework at the moment except <a href="https://github.com/lesaint/damapping">DAMapping</a> which development started several month ago.</p>
+<h2 id="bean-mapping-code-generator">Bean Mapping Code Generator<a class="headerlink" href="#bean-mapping-code-generator" title="Permanent link">¶</a></h2>
+<p>The primary goal of this tool is to provide convenient generation of Bean Mapping code <em>inside</em> the application's source code from one class to another. The IDE is the best place for this as we could rely on interactive UI to generate the source code living option to the developers.</p>
+<p>Second goal of this tool is the integration with the Bean Mapping Wiring Framework. This integration would give the option to the developer to not only generate Bean Mapping code but also generate Bean Mapping classes. This would be a convenient way of creating the code for tree of beans without being intrusive about it.</p>
+<p>Since the logic of generating mapping code already exists, developing this tool would really be a matter of IDE integration and UI design.</p>
+<p>Generating the initial Bean Mapping code is relatively easy but this tool will obviously need to complete partial mapping code to be successful. And that's a little harder to do.</p>
+<h1 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h1>
+<p>People keep on creating new Bean Mapping tools, changing the technical approach. But they tend to keep the same underlying paradigm which in my opinion is the root cause of their unhappiness with the solution they had before: hidden Bean Mapping code.</p>
+<p>This article is the first of a series on this new approach to Bean Mapping. Other articles will follow which will dive deeper into the theory and implementation of those new tools. Next article will be on the Bean Mapping Wiring Framework implementation since I already have initial working results with <a href="https://github.com/lesaint/damapping">DAMapping</a>.</p>
+<p>I know many people (very) unhappy with Dozer and such frameworks. I'm interesting in their opinion, maybe their contribution, or existing works I am not aware of.</p>
+<p>Do not hesitate to comment below or contact me on <a href="https://twitter.com/LesaintSeb">Twitter</a>.</p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2014-05-21T00:00:00+02:00">mer. 21 mai 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#bean-mapping-ref">Bean Mapping
+                    <span class="superscript">1</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#damapping-ref">DAMapping
+                    <span class="superscript">1</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#java-ref">Java
+                    <span class="superscript">4</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Javatronic - tips</title><link href="https://www.javatronic.fr/" rel="alternate"></link><link href="https://www.javatronic.fr/feeds/tips.atom.xml" rel="self"></link><id>https://www.javatronic.fr/</id><updated>2024-05-04T00:00:00+02:00</updated><entry><title>Display Table of Content on Elegant for Pelican</title><link href="https://www.javatronic.fr/display-table-of-content-on-elegant-for-pelican.html" rel="alternate"></link><published>2024-05-04T00:00:00+02:00</published><updated>2024-05-04T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-05-04:/display-table-of-content-on-elegant-for-pelican.html</id><summary type="html">
+&lt;p&gt;I did the following to enable Table of Contents display, on the side of posts, in Elegant theme:&lt;/p&gt;
+&lt;h2 id="enable-toc-extension"&gt;Enable &lt;code&gt;toc&lt;/code&gt; extension&lt;a class="headerlink" href="#enable-toc-extension" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Python Markdown's extension &lt;a href="https://python-markdown.github.io/extensions/toc/"&gt;Table of Contents&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;MARKDOWN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s1"&gt;'extension_configs'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;'markdown.extensions.toc'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="install-extract_toc"&gt;Install &lt;code&gt;extract_toc&lt;/code&gt;&lt;a class="headerlink" href="#install-extract_toc" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Install the Pelican's plugin &lt;code&gt;extract_toc&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;this plugin is part of &lt;code&gt;pelican-plugins&lt;/code&gt; &lt;a href="https://github.com/getpelican/pelican-plugins"&gt;repository&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;at some point, this …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">
+&lt;p&gt;I did the following to enable Table of Contents display, on the side of posts, in Elegant theme:&lt;/p&gt;
+&lt;h2 id="enable-toc-extension"&gt;Enable &lt;code&gt;toc&lt;/code&gt; extension&lt;a class="headerlink" href="#enable-toc-extension" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Python Markdown's extension &lt;a href="https://python-markdown.github.io/extensions/toc/"&gt;Table of Contents&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;MARKDOWN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s1"&gt;'extension_configs'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;'markdown.extensions.toc'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="install-extract_toc"&gt;Install &lt;code&gt;extract_toc&lt;/code&gt;&lt;a class="headerlink" href="#install-extract_toc" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Install the Pelican's plugin &lt;code&gt;extract_toc&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;this plugin is part of &lt;code&gt;pelican-plugins&lt;/code&gt; &lt;a href="https://github.com/getpelican/pelican-plugins"&gt;repository&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;at some point, this plugin should be moved to its own repository&lt;/li&gt;
+&lt;li&gt;to save on downloading the whole repo, I'm simply to going to copy it here&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;plugins
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;plugins
+git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;https://github.com/getpelican/pelican-plugins.git
+cp&lt;span class="w"&gt; &lt;/span&gt;-r&lt;span class="w"&gt; &lt;/span&gt;pelican-plugins/extract_toc&lt;span class="w"&gt; &lt;/span&gt;.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="install-extract_tocs-dependency"&gt;Install &lt;code&gt;extract_toc&lt;/code&gt;'s dependency&lt;a class="headerlink" href="#install-extract_tocs-dependency" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Add to &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;beautifulsoup4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="enable-extract_toc"&gt;Enable &lt;code&gt;extract_toc&lt;/code&gt;&lt;a class="headerlink" href="#enable-extract_toc" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Add to &lt;code&gt;pelicanconf.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;PLUGIN_PATHS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s2"&gt;"plugins"&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+    &lt;span class="s2"&gt;"extract_toc"&lt;/span&gt;
+&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="enable-permalinks"&gt;Enable permalinks&lt;a class="headerlink" href="#enable-permalinks" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Add setting to Python Markdown TOC extension to enable permalinks to posts' headings:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;MARKDOWN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="s1"&gt;'extension_configs'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;'markdown.extensions.toc'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;    
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;sources:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;extract_toc's &lt;a href="https://github.com/getpelican/pelican-plugins/tree/master/extract_toc"&gt;README&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Elegant's documentation: &lt;a href="https://elegant.oncrashreboot.com/how-elegant-displays-table-of-contents"&gt;Add a Table of Contents to Your Articles&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Elegant's documentation: &lt;a href="https://elegant.oncrashreboot.com/permalinks-to-headings"&gt;Permalinks to Headings&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;</content><category term="tips"></category><category term="pelican"></category></entry><entry><title>Install Weboob 1.0 on Ubuntu 14.04 (Trusty Tahr)</title><link href="https://www.javatronic.fr/install-weboob-10-on-ubuntu-1404-trusty-tahr.html" rel="alternate"></link><published>2014-12-30T00:00:00+01:00</published><updated>2014-12-30T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-12-30:/install-weboob-10-on-ubuntu-1404-trusty-tahr.html</id><summary type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014) is packaged for Ubuntu 15.04 (Vivid Vervet).&lt;/p&gt;
+&lt;p&gt;So, here is how I installed from source the latest stable version of Weboob (1.0) on Ubuntu 14.04 (Trusty Tahr).&lt;/p&gt;
+&lt;p&gt;As stated on the website "Weboob is a collection of applications able to interact with websites, without requiring the user to open them in a browser. It also provides well-defined APIs to talk to websites lacking one". &lt;/p&gt;
+&lt;p&gt;Personnaly, I use Weboob to access my bank website and retrieve my history and incoming operations data from the command line to process it.&lt;/p&gt;
+&lt;h1 id="checkout-git-source"&gt;checkout Git source&lt;a class="headerlink" href="#checkout-git-source" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;create a Weboob directory:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;/opt/weboob
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;checkout Weboob stable sources :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;/tmp/weboob
+$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/tmp/weboob
+$&lt;span class="w"&gt; &lt;/span&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;git://git.symlink.me/pub/weboob/stable.git&lt;span class="w"&gt; &lt;/span&gt;src
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="install-dependencies"&gt;Install dependencies&lt;a class="headerlink" href="#install-dependencies" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;h2 id="python-basics"&gt;Python basics&lt;a class="headerlink" href="#python-basics" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Install Python 2.7&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;python2.7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Install setuptools&lt;/p&gt;
+&lt;p&gt;by hand (cf. &lt;a href="https://pypi.python.org/pypi/setuptools#unix-wget"&gt;https://pypi.python.org/pypi/setuptools#unix-wget&lt;/a&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;wget&lt;span class="w"&gt; &lt;/span&gt;https://bootstrap.pypa.io/ez_setup.py&lt;span class="w"&gt; &lt;/span&gt;-O&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;python
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;note: I though for a minute that the &lt;code&gt;ez_setup.py&lt;/code&gt; program was stuck but it turned out that the prompt for the sudo password was lost in the middle of noisy logs. So, if it happends to you, just it &lt;code&gt;enter&lt;/code&gt;, you will be prompted for the sudo password again.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;or with apt-get (not sure the version of setuptools is recent enough, though, I used the manual instal):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;python-setuptools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="dependencies-for-weboob"&gt;Dependencies for Weboob&lt;a class="headerlink" href="#dependencies-for-weboob" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Install dependencies for Weboob:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;python-requests
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="dependencies-for-boobank"&gt;Dependencies for boobank&lt;a class="headerlink" href="#dependencies-for-boobank" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Currently, the only module I use is boobank, which has dependencies of its own:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;python-dateutil&lt;span class="w"&gt; &lt;/span&gt;python-prettytable&lt;span class="w"&gt; &lt;/span&gt;python-mechanize&lt;span class="w"&gt; &lt;/span&gt;python-cssselect
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="local-install"&gt;Local install&lt;a class="headerlink" href="#local-install" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;We will do a local install of Weboob as the system install is discouraged on the &lt;a href="http://weboob.org/install"&gt;Weboob instal page&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Create &lt;code&gt;bin&lt;/code&gt; directory in your home directory (if it does not exist yet). This is where we will be telling the local installation tool to create the Weboob executable:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;~/bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and run the local installer:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/tmp/weboob/src
+$&lt;span class="w"&gt; &lt;/span&gt;./tools/local_install.sh&lt;span class="w"&gt; &lt;/span&gt;~/bin
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="verify-install"&gt;verify install&lt;a class="headerlink" href="#verify-install" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Add the &lt;code&gt;~/bin&lt;/code&gt; directory to your PATH (if it not already), you can then just type &lt;code&gt;boobank&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In the meantime, you can make sure the install directly by running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$&lt;span class="w"&gt; &lt;/span&gt;~/bin/boobank
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="weboob"></category><category term="Ubuntu"></category></entry><entry><title>Change tablespace of all objects of a specific Oracle User</title><link href="https://www.javatronic.fr/change-tablespace-of-all-objects-of-a-specific-oracle-user.html" rel="alternate"></link><published>2014-11-13T00:00:00+01:00</published><updated>2014-11-13T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-11-13:/change-tablespace-of-all-objects-of-a-specific-oracle-user.html</id><summary type="html">&lt;p&gt;Here is a convenient PL/SQL script to run with SqlPlus to change the tablespace of the objects (tables, indexes, lobs) of a specific user in a blink. It can also be use to fix inconsistency in tablespace used by the user objects.&lt;/p&gt;
+&lt;p&gt;We will then see how to use …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here is a convenient PL/SQL script to run with SqlPlus to change the tablespace of the objects (tables, indexes, lobs) of a specific user in a blink. It can also be use to fix inconsistency in tablespace used by the user objects.&lt;/p&gt;
+&lt;p&gt;We will then see how to use a bash script to make its use less error prone and non interractive.&lt;/p&gt;
+&lt;h1 id="the-plsql-script"&gt;The PL/SQL script&lt;a class="headerlink" href="#the-plsql-script" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;The PL/SQL script below changes the tablespace of the tables, indexes and lob objects of the current user. It supports using a different tablespace for data and indexes.&lt;/p&gt;
+&lt;p&gt;Create file, e.g. called &lt;code&gt;change_tablespaces.sql&lt;/code&gt;, with the following content. &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;declare&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tab_cur&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;table_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_tables&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;where&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tablespace_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;&amp;amp;Data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ind_cur&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;index_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_indexes&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;where&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tablespace_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;&amp;amp;Index&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;and&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;index_type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;LOB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lob_cur&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;table_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;column_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_lobs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;where&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tablespace_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;&amp;amp;Index&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ind2_cur&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;index_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_indexes&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;where&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;VALID&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;begin&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tab_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tab_cur&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter table &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;tab_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;table_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; move tablespace &amp;amp;&amp;amp;Data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ind_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ind_cur&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter index &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ind_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; rebuild tablespace &amp;amp;&amp;amp;Index&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lob_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lob_cur&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter table &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lob_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;table_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; move lob(&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;lob_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;column_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;) store as (tablespace &amp;amp;&amp;amp;Index)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;-- some indexes need to be rebuilt a second time after their tablespace has been changed&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ind2_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ind2_cur&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter index &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ind2_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; rebuild&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="c1"&gt;-- exits SqlPlus&lt;/span&gt;
+&lt;span class="n"&gt;quit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Please notice that the script uses SqlPlus variables prefixed with &lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt;: &lt;code&gt;&amp;amp;&amp;amp;Data&lt;/code&gt; and &lt;code&gt;&amp;amp;&amp;amp;Index&lt;/code&gt;. The former holds the name of the tablespace for Data (ie. tables and lobs) and the later the name of the tablespace for Indexes.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Sqlplus variables can also be defined with a single &lt;code&gt;&amp;amp;&lt;/code&gt; but in such case SqlPlus will ask for a value each time the variable is used. Sqlplus prompts for the value of variables defined with &lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt; only once.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="use-it"&gt;Use it&lt;a class="headerlink" href="#use-it" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Connect to the server hosting the Oracle database or to a machine with remote access configured to the Oracle database for &lt;code&gt;SqlPlus&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To change the tablespace for a specific user, connect to that user with SqlPlus and run the script.&lt;/p&gt;
+&lt;p&gt;You can do that in a single command line (e.g. for user &lt;code&gt;MYUSER&lt;/code&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sqlplus&lt;span class="w"&gt; &lt;/span&gt;MYUSER/MYUSER&lt;span class="w"&gt; &lt;/span&gt;@change_tablespaces.sql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Sqlplus will prompt the user to provide a value for each variables (first &lt;code&gt;&amp;amp;&amp;amp;Data&lt;/code&gt;, then &lt;code&gt;&amp;amp;&amp;amp;Index&lt;/code&gt;). It is best to input the name of the tablespace in upper case.&lt;/p&gt;
+&lt;p&gt;Here is what it should look like.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;%&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;sqlplus&lt;span class="w"&gt; &lt;/span&gt;MYUSER/MYUSER&lt;span class="w"&gt; &lt;/span&gt;@change_tablespace.sh
+SQL*Plus:&lt;span class="w"&gt; &lt;/span&gt;Release&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;.2.0.3.0&lt;span class="w"&gt; &lt;/span&gt;Production&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt; &lt;/span&gt;Thu&lt;span class="w"&gt; &lt;/span&gt;Nov&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;13&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;13&lt;/span&gt;:02:49&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2014&lt;/span&gt;
+Copyright&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1982&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2011&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;Oracle.&lt;span class="w"&gt;  &lt;/span&gt;All&lt;span class="w"&gt; &lt;/span&gt;rights&lt;span class="w"&gt; &lt;/span&gt;reserved.
+Connected&lt;span class="w"&gt; &lt;/span&gt;to:
+Oracle&lt;span class="w"&gt; &lt;/span&gt;Database&lt;span class="w"&gt; &lt;/span&gt;11g&lt;span class="w"&gt; &lt;/span&gt;Enterprise&lt;span class="w"&gt; &lt;/span&gt;Edition&lt;span class="w"&gt; &lt;/span&gt;Release&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;.2.0.3.0&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;64bit&lt;span class="w"&gt; &lt;/span&gt;Production
+With&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;Partitioning,&lt;span class="w"&gt; &lt;/span&gt;Automatic&lt;span class="w"&gt; &lt;/span&gt;Storage&lt;span class="w"&gt; &lt;/span&gt;Management,&lt;span class="w"&gt; &lt;/span&gt;OLAP,&lt;span class="w"&gt; &lt;/span&gt;Data&lt;span class="w"&gt; &lt;/span&gt;Mining
+and&lt;span class="w"&gt; &lt;/span&gt;Real&lt;span class="w"&gt; &lt;/span&gt;Application&lt;span class="w"&gt; &lt;/span&gt;Testing&lt;span class="w"&gt; &lt;/span&gt;options
+Enter&lt;span class="w"&gt; &lt;/span&gt;value&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;data:&lt;span class="w"&gt; &lt;/span&gt;CAA
+old&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;:&lt;span class="w"&gt;     &lt;/span&gt;cursor&lt;span class="w"&gt; &lt;/span&gt;tab_cur&lt;span class="w"&gt; &lt;/span&gt;is&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;table_name&lt;span class="w"&gt; &lt;/span&gt;from&lt;span class="w"&gt; &lt;/span&gt;user_tables&lt;span class="w"&gt; &lt;/span&gt;where&lt;span class="w"&gt; &lt;/span&gt;tablespace_name&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;&amp;amp;Data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+new&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;:&lt;span class="w"&gt;     &lt;/span&gt;cursor&lt;span class="w"&gt; &lt;/span&gt;tab_cur&lt;span class="w"&gt; &lt;/span&gt;is&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;table_name&lt;span class="w"&gt; &lt;/span&gt;from&lt;span class="w"&gt; &lt;/span&gt;user_tables&lt;span class="w"&gt; &lt;/span&gt;where&lt;span class="w"&gt; &lt;/span&gt;tablespace_name&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;CAA&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+Enter&lt;span class="w"&gt; &lt;/span&gt;value&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;index:&lt;span class="w"&gt; &lt;/span&gt;XAA
+old&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;:&lt;span class="w"&gt;     &lt;/span&gt;cursor&lt;span class="w"&gt; &lt;/span&gt;ind_cur&lt;span class="w"&gt; &lt;/span&gt;is&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;index_name&lt;span class="w"&gt; &lt;/span&gt;from&lt;span class="w"&gt; &lt;/span&gt;user_indexes&lt;span class="w"&gt; &lt;/span&gt;where&lt;span class="w"&gt; &lt;/span&gt;tablespace_name&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;&amp;amp;Index&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;and&lt;span class="w"&gt; &lt;/span&gt;index_type&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;LOB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+new&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;:&lt;span class="w"&gt;     &lt;/span&gt;cursor&lt;span class="w"&gt; &lt;/span&gt;ind_cur&lt;span class="w"&gt; &lt;/span&gt;is&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;index_name&lt;span class="w"&gt; &lt;/span&gt;from&lt;span class="w"&gt; &lt;/span&gt;user_indexes&lt;span class="w"&gt; &lt;/span&gt;where&lt;span class="w"&gt; &lt;/span&gt;tablespace_name&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;XAA&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;and&lt;span class="w"&gt; &lt;/span&gt;index_type&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;LOB&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+old&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="m"&gt;6&lt;/span&gt;:&lt;span class="w"&gt;     &lt;/span&gt;cursor&lt;span class="w"&gt; &lt;/span&gt;lob_cur&lt;span class="w"&gt; &lt;/span&gt;is&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;table_name,&lt;span class="w"&gt; &lt;/span&gt;column_name&lt;span class="w"&gt; &lt;/span&gt;from&lt;span class="w"&gt; &lt;/span&gt;user_lobs&lt;span class="w"&gt; &lt;/span&gt;where&lt;span class="w"&gt; &lt;/span&gt;tablespace_name&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;&amp;amp;Index&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+new&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="m"&gt;6&lt;/span&gt;:&lt;span class="w"&gt;     &lt;/span&gt;cursor&lt;span class="w"&gt; &lt;/span&gt;lob_cur&lt;span class="w"&gt; &lt;/span&gt;is&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;table_name,&lt;span class="w"&gt; &lt;/span&gt;column_name&lt;span class="w"&gt; &lt;/span&gt;from&lt;span class="w"&gt; &lt;/span&gt;user_lobs&lt;span class="w"&gt; &lt;/span&gt;where&lt;span class="w"&gt; &lt;/span&gt;tablespace_name&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;XAA&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+old&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;:&lt;span class="w"&gt;    &lt;/span&gt;execute&lt;span class="w"&gt; &lt;/span&gt;immediate&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter table &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;tab_val.table_name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; move tablespace &amp;amp;&amp;amp;Data&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+new&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;15&lt;/span&gt;:&lt;span class="w"&gt;    &lt;/span&gt;execute&lt;span class="w"&gt; &lt;/span&gt;immediate&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter table &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;tab_val.table_name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; move tablespace CAA&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+old&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;22&lt;/span&gt;:&lt;span class="w"&gt;    &lt;/span&gt;execute&lt;span class="w"&gt; &lt;/span&gt;immediate&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter index &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ind_val.index_name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; rebuild tablespace &amp;amp;&amp;amp;Index&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+new&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;22&lt;/span&gt;:&lt;span class="w"&gt;    &lt;/span&gt;execute&lt;span class="w"&gt; &lt;/span&gt;immediate&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter index &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ind_val.index_name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; rebuild tablespace XAA&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+old&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;29&lt;/span&gt;:&lt;span class="w"&gt;    &lt;/span&gt;execute&lt;span class="w"&gt; &lt;/span&gt;immediate&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter table &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;lob_val.table_name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; move lob(&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;lob_val.column_name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;) store as (tablespace &amp;amp;&amp;amp;Index)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+new&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="m"&gt;29&lt;/span&gt;:&lt;span class="w"&gt;    &lt;/span&gt;execute&lt;span class="w"&gt; &lt;/span&gt;immediate&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter table &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;lob_val.table_name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; move lob(&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;lob_val.column_name&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;) store as (tablespace XAA)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+PL/SQL&lt;span class="w"&gt; &lt;/span&gt;procedure&lt;span class="w"&gt; &lt;/span&gt;successfully&lt;span class="w"&gt; &lt;/span&gt;completed.
+SQL&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="the-bash-script"&gt;The bash script&lt;a class="headerlink" href="#the-bash-script" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Using the above script with SqlPlus directly has several issues coming from the fact it is interactive:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;it is open to typing errors and there is no way to double check&lt;/li&gt;
+&lt;li&gt;it can not be scripted&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;So, here is a bash script which will solve these problems by wrapping the &lt;code&gt;sqlplus&lt;/code&gt; command line.&lt;/p&gt;
+&lt;p&gt;The following script:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;assumes the &lt;code&gt;change_tablespace.sql&lt;/code&gt; is available and in the same directory as the script&lt;/li&gt;
+&lt;li&gt;does not run until all parameters have been specified&lt;/li&gt;
+&lt;li&gt;displays how to it should be used if at least one parameter is missing&lt;/li&gt;
+&lt;li&gt;displays a message with the information gathered from the command line and ask for confirmation before proceeding&lt;/li&gt;
+&lt;li&gt;could obviously be improved but does the job, feel free to customize it to meet your needs&lt;/li&gt;
+&lt;li&gt;use several sqlplus options to avoid verbose SqlPlus logs (see comments in the script)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$#&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-lt&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;basename&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$0&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt; &amp;lt;user_login&amp;gt; &amp;lt;user_pwd&amp;gt; &amp;lt;data_tablespace_name&amp;gt; &amp;lt;index_tablespace_name&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;proceedOrExit&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nv"&gt;proceed&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;true&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;case&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$proceed&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;n&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;*&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-n&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Enter &amp;#39;y&amp;#39; to proceed, &amp;#39;n&amp;#39; to exit script : &amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="nb"&gt;read&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;proceed&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="p"&gt;;;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;esac&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="nv"&gt;user&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+&lt;span class="nv"&gt;password&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$2&lt;/span&gt;
+&lt;span class="nv"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$3&lt;/span&gt;
+&lt;span class="nv"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$4&lt;/span&gt;
+
+&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;changing tablespace of user &lt;/span&gt;&lt;span class="nv"&gt;$user&lt;/span&gt;&lt;span class="s2"&gt; (password=&lt;/span&gt;&lt;span class="nv"&gt;$password&lt;/span&gt;&lt;span class="s2"&gt;) &lt;/span&gt;
+&lt;span class="s2"&gt;   - tablespace for data is &lt;/span&gt;&lt;span class="nv"&gt;$data&lt;/span&gt;
+&lt;span class="s2"&gt;   - tablespace for indexes is &lt;/span&gt;&lt;span class="nv"&gt;$index&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+proceedOrExit
+
+&lt;span class="c1"&gt;# -s argument suppresses sqlplus welcome and quit messages&lt;/span&gt;
+sqlplus&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$user&lt;/span&gt;/&lt;span class="nv"&gt;$password&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;lt;&amp;lt; EOF&lt;/span&gt;
+&lt;span class="s"&gt;-- this suppresses the value substitution echoed by sqlplus&lt;/span&gt;
+&lt;span class="s"&gt;set verify off &lt;/span&gt;
+
+&lt;span class="s"&gt;define data = $data&lt;/span&gt;
+&lt;span class="s"&gt;define index = $index&lt;/span&gt;
+
+&lt;span class="s"&gt;@change_tablespace.sql&lt;/span&gt;
+
+&lt;span class="s"&gt;quit&lt;/span&gt;
+
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+
+&lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="use-it_1"&gt;use it&lt;a class="headerlink" href="#use-it_1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Assuming you created a script called &lt;code&gt;change_tablespace.sh&lt;/code&gt; (and made it executable  &lt;code&gt;chmod +x change_tablespace.sh&lt;/code&gt;), you can run the script with a command as the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;./change_tablespace.sh&lt;span class="w"&gt; &lt;/span&gt;MYUSER&lt;span class="w"&gt; &lt;/span&gt;MYUSER&lt;span class="w"&gt; &lt;/span&gt;CAA&lt;span class="w"&gt; &lt;/span&gt;XAA
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and you will get an output such as the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;changing&lt;span class="w"&gt; &lt;/span&gt;tablespace&lt;span class="w"&gt; &lt;/span&gt;of&lt;span class="w"&gt; &lt;/span&gt;user&lt;span class="w"&gt; &lt;/span&gt;MYUSER&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nv"&gt;password&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;MYUSER&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;   &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;tablespace&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;data&lt;span class="w"&gt; &lt;/span&gt;is&lt;span class="w"&gt; &lt;/span&gt;CAA
+&lt;span class="w"&gt;   &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;tablespace&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;indexes&lt;span class="w"&gt; &lt;/span&gt;is&lt;span class="w"&gt; &lt;/span&gt;XAA
+Enter&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;proceed,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;n&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;to&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;script&lt;span class="w"&gt; &lt;/span&gt;:&lt;span class="w"&gt; &lt;/span&gt;y
+
+PL/SQL&lt;span class="w"&gt; &lt;/span&gt;procedure&lt;span class="w"&gt; &lt;/span&gt;successfully&lt;span class="w"&gt; &lt;/span&gt;completed.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="resources"&gt;Resources&lt;a class="headerlink" href="#resources" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.orafaq.com/node/515"&gt;In depth look at Sqlplus variables&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="tips"></category><category term="Oracle"></category><category term="script"></category><category term="SqlPlus"></category><category term="bash"></category></entry><entry><title>Script to delete all objects in a Oracle schema</title><link href="https://www.javatronic.fr/script-to-delete-all-objects-in-a-oracle-schema.html" rel="alternate"></link><published>2014-11-07T00:00:00+01:00</published><updated>2014-11-07T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-11-07:/script-to-delete-all-objects-in-a-oracle-schema.html</id><summary type="html">&lt;p&gt;Use the following script to drop all objects in a specific schema in an Oracle Database without droping the schema itself. It saves you from recreating the schema, its associated user, its rights, etc.&lt;/p&gt;
+&lt;h3 id="create-script-file"&gt;create script file&lt;a class="headerlink" href="#create-script-file" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Create a file called &lt;code&gt;empty_user.sql&lt;/code&gt; with the following content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;purge&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;recyclebin&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;declare …&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Use the following script to drop all objects in a specific schema in an Oracle Database without droping the schema itself. It saves you from recreating the schema, its associated user, its rights, etc.&lt;/p&gt;
+&lt;h3 id="create-script-file"&gt;create script file&lt;a class="headerlink" href="#create-script-file" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Create a file called &lt;code&gt;empty_user.sql&lt;/code&gt; with the following content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;purge&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;recyclebin&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;declare&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;-- FK first, then unique, then PK&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_constraints&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;table_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;constraint_name&lt;/span&gt;
+&lt;span class="w"&gt;                          &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_constraints&lt;/span&gt;
+&lt;span class="w"&gt;                         &lt;/span&gt;&lt;span class="k"&gt;where&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;constraint_type&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;P&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;R&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;U&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="k"&gt;order&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;by&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;constraint_type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;R&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;U&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;P&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_mviews&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;mview_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_mviews&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_views&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;view_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_views&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_mviews_logs&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_mview_logs&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_tables&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;table_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_tables&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_synonyms&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;synonym_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_synonyms&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;cursor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_sequences&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;sequence_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;user_sequences&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;begin&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_constraints&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;alter table &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;table_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; drop constraint &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;constraint_name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_mviews&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;drop materialized view &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mview_name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_views&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;drop view &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;view_name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_mviews_logs&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;drop materialized view log on &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_tables&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;drop table &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;table_name&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; purge&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_synonyms&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;drop synonym &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;synonym_name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;cursor_sequences&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;execute&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;immediate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;drop sequence &amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;current_val&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sequence_name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="n"&gt;quit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;line with "/" is required to execute the preceding PL/SQL procedure
+line with "quit" is usefull to automatically exit sqlplus when procedure has been executed&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id="execute-with-sqlplus"&gt;Execute with sqlplus&lt;a class="headerlink" href="#execute-with-sqlplus" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sqlplus&lt;span class="w"&gt; &lt;/span&gt;user/user_pwd&lt;span class="w"&gt; &lt;/span&gt;@empty_user.sql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can expect output such as the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;my_machine:$&lt;span class="w"&gt; &lt;/span&gt;sqlplus&lt;span class="w"&gt; &lt;/span&gt;user/user_pwd&lt;span class="w"&gt; &lt;/span&gt;@empty_user.sql
+
+SQL*Plus:&lt;span class="w"&gt; &lt;/span&gt;Release&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;.2.0.3.0&lt;span class="w"&gt; &lt;/span&gt;Production&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt; &lt;/span&gt;Tue&lt;span class="w"&gt; &lt;/span&gt;Oct&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;14&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;12&lt;/span&gt;:27:32&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2014&lt;/span&gt;
+
+Copyright&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1982&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2011&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;Oracle.&lt;span class="w"&gt;  &lt;/span&gt;All&lt;span class="w"&gt; &lt;/span&gt;rights&lt;span class="w"&gt; &lt;/span&gt;reserved.
+
+
+Connected&lt;span class="w"&gt; &lt;/span&gt;to:
+Oracle&lt;span class="w"&gt; &lt;/span&gt;Database&lt;span class="w"&gt; &lt;/span&gt;11g&lt;span class="w"&gt; &lt;/span&gt;Enterprise&lt;span class="w"&gt; &lt;/span&gt;Edition&lt;span class="w"&gt; &lt;/span&gt;Release&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;.2.0.3.0&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;64bit&lt;span class="w"&gt; &lt;/span&gt;Production
+With&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;Partitioning,&lt;span class="w"&gt; &lt;/span&gt;Automatic&lt;span class="w"&gt; &lt;/span&gt;Storage&lt;span class="w"&gt; &lt;/span&gt;Management,&lt;span class="w"&gt; &lt;/span&gt;OLAP,&lt;span class="w"&gt; &lt;/span&gt;Data&lt;span class="w"&gt; &lt;/span&gt;Mining
+and&lt;span class="w"&gt; &lt;/span&gt;Real&lt;span class="w"&gt; &lt;/span&gt;Application&lt;span class="w"&gt; &lt;/span&gt;Testing&lt;span class="w"&gt; &lt;/span&gt;options
+
+
+Recyclebin&lt;span class="w"&gt; &lt;/span&gt;purged.
+
+
+PL/SQL&lt;span class="w"&gt; &lt;/span&gt;procedure&lt;span class="w"&gt; &lt;/span&gt;successfully&lt;span class="w"&gt; &lt;/span&gt;completed.
+
+Disconnected&lt;span class="w"&gt; &lt;/span&gt;from&lt;span class="w"&gt; &lt;/span&gt;Oracle&lt;span class="w"&gt; &lt;/span&gt;Database&lt;span class="w"&gt; &lt;/span&gt;11g&lt;span class="w"&gt; &lt;/span&gt;Enterprise&lt;span class="w"&gt; &lt;/span&gt;Edition&lt;span class="w"&gt; &lt;/span&gt;Release&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;.2.0.3.0&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;64bit&lt;span class="w"&gt; &lt;/span&gt;Production
+With&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;Partitioning,&lt;span class="w"&gt; &lt;/span&gt;Automatic&lt;span class="w"&gt; &lt;/span&gt;Storage&lt;span class="w"&gt; &lt;/span&gt;Management,&lt;span class="w"&gt; &lt;/span&gt;OLAP,&lt;span class="w"&gt; &lt;/span&gt;Data&lt;span class="w"&gt; &lt;/span&gt;Mining
+and&lt;span class="w"&gt; &lt;/span&gt;Real&lt;span class="w"&gt; &lt;/span&gt;Application&lt;span class="w"&gt; &lt;/span&gt;Testing&lt;span class="w"&gt; &lt;/span&gt;options
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="credits"&gt;Credits&lt;a class="headerlink" href="#credits" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;The origin of the above script is one largely used at &lt;a href="https://twitter.com/3k1n0"&gt;Ekino&lt;/a&gt; to which multiple developers (including myself) contributed.&lt;/p&gt;</content><category term="tips"></category><category term="Oracle"></category><category term="script"></category></entry><entry><title>Find out which process is using Inotify</title><link href="https://www.javatronic.fr/find-out-which-process-is-using-inotify.html" rel="alternate"></link><published>2014-11-05T00:00:00+01:00</published><updated>2014-11-05T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-11-05:/find-out-which-process-is-using-inotify.html</id><summary type="html">&lt;p&gt;Here is how to list processes which are using Inotify to watch FileSystem changes under Linux and also list how many Inotify nodes each one is using.&lt;/p&gt;
+&lt;p&gt;This can come in handy when you want to make sure some process (such as &lt;code&gt;jekyll&lt;/code&gt; with Auto-regeneration enabled) is actually using Inotify …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here is how to list processes which are using Inotify to watch FileSystem changes under Linux and also list how many Inotify nodes each one is using.&lt;/p&gt;
+&lt;p&gt;This can come in handy when you want to make sure some process (such as &lt;code&gt;jekyll&lt;/code&gt; with Auto-regeneration enabled) is actually using Inotify or to find out if your are about to run out of Inotify nodes because a process is creating too much of them.&lt;/p&gt;
+&lt;h1 id="list-processes"&gt;List processes&lt;a class="headerlink" href="#list-processes" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;For each Inotify node used by a process, a file descriptor is created in the file descriptor directory of the process in &lt;code&gt;/proc&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Use the following command to list the processes with at least one Inotify node.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;find&lt;span class="w"&gt; &lt;/span&gt;/proc/*/fd/*&lt;span class="w"&gt; &lt;/span&gt;-type&lt;span class="w"&gt; &lt;/span&gt;l&lt;span class="w"&gt; &lt;/span&gt;-lname&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;anon_inode:inotify&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sed&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s+/proc/\([^/]*\)/fd/.*+\1+&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The result is something like the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="w"&gt;  &lt;/span&gt;PID&lt;span class="w"&gt; &lt;/span&gt;TTY&lt;span class="w"&gt;      &lt;/span&gt;STAT&lt;span class="w"&gt;   &lt;/span&gt;TIME&lt;span class="w"&gt; &lt;/span&gt;COMMAND
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2244&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;?&lt;span class="w"&gt;        &lt;/span&gt;Sl&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;:03&lt;span class="w"&gt; &lt;/span&gt;/usr/lib/gnome-settings-daemon/gnome-settings-daemon
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2294&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;?&lt;span class="w"&gt;        &lt;/span&gt;Sl&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;:22&lt;span class="w"&gt; &lt;/span&gt;compiz
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2300&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;?&lt;span class="w"&gt;        &lt;/span&gt;Sl&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;:01&lt;span class="w"&gt; &lt;/span&gt;nautilus&lt;span class="w"&gt; &lt;/span&gt;-n
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2325&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;?&lt;span class="w"&gt;        &lt;/span&gt;S&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;:00&lt;span class="w"&gt; &lt;/span&gt;/usr/lib/gvfs/gvfs-gdu-volume-monitor
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2820&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;?&lt;span class="w"&gt;        &lt;/span&gt;Rl&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;:16&lt;span class="w"&gt; &lt;/span&gt;gnome-terminal
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3081&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;?&lt;span class="w"&gt;        &lt;/span&gt;Sl&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;:00&lt;span class="w"&gt; &lt;/span&gt;gnome-screensaver
+&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;3543&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;?&lt;span class="w"&gt;        &lt;/span&gt;Sl&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;:00&lt;span class="w"&gt; &lt;/span&gt;update-notifier
+&lt;span class="m"&gt;13246&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;?&lt;span class="w"&gt;        &lt;/span&gt;Sl&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;:06&lt;span class="w"&gt; &lt;/span&gt;/opt/sublimetext/sublime/sublime_text
+&lt;span class="m"&gt;14053&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;pts/3&lt;span class="w"&gt;    &lt;/span&gt;Sl+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;:18&lt;span class="w"&gt; &lt;/span&gt;ruby2.1&lt;span class="w"&gt; &lt;/span&gt;/usr/local/bin/jekyll&lt;span class="w"&gt; &lt;/span&gt;serve&lt;span class="w"&gt; &lt;/span&gt;-w&lt;span class="w"&gt; &lt;/span&gt;--draft
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can get more details about the process using the regular &lt;code&gt;ps&lt;/code&gt; options such as &lt;code&gt;-f&lt;/code&gt;;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;find&lt;span class="w"&gt; &lt;/span&gt;/proc/*/fd/*&lt;span class="w"&gt; &lt;/span&gt;-type&lt;span class="w"&gt; &lt;/span&gt;l&lt;span class="w"&gt; &lt;/span&gt;-lname&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;anon_inode:inotify&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sed&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s+/proc/\([^/]*\)/fd/.*+\1+&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;source: https://bbs.archlinux.org/viewtopic.php?pid=1340024#p1340024&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id="count-nodes-per-process"&gt;Count nodes per process&lt;a class="headerlink" href="#count-nodes-per-process" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;find&lt;span class="w"&gt; &lt;/span&gt;/proc/*/fd/*&lt;span class="w"&gt; &lt;/span&gt;-type&lt;span class="w"&gt; &lt;/span&gt;l&lt;span class="w"&gt; &lt;/span&gt;-lname&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;anon_inode:inotify&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-print
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Result will look like the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/proc/13246/fd/11
+/proc/13246/fd/12
+/proc/14053/fd/8
+/proc/2232/fd/5
+/proc/2244/fd/11
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The first number on each line is the process id, the second number is the number of nodes for this process.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;source: http://unix.stackexchange.com/questions/15509/whos-consuming-my-inotify-resources#comment21001_15549&lt;/p&gt;
+&lt;/blockquote&gt;</content><category term="tips"></category><category term="Linux"></category></entry><entry><title>Testing any Apache rewrite rule locally</title><link href="https://www.javatronic.fr/testing-any-apache-rewrite-rule-locally.html" rel="alternate"></link><published>2014-11-04T00:00:00+01:00</published><updated>2014-11-04T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-11-04:/testing-any-apache-rewrite-rule-locally.html</id><summary type="html">&lt;p&gt;Recently, I had to write a bunch of Apache rewrite rules which applied to the whole URL, including the hostname. I also add to use &lt;code&gt;RewriteMap&lt;/code&gt; for efficiency.&lt;/p&gt;
+&lt;p&gt;I initially though this would be difficult to test locally but, in fact, with little modifications of a local Apache instance and …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Recently, I had to write a bunch of Apache rewrite rules which applied to the whole URL, including the hostname. I also add to use &lt;code&gt;RewriteMap&lt;/code&gt; for efficiency.&lt;/p&gt;
+&lt;p&gt;I initially though this would be difficult to test locally but, in fact, with little modifications of a local Apache instance and use of the &lt;code&gt;/etc/hosts&lt;/code&gt; file, it's pretty easy.&lt;/p&gt;
+&lt;p&gt;This article will detail how I did it on my computer running Ubuntu and hopefully it will help others setup their own computer.&lt;/p&gt;
+
+&lt;h1 id="testing-rewrite-rules"&gt;Testing rewrite rules&lt;a class="headerlink" href="#testing-rewrite-rules" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;h2 id="online"&gt;online&lt;a class="headerlink" href="#online" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Online tools such as &lt;a href="http://htaccess.madewithlove.be/"&gt;htaccess tester&lt;/a&gt; exists and can come in handy to test simple rules but that are limited techically (they usually advertise their limitations) but also by design: e.g. they can not support &lt;a href="http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html#rewritemap"&gt;RewriteMap&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;when working rules, &lt;a href="http://regex101.com/#pcre"&gt;regex101.com&lt;/a&gt; is pretty usefull to test regular expressions. Be sure to be in "pcre" mode as this is the intepretor used by Apache.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="locally"&gt;locally&lt;a class="headerlink" href="#locally" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Testing locally is the only way to fully test the rewrite rules you write, you can even test various version of Apache (but I won't cover that here).&lt;/p&gt;
+&lt;p&gt;Fortunatly, it is not so complicated to set up a local instance to test even host-based rewrite rules.&lt;/p&gt;
+&lt;h1 id="installing-and-configuring-apache"&gt;Installing and configuring Apache&lt;a class="headerlink" href="#installing-and-configuring-apache" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;h2 id="install"&gt;install&lt;a class="headerlink" href="#install" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;If you already have Apache installed, skip this.&lt;/p&gt;
+&lt;p&gt;Installation under Ubuntu is trivial:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt-get&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;apache2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;By default, the installed Apache instance is bound to port 80 and any host.&lt;/p&gt;
+&lt;p&gt;Make sure the instance not bound to a specific ip or host.&lt;/p&gt;
+&lt;h2 id="enable-mod_rewrite"&gt;enable mod_rewrite&lt;a class="headerlink" href="#enable-mod_rewrite" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;When installing Apache, &lt;code&gt;mod_rewrite&lt;/code&gt; might not be installed by default.&lt;/p&gt;
+&lt;p&gt;Under Ubuntu, just add a link in directory &lt;code&gt;/etc/apache2/mods-enabled&lt;/code&gt; to the &lt;code&gt;rewrite.load&lt;/code&gt; file in &lt;code&gt;/etc/apache2/mods-available&lt;/code&gt;;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/etc/apache2/mods-enabled
+ln&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;../mods-available/rewrite.load
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="modify-the-default-host"&gt;Modify the default host&lt;a class="headerlink" href="#modify-the-default-host" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;h2 id="use-a-dedicated-conf-file"&gt;use a dedicated conf file&lt;a class="headerlink" href="#use-a-dedicated-conf-file" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Open file &lt;code&gt;000-default.conf&lt;/code&gt; where the default host is configured.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;vi&lt;span class="w"&gt; &lt;/span&gt;/etc/apache2/sites-available/000-default.conf
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The default host is bound to any host on port 80:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;&amp;lt;VirtualHost&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;*:80&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Add an &lt;code&gt;Include&lt;/code&gt; directive before the closing tag of the &lt;code&gt;VirtualHost&lt;/code&gt; directive to import the configuration file where you will write your Rewrite rules.
+This is optional but you will find it convenient to clean your installation later or disable all changes you made by just commenting this directive.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;Include&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="sx"&gt;/etc/apache2/sites-available/my_rewrite_rule_tests.conf&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="mod_rewrite-logging"&gt;mod_rewrite logging&lt;a class="headerlink" href="#mod_rewrite-logging" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="enable-logging"&gt;enable logging&lt;a class="headerlink" href="#enable-logging" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Inside the &lt;code&gt;VirtualHost&lt;/code&gt; directive, look for the &lt;a href="http://httpd.apache.org/docs/2.4/en/mod/mod_rewrite.html#logging"&gt;&lt;code&gt;LogLevel&lt;/code&gt; directive&lt;/a&gt;, it may be commented out, or add it.&lt;/p&gt;
+&lt;p&gt;What matters is having an argument to the directive starting with &lt;code&gt;rewrite&lt;/code&gt;, such as the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;LogLevel&lt;span class="w"&gt; &lt;/span&gt;alert&lt;span class="w"&gt; &lt;/span&gt;rewrite:trace8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The part after the colon in &lt;code&gt;rewrite:trace8&lt;/code&gt; is the logging level.&lt;/p&gt;
+&lt;p&gt;As we are testing locally, we can use the maximum logging level (level8) but be aware that it should be used carefull (don't go lower than trace3) as mod_rewrite quickly gets extremely verbose.&lt;/p&gt;
+&lt;h3 id="read-mod_rewrite-logs"&gt;read mod_rewrite logs&lt;a class="headerlink" href="#read-mod_rewrite-logs" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;mod_rewrite logs into &lt;code&gt;/var/log/apache2/error.log&lt;/code&gt; with a &lt;code&gt;[rewrite&lt;/code&gt; prefix.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;tail&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;/var/log/apache2/error.log&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fgrep&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'[rewrite:'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="add-hosts-to-etchosts"&gt;Add hosts to /etc/hosts&lt;a class="headerlink" href="#add-hosts-to-etchosts" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;The point here is to make any hostname involved in our rewrite rules point to the local computer (127.0.O.1).&lt;/p&gt;
+&lt;p&gt;You can then test rewrite rule based on existing host but also on non existing ones.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;for existing host, make sure you revert modifications in &lt;code&gt;/etc/hosts&lt;/code&gt; after your are done testing. Otherwise, if you added &lt;code&gt;wwww.google.com&lt;/code&gt; and bound it to &lt;code&gt;localhost&lt;/code&gt; in &lt;code&gt;/etc/hosts&lt;/code&gt; you won't be able to reach the real Google website&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Open &lt;code&gt;/etc/hosts&lt;/code&gt; (sudo required):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;vi&lt;span class="w"&gt; &lt;/span&gt;/etc/hosts
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and add a line such as the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="m"&gt;127&lt;/span&gt;.0.0.1&lt;span class="w"&gt;    &lt;/span&gt;store.mydomain.com&lt;span class="w"&gt; &lt;/span&gt;boutique.mydomain.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="bind-apache-to-hostnames"&gt;bind Apache to hostnames&lt;a class="headerlink" href="#bind-apache-to-hostnames" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Add a &lt;code&gt;ServerName&lt;/code&gt; directive (if none is already set yet) and any number of &lt;code&gt;ServerAlias&lt;/code&gt; directive to bind Apache to hostnames you defined in &lt;code&gt;/etc/hosts&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;My advice is to add these directive to the dedicated configuration file created earlier.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;ServerName&lt;/span&gt;&lt;span class="w"&gt;              &lt;/span&gt;store.mydomain.com
+&lt;span class="nb"&gt;ServerAlias&lt;/span&gt;&lt;span class="w"&gt;             &lt;/span&gt;boutique.mydomain.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="add-rewrite-rules"&gt;add rewrite rules&lt;a class="headerlink" href="#add-rewrite-rules" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Make sure the mod_rewrite engine is enabled by adding the &lt;code&gt;RewriteEngine&lt;/code&gt; directive:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;RewriteEngine&lt;/span&gt;&lt;span class="w"&gt;   &lt;/span&gt;&lt;span class="k"&gt;On&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now, add your &lt;a href="http://httpd.apache.org/docs/2.4/en/mod/mod_rewrite.html#rewriterule"&gt;RewriteRule&lt;/a&gt;, &lt;a href="http://httpd.apache.org/docs/2.4/en/mod/mod_rewrite.html#rewritecond"&gt;RewriteCond&lt;/a&gt; and &lt;a href="http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html#rewritemap"&gt;RewriteMap&lt;/a&gt; directives.&lt;/p&gt;
+&lt;h2 id="test-changes"&gt;test changes&lt;a class="headerlink" href="#test-changes" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;You can either start/restart or reload Apache after each change.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;/etc/init.d/apache2&lt;span class="w"&gt; &lt;/span&gt;start
+sudo&lt;span class="w"&gt; &lt;/span&gt;/etc/init.d/apache2&lt;span class="w"&gt; &lt;/span&gt;restart
+&lt;span class="c1"&gt;# only reload the configuration without restarting Apache&lt;/span&gt;
+sudo&lt;span class="w"&gt; &lt;/span&gt;/etc/init.d/apache2&lt;span class="w"&gt; &lt;/span&gt;reload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now, open your favorite browser, type in a URL to test, see the result in the browser: are you being redirected or not? to the correct URL?&lt;/p&gt;
+&lt;p&gt;It does really matter if the URL your are being redirect to actually exists, worse case scenario, you'll get a 404 error but you will know if the rewrite rule worked.&lt;/p&gt;
+&lt;p&gt;If it is not working, check out the logs.&lt;/p&gt;
+&lt;p&gt;At log level &lt;code&gt;trace8&lt;/code&gt; every operations run by mod_rewrite is visible. This even convenient to understand how the mod and directives work.&lt;/p&gt;</content><category term="tips"></category><category term="Apache"></category><category term="Ubuntu"></category><category term="Testing"></category></entry><entry><title>Script to Refresh all materialized views in a schema</title><link href="https://www.javatronic.fr/script-to-refresh-all-materialized-views-in-a-schema.html" rel="alternate"></link><published>2014-10-27T00:00:00+01:00</published><updated>2014-10-27T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-10-27:/script-to-refresh-all-materialized-views-in-a-schema.html</id><summary type="html">&lt;p&gt;Use the following script to refresh all materialized view in a schema of an Oracle database. This script can be run very easily from SqlPlus.&lt;/p&gt;
+&lt;p&gt;Connect to the user of the schema where you can to refresh all materalized views and execute the following PL/SQL procedure:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;DECLARE&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;v_number_of_failures&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;NUMBER …&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Use the following script to refresh all materialized view in a schema of an Oracle database. This script can be run very easily from SqlPlus.&lt;/p&gt;
+&lt;p&gt;Connect to the user of the schema where you can to refresh all materalized views and execute the following PL/SQL procedure:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;DECLARE&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;v_number_of_failures&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;NUMBER&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;BEGIN&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="n"&gt;DBMS_MVIEW&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;REFRESH_ALL_MVIEWS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v_number_of_failures&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;C&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;END&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="execute-with-sqlplus"&gt;Execute with sqlplus&lt;a class="headerlink" href="#execute-with-sqlplus" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Create a file called &lt;code&gt;refresh_all_materialised_views.sql&lt;/code&gt; with the following content:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;DECLARE&lt;/span&gt;
+&lt;span class="n"&gt;v_number_of_failures&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;NUMBER&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;BEGIN&lt;/span&gt;
+&lt;span class="n"&gt;DBMS_MVIEW&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;REFRESH_ALL_MVIEWS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v_number_of_failures&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;C&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;TRUE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;FALSE&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;END&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Warning, mind the "/" on the last line, it is required to make oracle execute the PL/SQL procedure&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Execute with Sqlplus:&lt;/p&gt;
+&lt;p&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sqlplus&lt;span class="w"&gt; &lt;/span&gt;user/user_pwd&lt;span class="w"&gt; &lt;/span&gt;@refresh_all_materialised_views.sql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+You may add an extra line at the end of &lt;code&gt;refresh_all_materialised_views.sql&lt;/code&gt; to automatically exit Sqlplus when the procedure has been executed (successfully or not):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;quit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You should see something like the following output:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;my_machine:$&lt;span class="w"&gt; &lt;/span&gt;sqlplus&lt;span class="w"&gt; &lt;/span&gt;user/user_pwd&lt;span class="w"&gt; &lt;/span&gt;@refresh_all_materialised_views.sql
+
+SQL*Plus:&lt;span class="w"&gt; &lt;/span&gt;Release&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;.2.0.3.0&lt;span class="w"&gt; &lt;/span&gt;Production&lt;span class="w"&gt; &lt;/span&gt;on&lt;span class="w"&gt; &lt;/span&gt;Tue&lt;span class="w"&gt; &lt;/span&gt;Oct&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;14&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;:37:04&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2014&lt;/span&gt;
+
+Copyright&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;c&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1982&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2011&lt;/span&gt;,&lt;span class="w"&gt; &lt;/span&gt;Oracle.&lt;span class="w"&gt;  &lt;/span&gt;All&lt;span class="w"&gt; &lt;/span&gt;rights&lt;span class="w"&gt; &lt;/span&gt;reserved.
+
+
+Connected&lt;span class="w"&gt; &lt;/span&gt;to:
+Oracle&lt;span class="w"&gt; &lt;/span&gt;Database&lt;span class="w"&gt; &lt;/span&gt;11g&lt;span class="w"&gt; &lt;/span&gt;Enterprise&lt;span class="w"&gt; &lt;/span&gt;Edition&lt;span class="w"&gt; &lt;/span&gt;Release&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;.2.0.3.0&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;64bit&lt;span class="w"&gt; &lt;/span&gt;Production
+With&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;Partitioning,&lt;span class="w"&gt; &lt;/span&gt;Automatic&lt;span class="w"&gt; &lt;/span&gt;Storage&lt;span class="w"&gt; &lt;/span&gt;Management,&lt;span class="w"&gt; &lt;/span&gt;OLAP,&lt;span class="w"&gt; &lt;/span&gt;Data&lt;span class="w"&gt; &lt;/span&gt;Mining
+and&lt;span class="w"&gt; &lt;/span&gt;Real&lt;span class="w"&gt; &lt;/span&gt;Application&lt;span class="w"&gt; &lt;/span&gt;Testing&lt;span class="w"&gt; &lt;/span&gt;options
+
+
+PL/SQL&lt;span class="w"&gt; &lt;/span&gt;procedure&lt;span class="w"&gt; &lt;/span&gt;successfully&lt;span class="w"&gt; &lt;/span&gt;completed.
+
+Disconnected&lt;span class="w"&gt; &lt;/span&gt;from&lt;span class="w"&gt; &lt;/span&gt;Oracle&lt;span class="w"&gt; &lt;/span&gt;Database&lt;span class="w"&gt; &lt;/span&gt;11g&lt;span class="w"&gt; &lt;/span&gt;Enterprise&lt;span class="w"&gt; &lt;/span&gt;Edition&lt;span class="w"&gt; &lt;/span&gt;Release&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;11&lt;/span&gt;.2.0.3.0&lt;span class="w"&gt; &lt;/span&gt;-&lt;span class="w"&gt; &lt;/span&gt;64bit&lt;span class="w"&gt; &lt;/span&gt;Production
+With&lt;span class="w"&gt; &lt;/span&gt;the&lt;span class="w"&gt; &lt;/span&gt;Partitioning,&lt;span class="w"&gt; &lt;/span&gt;Automatic&lt;span class="w"&gt; &lt;/span&gt;Storage&lt;span class="w"&gt; &lt;/span&gt;Management,&lt;span class="w"&gt; &lt;/span&gt;OLAP,&lt;span class="w"&gt; &lt;/span&gt;Data&lt;span class="w"&gt; &lt;/span&gt;Mining
+and&lt;span class="w"&gt; &lt;/span&gt;Real&lt;span class="w"&gt; &lt;/span&gt;Application&lt;span class="w"&gt; &lt;/span&gt;Testing&lt;span class="w"&gt; &lt;/span&gt;options
+
+my_machine:$
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="source"&gt;Source&lt;a class="headerlink" href="#source" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.bash-dba.com/2011/10/refreshing-all-materialized-view-in.html"&gt;Script to Refresh ALL materialized views in a schema&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="tips"></category><category term="Oracle"></category><category term="script"></category></entry><entry><title>Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh</title><link href="https://www.javatronic.fr/installing-google-cloud-sdk-on-ubuntu-with-oh-my-zsh.html" rel="alternate"></link><published>2014-10-17T00:00:00+02:00</published><updated>2014-10-17T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-10-17:/installing-google-cloud-sdk-on-ubuntu-with-oh-my-zsh.html</id><summary type="html">&lt;p&gt;To install the Google Cloud SDK, you can follow the &lt;a href="https://cloud.google.com/sdk/"&gt;installation guidelines&lt;/a&gt; available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manual steps.&lt;/p&gt;
+&lt;h2 id="install-via-the-bash-installer"&gt;Install via the bash installer&lt;a class="headerlink" href="#install-via-the-bash-installer" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Run the following command …&lt;/p&gt;</summary><content type="html">&lt;p&gt;To install the Google Cloud SDK, you can follow the &lt;a href="https://cloud.google.com/sdk/"&gt;installation guidelines&lt;/a&gt; available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manual steps.&lt;/p&gt;
+&lt;h2 id="install-via-the-bash-installer"&gt;Install via the bash installer&lt;a class="headerlink" href="#install-via-the-bash-installer" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Run the following command to download and install the SDK on your disk.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;curl&lt;span class="w"&gt; &lt;/span&gt;https://sdk.cloud.google.com&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="bash"&gt;Bash&lt;a class="headerlink" href="#bash" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;If your are running &lt;code&gt;bash&lt;/code&gt;, answer &lt;code&gt;Y&lt;/code&gt; when prompted to add &lt;code&gt;gcloud&lt;/code&gt; to the &lt;code&gt;PATH&lt;/code&gt; and install auto-completion. Don't worry, the installer creates a backup before modifying your &lt;code&gt;.bashrc&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id="zsh"&gt;Zsh&lt;a class="headerlink" href="#zsh" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;If you are running &lt;code&gt;Zsh&lt;/code&gt;, specify the path to your &lt;code&gt;.zshrc&lt;/code&gt; when prompted instead of going for the default &lt;code&gt;.bashrc&lt;/code&gt; file.&lt;/p&gt;
+&lt;p&gt;You will then have to manually modify your &lt;code&gt;.zshrc&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The installer adds the following lines:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The next line updates PATH for the Google Cloud SDK.&lt;/span&gt;
+&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/path/to/google-cloud-sdk/path.bash.inc&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# The next line enables bash completion for gcloud.&lt;/span&gt;
+&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/path/to/google-cloud-sdk/completion.bash.inc&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Just replace the &lt;code&gt;bash&lt;/code&gt; part in the file names with &lt;code&gt;zsh&lt;/code&gt; to use the Zsh specific scripts provided with the SDK.&lt;/p&gt;
+&lt;h3 id="oh-my-zsh-compatibility"&gt;Oh-my-zsh compatibility&lt;a class="headerlink" href="#oh-my-zsh-compatibility" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;I use Oh-My-Zsh as a shell and unfortunately, the procedure above did not work for me.&lt;/p&gt;
+&lt;p&gt;When loading a new shell, I got errors such as the following and command line completion did not work.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/path/to/google-cloud-sdk/completion.bash.inc:8:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;command&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;not&lt;span class="w"&gt; &lt;/span&gt;found:&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;complete&lt;/span&gt;
+/path/to/google-cloud-sdk/completion.bash.inc:19:&lt;span class="w"&gt; &lt;/span&gt;parse&lt;span class="w"&gt; &lt;/span&gt;error&lt;span class="w"&gt; &lt;/span&gt;near&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="sb"&gt;`&lt;/span&gt;&lt;span class="o"&gt;]]&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I did the following to fix the install.&lt;/p&gt;
+&lt;h4 id="load-the-sdk-files-before-oh-my-zsh"&gt;load the SDK files before &lt;code&gt;Oh-My-Zsh&lt;/code&gt;&lt;a class="headerlink" href="#load-the-sdk-files-before-oh-my-zsh" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;First, move the lines added by the installer &lt;em&gt;before&lt;/em&gt; the source command loading &lt;code&gt;Oh-My-Zsh&lt;/code&gt; (&lt;code&gt;source $ZSH/oh-my-zsh.sh&lt;/code&gt;).&lt;/p&gt;
+&lt;h4 id="load-missing-zsh-module"&gt;load missing &lt;code&gt;Zsh&lt;/code&gt; module&lt;a class="headerlink" href="#load-missing-zsh-module" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h4&gt;
+&lt;p&gt;Then two lines to tell &lt;code&gt;Zsh&lt;/code&gt; to load and init some specific modules required for completion to work &lt;em&gt;before&lt;/em&gt; the &lt;code&gt;source&lt;/code&gt; command for completion. I a no expert with &lt;code&gt;Zsh&lt;/code&gt; nor &lt;code&gt;Oh-My-Zsh&lt;/code&gt;, but looking at &lt;code&gt;oh-my-zsh.sh&lt;/code&gt; it seems that only &lt;code&gt;compinit&lt;/code&gt; is loaded.&lt;/p&gt;
+&lt;p&gt;You should end up with the following, at the beginning of your &lt;code&gt;.zshrc&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# The next line updates PATH for the Google Cloud SDK.&lt;/span&gt;
+&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/path.zsh.inc&amp;#39;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# The next lines enables bash completion in Zsh for gcloud. &lt;/span&gt;
+autoload&lt;span class="w"&gt; &lt;/span&gt;-U&lt;span class="w"&gt; &lt;/span&gt;compinit&lt;span class="w"&gt; &lt;/span&gt;compdef
+compinit
+&lt;span class="nb"&gt;source&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/completion.zsh.inc&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="Cloud"></category><category term="Google Cloud"></category><category term="Ubuntu"></category><category term="Oh-My-Zsh"></category></entry><entry><title>Cloning a local Git repository from a remote machine</title><link href="https://www.javatronic.fr/cloning-a-local-git-repository-from-a-remote-machine.html" rel="alternate"></link><published>2014-01-20T00:00:00+01:00</published><updated>2014-01-20T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-01-20:/cloning-a-local-git-repository-from-a-remote-machine.html</id><summary type="html">&lt;p&gt;If you happen to have a Git repository cloned a machine (let's say machine@work) and you want to retrieve it on another machine (let's say machine@home),
+you have a better (as in faster and more efficient) option than &lt;code&gt;scp&lt;/code&gt; or &lt;code&gt;rsync&lt;/code&gt; : &lt;code&gt;git clone&lt;/code&gt;.&lt;/p&gt;
+&lt;h1 id="git-clone-of-a-local-repository-over-ssh"&gt;Git clone of a local …&lt;/h1&gt;</summary><content type="html">&lt;p&gt;If you happen to have a Git repository cloned a machine (let's say machine@work) and you want to retrieve it on another machine (let's say machine@home),
+you have a better (as in faster and more efficient) option than &lt;code&gt;scp&lt;/code&gt; or &lt;code&gt;rsync&lt;/code&gt; : &lt;code&gt;git clone&lt;/code&gt;.&lt;/p&gt;
+&lt;h1 id="git-clone-of-a-local-repository-over-ssh"&gt;Git clone of a local repository over SSH&lt;a class="headerlink" href="#git-clone-of-a-local-repository-over-ssh" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Obviously, you could clone from the same remote repository (let's say Remote) as machine@work, but you may have local branches on machine@work that you specificall want to work on.
+Pushing local branche from machine@work to Remote is an option but it could polute other developers clones and/or you may not have access to Remote from machine@home.&lt;/p&gt;
+&lt;p&gt;Let's say the clone on machine @work is in directory &lt;code&gt;~/DEV/myclone&lt;/code&gt;, here are the commands to use :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/STUFF_FROM_WORK/
+git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;lesaint@lesaint.work.com:~/DEV/myclone/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;And that's it !&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Please note :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;you might be prompted to enter a password to connect over ssh (unless you have a ssh-agent with a loaded key for machine@work)&lt;/li&gt;
+&lt;li&gt;you can specify the path where to clone the repository by adding a third argument like any other clone command&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git clone lesaint@lesaint.work.com:~/DEV/myclone/ local_clone_name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;I used the "scp style" syntaxe of the &lt;code&gt;git clone&lt;/code&gt; argument&lt;/li&gt;
+&lt;li&gt;the ssh style syntax would be &lt;code&gt;ssh://lesaint@lesaint.work.com/~/DEV/myclone/&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h1 id="changing-remote-from-machine-to-the-true-remote"&gt;Changing remote from machine to the true remote&lt;a class="headerlink" href="#changing-remote-from-machine-to-the-true-remote" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;After cloning from machine @work, you might notice that the remote of the clone of machine @home is machine @work.&lt;/p&gt;
+&lt;p&gt;To fix that in the event you would happen to access to remote from home and that you would like to push to remote directly :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/STUFF_FROM_WORK/myclone
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;lesaint@gitserver.work.com:project.git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="Git"></category><category term="SSH"></category></entry><entry><title>Cloning a single branch</title><link href="https://www.javatronic.fr/cloning-a-single-branch.html" rel="alternate"></link><published>2014-01-06T00:00:00+01:00</published><updated>2014-01-06T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-01-06:/cloning-a-single-branch.html</id><summary type="html">&lt;p&gt;On this new project I'm working one, there is this huge repository that serves as a deployment mean for binaries in the stage and production environnement.&lt;/p&gt;
+&lt;p&gt;Most branches content is totally different from one another and no one cares about the old branches and rarely use the tags.&lt;/p&gt;
+&lt;p&gt;Since my …&lt;/p&gt;</summary><content type="html">&lt;p&gt;On this new project I'm working one, there is this huge repository that serves as a deployment mean for binaries in the stage and production environnement.&lt;/p&gt;
+&lt;p&gt;Most branches content is totally different from one another and no one cares about the old branches and rarely use the tags.&lt;/p&gt;
+&lt;p&gt;Since my SSD was almost full, I wanted to avoid cloning the whole repository and clone only a specific branch instead. I would later retrieve other branches (and tags, very rarely) one by one.&lt;/p&gt;
+&lt;p&gt;Using the &lt;code&gt;-t&lt;/code&gt; option of &lt;code&gt;git remote&lt;/code&gt; and a serie of commands, we can achieve that.&lt;/p&gt;
+&lt;h3 id="cloning-a-single-branch"&gt;Cloning a single branch&lt;a class="headerlink" href="#cloning-a-single-branch" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;To clone a repository and retrieve a single branch can be done as follow :&lt;/p&gt;
+&lt;p&gt;(source : &lt;a href="http://stackoverflow.com/a/4146786"&gt;http://stackoverflow.com/a/4146786&lt;/a&gt;)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# create clone directory&lt;/span&gt;
+mkdir&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;
+&lt;span class="c1"&gt;# create an empty local master branch&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;init
+&lt;span class="c1"&gt;# add a remote repository for a specific branch&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;-t&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$BRANCH&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$REMOTE_REPO&lt;/span&gt;
+&lt;span class="c1"&gt;# retrieve remote branch on disk&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;fetch
+&lt;span class="c1"&gt;# checkout branch locally&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;checkout&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$BRANCH&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="checkout-new-branches"&gt;Checkout new branches&lt;a class="headerlink" href="#checkout-new-branches" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Checking out any branch/tag from the repo can be done as follow :
+It indeed requires to know the name of the remote branch from another source than your local checkout.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;
+&lt;span class="c1"&gt;# add a new remote branch&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;set-branches&lt;span class="w"&gt; &lt;/span&gt;--add&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$NEW_BRANCH&lt;/span&gt;
+&lt;span class="c1"&gt;# fetch all remote branches (the new one included) to disk&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;fetch
+&lt;span class="c1"&gt;# checkout branch locally&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;co&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$NEW_BRANCH&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;If the added remote branche does not exist on the remote repository, you will get the following error, fetch will fail.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fatal:&lt;span class="w"&gt; &lt;/span&gt;Couldn&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;t&lt;span class="w"&gt; &lt;/span&gt;find&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;ref&lt;span class="w"&gt; &lt;/span&gt;refs/heads/WRONG_BRANCH
+fatal:&lt;span class="w"&gt; &lt;/span&gt;The&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;end&lt;span class="w"&gt; &lt;/span&gt;hung&lt;span class="w"&gt; &lt;/span&gt;up&lt;span class="w"&gt; &lt;/span&gt;unexpectedly
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The problem is that your local repository get kind of corrupted and all the next &lt;code&gt;git fetch&lt;/code&gt; command will also fail with the same error.&lt;/p&gt;
+&lt;p&gt;To fix it, edit file &lt;code&gt;.git/config&lt;/code&gt; and remove the wrong entry under '[remote origin]' starting with &lt;code&gt;fetch =&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;(source : &lt;a href="http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399"&gt;http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399&lt;/a&gt;)&lt;/p&gt;
+&lt;h3 id="discussion"&gt;Discussion&lt;a class="headerlink" href="#discussion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;This technic is a litle bit manual, but has many advantages :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;writing a shell script to automate it is only a few hits on the keyboard away&lt;ul&gt;
+&lt;li&gt;hay ! How hard would it be to create a new Git command ? I must find time to dig into that&lt;/li&gt;
+&lt;li&gt;maybe a simple GIT alias could do the job&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;you don't get pushing problems as you can get when using git shallow cloning&lt;/li&gt;
+&lt;li&gt;you really are checking a single reference branch as opposed to using &lt;code&gt;git clone -b option&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# retrieves all the remote branches locally and then checkout branch_name&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;user@git-server:project_name.git&lt;span class="w"&gt; &lt;/span&gt;-b&lt;span class="w"&gt; &lt;/span&gt;branch_name
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="Git"></category></entry><entry><title>Creating a patch from a GIT commit</title><link href="https://www.javatronic.fr/creating-a-patch-from-a-git-commit.html" rel="alternate"></link><published>2014-01-03T00:00:00+01:00</published><updated>2014-01-03T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-01-03:/creating-a-patch-from-a-git-commit.html</id><summary type="html">&lt;p&gt;Recently I had to create patch from a local commit to apply a totally different branch and on a different clone. Obviously I couldn't use &lt;code&gt;git cherry-pick&lt;/code&gt; so I tried and found out to create a patch from a GIT commit.&lt;/p&gt;
+&lt;p&gt;It all comes down to using git format-patch command …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Recently I had to create patch from a local commit to apply a totally different branch and on a different clone. Obviously I couldn't use &lt;code&gt;git cherry-pick&lt;/code&gt; so I tried and found out to create a patch from a GIT commit.&lt;/p&gt;
+&lt;p&gt;It all comes down to using git format-patch command and the patch shell command : &lt;/p&gt;
+&lt;h2 id="create-patch-from-last-commit-local-or-not"&gt;create patch from last commit (local or not)&lt;a class="headerlink" href="#create-patch-from-last-commit-local-or-not" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;format-patch&lt;span class="w"&gt; &lt;/span&gt;-1&lt;span class="w"&gt; &lt;/span&gt;HEAD
+&lt;span class="c1"&gt;# creates a patch file in the root directory of the GIT clone : lest say some_file.patch&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="apply-patch"&gt;apply patch&lt;a class="headerlink" href="#apply-patch" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;patch&lt;span class="w"&gt; &lt;/span&gt;-p1&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;path_to&lt;span class="o"&gt;]&lt;/span&gt;/some_file.patch
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;source : &lt;a href="http://stackoverflow.com/questions/13192806/how-to-generate-a-git-patch-with-a-local-commit"&gt;http://stackoverflow.com/questions/13192806/how-to-generate-a-git-patch-with-a-local-commit&lt;/a&gt;&lt;/p&gt;</content><category term="tips"></category><category term="Git"></category></entry></feed>
