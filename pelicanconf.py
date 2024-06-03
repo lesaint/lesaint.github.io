@@ -25,7 +25,6 @@ MARKDOWN = {
     'markdown.extensions.extra': {},
     'markdown.extensions.meta': {},
     'markdown.extensions.sane_lists': {},
-    'markdown.extensions.nl2br': {},
     'pymdownx.superfences': {},
   },
   'output_format': 'html5',
@@ -47,5 +46,27 @@ SOCIAL = (
 
 DEFAULT_PAGINATION = 10
 
-# Uncomment following line if you want document-relative URLs when developing
-# RELATIVE_URLS = True
+THEME = "theme-elegant"
+
+LANDING_PAGE_TITLE = "Sébastien Lesaint"
+PROJECTS_TITLE = "Active projects"
+PROJECTS = [
+    {
+        'name': 'PyLMS',
+        'url': 'https://github.com/lesaint/pylms',
+        'description': 'A demo, yet useful, project for Python development, software engineering best practices, '
+                       'software and cloud architecting, and technology learning'
+    },
+    {
+        'name': 'Phanas Desktop',
+        'url': 'https://github.com/lesaint/phanas_desktop',
+        'description': 'The Python-based GUI program acting as the client app for my home backup strategy '
+                       'across desktop devices at home'
+    },
+    {
+        'name': 'rsync-time-backup',
+        'url': 'https://github.com/lesaint/rsync-time-backup',
+        'description': 'The backbone on my home backup strategy. Notably adapted the bash script to very '
+                       'limited Busybox-backed linux commands'
+    },
+]
