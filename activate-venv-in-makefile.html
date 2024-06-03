@@ -15,18 +15,18 @@
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="Cloud, Google Cloud, Ubuntu, Oh-My-Zsh, tips, " />
+<meta name="keywords" content="python, makefile, tips, " />
 
-<meta property="og:title" content="Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh "/>
-<meta property="og:url" content="https://www.javatronic.fr/installing-google-cloud-sdk-on-ubuntu-with-oh-my-zsh.html" />
-<meta property="og:description" content="To install the Google Cloud SDK, you can follow the installation guidelines available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won&#39;t work and you need to do some manual steps. Install via the bash installer¶ Run the following command …" />
+<meta property="og:title" content="Activate venv in Makefile "/>
+<meta property="og:url" content="https://www.javatronic.fr/activate-venv-in-makefile.html" />
+<meta property="og:description" content="I finally found a solution to have Python command use the venv of the project when calling them from Make. Use .ONESHELL and a macro¶ By default, make runs each line of a recipe in a different subshell. .ONESHELL makes make run a whole recipe in a single shell. The …" />
 <meta property="og:site_name" content="Javatronic" />
 <meta property="og:article:author" content="Sébastien Lesaint" />
-<meta property="og:article:published_time" content="2014-10-17T00:00:00+02:00" />
-<meta name="twitter:title" content="Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh ">
-<meta name="twitter:description" content="To install the Google Cloud SDK, you can follow the installation guidelines available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won&#39;t work and you need to do some manual steps. Install via the bash installer¶ Run the following command …">
+<meta property="og:article:published_time" content="2024-05-04T00:00:00+02:00" />
+<meta name="twitter:title" content="Activate venv in Makefile ">
+<meta name="twitter:description" content="I finally found a solution to have Python command use the venv of the project when calling them from Make. Use .ONESHELL and a macro¶ By default, make runs each line of a recipe in a different subshell. .ONESHELL makes make run a whole recipe in a single shell. The …">
 
-        <title>Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh  · Javatronic
+        <title>Activate venv in Makefile  · Javatronic
 </title>
         <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
 
@@ -68,8 +68,8 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="https://www.javatronic.fr/installing-google-cloud-sdk-on-ubuntu-with-oh-my-zsh.html">
-                Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh
+            <a href="https://www.javatronic.fr/activate-venv-in-makefile.html">
+                Activate venv in Makefile
             </a>
         </h1>
     </header>
@@ -78,44 +78,52 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>To install the Google Cloud SDK, you can follow the <a href="https://cloud.google.com/sdk/">installation guidelines</a> available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manual steps.</p>
-<h2 id="install-via-the-bash-installer">Install via the bash installer<a class="headerlink" href="#install-via-the-bash-installer" title="Permanent link">&para;</a></h2>
-<p>Run the following command to download and install the SDK on your disk.</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://sdk.cloud.google.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-</code></pre></div>
-<h3 id="bash">Bash<a class="headerlink" href="#bash" title="Permanent link">&para;</a></h3>
-<p>If your are running <code>bash</code>, answer <code>Y</code> when prompted to add <code>gcloud</code> to the <code>PATH</code> and install auto-completion. Don't worry, the installer creates a backup before modifying your <code>.bashrc</code>.</p>
-<h3 id="zsh">Zsh<a class="headerlink" href="#zsh" title="Permanent link">&para;</a></h3>
-<p>If you are running <code>Zsh</code>, specify the path to your <code>.zshrc</code> when prompted instead of going for the default <code>.bashrc</code> file.</p>
-<p>You will then have to manually modify your <code>.zshrc</code>.</p>
-<p>The installer adds the following lines:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># The next line updates PATH for the Google Cloud SDK.</span>
-<span class="nb">source</span><span class="w"> </span><span class="s1">&#39;/path/to/google-cloud-sdk/path.bash.inc&#39;</span>
+            <p>I finally found a solution to have Python command use the venv of the project when calling them from Make.</p>
+<h2 id="use-oneshell-and-a-macro">Use .ONESHELL and a macro<a class="headerlink" href="#use-oneshell-and-a-macro" title="Permanent link">&para;</a></h2>
+<p>By default, make runs each line of a recipe in a different subshell. <code>.ONESHELL</code> makes make run a whole recipe in a single shell.</p>
+<p>The alternative is to activate the venv with every single python command, eg.: <code>. venv/bin/activate &amp;&amp; pip install -r requirements.txt</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nf">.ONESHELL</span><span class="o">:</span>
+<span class="nv">VENV_DIR</span><span class="o">=</span>.venv
+<span class="nv">ACTIVATE_VENV</span><span class="o">:=</span>.<span class="w"> </span><span class="k">$(</span>VENV_DIR<span class="k">)</span>/bin/activate
 
-<span class="c1"># The next line enables bash completion for gcloud.</span>
-<span class="nb">source</span><span class="w"> </span><span class="s1">&#39;/path/to/google-cloud-sdk/completion.bash.inc&#39;</span>
-</code></pre></div>
-<p>Just replace the <code>bash</code> part in the file names with <code>zsh</code> to use the Zsh specific scripts provided with the SDK.</p>
-<h3 id="oh-my-zsh-compatibility">Oh-my-zsh compatibility<a class="headerlink" href="#oh-my-zsh-compatibility" title="Permanent link">&para;</a></h3>
-<p>I use Oh-My-Zsh as a shell and unfortunately, the procedure above did not work for me.</p>
-<p>When loading a new shell, I got errors such as the following and command line completion did not work.</p>
-<div class="highlight"><pre><span></span><code>/path/to/google-cloud-sdk/completion.bash.inc:8:<span class="w"> </span><span class="nb">command</span><span class="w"> </span>not<span class="w"> </span>found:<span class="w"> </span><span class="nb">complete</span>
-/path/to/google-cloud-sdk/completion.bash.inc:19:<span class="w"> </span>parse<span class="w"> </span>error<span class="w"> </span>near<span class="w"> </span><span class="sb">`</span><span class="o">]]</span><span class="err">&#39;</span>
-</code></pre></div>
-<p>I did the following to fix the install.</p>
-<h4 id="load-the-sdk-files-before-oh-my-zsh">load the SDK files before <code>Oh-My-Zsh</code><a class="headerlink" href="#load-the-sdk-files-before-oh-my-zsh" title="Permanent link">&para;</a></h4>
-<p>First, move the lines added by the installer <em>before</em> the source command loading <code>Oh-My-Zsh</code> (<code>source $ZSH/oh-my-zsh.sh</code>).</p>
-<h4 id="load-missing-zsh-module">load missing <code>Zsh</code> module<a class="headerlink" href="#load-missing-zsh-module" title="Permanent link">&para;</a></h4>
-<p>Then two lines to tell <code>Zsh</code> to load and init some specific modules required for completion to work <em>before</em> the <code>source</code> command for completion. I a no expert with <code>Zsh</code> nor <code>Oh-My-Zsh</code>, but looking at <code>oh-my-zsh.sh</code> it seems that only <code>compinit</code> is loaded.</p>
-<p>You should end up with the following, at the beginning of your <code>.zshrc</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># The next line updates PATH for the Google Cloud SDK.</span>
-<span class="nb">source</span><span class="w"> </span><span class="s1">&#39;/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/path.zsh.inc&#39;</span>
+<span class="nf">install</span><span class="o">:</span><span class="w"> </span>
+<span class="w">    </span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>VENV_DIR<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">$(</span>ACTIVATE_VENV<span class="k">)</span>
+<span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--requirement<span class="w"> </span>requirements.txt
 
-<span class="c1"># The next lines enables bash completion in Zsh for gcloud. </span>
-autoload<span class="w"> </span>-U<span class="w"> </span>compinit<span class="w"> </span>compdef
-compinit
-<span class="nb">source</span><span class="w"> </span><span class="s1">&#39;/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/completion.zsh.inc&#39;</span>
+<span class="nf">run</span><span class="o">:</span><span class="w"> </span><span class="n">install</span>
+<span class="w">    </span><span class="k">$(</span>ACTIVATE_VENV<span class="k">)</span>
+<span class="w">    </span>python<span class="w"> </span>foo.my
 </code></pre></div>
+<blockquote>
+<p>sources:</p>
+<ul>
+<li>stackoverflow: <a href="https://stackoverflow.com/a/55404948">effect and usage of .ONESHELL</a></li>
+<li>stackoverflow: <a href="https://stackoverflow.com/a/73837995">using a macro to factor activation code</a></li>
+</ul>
+</blockquote>
+<h2 id="tracking-requirementstxt-changes">Tracking requirements.txt changes<a class="headerlink" href="#tracking-requirementstxt-changes" title="Permanent link">&para;</a></h2>
+<p>The above can be combined with appropriate makefile usage as to prime venv only once, and then track changes to <code>requirements.txt</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c"># use .ONESHELL to activate venv and use it across a recipe without adding it before each command (source: https://stackoverflow.com/a/55404948)</span>
+<span class="nf">.ONESHELL</span><span class="o">:</span>
+<span class="nv">VENV_DIR</span><span class="o">=</span>.venv
+<span class="c"># source: https://stackoverflow.com/a/73837995</span>
+<span class="nv">ACTIVATE_VENV</span><span class="o">:=</span>.<span class="w"> </span><span class="k">$(</span>VENV_DIR<span class="k">)</span>/bin/activate
+
+<span class="nf">$(VENV_DIR)/touchfile</span><span class="o">:</span><span class="w"> </span><span class="n">requirements</span>.<span class="n">txt</span>
+<span class="w">    </span><span class="nb">test</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>VENV_DIR<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>VENV_DIR<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">$(</span>ACTIVATE_VENV<span class="k">)</span>
+<span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--requirement<span class="w"> </span>requirements.txt
+<span class="w">    </span>touch<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>VENV_DIR<span class="k">)</span><span class="s2">/touchfile&quot;</span>
+
+<span class="nf">venv</span><span class="o">:</span><span class="w"> </span><span class="k">$(</span><span class="nv">VENV_DIR</span><span class="k">)</span>/<span class="n">touchfile</span>
+
+<span class="nf">venvclean</span><span class="o">:</span>
+<span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="k">$(</span>VENV_DIR<span class="k">)</span>
+</code></pre></div>
+<blockquote>
+<p>source: stackoverflow: <a href="https://stackoverflow.com/a/46188210">using a touch file</a></p>
+</blockquote>
 
 
              
@@ -134,22 +142,16 @@ compinit
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2014-10-17T00:00:00+02:00">Fri 17 October 2014</time>
+            <time itemprop="dateCreated" datetime="2024-05-04T00:00:00+02:00">Sat 04 May 2024</time>
             <h4>Category</h4>
             <a class="category-link" href="https://www.javatronic.fr/categories.html#tips-ref">tips</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://www.javatronic.fr/tags.html#cloud-ref">Cloud
+                <li><a href="https://www.javatronic.fr/tags.html#makefile-ref">makefile
+                    <span class="superscript">1</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#python-ref">python
                     <span class="superscript">2</span>
-</a></li>
-                <li><a href="https://www.javatronic.fr/tags.html#google-cloud-ref">Google Cloud
-                    <span class="superscript">1</span>
-</a></li>
-                <li><a href="https://www.javatronic.fr/tags.html#oh-my-zsh-ref">Oh-My-Zsh
-                    <span class="superscript">1</span>
-</a></li>
-                <li><a href="https://www.javatronic.fr/tags.html#ubuntu-ref">Ubuntu
-                    <span class="superscript">3</span>
 </a></li>
             </ul>
 <h4>Contact</h4>
