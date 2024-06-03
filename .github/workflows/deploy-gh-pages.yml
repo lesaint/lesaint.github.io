@@ -16,10 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: fetch gh-pages branch
+      # source: https://github.com/actions/checkout/issues/578#issuecomment-1586269282
       run: |
         git fetch --unshallow origin gh-pages
     - name: Set up Python 3.10
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: "3.10"
     - name: Install pip
