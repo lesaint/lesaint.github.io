@@ -11,10 +11,12 @@ DEFAULT_LANG = "en"
 # static resources
 STATIC_PATHS = [
     "images",
+    "extra/favicon.ico",
     "extra/CNAME",
     "extra/.nojekyll",
 ]
 EXTRA_PATH_METADATA = {
+    "extra/favicon.ico": {"path": "favicon.ico"},
     "extra/CNAME": {"path": "CNAME"},
     "extra/.nojekyll": {"path": ".nojekyll"},
 }
