@@ -1,26 +1,12 @@
----
-layout: post
-title: "How to debug an annotation processor"
-tags:
- - Annotation Processing
- - Maven
- - Javac
-categories: articles
-image:
- feature: feature_image_green.png
-redirect_from:
-  - /2014/09/22/how_to_debug_an_annotation_processor.html
-comments: true
-share: true
----
+Title: How to debug an annotation processor
+Tags: Annotation Processing, Maven, Javac
 
 Though it may not sound obvious, it is possible to debug an Annotation Processor, put a break point and look precisely at what is going on.
 
 This article will dive into the details on how I currently debug the Annotation Processor of [DAMapping](https://github.com/lesaint/damapping).
 
 
-* Table of Contents
-{:toc}
+[TOC]
 
 The ```Javac``` compiler internally uses a JVM to do its work. So, the basic idea is to find a way to configure this JVM to accept a debugger connection and to be able to attach to the compiler process **before** the Annotation Processor is run.
 
@@ -44,15 +30,15 @@ Since I use IntelliJ IDEA, here is how to set yp a debug connection to attach to
 4. change port to ```8000``` and leave any other field to its suggested value
     - host should be ```localhost```, Transport ```Socket``` and Debugger mode ```Attach```
 
-![screenshot creating a new remove configuration mvnDebug]({{ site.url }}/resources/how_to_debug_an_annotation_processor/new_remote_configuration_mvnDebug.png)
+![screenshot creating a new remove configuration mvnDebug]({static}/images/how_to_debug_an_annotation_processor/new_remote_configuration_mvnDebug.png)
 
 # Debugging
 
 Go to a terminal and run a command such as the following:
 
-{% highlight sh %}
+```sh
 mvnDebug clean install
-{% endhighlight %}
+```
 
 > it is best to always use the ```clean``` phase to make sure all files are compiled when debugging. Also, the command **must** include the compile phase otherwise the Annotation Processor will never be run
 

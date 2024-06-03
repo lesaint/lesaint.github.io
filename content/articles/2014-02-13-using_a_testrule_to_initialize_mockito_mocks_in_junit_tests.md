@@ -1,19 +1,5 @@
----
-layout: post
-title: Using a TestRule to initialize Mockito Mocks in a JUnit test
-tags:
- - Java
- - JUnit
- - Mockito
- - Spring MVC
-categories: articles
-image:
- feature: feature_image_green.png
-redirect_from:
-  - /2014/02/13/using_a_testrule_to_initialize_mockito_mocks_in_junit_tests.html
-comments: true
-share: true
----
+Title: Using a TestRule to initialize Mockito Mocks in a JUnit test
+Tags: Java, JUnit, Mockito, Spring MVC
 
 Using Mockito annotations in JUnit tests is very convenient.
 
@@ -28,7 +14,7 @@ The solution around this is pretty simple, but it is not provided by Mockito as 
 
 Here is the code of the TestRule (very simple, indeed) :
 
-{% highlight java %}
+```java
 package fr.phan.testfr.phan.webapp.controller.test;
 
 import org.junit.rules.TestRule;
@@ -46,7 +32,7 @@ public class MockitoAnnotationsRule implements TestRule {
     return base;
   }
 }
-{% endhighlight %}
+```
 
 This class takes the Unit test as a contructor argument and simply calls `MockitoAnnotations.initMocks()` on it.
 
@@ -57,7 +43,7 @@ The only constraint is that the property must be placed in the code before any o
 
 Sample usage in unit test for a Spring MVC controller :
 
-{% highlight java %}
+```java
 package fr.phan.webapp.controller;
 
 import fr.phan.webapp.controller.test.MyMockMvc;
@@ -92,7 +78,7 @@ public class MyControllerTest {
   }
 
 }
-{% endhighlight %}
+```
 
 # Comments
 

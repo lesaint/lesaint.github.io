@@ -1,17 +1,7 @@
----
-layout: post
-title: Tuning Sublime for markdown editing
-description: Personnal notes for tuning Sublime Text 2
-tags:
- - Sublime Text
-categories: articles
-image:
- feature: feature_image_green.png
-redirect_from:
-  - /2014/01/10/tuning_sublime_for_markdown_editing.html
-comments: true
-share: true
----
+Title: Tuning Sublime for markdown editing
+Summary: Personnal notes for tuning Sublime Text 2
+Tags: Sublime Text
+category: articles
 
 Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editing.
 
@@ -21,7 +11,7 @@ Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editi
 - Excellent resource
   - [http://www.macstories.net/roundups/sublime-text-2-and-markdown-tips-tricks-and-links/](http://www.macstories.net/roundups/sublime-text-2-and-markdown-tips-tricks-and-links/)
 - Install Sublime Text
-  - see [Installing Sublime for my use]({% post_url articles/2014-01-08-installing_sublime_for_my_use %})
+  - see [Installing Sublime for my use]({filename}/articles/2014-01-08-installing_sublime_for_my_use.md)
 - Extends Sublime for better editing experience (via Package Control)
   - Add package MarkdownEditing
     - installation
@@ -36,7 +26,7 @@ Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editi
         * open user preferences Preferences > Package Settings > MarkdownEditing > Markdown GFM Settings - User
         * change content with below
 
-        {% highlight json %}
+```json
         {
           "extensions":
           [
@@ -53,7 +43,7 @@ Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editi
           "word_wrap": false,
           "wrap_width": 120
         }
-        {% endhighlight %}
+```
 
   - Add Syntax highlighting sublime-markdown-extended (for reference, not used, MarkdownEditing is better)
     + [https://github.com/jonschlinkert/sublime-markdown-extended](https://github.com/jonschlinkert/sublime-markdown-extended)

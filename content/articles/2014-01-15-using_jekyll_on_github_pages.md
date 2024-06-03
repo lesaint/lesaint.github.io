@@ -1,19 +1,6 @@
----
-layout: post
-title: Using Jekyll for GitHub pages
-description: Personnal notes for installing and using Jekyll for GitHub pages
-tags:
- - Sublime Text
- - Github
- - Ruby
-categories: articles
-image:
- feature: feature_image_green.png
-redirect_from:
-  - /2014/01/15/using_jekyll_on_github_pages.html
-comments: true
-share: true
----
+Title: Using Jekyll for GitHub pages
+Summary: Personnal notes for installing and using Jekyll for GitHub pages
+Tags: Sublime Text, Github, Ruby
 
 Here I gather notes on how I installed Jekyll for Github pages based mostly on informations from [Github's help page](https://help.github.com/articles/using-jekyll-with-pages).
 
@@ -30,7 +17,7 @@ Here I gather notes on how I installed Jekyll for Github pages based mostly on i
     - otherwise, you might get an error :
       + resource : [http://stackoverflow.com/questions/7645918/require-no-such-file-to-load-mkmf-loaderror](http://stackoverflow.com/questions/7645918/require-no-such-file-to-load-mkmf-loaderror)
 
-    {% highlight sh %}
+```sh
     ERROR:  Error installing github-pages:
     ERROR: Failed to build gem native extension.
 
@@ -38,50 +25,50 @@ Here I gather notes on how I installed Jekyll for Github pages based mostly on i
           /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require': cannot load such file -- mkmf (LoadError)
             from /usr/lib/ruby/1.9.1/rubygems/custom_require.rb:36:in `require'
             from extconf.rb:1:in `<main>'
-    {% endhighlight %}
+```
 
   + installation
 
-{% highlight sh %}
+```sh
 sudo apt-get install ruby1.9.1
 sudo apt-get install ruby1.9.1-dev
-{% endhighlight %}
+```
 
 * Under Ubuntu 12.04 on my XPS 13, ruby 1.8 is the default alternative. To force 1.9.1 :
 
-{% highlight sh %}
+```sh
 sudo unlink /etc/alternatives/ruby
 sudo ln -s /usr/bin/ruby1.9.1 /etc/alternatives/ruby
-{% endhighlight %}
+```
 
 * RubyGems
   + Under Ubuntu 12.04 on my XPS 13, there seems to be an already install rubygems 1.8.11, which was not installed via apt-get 
 
-{% highlight sh %}
+```sh
 sudo apt-get install rubygems
-{% endhighlight %}
+```
 
 ## Jekyll
 
-  {% highlight sh %}
+```sh
   sudo gem install jekyll
-  {% endhighlight %}
+```
 
 ## GitHub Pages
 
 Source : [https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll](https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll)
 
-  {% highlight sh %}
+```sh
   sudo gem install github-pages
-  {% endhighlight %}
+```
 
 ## Rake
 
 Rake is a build tool that we can use to automate several blog editing task
 
-  {% highlight sh %}
+```sh
   sudo gem install rake
-  {% endhighlight %}
+```
 
   + Rake build file is name `Rakefile` and is written in pure Ruby
 
@@ -93,7 +80,7 @@ Run the command below on the root of your GitHub pages clone
 * jekyll can then be stoped with CTRL+C
 * by default website is visible on http://localhost:4000
 
-{% highlight sh %}
+```sh
 jekyll serve --draft --watch
-{% endhighlight %}
+```
 
