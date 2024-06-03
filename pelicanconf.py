@@ -43,8 +43,9 @@ MARKDOWN = {
 
 # Social widget
 SOCIAL = (
-    ("You can add links in your config file", "#"),
-    ("Another social link", "#"),
+    ("LinkedIn", "https://linkedin.com/in/sebastien-lesaint/", "Linkedin profile"),
+    ("Github", "https://github.com/lesaint/", "Personal Github"),
+    ("Github", "https://github.com/sns-seb/", "Public Github at SonarSource"),
 )
 
 THEME = "theme-elegant"
