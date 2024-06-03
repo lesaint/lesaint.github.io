@@ -1,0 +1,9 @@
+# Pelican
+output
+
+# PyCharm
+.idea
+
+# Python
+__pycache__
+.venv
