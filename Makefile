@@ -52,41 +52,56 @@ help:
 	@echo '                                                                          '
 
 
-.venv/touchfile: requirements.txt
-	test -d .venv || python3 -m venv .venv
-	. .venv/bin/activate; pip install --upgrade --requirement requirements.txt
-	touch .venv/touchfile
+# use .ONESHELL to activate venv and use it across a recipe without adding it before each command (source: https://stackoverflow.com/a/55404948)
+.ONESHELL:
+VENV_DIR=.venv
+# source: https://stackoverflow.com/a/73837995
+ACTIVATE_VENV:=. $(VENV_DIR)/bin/activate
 
-venv: .venv/touchfile
+$(VENV_DIR)/touchfile: requirements.txt
+	test -d "$(VENV_DIR)" || python3 -m venv "$(VENV_DIR)"
+	$(ACTIVATE_VENV)
+	pip install --upgrade --requirement requirements.txt
+	touch "$(VENV_DIR)/touchfile"
+
+venv: $(VENV_DIR)/touchfile
 
 venvclean:
-	rm -rf .venv
+	rm -rf $(VENV_DIR)
 
 html: venv
+	$(ACTIVATE_VENV)
 	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
 clean: venv
 	[ ! -d "$(OUTPUTDIR)" ] || rm -rf "$(OUTPUTDIR)"
 
 regenerate: venv
+	$(ACTIVATE_VENV)
 	"$(PELICAN)" -r "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
 serve: venv
+	$(ACTIVATE_VENV)
 	"$(PELICAN)" -l "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
 serve-global: venv
+	$(ACTIVATE_VENV)
 	"$(PELICAN)" -l "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS) -b $(SERVER)
 
 devserver: venv
+	$(ACTIVATE_VENV)
 	"$(PELICAN)" -lr "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
 devserver-global: venv
+	$(ACTIVATE_VENV)
 	"$(PELICAN)" -lr "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS) -b 0.0.0.0
 
 publish: venv
+	$(ACTIVATE_VENV)
 	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(PUBLISHCONF)" $(PELICANOPTS)
 
 github: publish venv
+	$(ACTIVATE_VENV)
 	ghp-import -m "Generate Pelican site for commit $(HEAD_ID)" -b "$(GITHUB_PAGES_BRANCH)" "$(OUTPUTDIR)"
 	git push origin $(GITHUB_PAGES_BRANCH)
 
