@@ -1,0 +1,173 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Principles of DAMapping &#8211; Javatronic</title>
+<link rel="canonical" href="principles.html">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="assets/css/damapping.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="favicon.ico">
+<!-- 32x32 -->
+</head>
+
+<body id="page">
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+  <div class="wrap">
+    <a href="damapping.html" class="damapping-logo" rel="home" title="DAMapping home page"><img src="images/damapping/damapping-logo.png" width="680" height="180" alt="DAMapping logo" class="animated bounceInDown"></a>
+  </div>
+</header><!-- /.masthead -->
+
+<div id="main" role="main">
+  <article class="entry justify">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">Principles of DAMapping</h1>
+      </header>
+      <div class="entry-content">
+        <p>DAMapping is based on several principles: show the logic and hide the implementation, use only Java code, logic belongs to source, be flexible and open, TOOD finish excerpt</p>
+
+<ul id="markdown-toc">
+  <li><a href="principles.html#show-the-logic-hide-the-implementation">Show the logic, hide the implementation</a></li>
+  <li><a href="principles.html#pure-java-code">Pure Java code</a></li>
+  <li><a href="principles.html#object-mapping-not-bean-mapping">Object mapping, not bean mapping</a></li>
+  <li><a href="principles.html#object-mapping-logic-in-source">Object mapping logic in source</a></li>
+  <li><a href="principles.html#be-flexible">Be flexible</a>    <ul>
+      <li><a href="principles.html#a-flexible-stack">a flexible stack</a></li>
+      <li><a href="principles.html#flexible-components">flexible components</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="show-the-logic-hide-the-implementation">Show the logic, hide the implementation</h1>
+
+<p>Object mapping is actually two separate things: the object mapping logic and the object mapping implementation.</p>
+
+<p>The former is about <em>deciding</em> how to map one object to another. The latter, is about <em>implementing</em> these decisions.</p>
+
+<p>The former should be clearly expressed and easy to modify. The latter is what the developer wants to avoid dealing with.</p>
+
+<p>The developer wants to read code that says: call <code>bar.setName</code> with the value of <code>foo.getNom</code> and when the value is <code>null</code> use <code>NO_NAME</code> constant. This is the object mapping logic. It should be expressed as code in short and comprehensive way.</p>
+
+<p>But he or she doesn’t want to write that code testing for <code>null</code> again and over again. This is the object mapping implementation, it should be hidden. Same goes for mapping a <code>String</code> to an <code>enum</code> value, or an array to a Collection, …</p>
+
+<h1 id="pure-java-code">Pure Java code</h1>
+
+<p>Object mapping must be coded in pure Java because:</p>
+
+<ul>
+  <li>you get fully statically typed object mapping and leverage the power of the compiler</li>
+  <li>you get clean and comprehensive stack traces when errors occur</li>
+  <li>you can easily debug it and follow the code flow</li>
+  <li>anyone can understand it, there is no need to learn some tool syntax</li>
+</ul>
+
+<h1 id="object-mapping-not-bean-mapping">Object mapping, not bean mapping</h1>
+
+<p>Most existing tools are bean mapping tools. They assume that they will be used to map Java beans. But, as <a href="https://twitter.com/jodastephen">Stephen Colebourne</a> pointed out in a <a href="http://blog.joda.org/2014/11/the-javabeans-specification.html">recent article</a>, JavaBean is a specification from 1997 which is quite specific (and outdated now) and hardly what most people think of Java Beans are: mutable data objects with getter and setters.</p>
+
+<p>The fact is that this specification from old times is not even clear on what getters and setters are (recall the ever happening discussion on how getters for <code>boolean</code> types should be named?).</p>
+
+<p>In addition, our real coding life is rarely made of true Java Beans (if that even exists), not even talking about immutability getting more and more adopters and totally out of the JavaBean scope.</p>
+
+<p>For all this reasons, DAMapping is based the foundamental hypothesis that it will NOT be used on beans, but more generally on objects.</p>
+
+<h1 id="object-mapping-logic-in-source">Object mapping logic in source</h1>
+
+<p><strong>Object mapping is important</strong> to your application, your library, it is part of it. If it is important, then the object mapping logic should be in source code because:</p>
+
+<ul>
+  <li>its stable: it doesn’t change unless you want it</li>
+  <li>it’s in your VCS: if it changes, you can find out when and (hopefully) why it did</li>
+  <li>you own it: its in source, you can change or complete what DAMapping generated for you (if you even used the generator in the first place)</li>
+  <li>you can refactor it like any other piece of code</li>
+</ul>
+
+<h1 id="be-flexible">Be flexible</h1>
+
+<h2 id="a-flexible-stack">a flexible stack</h2>
+
+<p>DAMapping is a stack of components. Those components can be used as a whole or as many combination of them:</p>
+
+<ul>
+  <li><strong>framework + library + generator + IDE plugin</strong>: use the <em>DAMapping generator</em> from the <em>DAMapping IDE plugin</em> and leverage the power of the <em>DAMapping framework</em> and <em>DAMapping library</em></li>
+  <li><strong>library + generator + IDE plugin</strong>: use the <em>DAMapping generator</em> and the <em>DAMapping IDE plugin</em> but not the <em>DAMapping framework</em> by generating code inside your own methods</li>
+  <li><strong>framework + library</strong>: use the <em>DAMapping framework</em> to structure your object mapping code, maybe use he <em>DAMapping library</em> too, but that’s it</li>
+  <li><strong>library alone</strong>: use the <em>DAMapping library</em> anywhere, maybe not even to do object mapping as such</li>
+</ul>
+
+<h2 id="flexible-components">flexible components</h2>
+
+<p>Each component of DAMapping is designed to be flexible.</p>
+
+<table rules="groups">
+  <tbody>
+    <tr>
+      <td><em>framework</em></td>
+      <td>offers a highly versatile way of structuring object mapping code. It is flexible and has little, almost no, constraint</td>
+    </tr>
+    <tr>
+      <td><em>library</em></td>
+      <td>aims at providing comprehensive and powerful utility classes and methods for any type of object mapping operation</td>
+    </tr>
+    <tr>
+      <td><em>code generator</em></td>
+      <td>provides pertinent defaults by can be customized to suit the developer or the application preferences</td>
+    </tr>
+    <tr>
+      <td><em>IDE plugins</em></td>
+      <td>support preferences for the <em>DAMapping code generator</em> and the <em>DAMapping framework</em></td>
+    </tr>
+  </tbody>
+</table>
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 Sébastien Lesaint. Initially generated with <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/">So Simple Theme</a>.</span>
+<div class="social-icons">
+	<a href="http://github.com/lesaint" title="Sébastien Lesaint on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="assets/js/scripts.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>The object mapping stack for Java &#8211; Javatronic</title>
+<meta name="description" content="DAMapping is the Object Mapping Stack for Java. It is a new approach to object mapping, by design and principles. Ground rule, object mapping must be pure Java code and this code belongs to the developer. DAMapping is fully statically typed, make debug and refactoring prime citizens, is little intrusive and highly customizable. It can be used as a whole to fully automate object mapping code writing or components can be used individually.">
+<link rel="canonical" href="index.html">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="assets/css/damapping.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="favicon.ico">
+<!-- 32x32 -->
+</head>
+
+<body id="page">
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+  <div class="wrap">
+    <a href="damapping.html" class="damapping-logo" rel="home" title="DAMapping home page"><img src="images/damapping/damapping-logo.png" width="680" height="180" alt="DAMapping logo" class="animated bounceInDown"></a>
+  </div>
+</header><!-- /.masthead -->
+
+<div id="main" role="main">
+  <article class="entry justify">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">The object mapping stack for Java</h1>
+      </header>
+      <div class="entry-content">
+        <p>DAMapping is structured as <strong>stack of components</strong>, complementary and yet individually usable, designed to <strong>power the developer</strong> who writes or maintain object mapping code in Java.</p>
+
+<p class="center"><img src="images/damapping/damapping-stack-schema.png" alt="DAMapping stack schema" /></p>
+
+<p>Based on <a href="principles.html">the principles</a> that <strong>object mapping should be code</strong> and that the <strong>developer should own</strong> it, DAMapping provides a way of doing object mapping in <strong>pure Java</strong> inside your own code.</p>
+
+<blockquote>
+  <p>more details on the principles on DAMapping <a href="principles.html">here</a></p>
+</blockquote>
+
+<h1 id="with-damapping">With DAMapping</h1>
+
+<p><img src="images/damapping/use-damapping-and-map-it-your-way.png" alt="use damapping and map it your way" class="pull-right" /></p>
+
+<ul>
+  <li>structure your object mapping code with the ultra light and flexible <strong>DAMapping framework</strong></li>
+  <li>write efficient, readable and good-looking object mapping code with the <strong>DAMapping library</strong></li>
+  <li>generate type-to-type and object-tree to object-tree mappings with the <strong>DAMapping code generator</strong></li>
+  <li>use all these components in a few clicks directly in your IDE with the <strong>DAMapping IDE plugins</strong></li>
+</ul>
+
+<h1 id="short-term-benefits-of-damapping">Short-term benefits of DAMapping</h1>
+
+<ul>
+  <li>DAMapping can do it all for you but then hand it over to you: <strong>you own the code</strong></li>
+  <li><strong>DAMapping is fully statically typed</strong>: it’s pure Java code everywhere (no property names as String!), if it compiles, you know it runs</li>
+  <li><strong>DAMapping does not limit</strong> how object mapping is done: it creates object mapping code or gives you utilities to write it, in both cases the code is yours, you can handle any case, just write it</li>
+  <li><strong>DAMapping is open</strong>: it does not enforce any vision of how object mapping should be done, even the DAMapping generator can be configured, but it does provide good defaults</li>
+  <li><strong>DAMapping is flexible</strong>: you can use the whole stack (much like any other object mapping tool) or you can use any combination of its components</li>
+</ul>
+
+<h1 id="long-term-benefits-of-damapping">Long-term benefits of DAMapping</h1>
+
+<p>Where DAMapping definitely stands out is on the long term.</p>
+
+<p>Doing pure Java object mapping code and as part of the developer’s code has many benefits.</p>
+
+<ul>
+  <li><strong>it’s stable</strong>: it’s in your VCS, it won’t change (even if you update DAMapping) unless you say it should and anyway will know when and (hopefully) why</li>
+  <li><strong>it’s safe</strong> because it is really fully statically typed</li>
+  <li>there is <strong>no need to know DAMapping</strong> to understand and maintain your object mappings, it’s plain Java code!</li>
+  <li><strong>you can refactor</strong> your classes (rename properties, methods, types, …), your object mapping code will stay up-to-date (depending on your IDE – use IntelliJ IDEA – free ad) and if there is something wrong, the compiler will tell you</li>
+  <li><strong>you can inspect</strong> the code, you know when and how things are mapped, there is no magic</li>
+  <li>you get comprehensive stack traces and <strong>you can debug</strong> it all</li>
+</ul>
+
+<h1 id="documentation">Documentation</h1>
+
+<p>Check out the documentation to get a better understanding of DAMapping, how it works and how to use it:</p>
+
+<ul>
+  <li>DAMapping
+    <ul>
+      <li><a href="principles.html">principles of DAMapping</a></li>
+    </ul>
+  </li>
+  <li>DAMapping framework
+    <ul>
+      <li><a href="framework/index.html">the DAMapping framework home page</a></li>
+      <li><a href="framework/index.html">getting started with the DAMapping framework</a></li>
+      <li><a href="framework/documentation.html">documentation of the DAMapping framework</a></li>
+    </ul>
+  </li>
+</ul>
+
+<!--
+* DAMapping library
+    - [presentation of the DAMapping library](/damapping/library/presentation.html)
+* [principles of a new code generator](/damapping/generator/principles.html)
+* [presentation of the IntelliJ IDEA plugin](/damapping/ide-plugin/for-intellij-idea.html)
+-->
+
+<h1 id="license">License</h1>
+
+<p>DAMapping is open source, licensed under Apache Licence 2.0, and all sources are available on GitHub.</p>
+
+<p>Contributors are welcome, any feedback as well</p>
+
+<h1 id="development-status">Development status</h1>
+
+<table rules="groups">
+  <thead>
+    <tr>
+      <th style="text-align: left">Component</th>
+      <th style="text-align: center">Status</th>
+      <th style="text-align: right">Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><em>framework</em></td>
+      <td style="text-align: center">beta release is almost there: object tree mapping support, CDI integration</td>
+      <td style="text-align: right">[<a href="https://github.com/lesaint/damapping">Github</a>] <a href="https://travis-ci.org/lesaint/damapping"><img src="https://travis-ci.org/lesaint/damapping.svg?branch=master" alt="Build Status" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><em>library</em></td>
+      <td style="text-align: center">dev will start soon, working on the road map for now</td>
+      <td style="text-align: right">[<a href="https://github.com/lesaint/damapping-library">Github</a>] <a href="https://travis-ci.org/lesaint/damapping-library"><img src="https://travis-ci.org/lesaint/damapping-library.svg?branch=master" alt="Build Status" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><em>code generator</em></td>
+      <td style="text-align: center">dev has not started yet, working on high level specifications</td>
+      <td style="text-align: right"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><em>IntelliJ IDEA plugin</em></td>
+      <td style="text-align: center">plugin is in alpha stage (not released yet), it supports generated class integration</td>
+      <td style="text-align: right">[<a href="https://github.com/lesaint/damapping-idea">Github</a>]</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">other <em>plugins</em></td>
+      <td style="text-align: center">dev not started</td>
+      <td style="text-align: right"> </td>
+    </tr>
+  </tbody>
+</table>
+
+<!--
+# DAMapping foundation articles
+
+<ul class="post-list">
+    <li><article><a href="/articles/2014/05/21/java_bean_mapping_is_wrong_lets_fix_it.html">Java Object Mapping is wrong, let's fix it! <span class="entry-date"><time datetime="2014-05-21T00:00:00+02:00">May 21, 2014</time></span></a></article></li>
+    <li><article><a href="http://localhost:4000/articles/2014/11/04/damapping-is-a-bean-mapping-stack-not-another-library.html">DAMapping is a object mapping stack, not another library</a></article></li>
+    <li><article><a href="http://localhost:4000/articles/2014/11/04/genesis-of-the-damapping-project.html">Genesis of the DAMapping project</a> <span class="entry-date"><time datetime="2014-05-21T00:00:00+02:00">May 21, 2014</time></span></article></li>
+</ul>
+
+-->
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 Sébastien Lesaint. Initially generated with <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/">So Simple Theme</a>.</span>
+<div class="social-icons">
+	<a href="http://github.com/lesaint" title="Sébastien Lesaint on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="assets/js/scripts.min.js"></script>
+</body>
+</html>

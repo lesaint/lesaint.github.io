@@ -1,0 +1,135 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>DAMapping framework &#8211; Javatronic</title>
+<meta name="description" content="Home page of the DAMapping framework, getting started and documentation.">
+<link rel="canonical" href="index.html">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="../assets/css/damapping.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="../assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="../favicon.ico">
+<!-- 32x32 -->
+</head>
+
+<body id="page">
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+  <div class="wrap">
+    <a href="../index.html" class="damapping-logo" rel="home" title="DAMapping home page"><img src="../images/damapping/damapping-logo.png" width="680" height="180" alt="DAMapping logo" class="animated bounceInDown"></a>
+  </div>
+</header><!-- /.masthead -->
+
+<div id="main" role="main">
+  <article class="entry justify">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">DAMapping framework</h1>
+      </header>
+      <div class="entry-content">
+        <p>The DAMapping framework is a component of the <a href="http://damapping.javatronic.fr">DAMapping object mapping stack for Java</a>.</p>
+
+<p>The DAMapping framework provides a way to structure object mapping code as fragments isolated in <em>dedicated classes</em>.</p>
+
+<p>The framework frees the developer from the interface + class code ceremony required to glue the fragments together and/or with the rest of the application while respecting loose coupling and good testability.</p>
+
+<p>The framework integrates nicely with <a href="http://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection</a> frameworks in order to reduce the overhead of writing of object mapping even less.</p>
+
+<h1 id="installation">Installation</h1>
+
+<p>To use the <em>DAMapping framework</em> you only need to add its jar file to your classpath.</p>
+
+<p>For Maven users, you can do so by adding the following dependency:</p>
+
+<div class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>fr.phan.damapping<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>damapping-annotation-processor<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.6.0<span class="nt">&lt;/version&gt;</span>
+    <span class="c">&lt;!-- scope does not need to be explicitly specified, default scope works just fine --&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>compile<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre></div>
+
+<p>That’s it!</p>
+
+<h1 id="getting-started">Getting started</h1>
+
+<p>Checkout the <a href="getting-started.html">getting started with DAMapping framework</a> page.</p>
+
+<h1 id="framework-documentation">Framework Documentation</h1>
+
+<p>To get extending understanding of how to use the framework, checkout the <a href="documentation.html">documentation of the DAMapping framework</a>.</p>
+
+<!--
+Annotation processing
+=====================
+
+## Java Annotation processing explained
+
+<ul class="post-list">
+    <li><article><a href="/articles/2014/10/08/how_does_annotation_processing_work_in_java.html">How does annotation processing work in Java</a></article></li>
+    <li><article><a href="http://localhost:4000/articles/2014/11/05/understanding_the_processor_interface.html">Understanding the Processor interface</a></article></li>
+    <li><article><a href="http://localhost:4000/articles/2014/11/05/understanding_the_processingenvironment_and_roundenvironment_interfaces.html">Understanding the ProcessingEnvironment and RoundEnvironment interfaces</a></article></li>
+</ul>
+
+## Annotation Processor coding tips
+
+<ul class="post-list">
+    <li><article><a href="articles/2014/11/05/how_to_write_a_annotation_processor_in_java.html">How to write a Annotation Processor in Java</a></article></li>
+    <li><article><a href="/articles/2014/09/22/how_to_debug_an_annotation_processor.html">How to debug an Annotation Processor</a></article></li>
+    <li><article><a href="/articles/2014/08/31/how_to_make_sure_javac_is_using_a_specific_annotation_processor.html">How to make sure javac is using an Annotation Processor and troubleshoot when it is not</a></article></li>
+</ul>
+-->
+
+        
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 Sébastien Lesaint. Initially generated with <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/">So Simple Theme</a>.</span>
+<div class="social-icons">
+	<a href="http://github.com/lesaint" title="Sébastien Lesaint on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="../assets/js/scripts.min.js"></script>
+
+
+
+</body>
+</html>

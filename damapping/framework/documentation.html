@@ -1,0 +1,577 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>DAMapping framework 0.6.0 &#8211; Javatronic</title>
+<meta name="description" content="Documentation of the DAMapping framework current version">
+<link rel="canonical" href="documentation.html">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="../assets/css/damapping.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="../assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="../favicon.ico">
+<!-- 32x32 -->
+</head>
+
+<body id="page">
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+  <div class="wrap">
+    <a href="../index.html" class="damapping-logo" rel="home" title="DAMapping home page"><img src="../images/damapping/damapping-logo.png" width="680" height="180" alt="DAMapping logo" class="animated bounceInDown"></a>
+  </div>
+</header><!-- /.masthead -->
+
+<div id="main" role="main">
+  <article class="entry justify">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">DAMapping framework 0.6.0</h1>
+      </header>
+      <div class="entry-content">
+        <p>This page provides the documentation of the current version (0.6.0) of the DAMapping framework.</p>
+
+<p>To get started using the framework, understand its purpose and usage, please look at the <a href="getting-started.html">getting started with the DAMapping framework</a> page first.</p>
+
+<ul id="markdown-toc">
+  <li><a href="documentation.html#dedicated-class">Dedicated class</a>    <ul>
+      <li><a href="documentation.html#how-to-write-one">how to write one</a></li>
+      <li><a href="documentation.html#dedicated-enum">dedicated enum</a></li>
+      <li><a href="documentation.html#mapper-method">mapper method</a></li>
+      <li><a href="documentation.html#usage">usage</a></li>
+      <li><a href="documentation.html#naming">naming</a></li>
+    </ul>
+  </li>
+  <li><a href="documentation.html#mapper-interface">Mapper interface</a>    <ul>
+      <li><a href="documentation.html#name-and-location">name and location</a></li>
+      <li><a href="documentation.html#annotations">annotations</a></li>
+      <li><a href="documentation.html#interfaces-support-for-guavas-function">interfaces: support for Guava’s Function</a></li>
+      <li><a href="documentation.html#method">method</a></li>
+      <li><a href="documentation.html#example">example</a></li>
+    </ul>
+  </li>
+  <li><a href="documentation.html#mapperimpl-class">MapperImpl class</a>    <ul>
+      <li><a href="documentation.html#name-and-location-1">name and location</a></li>
+      <li><a href="documentation.html#annotations-1">annotations</a></li>
+      <li><a href="documentation.html#constructor">constructor</a></li>
+      <li><a href="documentation.html#constructor-annotations">constructor annotations</a></li>
+    </ul>
+  </li>
+  <li><a href="documentation.html#di-frameworks-support">DI frameworks support</a>    <ul>
+      <li><a href="documentation.html#jsr-330">JSR-330</a></li>
+      <li><a href="documentation.html#injectable">@Injectable</a></li>
+      <li><a href="documentation.html#constructor-injection">constructor injection</a></li>
+      <li><a href="documentation.html#qualifier-annotations">Qualifier annotations</a></li>
+      <li><a href="documentation.html#scope-annotations">Scope annotations</a></li>
+      <li><a href="documentation.html#integration-samples">integration samples</a></li>
+    </ul>
+  </li>
+  <li><a href="documentation.html#mapper-factory">Mapper factory</a>    <ul>
+      <li><a href="documentation.html#mapperfactory">@MapperFactory</a></li>
+      <li><a href="documentation.html#specific-type-generation">specific type generation</a></li>
+      <li><a href="documentation.html#mapperfactory-interface">MapperFactory interface</a></li>
+      <li><a href="documentation.html#mapper-interface-1">Mapper interface</a></li>
+      <li><a href="documentation.html#mapperfactoryimpl-class">MapperFactoryImpl class</a></li>
+    </ul>
+  </li>
+  <li><a href="documentation.html#patterns">Patterns</a>    <ul>
+      <li><a href="documentation.html#object-tree-mapping">object-tree mapping</a></li>
+      <li><a href="documentation.html#factory-of-singletons">factory of singletons</a></li>
+    </ul>
+  </li>
+  <li><a href="documentation.html#ide-integration">IDE integration</a>    <ul>
+      <li><a href="documentation.html#intellij-idea">IntelliJ IDEA</a></li>
+      <li><a href="documentation.html#eclipse">Eclipse</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="dedicated-class">Dedicated class</h1>
+
+<p>A Class that holds a piece of object mapping code and is managed by the DAmapping framework is called a <em>dedicated class</em>.</p>
+
+<h2 id="how-to-write-one">how to write one</h2>
+
+<p>There is very little constraints on how to write a <em>dedicated class</em>:</p>
+
+<ol>
+  <li>must be annotated with the <code>@Mapper</code> annotation provided by the framework</li>
+  <li>must be public or package protected</li>
+  <li>must define at least one public non-static method
+    <ul>
+      <li>it implies that it can not have any “getter” or “setter”, use the constructor to get dependencies</li>
+    </ul>
+  </li>
+  <li>must either define a single non-private constructor or no constructor at all</li>
+</ol>
+
+<p>Content of the <em>dedicated class</em> is totally free, the DAMapping framework cares only of its “interface”.</p>
+
+<h2 id="dedicated-enum">dedicated enum</h2>
+
+<p>Using an enum as a <em>dedicated class</em> is supported by the DAMapping framework.</p>
+
+<p>The only constraint is that it must define only a single value (which name does not matter).</p>
+
+<p>The developer may find it relevant to use an enum in order to make the <em>dedicated class</em> a singleton.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Mapper</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="n">EnumBasedFooToBar</span> <span class="o">{</span>
+  <span class="n">THE_ONE</span><span class="o">;</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">Bar</span> <span class="nf">apply</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">Foo</span> <span class="n">foo</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// [...]</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<h2 id="mapper-method">mapper method</h2>
+
+<p>A “mapper method” is any non-static public method or function defined by the <em>dedicated class</em>.</p>
+
+<p>Functions return <code>void</code> and must define at least two parameters. Methods can return any type but <code>void</code> and have any number of parameters (including none).</p>
+
+<h2 id="usage">usage</h2>
+
+<p>The DAMapping framework assumes ownership of dedicated classes, therefor they are not really intended to be used directly except for unit tests.</p>
+
+<p>This implies that the DAMapping framework will assume the responsibility of creating instances of the <em>dedicated class</em>.</p>
+
+<h2 id="naming">naming</h2>
+
+<p>Types will be generated by the framework which will be named by appending <code>Mapper</code> or <code>MapperImpl</code> to the name of the <em>dedicated class</em>, it is best to name the <em>dedicated class</em> with that in mind.</p>
+
+<p>E.g. a <em>dedicated class</em> implementing the mapping from an object of type <code>Foo</code> to an object of type <code>Bar</code> could be named <code>FooToBar</code> to get nicely named types <code>FooToBarMapper</code> and <code>FooToBarMapperImpl</code>.</p>
+
+<h1 id="mapper-interface">Mapper interface</h1>
+
+<p>The DAMapping framework generates the interface that could have been implemented by the <em>dedicated class</em> to achieve loose coupling. This generated interface is known as the <em>Mapper interface</em>.</p>
+
+<h2 id="name-and-location">name and location</h2>
+
+<p>The name of the generated <em>Mapper interface</em> is created by appending <code>Mapper</code> to the name of the <em>dedicated class</em>: e.g. the <em>Mapper interface</em> for the <em>dedicated class</em> <code>FooToBar</code> will be named <code>FooToBarMapper</code>.</p>
+
+<p>The <em>Mapper interface</em> is generated in the same package as the <em>dedicated class</em>.</p>
+
+<h2 id="annotations">annotations</h2>
+
+<p>The generated <em>Mapper interface</em> does not have any annotation except the <code>@Generated</code> annotation which indicates that it is a generated type.</p>
+
+<blockquote>
+  <p>The <code>@Generated</code> annotation is also used by DAMapping to resolve references to generated types in dedicated classes, see <a href="documentation.html#using-mapper-interfaces-in-dedicated-class">Using Mapper interfaces in dedicated class</a></p>
+</blockquote>
+
+<h2 id="interfaces-support-for-guavas-function">interfaces: support for Guava’s Function</h2>
+
+<p>The generated <em>Mapper interface</em> does not extend any interface with a specific exception: if the <em>dedicated class</em> implements Guava’s Function interface, the <em>Mapper interface</em> will too.</p>
+
+<blockquote>
+  <p>Support for Guava’s Function is currently implemented in the core of the DAMapping framework but may latter be taken out into an extension.</p>
+</blockquote>
+
+<h2 id="method">method</h2>
+
+<p>If the <em>dedicated class</em> implements Guava’s Function interface, the <em>Mapper interface</em> will define no method.</p>
+
+<p>Otherwise, it defines one method for each “mapper method” with the same signature (including annotations on return type and parameters) as the “mapper method”.</p>
+
+<p>A compilation error will be raised if a <em>dedicated class</em> both implement Guava’s Function interface and define one or more “mapper method”.</p>
+
+<h2 id="example">example</h2>
+
+<p><code>FooToBarMapper</code> generated from <code>FooToBar</code> exposes the same method as <code>FooToBar</code>, including annotations on the return type and each parameter.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Mapper</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooToBar</span> <span class="o">{</span>
+    <span class="nd">@Nonnull</span>
+    <span class="kd">public</span> <span class="n">Bar</span> <span class="nf">map</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">Foo</span> <span class="n">foo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// some code returning a Bar instance</span>
+        <span class="c1">// initialized/populated from the specified Foo instance</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="nd">@Nonnull</span> <span class="n">Foo</span> <span class="n">foo</span><span class="o">,</span> <span class="nd">@Nonnull</span> <span class="n">Bar</span> <span class="n">bar</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// some code updating the specified Bar instance from the</span>
+      <span class="c1">// specified Foo instance</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@javax.annotation.Generated</span><span class="o">(</span><span class="s">&quot;fr.javatronic.damapping.processor.DAAnnotationProcessor&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">FooToBarMapper</span> <span class="o">{</span>
+    <span class="nd">@Nonnull</span>
+    <span class="n">Bar</span> <span class="nf">map</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">Foo</span> <span class="n">foo</span><span class="o">);</span>
+
+    <span class="kt">void</span> <span class="nf">update</span><span class="o">(</span><span class="nd">@Nonnull</span> <span class="n">Foo</span> <span class="n">foo</span><span class="o">,</span> <span class="nd">@Nonnull</span> <span class="n">Bar</span> <span class="n">bar</span><span class="o">);</span>
+<span class="o">}</span></code></pre></div>
+
+<h1 id="mapperimpl-class">MapperImpl class</h1>
+
+<p>The second type generated by the DAMapping framework is the class that implements the <em>Mapper interface</em>.</p>
+
+<p>The <em>dedicated class</em> could be implementing this interface, but we do not want that. First, it is illegal to modify source code when doing annotation processing and second, we don’t want the framework to alter the developer’s code.</p>
+
+<p>This class is the one supposed to be used in code. It delegates its implementation to a internal instance of the <em>dedicated class</em> (instanced in constructor).</p>
+
+<h2 id="name-and-location-1">name and location</h2>
+
+<p>The name of the <em>MapperImpl class</em> is created by appending <code>MapperImpl</code> to the name of the <em>dedicated class</em>, e.g. the name of the <em>MapperImpl class</em> for the <em>dedicated class</em> <code>FooToBar</code> is <code>FooToBarMapperImpl</code>.</p>
+
+<p>The <em>MapperImpl class</em> is generated in the same package as the <em>dedicated class</em>.</p>
+
+<h2 id="annotations-1">annotations</h2>
+
+<p>The <em>MapperImpl class</em> is not generated with class annotation except for the <code>@Generated</code> annotation that indicates the type has been generated.</p>
+
+<p>Also, when the <em>dedicated class</em> is annotated with <code>@Injectable</code>, any annotation annotated with <code>@javax.inject.Scope</code> on the <em>dedicated class</em> will be added to generated <em>MapperImpl class</em>.</p>
+
+<blockquote>
+  <p>Note that <code>@Scope</code> support is currently experimental since it can not be fully used until annotations with <code>@javax.inject.Qualifier</code> are also supported</p>
+</blockquote>
+
+<h2 id="constructor">constructor</h2>
+
+<p>If the <em>dedicated class</em> does not define any constructor or only a constructor without parameters, the <em>MapperImpl class</em> will have no explicit constructor.</p>
+
+<p>Otherwise, the <em>dedicated class</em> must defined only one constructor, otherwise an exception will be raised.</p>
+
+<p>The constructor of the <em>MapperImpl class</em> will have the same parameters, including annotations, as the <em>dedicated class</em> constructor.</p>
+
+<h2 id="constructor-annotations">constructor annotations</h2>
+
+<p>The constructor of the <em>MapperImpl class</em> will have no annotation except the <code>@Inject</code> annotation if the <em>dedicated class</em> is annotated with <code>@Injectable</code>.</p>
+
+<h1 id="di-frameworks-support">DI frameworks support</h1>
+
+<p>The DAMapping framework provides some support to integrate generated classes and interfaces with a dependency injection framework.</p>
+
+<p>This support is currently part of the core of the framework but it might get provided as an extension in the near future.</p>
+
+<p>The general idea is that the developer has barely any extra thing to do to configure a <em>dedicated class</em> to generate a <em>MapperImpl</em> class to integrate with a DI framework that he or she would have to do to configure a class of its own:</p>
+
+<ol>
+  <li>add the <code>@Injectable</code> annotation to the <em>dedicated class</em>, this annotation enables DI framework support (that’s the only extra step)</li>
+  <li>add any DI related annotation to the <em>dedicated class</em> or the constructor, they will be included on the generated <em>MapperImpl class</em> and its constructor</li>
+</ol>
+
+<h2 id="jsr-330">JSR-330</h2>
+
+<p>The DAMapping framework offers a generic support for DI Framework through the JSR-330 annotations.</p>
+
+<p>It is currently limited to generating class types that will declare having dependencies to be injected, exclusively using constructor injection for the moment.</p>
+
+<p>These types can then be declared to the DI framework of the developer’s choice.</p>
+
+<h2 id="injectable">@Injectable</h2>
+
+<p>The <code>@Injectable</code> annotation provided by the framework can be added to a <em>dedicated class</em> to enable DI framework integration on it.</p>
+
+<p>If the <em>dedicated class</em> declares a non-default constructor, the generated <em>MapperImpl class</em> will declare a constructor with the same parameters (as any Mapper class) but the constructor will additionally be annotated with <code>@javax.inject.Inject</code>.</p>
+
+<p>Also, if the <em>dedicated class</em> has annotations annotated with <code>@javax.inject.Scope</code>, the generated <em>MapperImpl class</em> will also be annotated them.</p>
+
+<h2 id="constructor-injection">constructor injection</h2>
+
+<p>Currently, the DAMapping framework supports only constructor injection. </p>
+
+<p>Property or setter injection are not supported as it poses specific technical difficulties.</p>
+
+<h2 id="qualifier-annotations">Qualifier annotations</h2>
+
+<p>Annotations annotated with <code>@Qualifier</code> on parameters of the constructor of the <em>dedicated class</em> will be added to the parameters of the constructor of the generated <em>MapperImpl class</em>. This enables the use of qualified dependencies in dedicated classes.</p>
+
+<p><code>@Qualifier</code> annotations can not yet be added to the <em>MapperImpl class</em> itself. This feature is planned for 0.6.0 and will enable features such as Spring’s package scan.</p>
+
+<h2 id="scope-annotations">Scope annotations</h2>
+
+<p>Annotations annotated with <code>@Scope</code> on the <em>dedicated class</em> will be added to the generated <em>MapperImpl class</em>.</p>
+
+<h2 id="integration-samples">integration samples</h2>
+
+<p>You can check out the integration tests of the DAMapping framework to get examples of integration with:</p>
+
+<ul>
+  <li>the <a href="http://projects.spring.io/spring-framework/">Spring framework</a>: <a href="https://github.com/lesaint/damapping/blob/master/integration-test/use-mapper/src/test/java/fr/javatronic/damapping/test/injectable/SpringHotelControllerTest.java">SpringHotelControllerTest</a></li>
+  <li>the <a href="http://square.github.io/dagger/">Dagger 1 Framework</a>: <a href="https://github.com/lesaint/damapping/blob/master/integration-test/use-mapper/src/test/java/fr/javatronic/damapping/test/injectable/DaggerHotelControllerTest.java">DaggerHotelControllerTest</a></li>
+</ul>
+
+<h1 id="mapper-factory">Mapper factory</h1>
+
+<p>There might be times:</p>
+
+<ul>
+  <li>when object mapping code should be configured from a data which can not be injected, which is not available when instantiating the mapper</li>
+  <li>when the mapper should be stateful (hum… code smell?) and therefor a new instance used every times</li>
+  <li>when two or more mappers are only slight variations of the same one</li>
+</ul>
+
+<p>In all theses cases (and maybe some others) you can use a factory which will return multiples implementations and/or instances of a <em>Mapper interface</em> instead of a single one.</p>
+
+<h2 id="mapperfactory">@MapperFactory</h2>
+
+<p>A Mapper factory is defined as a <em>dedicated class</em> with at least one method annotated with <code>@MapperFactory</code>.</p>
+
+<p>The <code>@MapperFactory</code> annotation can be added to:</p>
+
+<ul>
+  <li>constructors of the dedicated class</li>
+  <li>or static method(s) of the dedicated class that return the type of the <em>dedicated class</em></li>
+</ul>
+
+<p>Example of a MapperFactory using a runtime parameter as part of the mapping. Note that it uses a constructor mapper factory and that it implements Guava’s Function interface (the former is completely optional).</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Mapper</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SaltedBigDecimalToString</span> <span class="kd">implements</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">BigDecimal</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">salt</span><span class="o">;</span>
+
+  <span class="nd">@MapperFactory</span>
+  <span class="kd">public</span> <span class="nf">SaltedBigDecimalToString</span><span class="o">(</span><span class="n">String</span> <span class="n">salt</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">salt</span> <span class="o">=</span> <span class="n">salt</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Nullable</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">apply</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">BigDecimal</span> <span class="n">bigDecimal</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">bigDecimal</span> <span class="o">+</span> <span class="s">&quot;-&quot;</span> <span class="o">+</span> <span class="n">salt</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<h2 id="specific-type-generation">specific type generation</h2>
+
+<p>Using a MapperFactory causes the DAMapping framework to generate three types instead of two for regular mappers:</p>
+
+<ol>
+  <li>the <em>Mapper interface</em>: the same as the one generated from a regular dedicated class</li>
+  <li>the <em>MapperFactory interface</em>: exposes methods created from the methods or constructors annotated with <code>@MapperFactory</code></li>
+  <li>the <em>MapperFactoryImpl class</em>: implements the <em>MapperFactory interface</em> and delegate the implementation of the <em>MapperFactory interface</em> method(s) to the dedicated class</li>
+</ol>
+
+<h2 id="mapperfactory-interface">MapperFactory interface</h2>
+
+<h3 id="name-and-location-2">name and location</h3>
+
+<p>The name of the <em>MapperFactory interface</em> is created by appending <code>MapperFactory</code> to the name of the <em>dedicated class</em>, e.g. the name of the <em>MapperFactory interface</em> for the <em>dedicated class</em> <code>FooToBar</code> is <code>FooToBarMapperFactory</code>.</p>
+
+<p>The <em>MapperFactory interface</em> is generated in the same package as the <em>dedicated class</em>.</p>
+
+<h3 id="annotations-2">annotations</h3>
+
+<p>The generated <em>MapperFactory interface</em> does not have any annotation except the <code>@Generated</code> annotation which indicates that it is a generated type.</p>
+
+<h3 id="interfaces">interfaces</h3>
+
+<p>The generated <em>MapperFactory interface</em> does not extend any interface.</p>
+
+<h3 id="methods">methods</h3>
+
+<p>The <em>MapperFactory interface</em> defines as many methods as there is constructors or static methods annotated with<code>@MapperFactory</code> in the dedicated class.</p>
+
+<p>For each static method, a method exists in the <em>MapperFactory interface</em> with:</p>
+
+<ul>
+  <li>the same name</li>
+  <li>the same parameters (including annotations) as the static method</li>
+  <li>but the return type is the generated <em>Mapper interface</em> instead of the type of the <em>dedicated class</em></li>
+</ul>
+
+<p>For each constructor, a method exists in the <em>MapperFactory interface</em> with:</p>
+
+<ul>
+  <li>a constant name “get”</li>
+  <li>the same parameters (including annotations) as the constructor</li>
+  <li>but the return type is the generated <em>Mapper interface</em></li>
+</ul>
+
+<p>Advice: use a Static method instead of a constructor in order to get fine control over the name of the method exposed in the <em>MapperFactory interface</em>. This method implementation can always use a dedicated class constructor.</p>
+
+<p>There is no restriction on the number of parameters of methods or constructors annotated with <code>@MapperFactory</code>.</p>
+
+<blockquote>
+  <p>Note 1: using both static methods and constructors annotated with <code>@MapperFactory</code> will raise a compilation error<br />
+Note 2: methods and constructors annotated with <code>@MapperFactory</code> must be public<br />
+Note 3: static methods annotated with <code>@MapperFactory</code> must return the type of the <em>dedicated class</em></p>
+</blockquote>
+
+<h2 id="mapper-interface-1">Mapper interface</h2>
+
+<p>This <em>Mapper interface</em> is exactly the same has the one generated from a <em>dedicated class</em> without any method or constructor annotated with <code>@MapperFactory</code>.</p>
+
+<p>Below the <em>Mapper interface</em> for the dedicated class is the previous example:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@javax.annotation.Generated</span><span class="o">(</span><span class="s">&quot;fr.javatronic.damapping.processor.DAAnnotationProcessor&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SaltedBigDecimalToStringMapper</span> <span class="kd">extends</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">BigDecimal</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span></code></pre></div>
+
+<h2 id="mapperfactoryimpl-class">MapperFactoryImpl class</h2>
+
+<h3 id="name-and-location-3">name and location</h3>
+
+<p>The name of the <em>MapperFactoryImpl class</em> is created by appending <code>MapperFactoryImpl</code> to the name of the <em>dedicated class</em>, e.g. the name of the <em>MapperFactoryImpl class</em> for the <em>dedicated class</em> <code>FooToBar</code> is <code>FooToBarMapperFactoryImpl</code>.</p>
+
+<p>The <em>MapperFactoryImpl class</em> is generated in the same package as the <em>dedicated class</em>.</p>
+
+<h3 id="annotations-3">annotations</h3>
+
+<p>The <em>MapperFactoryImpl class</em> is not generated with class annotation except for the <code>@Generated</code> annotation that indicates the type has been generated.</p>
+
+<h3 id="constructor-1">constructor</h3>
+
+<p>The <em>MapperFactoryImpl class</em> does not define any constructor.</p>
+
+<h3 id="methods-1">methods</h3>
+
+<p>The <em>MapperFactoryImpl class</em> implements each method defined in the <em>MapperFactory interface</em> by returning an private implementation of the <em>Mapper interface</em>.</p>
+
+<p>The private implementation is a wrapper around the instance of the <em>dedicated class</em> returned by the <em>dedicated class</em> constructor or static method. As the <em>MapperImpl class</em>, this object delegates the implementation of the method from the <em>Mapper interface</em> to its inner <em>dedicated class</em> instance.</p>
+
+<p>Example for the <em>dedicated class</em> from the previous example:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@javax.annotation.Generated</span><span class="o">(</span><span class="s">&quot;fr.javatronic.damapping.processor.DAAnnotationProcessor&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SaltedBigDecimalToStringMapperFactoryImpl</span> <span class="kd">implements</span> <span class="n">SaltedBigDecimalToStringMapperFactory</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">SaltedBigDecimalToStringMapper</span> <span class="nf">instanceByConstructor</span><span class="o">(</span><span class="n">String</span> <span class="n">salt</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">SaltedBigDecimalToStringMapperImpl</span><span class="o">(</span><span class="k">new</span> <span class="nf">SaltedBigDecimalToString</span><span class="o">(</span><span class="n">salt</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">SaltedBigDecimalToStringMapperImpl</span> <span class="kd">implements</span> <span class="n">SaltedBigDecimalToStringMapper</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="n">SaltedBigDecimalToString</span> <span class="n">instance</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">SaltedBigDecimalToStringMapperImpl</span><span class="o">(</span><span class="n">SaltedBigDecimalToString</span> <span class="n">instance</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">instance</span> <span class="o">=</span> <span class="n">instance</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="nd">@Nullable</span>
+        <span class="kd">public</span> <span class="n">String</span> <span class="nf">apply</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">BigDecimal</span> <span class="n">bigDecimal</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">bigDecimal</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<h1 id="patterns">Patterns</h1>
+
+<h2 id="object-tree-mapping">object-tree mapping</h2>
+
+<p>Using a generated <em>Mapper interface</em> in <em>dedicated class</em> is supported and actually highly encouraged as it is the basic pattern to implement mapping of trees of objects.</p>
+
+<p>To use a <em>Mapper interface</em> in the object mapping code of a <em>dedicated class</em>, simply declare a (private and final) property and have it initialized in the constructor of the <em>dedicated class</em>.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Mapper</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AcmeToViten</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">FooToBarMapper</span> <span class="n">fooToBarMapper</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">AcmeToViten</span><span class="o">(</span><span class="n">FooToBarMapper</span> <span class="n">fooToBarMapper</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">fooToBarMapper</span> <span class="o">=</span> <span class="n">fooToBarMapper</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Viten</span> <span class="nf">map</span><span class="o">(</span><span class="n">Acme</span> <span class="n">acme</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// [...]</span>
+        <span class="n">vilen</span><span class="o">.</span><span class="na">setBar</span><span class="o">(</span><span class="n">fooToBarMapper</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">acme</span><span class="o">.</span><span class="na">getFoo</span><span class="o">()));</span>
+        <span class="c1">// [...]</span>
+        <span class="k">return</span> <span class="n">vilen</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<h2 id="factory-of-singletons">factory of singletons</h2>
+
+<p>Using an enum as a <em>dedicated class</em> and static method(s) annotated with <code>@MapperFactory</code>, one can implement a factory that will return multiple singleton implementations of the same Mapper.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Mapper</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="n">MultipleImplementationAsEnum</span> <span class="o">{</span>
+  <span class="n">BIG_DECIMAL</span><span class="o">(</span><span class="kc">true</span><span class="o">),</span>
+  <span class="n">INTEGER</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+
+  <span class="cm">/* parameter-less factory method returning the BIG_DECIMAL instance */</span>
+  <span class="nd">@MapperFactory</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">MultipleImplementationAsEnum</span> <span class="nf">bigDecimal</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">BIG_DECIMAL</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="cm">/* parameter-less factory method returning the INTEGER instance */</span>
+  <span class="nd">@MapperFactory</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">MultipleImplementationAsEnum</span> <span class="nf">integer</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">INTEGER</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="cm">/** factory method taking a flag parameter returning either the BIG_DECIMAL instance or the INTEGER instance */</span>
+  <span class="nd">@MapperFactory</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="n">MultipleImplementationAsEnum</span> <span class="nf">instance</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">bigDecimal</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">bigDecimal</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">BIG_DECIMAL</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">INTEGER</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="kt">boolean</span> <span class="n">bigDecimal</span><span class="o">;</span>
+
+  <span class="nd">@Nonnull</span>
+  <span class="kd">public</span> <span class="n">Integer</span> <span class="nf">apply</span><span class="o">(</span><span class="nd">@Nullable</span> <span class="n">String</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">bigDecimal</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="nf">BigDecimal</span><span class="o">(</span><span class="n">input</span><span class="o">).</span><span class="na">intValue</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<h1 id="ide-integration">IDE integration</h1>
+
+<h2 id="intellij-idea">IntelliJ IDEA</h2>
+
+<p>Since IntelliJ IDEA does not compile source files, it is not aware of types generated by the annotation processing integrated into the compiling process.</p>
+
+<p>Therefor, unless the project is built and the generated source directory is added to the classpath, references to generated <em>Mapper interfaces</em> or generated <em>MapperImpl classes</em> will be displayed has errors.</p>
+
+<p>To avoid building the project all the time and make the coding experience with the DAMapping framework more fluent, the developer should install the DAMapping plugin for IntelliJ (work in progress).</p>
+
+<h2 id="eclipse">Eclipse</h2>
+
+<p>Since the DAMapping framework does not yet support the Eclipse compiler, build in Eclipse will fail.</p>
+
+<p>Support for the Eclipse compiler is planned for version 0.7.0.</p>
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 Sébastien Lesaint. Initially generated with <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/">So Simple Theme</a>.</span>
+<div class="social-icons">
+	<a href="http://github.com/lesaint" title="Sébastien Lesaint on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="../assets/js/scripts.min.js"></script>
+</body>
+</html>

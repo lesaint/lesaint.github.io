@@ -1,0 +1,190 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Getting started with the DAMapping framework &#8211; Javatronic</title>
+<meta name="description" content="This page will help you to get started with the *DAMapping framework*. How to install it, understand its principles, get started with basic usage, map object tree, integrate with dependency injection frameworks...">
+<link rel="canonical" href="getting-started.html">
+
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="../assets/css/damapping.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="../assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="../favicon.ico">
+<!-- 32x32 -->
+</head>
+
+<body id="page">
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+  <div class="wrap">
+    <a href="../index.html" class="damapping-logo" rel="home" title="DAMapping home page"><img src="../images/damapping/damapping-logo.png" width="680" height="180" alt="DAMapping logo" class="animated bounceInDown"></a>
+  </div>
+</header><!-- /.masthead -->
+
+<div id="main" role="main">
+  <article class="entry justify">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <h1 class="entry-title">Getting started with the DAMapping framework</h1>
+      </header>
+      <div class="entry-content">
+        <p>This page will help you to get started with the <em>DAMapping framework</em>: install it, understand its principles, get started with basic usage and object tree mapping, integrate with dependency injection frameworks…</p>
+
+<ul id="markdown-toc">
+  <li><a href="getting-started.html#basic-usage-of-the-framework">Basic usage of the framework</a></li>
+  <li><a href="getting-started.html#class--1-interface--1-class">1 class = 1 interface + 1 class</a></li>
+  <li><a href="getting-started.html#mapping-object-trees">Mapping object trees</a></li>
+  <li><a href="getting-started.html#integrating-with-di-frameworks">Integrating with DI frameworks</a></li>
+  <li><a href="getting-started.html#unit-testing">Unit testing</a></li>
+</ul>
+
+<h1 id="basic-usage-of-the-framework">Basic usage of the framework</h1>
+
+<p>The class below is a <code>Mapper</code> as per DAMapping framework’s definition: it is a class with a method doing object mapping. It is identified by the <code>@Mapper</code> annotation.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Mapper</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooToBar</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">Bar</span> <span class="nf">map</span><span class="o">(</span><span class="n">Foo</span> <span class="n">foo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// some code returning a Bar instance</span>
+        <span class="c1">// initialized/populated from the specified Foo instance</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<p>Please note that this is a class, not an interface. We are not configuring a tool to do object mapping, we are providing object mapping code to the framework.</p>
+
+<p>A class annotated with <code>@Mapper</code> is the atomic component of object mapping code according to DAMapping’s object mapping code paradigm. It is referred to as the “dedicated class”.</p>
+
+<blockquote>
+  <p><em>dedicated class</em> can be implemented as enum, see the <a href="documentation.html#dedicated-enum">documentation</a></p>
+</blockquote>
+
+<p>Although the example above is a dedicated class mapping a single type to another, the DAMapping framework does not enforce such a rule (though it is best to follow it), nor does it enforce any naming convention.</p>
+
+<p>This is done on purpose as the goal of DAMapping is to support the developer, not to constrain him or her into a single way of coding.</p>
+
+<h1 id="class--1-interface--1-class">1 class = 1 interface + 1 class</h1>
+
+<p>The first added value of the DAMapping framework is to save the developer from writing an interface and an implementing class for each mapper. They are generated by the framework at compile-time.</p>
+
+<p>In the example above, the framework generates a <code>FooToBarMapper</code> interface and a <code>FooToBarMapperImpl</code> class (did you identify the naming pattern? ;-p).</p>
+
+<p>The <code>FooToBarMapper</code> interface has a single method. Same name, same return type, same parameters and same annotations as the public method of the dedicated class. This interface is referred to as the “Mapper interface”.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">FooToBarMapper</span> <span class="o">{</span>
+    <span class="n">Bar</span> <span class="nf">map</span><span class="o">(</span><span class="n">Foo</span> <span class="n">foo</span><span class="o">);</span>
+<span class="o">}</span></code></pre></div>
+
+<p>The <code>FooToBarMapperImpl</code> class implements this method by instantiating a single instance of the dedicated class and delegating her the implementation of the method defined by <code>FooToBarMapper</code>. This class is referred to as the “MapperImpl class”.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooToBarMapperImpl</span> <span class="kd">implements</span> <span class="n">FooToBarMapper</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">FooToBar</span> <span class="n">fooToBar</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">FooToBar</span><span class="o">();</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Bar</span> <span class="nf">map</span><span class="o">(</span><span class="n">Foo</span> <span class="n">foo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">fooToBar</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">foo</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<h1 id="mapping-object-trees">Mapping object trees</h1>
+
+<p>The next added value of the DAMapping coding paradigm is to remove all the coding ceremony when mapping a object tree to another thanks to the DAMapping framework.</p>
+
+<p>To map object trees, the developer composes generated Mapper interfaces into dedicated classes.</p>
+
+<p>In the following example, the dedicated class <code>AcmeToViten</code> maps the type <code>Acme</code> to the type <code>Viten</code>. These types are the root of two (very simple) object trees: <code>Acme</code> has a property of type <code>Foo</code> which must be mapped to the <code>Viten</code>’s property of type <code>Bar</code>.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Mapper</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AcmeToViten</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">FooToBarMapper</span> <span class="n">fooToBarMapper</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nf">AcmeToViten</span><span class="o">(</span><span class="n">FooToBarMapper</span> <span class="n">fooToBarMapper</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">fooToBarMapper</span> <span class="o">=</span> <span class="n">fooToBarMapper</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="n">Viten</span> <span class="nf">map</span><span class="o">(</span><span class="n">Acme</span> <span class="n">acme</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// some code instanciating a Viten instance and </span>
+        <span class="c1">// populating it from the specified Acme instance</span>
+        <span class="n">vilen</span><span class="o">.</span><span class="na">setBar</span><span class="o">(</span><span class="n">fooToBarMapper</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">acme</span><span class="o">.</span><span class="na">getFoo</span><span class="o">()));</span>
+        <span class="k">return</span> <span class="n">vilen</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<p>The Mapper interface generated from this dedicated class has the same content as the <code>FooToBarMapper</code> interface.</p>
+
+<p>The generated <code>AcmeToVitenMapperImpl</code> class is a little different from <code>FooToBarMapperImpl</code> as it defines a constructor with the same parameters and annotations as the dedicated class’s constructor.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AcmeToVitenMapperImpl</span> <span class="kd">implements</span> <span class="n">AcmeToVitenMapper</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">AcmeToViten</span> <span class="n">acmeToViten</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="nf">AcmeToVitenMapperImpl</span><span class="o">(</span><span class="n">FooToBarMapper</span> <span class="n">fooToBarMapper</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">acmeToViten</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">AcmeToViten</span><span class="o">(</span><span class="n">fooToBarMapper</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Viten</span> <span class="nf">map</span><span class="o">(</span><span class="n">Acme</span> <span class="n">acme</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">acmeToViten</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">acme</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<h1 id="integrating-with-di-frameworks">Integrating with DI frameworks</h1>
+
+<p>Obviously, few applications will instance concrete class directly. They will rather use a dependency-injection framework (Spring, Guice, Dagger, …) that will manage object instantiation and injection.</p>
+
+<p>The DAMapping framework supports integrating with those frameworks, but as it is not a core functionality to writing object mapping code, we won’t go into too much details here.</p>
+
+<p>The planned idea is to initially provide minimal support through the support of the JSR-330 specification (work in progress).</p>
+
+<p>Next, extensive support for specific dependency-injection frameworks will be provided as plugins of DAMapping annotation processor.</p>
+
+<p>Extensive support for Spring, for example, could be generating Configuration classes or XML configuration files or supporting Spring specific annotations.</p>
+
+<h1 id="unit-testing">Unit testing</h1>
+
+<p>I said earlier that the developer is not supposed to use the dedicated class directly.</p>
+
+<p>It is exactly the opposite when it comes to unit testing. The developer must write unit tests againt the dedicated class directly. There is no point in testing DAMapping framework itself.</p>
+
+<p>Note that thanks to DAMapping, the developer can write real unitary tests of the mapping from one type to another. Mapping of properties with complex types can be isolated in other dedicated classes and imported into the current one as Mapper interfaces, which can be easily mocked.</p>
+
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2015 Sébastien Lesaint. Initially generated with <a href="http://jekyllrb.com">Jekyll</a> using the <a href="http://mademistakes.com/so-simple/">So Simple Theme</a>.</span>
+<div class="social-icons">
+	<a href="http://github.com/lesaint" title="Sébastien Lesaint on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="../assets/js/scripts.min.js"></script>
+</html>
