@@ -1,6 +1,7 @@
 # Pelican
 output
 theme-elegant
+content/damapping
 
 # PyCharm
 .idea

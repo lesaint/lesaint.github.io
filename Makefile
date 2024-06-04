@@ -11,6 +11,7 @@ PUBLISHCONF=$(BASEDIR)/publishconf.py
 GITHUB_PAGES_BRANCH=gh-pages
 
 THEME_DIR:=theme-elegant
+DAMAPPING_DIR:=content/damapping
 HEAD_DESCRIPTION:=$(shell git log -1 --pretty=format:"(%h) %B" HEAD)
 
 
@@ -75,34 +76,39 @@ $(THEME_DIR)/README.md:
 
 eleganttheme: $(THEME_DIR)/README.md
 
-html: venv eleganttheme
+$(DAMAPPING_DIR)/index.html:
+	test -d "$(DAMAPPING_DIR)" || git clone --depth 1 --branch "gh-pages" --single-branch https://github.com/lesaint/damapping.git "$(DAMAPPING_DIR)" && rm -Rf "$(DAMAPPING_DIR)/.git"
+
+damapping: $(DAMAPPING_DIR)/index.html
+
+html: venv eleganttheme damapping
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
 clean: venv
 	[ ! -d "$(OUTPUTDIR)" ] || rm -rf "$(OUTPUTDIR)"
 
-regenerate: venv eleganttheme
+regenerate: venv eleganttheme damapping
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -r "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
-serve: venv eleganttheme
+serve: venv eleganttheme damapping
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -l "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
-serve-global: venv eleganttheme
+serve-global: venv eleganttheme damapping
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -l "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS) -b $(SERVER)
 
-devserver: venv eleganttheme
+devserver: venv eleganttheme damapping
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -lr "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS)
 
-devserver-global: venv eleganttheme
+devserver-global: venv eleganttheme damapping
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" -lr "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(CONFFILE)" $(PELICANOPTS) -b 0.0.0.0
 
-publish: venv eleganttheme
+publish: venv eleganttheme damapping
 	$(ACTIVATE_VENV)
 	"$(PELICAN)" "$(INPUTDIR)" -o "$(OUTPUTDIR)" -s "$(PUBLISHCONF)" $(PELICANOPTS)
 
