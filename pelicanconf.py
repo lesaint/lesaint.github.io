@@ -75,24 +75,50 @@ THEME = "theme-elegant"
 # no search with local
 SEARCH_URL = ""
 LANDING_PAGE_TITLE = "Sébastien Lesaint"
-PROJECTS_TITLE = "Active projects"
 PROJECTS = [
     {
-        "name": "PyLMS",
-        "url": "https://github.com/lesaint/pylms",
-        "description": "A demo, yet useful, project for Python development, software engineering best practices, "
-                       "software and cloud architecting, and technology learning"
+        "title": "Active projects",
+        "lines": [
+            {
+                "name": "PyLMS",
+                "url": "https://github.com/lesaint/pylms",
+                "description": "A demo, yet useful, project for Python development, software engineering best practices, "
+                               "software and cloud architecting, and technology learning"
+            },
+            {
+                "name": "Phanas Desktop",
+                "url": "https://github.com/lesaint/phanas_desktop",
+                "description": "The Python-based GUI program acting as the client app for my home backup strategy "
+                               "across desktop devices at home"
+            },
+            {
+                "name": "rsync-time-backup",
+                "url": "https://github.com/lesaint/rsync-time-backup",
+                "description": "The backbone on my home backup strategy. Notably adapted the bash script to very "
+                               "limited Busybox-backed linux commands"
+            },
+        ]
     },
     {
-        "name": "Phanas Desktop",
-        "url": "https://github.com/lesaint/phanas_desktop",
-        "description": "The Python-based GUI program acting as the client app for my home backup strategy "
-                       "across desktop devices at home"
+        "title": "Completed projects",
+        "lines": [
+            {
+                "name": "Public-Git-Sync",
+                "url": "https://github.com/lesaint/public-git-sync",
+                "description": "Created a tool at SonarSource, 100% based on hardcore Git and bash, to synchronize "
+                               "public code of a branch in a private repository to a branch in a public repository"
+            },
+        ]
     },
     {
-        "name": "rsync-time-backup",
-        "url": "https://github.com/lesaint/rsync-time-backup",
-        "description": "The backbone on my home backup strategy. Notably adapted the bash script to very "
-                       "limited Busybox-backed linux commands"
+        "title": "Abandoned projects",
+        "lines": [
+            {
+                "name": "DAMapping",
+                "url": "https://www.javatronic.fr/damapping/presentations/damapping_why_and_how.html#/",
+                "description": "A stack of components to implement object mapping in Java with complete source "
+                               "control for the developer"
+            },
+        ]
     },
 ]
