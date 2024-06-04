@@ -207,6 +207,23 @@ sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/{%
 with bash. The tool is not appropriate. Let's switch to Python.</p>
 <h1 id="python-based-migration">Python-based migration<a class="headerlink" href="#python-based-migration" title="Permanent link">&para;</a></h1>
 <p>See <a href="https://github.com/lesaint/jekyll_to_pelican_migration/blob/main/migrate_md.py">migrate_md.py</a> on Github.</p>
+<p>Copy Markdown files to the Pelican's location, using a specific subdirectory just for the sake of 
+segregating old migrated posts from new ones, and run the script on them:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>content/from_jekyll/articles
+cp<span class="w"> </span>_posts/articles/*.md<span class="w"> </span>content/articles/
+mkdir<span class="w"> </span>-p<span class="w"> </span>content/from_jekyll/tips
+cp<span class="w"> </span>_posts/tips/*.md<span class="w"> </span>content/articles/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:lesaint/jekyll_to_pelican_migration.git<span class="w"> </span>../jekyll_to_pelican_migration
+<span class="o">(</span><span class="nb">cd</span><span class="w"> </span>content/articles<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>../../../jekyll_to_pelican_migration/migrate_md.py<span class="w"> </span>*.md<span class="o">)</span>
+<span class="o">(</span><span class="nb">cd</span><span class="w"> </span>content/tips<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>../../../jekyll_to_pelican_migration/migrate_md.py<span class="w"> </span>*.md<span class="o">)</span>
+</code></pre></div>
+<p>Copy images files of posts to Pelican's location</p>
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>-r<span class="w"> </span>resources/how_to_debug_an_annotation_processor<span class="w"> </span>content/images/
+</code></pre></div>
+<p>If rendering of Markdown files is now ok, remove <code>.md.backup</code> files:</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>content/*/*.md.backup
+</code></pre></div>
 
 
              

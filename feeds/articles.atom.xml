@@ -192,7 +192,24 @@ sed&lt;span class="w"&gt; &lt;/span&gt;-i&lt;span class="w"&gt; &lt;/span&gt;&lt
 &lt;p&gt;Altering the metadata, including converting data on multiple lines to a single line, is too hard of a challenge to do
 with bash. The tool is not appropriate. Let's switch to Python.&lt;/p&gt;
 &lt;h1 id="python-based-migration"&gt;Python-based migration&lt;a class="headerlink" href="#python-based-migration" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;See &lt;a href="https://github.com/lesaint/jekyll_to_pelican_migration/blob/main/migrate_md.py"&gt;migrate_md.py&lt;/a&gt; on Github.&lt;/p&gt;</content><category term="articles"></category><category term="pelican"></category><category term="personal website"></category></entry><entry><title>Setting up a Minecraft server on Google Compute Engine</title><link href="https://www.javatronic.fr/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/" rel="alternate"></link><published>2014-10-25T00:00:00+02:00</published><updated>2014-10-25T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-10-25:/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/</id><summary type="html">&lt;p&gt;This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.&lt;/p&gt;
+&lt;p&gt;See &lt;a href="https://github.com/lesaint/jekyll_to_pelican_migration/blob/main/migrate_md.py"&gt;migrate_md.py&lt;/a&gt; on Github.&lt;/p&gt;
+&lt;p&gt;Copy Markdown files to the Pelican's location, using a specific subdirectory just for the sake of 
+segregating old migrated posts from new ones, and run the script on them:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;mkdir&lt;span class="w"&gt; &lt;/span&gt;-p&lt;span class="w"&gt; &lt;/span&gt;content/from_jekyll/articles
+cp&lt;span class="w"&gt; &lt;/span&gt;_posts/articles/*.md&lt;span class="w"&gt; &lt;/span&gt;content/articles/
+mkdir&lt;span class="w"&gt; &lt;/span&gt;-p&lt;span class="w"&gt; &lt;/span&gt;content/from_jekyll/tips
+cp&lt;span class="w"&gt; &lt;/span&gt;_posts/tips/*.md&lt;span class="w"&gt; &lt;/span&gt;content/articles/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;git@github.com:lesaint/jekyll_to_pelican_migration.git&lt;span class="w"&gt; &lt;/span&gt;../jekyll_to_pelican_migration
+&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;content/articles&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;../../../jekyll_to_pelican_migration/migrate_md.py&lt;span class="w"&gt; &lt;/span&gt;*.md&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;content/tips&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;../../../jekyll_to_pelican_migration/migrate_md.py&lt;span class="w"&gt; &lt;/span&gt;*.md&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Copy images files of posts to Pelican's location&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;cp&lt;span class="w"&gt; &lt;/span&gt;-r&lt;span class="w"&gt; &lt;/span&gt;resources/how_to_debug_an_annotation_processor&lt;span class="w"&gt; &lt;/span&gt;content/images/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;If rendering of Markdown files is now ok, remove &lt;code&gt;.md.backup&lt;/code&gt; files:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rm&lt;span class="w"&gt; &lt;/span&gt;content/*/*.md.backup
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="pelican"></category><category term="personal website"></category></entry><entry><title>Setting up a Minecraft server on Google Compute Engine</title><link href="https://www.javatronic.fr/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/" rel="alternate"></link><published>2014-10-25T00:00:00+02:00</published><updated>2014-10-25T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-10-25:/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/</id><summary type="html">&lt;p&gt;This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.&lt;/p&gt;
 
 &lt;h1 id="create-google-cloud-account"&gt;Create Google Cloud account&lt;a class="headerlink" href="#create-google-cloud-account" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Go to &lt;a href="https://console.developers.google.com/project"&gt;https://console.developers.google.com/project&lt;/a&gt;.&lt;/p&gt;
