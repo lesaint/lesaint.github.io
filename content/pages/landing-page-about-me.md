@@ -12,23 +12,7 @@ Goal-driven technical professional with an illustrated track record of:
 
 15+ years expert in Java development, focused on Python-based programing for the last 2 years.
 
-[//]: # (Eager to learn and adopt new approaches and languages to fulfil requirements particular to unique contexts.)
-
-[//]: # ()
-[//]: # (Demonstrated expertise in technology management, including application server management and knowledge sharing.)
-
-[//]: # ()
-[//]: # (Conversant to industry trends and driving continuous improvement through the adoption of new tools and methodologies.)
-
-[//]: # ()
-[//]: # (Proven leader recognized for strong technical acumen, as well as dynamic problem-solving, communication, interpersonal, analytical, and decision-making skills.)
-
-[//]: # ()
-[//]: # ()
-[//]: # (### Experiences, certifications, trainings,  and education)
-
-[//]: # ()
-[//]: # (See my resume.)
+For more details, career summary, talks, certifications, trainings, and education, see [my resume]({filename}/pages/resume.md)
 
 ### Posts
 
