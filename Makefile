@@ -12,7 +12,7 @@ GITHUB_PAGES_BRANCH=gh-pages
 
 THEME_DIR:=theme-elegant
 DAMAPPING_DIR:=content/damapping
-HEAD_DESCRIPTION:=$(shell git log -1 --pretty=format:"(%h) %B" HEAD)
+HEAD_DESCRIPTION:=$(shell git log -1 --pretty=format:"(%h) %B" HEAD | tr '"' "'")
 
 
 DEBUG ?= 0
