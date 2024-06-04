@@ -108,6 +108,11 @@ PROJECTS = [
                 "description": "Created a tool at SonarSource, 100% based on hardcore Git and bash, to synchronize "
                                "public code of a branch in a private repository to a branch in a public repository"
             },
+            {
+                "name": "Jirac",
+                "url": "https://github.com/jirac/jirac",
+                "description": "Command line Bash utility to generate Jira comments from Git commits on a Maven project"
+            },
         ]
     },
     {
