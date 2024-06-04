@@ -16,9 +16,10 @@ PLUGINS = [
 ]
 
 # static resources
+DAMAPPING_DIR = "doc/damapping"
 STATIC_PATHS = [
     "images",
-    "damapping",
+    DAMAPPING_DIR,
     "extra/favicon.ico",
     "extra/CNAME",
     "extra/.nojekyll",
@@ -29,7 +30,7 @@ EXTRA_PATH_METADATA = {
     "extra/.nojekyll": {"path": ".nojekyll"},
 }
 ARTICLE_EXCLUDES = [
-    "damapping"
+    DAMAPPING_DIR
 ]
 
 # Feed generation is usually not desired when developing

@@ -11,7 +11,7 @@ PUBLISHCONF=$(BASEDIR)/publishconf.py
 GITHUB_PAGES_BRANCH=gh-pages
 
 THEME_DIR:=theme-elegant
-DAMAPPING_DIR:=content/damapping
+DAMAPPING_DIR:=content/doc/damapping
 HEAD_DESCRIPTION:=$(shell git log -1 --pretty=format:"(%h) %B" HEAD | tr '"' "'")
 
 
