@@ -139,3 +139,31 @@ with bash. The tool is not appropriate. Let's switch to Python.
 # Python-based migration
 
 See [migrate_md.py](https://github.com/lesaint/jekyll_to_pelican_migration/blob/main/migrate_md.py) on Github.
+
+Copy Markdown files to the Pelican's location, using a specific subdirectory just for the sake of 
+segregating old migrated posts from new ones, and run the script on them:
+
+```shell
+mkdir -p content/from_jekyll/articles
+cp _posts/articles/*.md content/articles/
+mkdir -p content/from_jekyll/tips
+cp _posts/tips/*.md content/articles/
+```
+
+```shell
+git clone git@github.com:lesaint/jekyll_to_pelican_migration.git ../jekyll_to_pelican_migration
+(cd content/articles && ../../../jekyll_to_pelican_migration/migrate_md.py *.md)
+(cd content/tips && ../../../jekyll_to_pelican_migration/migrate_md.py *.md)
+```
+
+Copy images files of posts to Pelican's location
+
+```shell
+cp -r resources/how_to_debug_an_annotation_processor content/images/
+```
+
+If rendering of Markdown files is now ok, remove `.md.backup` files:
+
+```shell
+rm content/*/*.md.backup
+```
