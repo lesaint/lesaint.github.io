@@ -20,6 +20,7 @@ DELETE_OUTPUT_DIRECTORY = True
 
 # DISQUS_SITENAME = ""
 # GOOGLE_ANALYTICS = ""
+MODERN_GOOGLE_ANALYTICS = u"G-8EYB6LCPP4"
 
 ##################################
 # Elegant theme related settings #
