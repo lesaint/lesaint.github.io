@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Annotation Processing, Javac, Java, articles, " />
+
+<meta property="og:title" content="How does annotation processing work in Java "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2014/10/08/how-does-annotation-processing-work-in-java/" />
+<meta property="og:description" content="This article is an introduction to Annotation Processing in Java and provides an overview on Annotation Processing mechanics during compilation. What is annotation processing¶ Annotation Processing can be described as an opportunity to extend the compilation process with specific behavior based primarily on metadata stored in annotations but also on …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2014-10-08T00:00:00+02:00" />
+<meta name="twitter:title" content="How does annotation processing work in Java ">
+<meta name="twitter:description" content="This article is an introduction to Annotation Processing in Java and provides an overview on Annotation Processing mechanics during compilation. What is annotation processing¶ Annotation Processing can be described as an opportunity to extend the compilation process with specific behavior based primarily on metadata stored in annotations but also on …">
+
+        <title>How does annotation processing work in Java  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.javatronic.fr/https://www.google.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/posts/2014/10/08/how-does-annotation-processing-work-in-java/">
+                How does annotation processing work in Java
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#what-is-annotation-processing">What is annotation processing</a><ul>
+<li><a href="#can-not-modify-source-code">can not modify source code</a></li>
+</ul>
+</li>
+<li><a href="#what-happens-when-compiling">What happens when compiling</a><ul>
+<li><a href="#annotation-processing-rounds">annotation processing rounds</a></li>
+<li><a href="#input-files">input files</a></li>
+<li><a href="#the-first-round">the first round</a></li>
+<li><a href="#intermediary-rounds">intermediary rounds</a><ul>
+<li><a href="#the-last-round">the last round</a></li>
+<li><a href="#round-logs">round logs</a></li>
+</ul>
+</li>
+<li><a href="#the-discovery-process">the discovery process</a></li>
+</ul>
+</li>
+<li><a href="#resources">Resources</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            <p>This article is an introduction to Annotation Processing in <code>Java</code> and provides an overview on Annotation Processing mechanics during compilation.</p>
+
+<h1 id="what-is-annotation-processing">What is annotation processing<a class="headerlink" href="#what-is-annotation-processing" title="Permanent link">¶</a></h1>
+<p>Annotation Processing can be described as an opportunity to extend the compilation process with specific behavior based primarily on metadata stored in annotations but also on source code in general.</p>
+<p>Annotation Processing occurs during source code compilation.</p>
+<p>The compiler will call instances of classes implementing a specific interface available in the classpath.</p>
+<p>These objects have access to an API that allows them to read Object models of source code, to write files, to display log message as part of the compiler logs or to fail the compilation.</p>
+<p>Commonly, Annotation Processing involves one or more of the following:</p>
+<ul>
+<li>implementing additional source code checks</li>
+<li>generating source code (classes, interfaces)</li>
+<li>generating any kind of file (such as config files, documentation, ...)</li>
+</ul>
+<h2 id="can-not-modify-source-code">can not modify source code<a class="headerlink" href="#can-not-modify-source-code" title="Permanent link">¶</a></h2>
+<p>This is something that <strong>can not</strong> be done through Annotation Processing, at least in principle. The API does not allow it.</p>
+<p>But, it is possible and one specific framework is famous for actually doing just that: <a href="http://projectlombok.org">Lombok</a>.</p>
+<p>As described in this <a href="http://stackoverflow.com/questions/6107197/how-does-lombok-work/6108573#6108573">stackoverflow response</a>, <code>Lombok</code> manages to modify source code using a hack: casting objects of the API passed to the Annotation Processor into the compiler internal objects representing the source code model and which can be modified to modify the generated bytecode.</p>
+<h1 id="what-happens-when-compiling">What happens when compiling<a class="headerlink" href="#what-happens-when-compiling" title="Permanent link">¶</a></h1>
+<p>When run, the compiler looks for Annotation Processors (see <a href="#the-discovery-process">discovery mechanism</a> below), checks what annotations each of them supports and then starts processing those annotations in a sequence of rounds.</p>
+<h2 id="annotation-processing-rounds">annotation processing rounds<a class="headerlink" href="#annotation-processing-rounds" title="Permanent link">¶</a></h2>
+<p>Each processing round is made of:</p>
+<ul>
+<li>a list of input files</li>
+<li>a list of annotations: all input files in the previous list have at least one <a href="http://docs.oracle.com/javase/7/docs/api/javax/lang/model/element/Element.html">Element</a> with an annotation from this list</li>
+<li>a list of annotation processor(s): which all have registered to at least one of the annotations in the list above (or any annotation using the <code>*</code> wildcard)</li>
+</ul>
+<p>The compiler will create any number of round until is reaches the final round made of no input files.</p>
+<p>My understanding is that the compiler is contractualy free to build rounds as any combination of the three lists above but with the respect of these rules:</p>
+<ul>
+<li>an input file is processed only once, it will be part of one and only one round</li>
+<li>once a Annotation Processor has been involved in a round, it will be called during every subsequent rounds</li>
+<li>there is always a final round with no input file.</li>
+</ul>
+<h2 id="input-files">input files<a class="headerlink" href="#input-files" title="Permanent link">¶</a></h2>
+<p>Input files could be defined as source files with at least one <a href="http://docs.oracle.com/javase/7/docs/api/javax/lang/model/element/Element.html">Element</a> (a package, a class/interface/enum, a method, a variable, a parameter, ...) and which hasn't yet been part of a round.</p>
+<h2 id="the-first-round">the first round<a class="headerlink" href="#the-first-round" title="Permanent link">¶</a></h2>
+<p>As long as it finds at least one source file with at least one annotation and as long as it is aware of at least one Annotation Processor, the compiler will create a first round of annotation processing.</p>
+<p>Experimentaly (*), I found that all source files seems to be processed during the first round. I may not have tested with enough source files to see the 
+source files spawned over more than one round.</p>
+<h2 id="intermediary-rounds">intermediary rounds<a class="headerlink" href="#intermediary-rounds" title="Permanent link">¶</a></h2>
+<p>Subsequent rounds (not counting the last one which is always there) will be created only if at least one new source file with an annotation has generated by the previous round.</p>
+<h3 id="the-last-round">the last round<a class="headerlink" href="#the-last-round" title="Permanent link">¶</a></h3>
+<p>When there is no type in source code to process and if the previous round has generated no type at all, one last round will be created, with empty lists of input files and annotations.</p>
+<p>This round could be seen as an opportunity for Annotation Processors to do some clean up or final source code generation.</p>
+<p>By the way, any code generated during the last round will never be processed by the compiler, it is not called the last round for nothing.</p>
+<h3 id="round-logs">round logs<a class="headerlink" href="#round-logs" title="Permanent link">¶</a></h3>
+<p>To find out about what is going on during the Annotation Processing, how many round there are and what they are made of, logs can be enabled in <code>Javac</code> with command line arguments.</p>
+<p>See this previous <a href="https://www.javatronic.fr/posts/2014/08/31/how-to-make-sure-javac-is-using-an-annotation-processor-and-troubleshoot-when-it-is-not/#customize-the-command-line">article</a> for details.</p>
+<h2 id="the-discovery-process">the discovery process<a class="headerlink" href="#the-discovery-process" title="Permanent link">¶</a></h2>
+<p>To let the compiler know of <code>Processor</code> implementation to use, the Annotation Processing specification defines a Discovery Process.</p>
+<p>One can create a file <code>META-INF/service/javax.annotation.processing.Processor</code> which contains one line for each <code>Processor</code> implementation with the qualified name of the class implementing the <code>Processor</code> interface.</p>
+<p>The Compiler will automatically scan for this file in the class path when beeing run and use it to instanciate Annotation Processors.</p>
+<p>This previous <a href="https://www.javatronic.fr/posts/2014/08/31/how-to-make-sure-javac-is-using-an-annotation-processor-and-troubleshoot-when-it-is-not/#customize-the-command-line">article</a> describes how to make sure your Annotation Processor is beeing used by <code>Javac</code>.</p>
+<blockquote>
+<p>(*) projects used to make thoses experiments are available online and in a project dedicated to <a href="https://github.com/lesaint/experimenting-annotation-processing">experimenting with Annotation Processing in Java</a>. They use <code>Javac</code> as a compiler.</p>
+</blockquote>
+<h1 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">¶</a></h1>
+<ul>
+<li>the Javadoc of the <a href="http://docs.oracle.com/javase/7/docs/api/javax/annotation/processing/Processor.html">Processor interface</a> is the reference description of the Annotation Processing</li>
+<li>The part about <a href="http://docs.oracle.com/javase/7/docs/technotes/tools/windows/javac.html#processing">Annotation Processing</a> in the <code>Javac</code> documentation</li>
+<li>project <a href="http://projectlombok.org">Lombok</a> uses annotations to generate content in source code such as getters/setters, toString(), constructors, ...</li>
+</ul>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2014-10-08T00:00:00+02:00">Wed 08 October 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#annotation-processing-ref">Annotation Processing
+                    <span class="superscript">3</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#java-ref">Java
+                    <span class="superscript">4</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#javac-ref">Javac
+                    <span class="superscript">3</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Spring MVC, Spring Security, AOP, articles, " />
+
+<meta property="og:title" content="Implementing method-level security with Spring Security and Spring MVC "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2014/03/15/implementing-method-level-security-with-spring-security-and-spring-mvc/" />
+<meta property="og:description" content="Using Spring Security with Spring MVC to provide method level security on Controller classes can be trooblesome : using CGLIB-based proxies might be mandatory and you might need to tweak your code to fit Spring. When setting up exactly just that on a project, I ran into a series of problem …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2014-03-15T00:00:00+01:00" />
+<meta name="twitter:title" content="Implementing method-level security with Spring Security and Spring MVC ">
+<meta name="twitter:description" content="Using Spring Security with Spring MVC to provide method level security on Controller classes can be trooblesome : using CGLIB-based proxies might be mandatory and you might need to tweak your code to fit Spring. When setting up exactly just that on a project, I ran into a series of problem …">
+
+        <title>Implementing method-level security with Spring Security and Spring MVC  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.javatronic.fr/https://www.google.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/posts/2014/03/15/implementing-method-level-security-with-spring-security-and-spring-mvc/">
+                Implementing method-level security with Spring Security and Spring MVC
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#how-to-enable-method-security">How to enable Method Security</a></li>
+<li><a href="#pitfalls-when-using-method-security-on-spring-mvc-controllers">Pitfalls when using Method Security on Spring MVC controllers</a><ul>
+<li><a href="#the-position-of-global-method-security-matters">The position of global-method-security matters</a></li>
+<li><a href="#having-classes-annoted-with-controller">Having classes annoted with @Controller</a></li>
+<li><a href="#having-controller-classes-without-default-constructor">Having controller classes without default constructor</a><ul>
+<li><a href="#using-a-private-default-constructor">Using a private default constructor</a></li>
+<li><a href="#using-controller-interfaces">Using Controller interfaces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#some-references">Some references</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            <p>Using Spring Security with Spring MVC to provide method level security on Controller classes can be trooblesome : using CGLIB-based proxies might be mandatory and you might need to tweak your code to fit Spring.</p>
+<p>When setting up exactly just that on a project, I ran into a series of problem and got a finer understanding on how Spring Security implements Method Security.</p>
+
+<h1 id="how-to-enable-method-security">How to enable Method Security<a class="headerlink" href="#how-to-enable-method-security" title="Permanent link">¶</a></h1>
+<p>As stated by the <a href="http://docs.spring.io/spring-security/site/docs/3.1.x/reference/el-access.html#d0e5600">documentation</a>, enabling Method level security with Spring Security is as simple as added a <code>global-method-security</code> tag in your configuration.</p>
+<p>It's super easy and it works. You can even choose which annotation set you want to use with the appropriate attributes: </p>
+<ul>
+<li><code>secured-annotations="enabled"</code> for <code>@Secured</code></li>
+<li><code>jsr250-annotations="enabled"</code> for <code>@RolesAllowed</code></li>
+<li><code>pre-post-annotations="enabled"</code> for <code>@PreAuthorize</code>, <code>@PostAuthorize</code>, ...</li>
+<li><code>metadata-source-ref="extraMethodSecurityMetadataSource"</code> to use your own annotations<ul>
+<li>more on that in another article</li>
+</ul>
+</li>
+</ul>
+<h1 id="pitfalls-when-using-method-security-on-spring-mvc-controllers">Pitfalls when using Method Security on Spring MVC controllers<a class="headerlink" href="#pitfalls-when-using-method-security-on-spring-mvc-controllers" title="Permanent link">¶</a></h1>
+<p>But in fact, it's not that easy, especially with Spring MVC controllers.</p>
+<h2 id="the-position-of-global-method-security-matters">The position of <code>global-method-security</code> matters<a class="headerlink" href="#the-position-of-global-method-security-matters" title="Permanent link">¶</a></h2>
+<p>The first problem I encountered when adding <code>@Secured</code> annotations on my Controller classes was that it simply didn't work. Spring would not enforce the required role(s), not even applying any control. My Controller classes didn't seem to be secured at all.</p>
+<p>In fact, they weren't.</p>
+<p>After some googling, I found out that the position of the <code>global-method-security</code> tag in the configuration files is <strong>very</strong> important. Only the beans in the current context seems to be "secured" (in fact proxied, more on that below).</p>
+<p>As most people using Spring MVC, I had two Spring Application Contexts (AP) : one for the application and one for the DispatchServlet which inherits from the application context.</p>
+<p>In this conditions, having the <code>global-method-security</code> tag in the application AP would ignore the Controller class declared/scanned in the DispatchServlet AP.</p>
+<p>The solution is as simple as it seems : put the <code>global-method-security</code> tag in the DispatchServlet AP.</p>
+<p>But if like me you have a Spring AP config file dedicated to Spring Security configuration, it will be part of the application's AP. And you will be sad to have to put just that one tag in another config file.</p>
+<p>I found out I couldn't make the Spring Security config part of the DispatchServlet's AP.
+The DispatchServlet AP's would fail to start because no FilterChain bean existed when instanciating the <code>org.springframework.web.filter.DelegatingFilterProxy</code> declared in the web.xml.</p>
+<p>So I put the <code>global-method-security</code> tag in the DispatcherServlet AP and was off to meet to the next problems :)</p>
+<h2 id="having-classes-annoted-with-controller">Having classes annoted with @Controller<a class="headerlink" href="#having-classes-annoted-with-controller" title="Permanent link">¶</a></h2>
+<p>To implement Method Security, Spring Security uses Spring AOP to create proxies of the annoted controllers. Proxies implements the security checks and it they are ok, call the user's class.
+By default, Spring will use JDK dynamic proxies to create a proxy object with the same methods as your class but which will not be an instance of your class.</p>
+<p>This will more often that not cause errors at some point. The one I encountered is the following one where Spring MVC can not invoke the handler method :</p>
+<div class="highlight"><pre><span></span><code>java.lang.IllegalArgumentException:<span class="w"> </span>object<span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>an<span class="w"> </span>instance<span class="w"> </span>of<span class="w"> </span>declaring<span class="w"> </span>class
+sun.reflect.NativeMethodAccessorImpl.invoke0<span class="o">(</span>Native<span class="w"> </span>Method<span class="o">)</span>
+sun.reflect.NativeMethodAccessorImpl.invoke<span class="o">(</span>NativeMethodAccessorImpl.java:57<span class="o">)</span>
+sun.reflect.DelegatingMethodAccessorImpl.invoke<span class="o">(</span>DelegatingMethodAccessorImpl.java:43<span class="o">)</span>
+java.lang.reflect.Method.invoke<span class="o">(</span>Method.java:606<span class="o">)</span>
+org.springframework.web.method.support.InvocableHandlerMethod.invoke<span class="o">(</span>InvocableHandlerMethod.java:219<span class="o">)</span>
+org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest<span class="o">(</span>InvocableHandlerMethod.java:132<span class="o">)</span>
+org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle<span class="o">(</span>ServletInvocableHandlerMethod.java:104<span class="o">)</span>
+org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandleMethod<span class="o">(</span>RequestMappingHandlerAdapter.java:745<span class="o">)</span>
+org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal<span class="o">(</span>RequestMappingHandlerAdapter.java:686<span class="o">)</span>
+org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle<span class="o">(</span>AbstractHandlerMethodAdapter.java:80<span class="o">)</span>
+org.springframework.web.servlet.DispatcherServlet.doDispatch<span class="o">(</span>DispatcherServlet.java:925<span class="o">)</span>
+org.springframework.web.servlet.DispatcherServlet.doService<span class="o">(</span>DispatcherServlet.java:856<span class="o">)</span>
+org.springframework.web.servlet.FrameworkServlet.processRequest<span class="o">(</span>FrameworkServlet.java:936<span class="o">)</span>
+org.springframework.web.servlet.FrameworkServlet.doGet<span class="o">(</span>FrameworkServlet.java:827<span class="o">)</span>
+javax.servlet.http.HttpServlet.service<span class="o">(</span>HttpServlet.java:621<span class="o">)</span>
+org.springframework.web.servlet.FrameworkServlet.service<span class="o">(</span>FrameworkServlet.java:812<span class="o">)</span>
+javax.servlet.http.HttpServlet.service<span class="o">(</span>HttpServlet.java:728<span class="o">)</span>
+org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal<span class="o">(</span>CharacterEncodingFilter.java:88<span class="o">)</span>
+org.springframework.web.filter.OncePerRequestFilter.doFilter<span class="o">(</span>OncePerRequestFilter.java:107<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy<span class="nv">$VirtualFilterChain</span>.doFilter<span class="o">(</span>FilterChainProxy.java:330<span class="o">)</span>
+org.springframework.security.web.access.intercept.FilterSecurityInterceptor.invoke<span class="o">(</span>FilterSecurityInterceptor.java:118<span class="o">)</span>
+org.springframework.security.web.access.intercept.FilterSecurityInterceptor.doFilter<span class="o">(</span>FilterSecurityInterceptor.java:84<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy<span class="nv">$VirtualFilterChain</span>.doFilter<span class="o">(</span>FilterChainProxy.java:342<span class="o">)</span>
+org.springframework.security.web.access.ExceptionTranslationFilter.doFilter<span class="o">(</span>ExceptionTranslationFilter.java:113<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy<span class="nv">$VirtualFilterChain</span>.doFilter<span class="o">(</span>FilterChainProxy.java:342<span class="o">)</span>
+org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter<span class="o">(</span>SecurityContextHolderAwareRequestFilter.java:54<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy<span class="nv">$VirtualFilterChain</span>.doFilter<span class="o">(</span>FilterChainProxy.java:342<span class="o">)</span>
+org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter<span class="o">(</span>AbstractAuthenticationProcessingFilter.java:183<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy<span class="nv">$VirtualFilterChain</span>.doFilter<span class="o">(</span>FilterChainProxy.java:342<span class="o">)</span>
+org.springframework.security.web.authentication.logout.LogoutFilter.doFilter<span class="o">(</span>LogoutFilter.java:105<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy<span class="nv">$VirtualFilterChain</span>.doFilter<span class="o">(</span>FilterChainProxy.java:342<span class="o">)</span>
+org.springframework.security.web.context.SecurityContextPersistenceFilter.doFilter<span class="o">(</span>SecurityContextPersistenceFilter.java:87<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy<span class="nv">$VirtualFilterChain</span>.doFilter<span class="o">(</span>FilterChainProxy.java:342<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy.doFilterInternal<span class="o">(</span>FilterChainProxy.java:192<span class="o">)</span>
+org.springframework.security.web.FilterChainProxy.doFilter<span class="o">(</span>FilterChainProxy.java:160<span class="o">)</span>
+org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate<span class="o">(</span>DelegatingFilterProxy.java:343<span class="o">)</span>
+org.springframework.web.filter.DelegatingFilterProxy.doFilter<span class="o">(</span>DelegatingFilterProxy.java:260<span class="o">)</span>
+org.springframework.web.filter.OncePerRequestFilter.doFilter<span class="o">(</span>OncePerRequestFilter.java:107<span class="o">)</span>
+</code></pre></div>
+<p>What happens under the hood it that Spring MVC tries and fails to invoke the method annoted with <code>@RequestMapping</code> via refection. The <code>Method</code> instance it created when parsing controllers is based on the type of the concrete class of our controller.
+As the JDK proxy object is <strong>not</strong> an instance of the Controller class, we get a <code>IllegalArgumentException</code>.</p>
+<p>A fast and efficient workaround this is to make Spring AOP create another type of proxy by adding <code>proxy-target-class="true"</code> to the <code>global-method-security</code> tag.
+This will tell Spring to use CGLIB-based subclass proxies instead of JDK dynamic proxies. Such proxies are actual instances of the proxied classes. That fixes our problem.</p>
+<h2 id="having-controller-classes-without-default-constructor">Having controller classes without default constructor<a class="headerlink" href="#having-controller-classes-without-default-constructor" title="Permanent link">¶</a></h2>
+<p>Happiness won't last though, if you have controllers which does not declare a default constructor. </p>
+<p>If like me you favour constructor injection over property injection then your controller classes do not define a default constructor (well, they could, but not mine).
+So you're in for more trouble because CGLIB-based proxies require a default constructor to be created (see <a href="http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/aop.html#aop-proxying">http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/aop.html#aop-proxying</a> for details).</p>
+<p>The DispatchServlet AP fails to start with an error such as the following :</p>
+<div class="highlight"><pre><span></span><code>org.springframework.beans.factory.BeanCreationException:<span class="w"> </span>Error<span class="w"> </span>creating<span class="w"> </span>bean<span class="w"> </span>with<span class="w"> </span>name<span class="w"> </span><span class="s1">'managerController'</span><span class="w"> </span>defined<span class="w"> </span><span class="k">in</span><span class="w"> </span>file<span class="w"> </span><span class="o">[</span>********************************/ManagerController.class<span class="o">]</span>:<span class="w"> </span>Initialization<span class="w"> </span>of<span class="w"> </span>bean<span class="w"> </span>failed<span class="p">;</span><span class="w"> </span>nested<span class="w"> </span>exception<span class="w"> </span>is<span class="w"> </span>org.springframework.aop.framework.AopConfigException:<span class="w"> </span>Could<span class="w"> </span>not<span class="w"> </span>generate<span class="w"> </span>CGLIB<span class="w"> </span>subclass<span class="w"> </span>of<span class="w"> </span>class<span class="w"> </span><span class="o">[</span>class<span class="w"> </span>**********************.ManagerController<span class="o">]</span>:<span class="w"> </span>Common<span class="w"> </span>causes<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>problem<span class="w"> </span>include<span class="w"> </span>using<span class="w"> </span>a<span class="w"> </span>final<span class="w"> </span>class<span class="w"> </span>or<span class="w"> </span>a<span class="w"> </span>non-visible<span class="w"> </span>class<span class="p">;</span><span class="w"> </span>nested<span class="w"> </span>exception<span class="w"> </span>is<span class="w"> </span>java.lang.IllegalArgumentException:<span class="w"> </span>Superclass<span class="w"> </span>has<span class="w"> </span>no<span class="w"> </span>null<span class="w"> </span>constructors<span class="w"> </span>but<span class="w"> </span>no<span class="w"> </span>arguments<span class="w"> </span>were<span class="w"> </span>given
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:529<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:458<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractBeanFactory<span class="nv">$1</span>.getObject<span class="o">(</span>AbstractBeanFactory.java:295<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton<span class="o">(</span>DefaultSingletonBeanRegistry.java:223<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean<span class="o">(</span>AbstractBeanFactory.java:292<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractBeanFactory.getBean<span class="o">(</span>AbstractBeanFactory.java:194<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons<span class="o">(</span>DefaultListableBeanFactory.java:628<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization<span class="o">(</span>AbstractApplicationContext.java:932<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.context.support.AbstractApplicationContext.refresh<span class="o">(</span>AbstractApplicationContext.java:479<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext<span class="o">(</span>FrameworkServlet.java:651<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext<span class="o">(</span>FrameworkServlet.java:599<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext<span class="o">(</span>FrameworkServlet.java:665<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext<span class="o">(</span>FrameworkServlet.java:518<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>**********************.initWebApplicationContext<span class="o">(</span>**********:**<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.initServletBean<span class="o">(</span>FrameworkServlet.java:459<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.HttpServletBean.init<span class="o">(</span>HttpServletBean.java:136<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>javax.servlet.GenericServlet.init<span class="o">(</span>GenericServlet.java:160<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardWrapper.initServlet<span class="o">(</span>StandardWrapper.java:1280<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardWrapper.loadServlet<span class="o">(</span>StandardWrapper.java:1193<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardWrapper.load<span class="o">(</span>StandardWrapper.java:1088<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardContext.loadOnStartup<span class="o">(</span>StandardContext.java:5033<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardContext.startInternal<span class="o">(</span>StandardContext.java:5317<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.util.LifecycleBase.start<span class="o">(</span>LifecycleBase.java:150<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.ContainerBase<span class="nv">$StartChild</span>.call<span class="o">(</span>ContainerBase.java:1559<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.ContainerBase<span class="nv">$StartChild</span>.call<span class="o">(</span>ContainerBase.java:1549<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>java.util.concurrent.FutureTask.run<span class="o">(</span>FutureTask.java:262<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>java.util.concurrent.ThreadPoolExecutor.runWorker<span class="o">(</span>ThreadPoolExecutor.java:1145<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>java.util.concurrent.ThreadPoolExecutor<span class="nv">$Worker</span>.run<span class="o">(</span>ThreadPoolExecutor.java:615<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>java.lang.Thread.run<span class="o">(</span>Thread.java:744<span class="o">)</span>
+Caused<span class="w"> </span>by:<span class="w"> </span>org.springframework.aop.framework.AopConfigException:<span class="w"> </span>Could<span class="w"> </span>not<span class="w"> </span>generate<span class="w"> </span>CGLIB<span class="w"> </span>subclass<span class="w"> </span>of<span class="w"> </span>class<span class="w"> </span><span class="o">[</span>class<span class="w"> </span>****************.ManagerController<span class="o">]</span>:<span class="w"> </span>Common<span class="w"> </span>causes<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>problem<span class="w"> </span>include<span class="w"> </span>using<span class="w"> </span>a<span class="w"> </span>final<span class="w"> </span>class<span class="w"> </span>or<span class="w"> </span>a<span class="w"> </span>non-visible<span class="w"> </span>class<span class="p">;</span><span class="w"> </span>nested<span class="w"> </span>exception<span class="w"> </span>is<span class="w"> </span>java.lang.IllegalArgumentException:<span class="w"> </span>Superclass<span class="w"> </span>has<span class="w"> </span>no<span class="w"> </span>null<span class="w"> </span>constructors<span class="w"> </span>but<span class="w"> </span>no<span class="w"> </span>arguments<span class="w"> </span>were<span class="w"> </span>given
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.CglibAopProxy.getProxy<span class="o">(</span>CglibAopProxy.java:217<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.ProxyFactory.getProxy<span class="o">(</span>ProxyFactory.java:111<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.createProxy<span class="o">(</span>AbstractAutoProxyCreator.java:477<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary<span class="o">(</span>AbstractAutoProxyCreator.java:362<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization<span class="o">(</span>AbstractAutoProxyCreator.java:322<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:409<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:1488<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:521<span class="o">)</span>
+<span class="w">    </span>...<span class="w"> </span><span class="m">28</span><span class="w"> </span>common<span class="w"> </span>frames<span class="w"> </span>omitted
+Caused<span class="w"> </span>by:<span class="w"> </span>java.lang.IllegalArgumentException:<span class="w"> </span>Superclass<span class="w"> </span>has<span class="w"> </span>no<span class="w"> </span>null<span class="w"> </span>constructors<span class="w"> </span>but<span class="w"> </span>no<span class="w"> </span>arguments<span class="w"> </span>were<span class="w"> </span>given
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.proxy.Enhancer.emitConstructors<span class="o">(</span>Enhancer.java:721<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.proxy.Enhancer.generateClass<span class="o">(</span>Enhancer.java:499<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.transform.TransformingClassGenerator.generateClass<span class="o">(</span>TransformingClassGenerator.java:33<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.core.DefaultGeneratorStrategy.generate<span class="o">(</span>DefaultGeneratorStrategy.java:25<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.core.AbstractClassGenerator.create<span class="o">(</span>AbstractClassGenerator.java:216<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.proxy.Enhancer.createHelper<span class="o">(</span>Enhancer.java:377<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.proxy.Enhancer.create<span class="o">(</span>Enhancer.java:285<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.CglibAopProxy.getProxy<span class="o">(</span>CglibAopProxy.java:205<span class="o">)</span>
+<span class="w">    </span>...<span class="w"> </span><span class="m">35</span><span class="w"> </span>common<span class="w"> </span>frames<span class="w"> </span>omitted
+</code></pre></div>
+<p>To fix this error, just add a default constructor to your bean :</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Controller</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ManagerController</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">SomeService</span><span class="w"> </span><span class="n">someService</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// default constructor for CGLIB proxying</span>
+<span class="w">  </span><span class="c1">// default constructor is called first and then public constructor is called with autowired dependencies</span>
+<span class="w">  </span><span class="c1">// required to use the @Secured annotation on methods of this class</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="nf">ManagerController</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nd">@Autowired</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="nf">ManagerController</span><span class="p">(</span><span class="n">SomeService</span><span class="w"> </span><span class="n">someService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="na">someService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">someService</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">"/all"</span><span class="p">)</span>
+<span class="w">  </span><span class="nd">@Secured</span><span class="p">(</span><span class="s">"ROLE_VIEW_MANAGERS"</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">list</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">"viewname"</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="using-a-private-default-constructor">Using a private default constructor<a class="headerlink" href="#using-a-private-default-constructor" title="Permanent link">¶</a></h3>
+<p>With Spring 3.2.4, the default constructor used by CGLIB-based proxies does not need to be public, so we can use a private constructor. This will avoid poluting the exposed methods of your class, but it is not very elegant nor practical. 
+In fact, it is very annoying to have to add private default constructor to every Controller class that will use the <code>@Secured</code> annotation and a non-default constructor.</p>
+<p>With Spring 3.2.8, this is not possible anyway. The default constructor has to be public otherwise proxy creation fails with the following error:</p>
+<div class="highlight"><pre><span></span><code>org.springframework.beans.factory.BeanCreationException:<span class="w"> </span>Error<span class="w"> </span>creating<span class="w"> </span>bean<span class="w"> </span>with<span class="w"> </span>name<span class="w"> </span><span class="s1">'managerController'</span><span class="w"> </span>defined<span class="w"> </span><span class="k">in</span><span class="w"> </span>file<span class="w"> </span><span class="o">[</span>****************************************/ManagerController.class<span class="o">]</span>:<span class="w"> </span>Initialization<span class="w"> </span>of<span class="w"> </span>bean<span class="w"> </span>failed<span class="p">;</span><span class="w"> </span>nested<span class="w"> </span>exception<span class="w"> </span>is<span class="w"> </span>org.springframework.aop.framework.AopConfigException:<span class="w"> </span>Could<span class="w"> </span>not<span class="w"> </span>generate<span class="w"> </span>CGLIB<span class="w"> </span>subclass<span class="w"> </span>of<span class="w"> </span>class<span class="w"> </span><span class="o">[</span>class<span class="w"> </span>**********************.ManagerController<span class="o">]</span>:<span class="w"> </span>Common<span class="w"> </span>causes<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>problem<span class="w"> </span>include<span class="w"> </span>using<span class="w"> </span>a<span class="w"> </span>final<span class="w"> </span>class<span class="w"> </span>or<span class="w"> </span>a<span class="w"> </span>non-visible<span class="w"> </span>class<span class="p">;</span><span class="w"> </span>nested<span class="w"> </span>exception<span class="w"> </span>is<span class="w"> </span>java.lang.IllegalArgumentException:<span class="w"> </span>Superclass<span class="w"> </span>has<span class="w"> </span>no<span class="w"> </span>null<span class="w"> </span>constructors<span class="w"> </span>but<span class="w"> </span>no<span class="w"> </span>arguments<span class="w"> </span>were<span class="w"> </span>given
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:529<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:458<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractBeanFactory<span class="nv">$1</span>.getObject<span class="o">(</span>AbstractBeanFactory.java:296<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton<span class="o">(</span>DefaultSingletonBeanRegistry.java:223<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean<span class="o">(</span>AbstractBeanFactory.java:293<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractBeanFactory.getBean<span class="o">(</span>AbstractBeanFactory.java:194<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons<span class="o">(</span>DefaultListableBeanFactory.java:628<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization<span class="o">(</span>AbstractApplicationContext.java:932<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.context.support.AbstractApplicationContext.refresh<span class="o">(</span>AbstractApplicationContext.java:479<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.configureAndRefreshWebApplicationContext<span class="o">(</span>FrameworkServlet.java:651<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext<span class="o">(</span>FrameworkServlet.java:602<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.createWebApplicationContext<span class="o">(</span>FrameworkServlet.java:665<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.initWebApplicationContext<span class="o">(</span>FrameworkServlet.java:521<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>**********************.initWebApplicationContext<span class="o">(</span>**************:**<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.FrameworkServlet.initServletBean<span class="o">(</span>FrameworkServlet.java:462<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.web.servlet.HttpServletBean.init<span class="o">(</span>HttpServletBean.java:136<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>javax.servlet.GenericServlet.init<span class="o">(</span>GenericServlet.java:160<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardWrapper.initServlet<span class="o">(</span>StandardWrapper.java:1280<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardWrapper.loadServlet<span class="o">(</span>StandardWrapper.java:1193<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardWrapper.load<span class="o">(</span>StandardWrapper.java:1088<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardContext.loadOnStartup<span class="o">(</span>StandardContext.java:5033<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.StandardContext.startInternal<span class="o">(</span>StandardContext.java:5317<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.util.LifecycleBase.start<span class="o">(</span>LifecycleBase.java:150<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.ContainerBase<span class="nv">$StartChild</span>.call<span class="o">(</span>ContainerBase.java:1559<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.apache.catalina.core.ContainerBase<span class="nv">$StartChild</span>.call<span class="o">(</span>ContainerBase.java:1549<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>java.util.concurrent.FutureTask.run<span class="o">(</span>FutureTask.java:262<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>java.util.concurrent.ThreadPoolExecutor.runWorker<span class="o">(</span>ThreadPoolExecutor.java:1145<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>java.util.concurrent.ThreadPoolExecutor<span class="nv">$Worker</span>.run<span class="o">(</span>ThreadPoolExecutor.java:615<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>java.lang.Thread.run<span class="o">(</span>Thread.java:744<span class="o">)</span>
+Caused<span class="w"> </span>by:<span class="w"> </span>org.springframework.aop.framework.AopConfigException:<span class="w"> </span>Could<span class="w"> </span>not<span class="w"> </span>generate<span class="w"> </span>CGLIB<span class="w"> </span>subclass<span class="w"> </span>of<span class="w"> </span>class<span class="w"> </span><span class="o">[</span>class<span class="w"> </span>******************.ManagerController<span class="o">]</span>:<span class="w"> </span>Common<span class="w"> </span>causes<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>problem<span class="w"> </span>include<span class="w"> </span>using<span class="w"> </span>a<span class="w"> </span>final<span class="w"> </span>class<span class="w"> </span>or<span class="w"> </span>a<span class="w"> </span>non-visible<span class="w"> </span>class<span class="p">;</span><span class="w"> </span>nested<span class="w"> </span>exception<span class="w"> </span>is<span class="w"> </span>java.lang.IllegalArgumentException:<span class="w"> </span>Superclass<span class="w"> </span>has<span class="w"> </span>no<span class="w"> </span>null<span class="w"> </span>constructors<span class="w"> </span>but<span class="w"> </span>no<span class="w"> </span>arguments<span class="w"> </span>were<span class="w"> </span>given
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.CglibAopProxy.getProxy<span class="o">(</span>CglibAopProxy.java:218<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.ProxyFactory.getProxy<span class="o">(</span>ProxyFactory.java:111<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.createProxy<span class="o">(</span>AbstractAutoProxyCreator.java:477<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary<span class="o">(</span>AbstractAutoProxyCreator.java:362<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization<span class="o">(</span>AbstractAutoProxyCreator.java:322<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:409<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:1518<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean<span class="o">(</span>AbstractAutowireCapableBeanFactory.java:521<span class="o">)</span>
+<span class="w">    </span>...<span class="w"> </span><span class="m">28</span><span class="w"> </span>common<span class="w"> </span>frames<span class="w"> </span>omitted
+Caused<span class="w"> </span>by:<span class="w"> </span>java.lang.IllegalArgumentException:<span class="w"> </span>Superclass<span class="w"> </span>has<span class="w"> </span>no<span class="w"> </span>null<span class="w"> </span>constructors<span class="w"> </span>but<span class="w"> </span>no<span class="w"> </span>arguments<span class="w"> </span>were<span class="w"> </span>given
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.proxy.Enhancer.emitConstructors<span class="o">(</span>Enhancer.java:721<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.proxy.Enhancer.generateClass<span class="o">(</span>Enhancer.java:499<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.transform.TransformingClassGenerator.generateClass<span class="o">(</span>TransformingClassGenerator.java:33<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.core.DefaultGeneratorStrategy.generate<span class="o">(</span>DefaultGeneratorStrategy.java:25<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.core.AbstractClassGenerator.create<span class="o">(</span>AbstractClassGenerator.java:216<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.proxy.Enhancer.createHelper<span class="o">(</span>Enhancer.java:377<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.cglib.proxy.Enhancer.create<span class="o">(</span>Enhancer.java:285<span class="o">)</span>
+<span class="w">    </span>at<span class="w"> </span>org.springframework.aop.framework.CglibAopProxy.getProxy<span class="o">(</span>CglibAopProxy.java:206<span class="o">)</span>
+<span class="w">    </span>...<span class="w"> </span><span class="m">35</span><span class="w"> </span>common<span class="w"> </span>frames<span class="w"> </span>omitted
+</code></pre></div>
+<h3 id="using-controller-interfaces">Using Controller interfaces<a class="headerlink" href="#using-controller-interfaces" title="Permanent link">¶</a></h3>
+<p>Theoretically, a way around the ugly default constructor is to add Spring MVC and Security annotations on an interface instead of a concrete class.</p>
+<p>This way, we do not need to use CGLIB-based proxies and can stick to JDK proxies.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Controller</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">ManagerController</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">"/all"</span><span class="p">)</span>
+<span class="w">  </span><span class="nd">@Secured</span><span class="p">(</span><span class="s">"ROLE_VIEW_MANAGERS"</span><span class="p">)</span>
+<span class="w">  </span><span class="n">String</span><span class="w"> </span><span class="nf">list</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ManagerControllerImpl</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">ManagerController</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">SomeService</span><span class="w"> </span><span class="n">someService</span><span class="p">;</span>
+
+<span class="w">  </span><span class="nd">@Autowired</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="nf">ManagerController</span><span class="p">(</span><span class="n">SomeService</span><span class="w"> </span><span class="n">someService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="na">someService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">someService</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nd">@Override</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">list</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">"viewname"</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>Please note that the <code>@Controller</code> annotation has been moved to the interface as well as <code>@RequestMapping</code> and <code>@Control</code> annotations.
+Unfortunatly, <strong>this doesn't work with Spring MVC</strong>.</p>
+</blockquote>
+<p>In this case as well in the one where we started struggling with Spring-AOP in the first place, we get the <code>object is not an instance of declaring class</code> exception from the <code>Having classes annoted with @Controller</code> part.</p>
+<p>I'm wonder if this is a bug or at least if it could be improved...</p>
+<h1 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h1>
+<p>For the time beeing I will stick to the CGLIB-enabled proxies with the default controller solution.</p>
+<p>But I will try and see later if AspectJ couldn't be used to weave beans at compile time and remove the use of proxy completly.</p>
+<h1 id="some-references">Some references<a class="headerlink" href="#some-references" title="Permanent link">¶</a></h1>
+<p>While working and googling on this issue, I found this interrested comment on Stackoverflow which discusses the reasons to use Spring-AOP with controller when many ways to implements cross cutting concerns exist:
+<a href="http://stackoverflow.com/a/12045331">http://stackoverflow.com/a/12045331</a>.</p>
+<p>I wrote an article on using one of theses other way in <a href="">TODO article on generatic pagination solution with Spring MVC</a>.</p>
+<p>Also, on the subject of comparing JDK proxies and CGLIB-based proxies, this article points that @Transaction annotation does not work with JDK proxies:
+<a href="http://kim.saabye-pedersen.org/2013/05/spring-annotation-on-interface-or-class.html">Spring annotation on interface or class implementing the interface??</a></p>
+<p>References in Spring documentation </p>
+<ul>
+<li>to the Spring-AOP vs Controller in the information note <code>Using @RequestMapping On Interface Methods</code> <a href="http://docs.spring.io/spring/docs/3.1.x/spring-framework-reference/html/mvc.html#mvc-ann-requestmapping">here</a></li>
+<li>to enable Method Security <a href="http://docs.spring.io/spring-security/site/docs/3.1.x/reference/el-access.html#d0e5600">http://docs.spring.io/spring-security/site/docs/3.1.x/reference/el-access.html#d0e5600</a></li>
+</ul>
+<p>Various articles on the use of <code>proxy-target-class="true"</code> on the <code>global-method-security</code> tag:</p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/10726478/spring-securitymvc-annotations-illegal-argument-exception">http://stackoverflow.com/questions/10726478/spring-securitymvc-annotations-illegal-argument-exception</a></li>
+<li><a href="http://stackoverflow.com/questions/18663475/spring-security-global-method-security-does-not-work">http://stackoverflow.com/questions/18663475/spring-security-global-method-security-does-not-work</a><ul>
+<li>This discusses how to work around proxies completly by using AspectJ weaving at compile time</li>
+<li>This is mandatory when using controller not managed as Spring beans and could be a workaround the ugly default constructor discussed above</li>
+</ul>
+</li>
+</ul>
+<p>Article on the importance of the position of the <code>global-method-security</code> tag in your Spring Config :
+<a href="http://stackoverflow.com/questions/517527/spring-not-enforcing-method-security-annotations">http://stackoverflow.com/questions/517527/spring-not-enforcing-method-security-annotations</a></p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2014-03-15T00:00:00+01:00">Sat 15 March 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#aop-ref">AOP
+                    <span class="superscript">1</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#spring-mvc-ref">Spring MVC
+                    <span class="superscript">3</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#spring-security-ref">Spring Security
+                    <span class="superscript">1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

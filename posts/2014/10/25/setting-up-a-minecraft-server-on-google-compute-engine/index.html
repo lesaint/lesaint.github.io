@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Cloud, Minecraft, Google Compute Engine, articles, " />
+
+<meta property="og:title" content="Setting up a Minecraft server on Google Compute Engine "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/" />
+<meta property="og:description" content="This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance. Create Google Cloud account¶ Go to https://console.developers.google.com/project. This is the Google Developer Console and entry point to the Google Cloud services. You need to …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2014-10-25T00:00:00+02:00" />
+<meta name="twitter:title" content="Setting up a Minecraft server on Google Compute Engine ">
+<meta name="twitter:description" content="This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance. Create Google Cloud account¶ Go to https://console.developers.google.com/project. This is the Google Developer Console and entry point to the Google Cloud services. You need to …">
+
+        <title>Setting up a Minecraft server on Google Compute Engine  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.javatronic.fr/https://www.google.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/">
+                Setting up a Minecraft server on Google Compute Engine
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#create-google-cloud-account">Create Google Cloud account</a><ul>
+<li><a href="#create-project">create project</a></li>
+<li><a href="#provide-billing-info">provide billing info</a></li>
+</ul>
+</li>
+<li><a href="#google-cloud-sdk">Google Cloud SDK</a><ul>
+<li><a href="#install-it">install it</a></li>
+<li><a href="#authenticate">authenticate</a></li>
+<li><a href="#set-project">set project</a></li>
+</ul>
+</li>
+<li><a href="#create-an-instance">create an instance</a><ul>
+<li><a href="#create-a-disk">create a disk</a></li>
+<li><a href="#create-an-instance-with-an-existing-disk">create an instance with an existing disk</a></li>
+</ul>
+</li>
+<li><a href="#allow-minecraft-traffic">allow Minecraft traffic</a></li>
+<li><a href="#connect-to-the-instance-with-ssh">connect to the instance with SSH</a></li>
+<li><a href="#install-the-instance">install the instance</a><ul>
+<li><a href="#required-basics">required basics</a></li>
+<li><a href="#download-and-install-oracle-java">download and install Oracle Java</a><ul>
+<li><a href="#note-on-open-jdk">note on open-jdk</a></li>
+</ul>
+</li>
+<li><a href="#download-and-install-minecraft">download and install Minecraft</a></li>
+</ul>
+</li>
+<li><a href="#start-the-server">start the server</a></li>
+<li><a href="#connect-to-the-server">connect to the server</a><ul>
+<li><a href="#get-the-servers-ip-address">get the server's IP address</a></li>
+<li><a href="#connect-to-the-server_1">connect to the server</a></li>
+</ul>
+</li>
+<li><a href="#let-it-run-in-the-background">let it run in the background</a><ul>
+<li><a href="#use-screen">use screen</a><ul>
+<li><a href="#start-the-server_1">start the server</a></li>
+<li><a href="#get-your-hands-back-on-the-server">get your hands back on the server</a></li>
+<li><a href="#stop-the-server">stop the server</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#destroy-the-instance">destroy the instance</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            <p>This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.</p>
+
+<h1 id="create-google-cloud-account">Create Google Cloud account<a class="headerlink" href="#create-google-cloud-account" title="Permanent link">¶</a></h1>
+<p>Go to <a href="https://console.developers.google.com/project">https://console.developers.google.com/project</a>.</p>
+<p>This is the Google Developer Console and entry point to the Google Cloud services. You need to login with a Google account.</p>
+<p>If you already have Gmail and you are connected, the page will display without any authentication.</p>
+<h2 id="create-project">create project<a class="headerlink" href="#create-project" title="Permanent link">¶</a></h2>
+<p>In the Google Developer Console, go to <code>projects</code> and create a new one.</p>
+<p>The name of the project is for your own convenience. Google will generate a human readable project id which is the value you will need to identify a project when using the <a href="#install-google-cloud-sdk">Google Cloud SDK</a>.</p>
+<h2 id="provide-billing-info">provide billing info<a class="headerlink" href="#provide-billing-info" title="Permanent link">¶</a></h2>
+<p>Billing info are required to use Google Compute Engine because creating an instance or a disk will cost you from the first minute (but, so little...).</p>
+<h1 id="google-cloud-sdk">Google Cloud SDK<a class="headerlink" href="#google-cloud-sdk" title="Permanent link">¶</a></h1>
+<h2 id="install-it">install it<a class="headerlink" href="#install-it" title="Permanent link">¶</a></h2>
+<p>My installation setup is described in <a href="{filename/from_jekyll/tips/2014-10-17-installing_google_cloud_sdk_on_ubuntu_with_oh-my-zsh.md">Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh</a>.</p>
+<h2 id="authenticate">authenticate<a class="headerlink" href="#authenticate" title="Permanent link">¶</a></h2>
+<p>Run:</p>
+<div class="highlight"><pre><span></span><code>gcloud<span class="w"> </span>auth<span class="w"> </span>init
+</code></pre></div>
+<p>Go to your browser, authenticate or choose a Google account if necessary and authorize the Google Cloud SDK on your computer to access your Google Account.</p>
+<h2 id="set-project">set project<a class="headerlink" href="#set-project" title="Permanent link">¶</a></h2>
+<p>You can either set a project globally with the following command:</p>
+<div class="highlight"><pre><span></span><code>gcloud<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>project<span class="w"> </span>cagoo-jimba-2345
+</code></pre></div>
+<p>or create a directory for your project so that you can then switch from one project to the other by just changing the current directory:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>/some/dir/where/you/can/to/create/googlecloud/project/directories
+gcloud<span class="w"> </span>init<span class="w"> </span>cagoo-jimba-2345
+</code></pre></div>
+<h1 id="create-an-instance">create an instance<a class="headerlink" href="#create-an-instance" title="Permanent link">¶</a></h1>
+<h2 id="create-a-disk">create a disk<a class="headerlink" href="#create-a-disk" title="Permanent link">¶</a></h2>
+<p>The point here is to set up an instance with a Minecraft server but as we will see below, the instance itself can be created and destroyed at will.</p>
+<p>What matters really is the disk where Minecraft server program is set up and where the world's data is stored. As long as we keep the disk, we can create a new instance latter with the same disk and it will feel as it was still the first instance.</p>
+<p>So, we start by creating a disk:</p>
+<div class="highlight"><pre><span></span><code>gcloud<span class="w"> </span>compute<span class="w"> </span>disks<span class="w"> </span>create<span class="w"> </span>minecraft-server<span class="w"> </span>--image<span class="w"> </span>debian-7<span class="w"> </span>--zone<span class="w"> </span>europe-west1-a
+</code></pre></div>
+<blockquote>
+<p>this will create a standard disk (non-SSD) of 10Gb from a debian 7 image</p>
+</blockquote>
+<h2 id="create-an-instance-with-an-existing-disk">create an instance with an existing disk<a class="headerlink" href="#create-an-instance-with-an-existing-disk" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code>gcloud<span class="w"> </span>compute<span class="w"> </span>instances<span class="w"> </span>create<span class="w"> </span>minecraft-server<span class="w"> </span>--zone<span class="w"> </span>europe-west1-a<span class="w"> </span>--disk<span class="w"> </span><span class="nv">name</span><span class="o">=</span>minecraft-server<span class="w"> </span><span class="nv">boot</span><span class="o">=</span>yes<span class="w"> </span>auto-delete<span class="o">=</span>no<span class="w"> </span>--tags<span class="w"> </span>minecraft
+</code></pre></div>
+<ul>
+<li>use existing disk and keep it even when VM is deleted
+<div class="highlight"><pre><span></span><code><span class="w">    </span>--disk<span class="w"> </span><span class="nv">name</span><span class="o">=</span>minecraft-server<span class="w"> </span><span class="nv">boot</span><span class="o">=</span>yes<span class="w"> </span>auto-delete<span class="o">=</span>no
+</code></pre></div></li>
+<li>add tag <code>minecraft</code> to match firewall rule (uppercase letters are not valid)
+<div class="highlight"><pre><span></span><code><span class="w">    </span>--tags<span class="w"> </span>minecraft
+</code></pre></div></li>
+</ul>
+<h1 id="allow-minecraft-traffic">allow Minecraft traffic<a class="headerlink" href="#allow-minecraft-traffic" title="Permanent link">¶</a></h1>
+<div class="highlight"><pre><span></span><code>gcloud<span class="w"> </span>compute<span class="w"> </span>firewall-rules<span class="w"> </span>create<span class="w"> </span>allow-minecraft<span class="w"> </span>--description<span class="w"> </span><span class="s2">"Incoming minecraft connections allowed."</span><span class="w"> </span>--allow<span class="w"> </span>tcp:25565<span class="w"> </span>--target-tags<span class="w"> </span>minecraft
+</code></pre></div>
+<blockquote>
+<p>allow tcp traffic on port <code>25565</code>, which is the default port used by Minecraft server. You can make sure your Minecraft server is listening to this port by checking the first log lines of the server when it starts up.</p>
+</blockquote>
+<ul>
+<li>define target tag to restrict the firewall rule to only instances with the tag <code>minecraft</code>
+<div class="highlight"><pre><span></span><code><span class="w">    </span>--target-tags<span class="w"> </span>minecraft
+</code></pre></div></li>
+</ul>
+<h1 id="connect-to-the-instance-with-ssh">connect to the instance with SSH<a class="headerlink" href="#connect-to-the-instance-with-ssh" title="Permanent link">¶</a></h1>
+<div class="highlight"><pre><span></span><code>gcloud<span class="w"> </span>compute<span class="w"> </span>ssh<span class="w"> </span>minecraft-server<span class="w"> </span>--zone<span class="w"> </span>europe-west1-a
+</code></pre></div>
+<p>If this is the first time you attempt to connect to an instance via SSH with the current Google Cloud SDK installation, you will be asked to create a private-public key paar. Just follow the instructions. Note that it is best to define a passphrase to protect your keys.</p>
+<h1 id="install-the-instance">install the instance<a class="headerlink" href="#install-the-instance" title="Permanent link">¶</a></h1>
+<h2 id="required-basics">required basics<a class="headerlink" href="#required-basics" title="Permanent link">¶</a></h2>
+<p>You will need <code>vim</code> to edit files and <code>screen</code> to run the Minecraft server without being connected to the instance.</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>vim<span class="w"> </span>screen
+</code></pre></div>
+<h2 id="download-and-install-oracle-java">download and install Oracle Java<a class="headerlink" href="#download-and-install-oracle-java" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># downlad and unpack Java JDK 8 8u5-b13</span>
+wget<span class="w"> </span>--no-check-certificate<span class="w"> </span>--no-cookies<span class="w"> </span>--header<span class="w"> </span><span class="s2">"Cookie: oraclelicense=accept-securebackup-cookie"</span><span class="w"> </span>-qO-<span class="w"> </span>http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span>tar<span class="w"> </span>xvz
+<span class="c1"># create symbolic link to allow update of Java without changing the rest</span>
+ln<span class="w"> </span>-s<span class="w"> </span>jdk1.8.0_05<span class="w"> </span>jdk
+</code></pre></div>
+<blockquote>
+<p>Found out how to download the JDK from Oracle website thanks to this StackOverflow post <a href="http://stackoverflow.com/questions/10268583/how-to-automate-download-and-installation-of-java-jdk-on-linux">How to automate download and installation of Java JDK on Linux?</a>.</p>
+</blockquote>
+<h3 id="note-on-open-jdk">note on open-jdk<a class="headerlink" href="#note-on-open-jdk" title="Permanent link">¶</a></h3>
+<p>Alternatively you could install <code>open-jdk</code> via <code>apt-get</code> but I found it requires installing to much stuff on the server (and takes much more time) so I rather went with installing Oracle JDK.</p>
+<p>FYI, the command line is:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>openjdk-8-jre
+</code></pre></div>
+<h2 id="download-and-install-minecraft">download and install Minecraft<a class="headerlink" href="#download-and-install-minecraft" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>minecraft
+<span class="nb">cd</span><span class="w"> </span>minecraft
+wget<span class="w"> </span>https://s3.amazonaws.com/Minecraft.Download/versions/1.8/minecraft_server.1.8.jar
+
+<span class="nb">echo</span><span class="w"> </span><span class="s1">'#!/bin/bash</span>
+<span class="s1">cd /home/lesaint/minecraft &amp;&amp; /home/lesaint/jdk/bin/java -jar /home/lesaint/minecraft/minecraft_server.1.8.jar -Xmx1024M -Xms1024M nogui'</span><span class="w"> </span>&gt;<span class="w"> </span>/home/lesaint/minecraft.sh
+chmod<span class="w"> </span>+x<span class="w"> </span>/home/lesaint/minecraft.sh
+</code></pre></div>
+<blockquote>
+<p>this script starts the Minecraft server with 1Gb heap. Make sure you choose an instance with enough memory or change the <code>-Xmx</code> and <code>-Xms</code> values.</p>
+</blockquote>
+<p>Minimal configuration needed is to create a file which Minecraft will read to know whether you accepted the Minecraft EULA or not.</p>
+<p>When run for the first time, Minecraft server create the file and asks you to modify it and restart the server.</p>
+<p>To save one server run, we just create it ourselves.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"eula=TRUE"</span><span class="w"> </span>&gt;<span class="w"> </span>/home/lesaint/minecraft/eula.txt
+</code></pre></div>
+<h1 id="start-the-server">start the server<a class="headerlink" href="#start-the-server" title="Permanent link">¶</a></h1>
+<div class="highlight"><pre><span></span><code>/home/lesaint/minecraft.sh
+</code></pre></div>
+<p>You must stay connected to the instance for the Minecraft server to run, we will discuss below how to <a href="#let-it-run-in-the-background">let it run in the background</a>.</p>
+<h1 id="connect-to-the-server">connect to the server<a class="headerlink" href="#connect-to-the-server" title="Permanent link">¶</a></h1>
+<p>The Minecraft server is running and you can now to connect to it with a Minecraft client (ie. the game).</p>
+<h2 id="get-the-servers-ip-address">get the server's IP address<a class="headerlink" href="#get-the-servers-ip-address" title="Permanent link">¶</a></h2>
+<p>Use the following command to get the list of instances and, among other informations, you can find the external IP address of the one you just started:</p>
+<div class="highlight"><pre><span></span><code>gcloud<span class="w"> </span>compute<span class="w"> </span>instances<span class="w"> </span>list
+</code></pre></div>
+<p>Result will look like the following and we are interested in what is below <code>EXTERNAL_IP</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>my-machine<span class="o">]</span><span class="w"> </span>$<span class="w"> </span>gcloud<span class="w"> </span>compute<span class="w"> </span>instances<span class="w"> </span>list<span class="w">                                           </span>
+NAME<span class="w">             </span>ZONE<span class="w">           </span>MACHINE_TYPE<span class="w">  </span>INTERNAL_IP<span class="w">   </span>EXTERNAL_IP<span class="w">  </span>STATUS
+minecraft-server<span class="w"> </span>europe-west1-a<span class="w"> </span>n1-standard-1<span class="w"> </span><span class="m">10</span>.240.197.56<span class="w"> </span><span class="m">104</span>.155.10.4<span class="w"> </span>RUNNING
+</code></pre></div>
+<h2 id="connect-to-the-server_1">connect to the server<a class="headerlink" href="#connect-to-the-server_1" title="Permanent link">¶</a></h2>
+<p>Start Minecraft, go to <code>Multiplayer</code>.</p>
+<p>Either click <code>Direct connect</code> or <code>Add server</code>.</p>
+<p>Specifity the server name if you clicked on <code>Add server</code> and specify the <code>EXTERNAL_IP</code> from above as <code>Server address</code>.</p>
+<p>Now, connect and play :)</p>
+<h1 id="let-it-run-in-the-background">let it run in the background<a class="headerlink" href="#let-it-run-in-the-background" title="Permanent link">¶</a></h1>
+<p>The problem when starting the Minecraft server from an SSH session is that the server's process will be ended when the SSH session is ended (ie. when you disconnect).</p>
+<h2 id="use-screen">use <code>screen</code><a class="headerlink" href="#use-screen" title="Permanent link">¶</a></h2>
+<p>To work around this, start the Minecraft server using <a href="http://www.gnu.org/software/screen/manual/screen.html">screen</a>. Screen has been installed when doing the <a href="#basic-configuration-of-instance">basic configuration of instance</a> earlier.</p>
+<h3 id="start-the-server_1">start the server<a class="headerlink" href="#start-the-server_1" title="Permanent link">¶</a></h3>
+<p>Start the Minecraft server in a new <code>screen</code> terminal window.</p>
+<div class="highlight"><pre><span></span><code>screen<span class="w"> </span>/home/lesaint/minecraft.sh
+</code></pre></div>
+<p>To exit <code>screen</code> without killing it, use <code>CTRL+a d</code> (type <code>CTRL+A</code> on your keyboard and then letter <code>d</code>). It is called "detaching" from the <code>screen</code> session.</p>
+<p>You can check the Minecraft server java process is actually running with the following command line:</p>
+<div class="highlight"><pre><span></span><code>ps<span class="w"> </span>-ef<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>java
+</code></pre></div>
+<h3 id="get-your-hands-back-on-the-server">get your hands back on the server<a class="headerlink" href="#get-your-hands-back-on-the-server" title="Permanent link">¶</a></h3>
+<p>To "reattach" to the <code>screen</code> terminal, you must find its id. List all <code>screen</code> session on the current host with:</p>
+<div class="highlight"><pre><span></span><code>screen<span class="w"> </span>-list
+</code></pre></div>
+<p>Result will look like the following:</p>
+<div class="highlight"><pre><span></span><code>lesaint@minecraft-server:~$<span class="w"> </span>screen<span class="w"> </span>-list
+There<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>screen<span class="w"> </span>on:
+<span class="w">    </span><span class="m">2046</span>.pts-1.minecraft-server<span class="w"> </span><span class="o">(</span><span class="m">10</span>/16/14<span class="w"> </span><span class="m">21</span>:17:03<span class="o">)</span><span class="w"> </span><span class="o">(</span>Detached<span class="o">)</span>
+<span class="m">1</span><span class="w"> </span>Socket<span class="w"> </span><span class="k">in</span><span class="w"> </span>/var/run/screen/S-lesaint.
+</code></pre></div>
+<p>You can reattach to the <code>screen</code> session with the number at the beginning of the line:</p>
+<div class="highlight"><pre><span></span><code>screen<span class="w"> </span>-r<span class="w"> </span><span class="m">2046</span>
+</code></pre></div>
+<p>From that point, you can manage the Minecraft server as you would be doing if you had started it from the SSH session directly.</p>
+<h3 id="stop-the-server">stop the server<a class="headerlink" href="#stop-the-server" title="Permanent link">¶</a></h3>
+<p>To stop the server, reattach to the <code>screen</code> session and just type <code>CTRL+C</code>. It will stop the Minecraft server and if you started the <code>screen</code> session with the Minecraft service as an argument,it will also end the <code>screen</code> session. </p>
+<h1 id="destroy-the-instance">destroy the instance<a class="headerlink" href="#destroy-the-instance" title="Permanent link">¶</a></h1>
+<p>When you don't need the instance, destroy it as it will cost you even if it is not doing anything. Since it is so easy and quick to recreate it, do not hesitate.</p>
+<p>What matters is the disk and it will not be deleted if you correctly specified <code>auto-delete=no</code> when creating the instance (see <a href="#create-an-instance-with-an-existing-disk">create instance with existing disk</a>).</p>
+<p>In doubt, go to the Google developer console, display the instance properties. A checkbox indicates whether the disk will be deleted when the instance is deleted. You can change the value directly from there.</p>
+<div class="highlight"><pre><span></span><code>gcloud<span class="w"> </span>compute<span class="w"> </span>instances<span class="w"> </span>delete<span class="w"> </span>minecraft-server<span class="w"> </span>--zone<span class="w"> </span>europe-west1-a
+</code></pre></div>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2014-10-25T00:00:00+02:00">Sat 25 October 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#cloud-ref">Cloud
+                    <span class="superscript">2</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#google-compute-engine-ref">Google Compute Engine
+                    <span class="superscript">1</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#minecraft-ref">Minecraft
+                    <span class="superscript">1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
