@@ -113,6 +113,11 @@ PROJECTS = [
                 "url": "https://github.com/jirac/jirac",
                 "description": "Command line Bash utility to generate Jira comments from Git commits on a Maven project"
             },
+            {
+                "name": 'Hands-on: Annotation Processing @Nailed("it")',
+                "url": "https://github.com/fbiville/annotation-processing-ftw?tab=readme-ov-file#annotation-processing-nailedit",
+                "description": "Created and animated Hands-On lab at Devoxx FR in 2015 with Florent Biville"
+            },
         ]
     },
     {
