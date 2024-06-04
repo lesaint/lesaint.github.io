@@ -54,7 +54,7 @@
                                 <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
                                 <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
                                 <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://www.javatronic.fr/https://www.google.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li><form class="navbar-search" action="https://www.google.com/search" onsubmit="return validateForm(this.elements['q'][0].value);" target="_blank"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"><input type="hidden" name="q" value="site:https://www.javatronic.fr"></form></li>
                             </ul>
                         </div>
                     </div>
