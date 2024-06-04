@@ -11,7 +11,7 @@ PUBLISHCONF=$(BASEDIR)/publishconf.py
 GITHUB_PAGES_BRANCH=gh-pages
 
 THEME_DIR:=theme-elegant
-HEAD_ID:=$(shell git rev-parse --short HEAD)
+HEAD_DESCRIPTION:=$(shell git log -1 --pretty=format:"(%h) %B" HEAD)
 
 
 DEBUG ?= 0
@@ -108,7 +108,7 @@ publish: venv eleganttheme
 
 github: publish
 	$(ACTIVATE_VENV)
-	ghp-import -m "Generate Pelican site for commit $(HEAD_ID)" -b "$(GITHUB_PAGES_BRANCH)" "$(OUTPUTDIR)"
+	ghp-import -m "Publish: $(HEAD_DESCRIPTION)" -b "$(GITHUB_PAGES_BRANCH)" "$(OUTPUTDIR)"
 	git push origin $(GITHUB_PAGES_BRANCH)
 
 
