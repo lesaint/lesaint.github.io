@@ -51,7 +51,7 @@ And then I found out the one maintainer of the project had stepped out a year ag
 > sources: 
 > 
 > * [Stork install instructions](https://stork-search.net/docs/install)
-> * [Maintainer's post on window down from project](https://github.com/jameslittle230/stork/discussions/360)
+> * [Maintainer's post on winding down from project](https://github.com/jameslittle230/stork/discussions/360)
 
 # Search with Google
 
