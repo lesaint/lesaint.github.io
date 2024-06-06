@@ -15,10 +15,12 @@ Goal-driven technical professional with an illustrated track record of:
 For more details, career summary, talks, certifications, trainings, and education, 
 see [my resume]({filename}/pages/resume.md).
 
+### Online profiles
+
+[LinkedIn](https://linkedin.com/in/sebastien-lesaint) ▪ [Personal GitHub](https://github.com/lesaint) ▪ [SonarQube contributor GitHub](https://github.com/sns-seb)
+
 ### Posts
 
-I write [tips]({static}/categories.html#tips-ref) on the frequent small technical challenges I face and solve.
-
-Sometimes, I write longer technical pieces or tutorial-level texts as [articles]({static}/categories.html#articles-ref).
+I write [tips]({static}/categories.html#tips-ref) on the frequent small technical challenges I face and solve. Sometimes, I write longer technical pieces or tutorial-level texts as [articles]({static}/categories.html#articles-ref).
 
 In both cases, I do so because I may look them up someday, and because it may help someone searching the web.
