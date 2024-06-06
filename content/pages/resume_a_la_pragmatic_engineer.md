@@ -20,7 +20,7 @@ status: hidden
 
 ## Machine Learning Engineer
 
-SonarSource ▪ Annecy, France ▪ 2023 - 2024
+[SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2023 - 2024
 
 Collaborated closely with SonarSource's Machine Learning (ML) scientists, providing integral support to 4 research initiatives, notably through the crafting of cloud-based and scaling solutions tailored to their requirements.
 
@@ -37,7 +37,7 @@ AWS (CDK, EC2, Step Functions, S3, System Manager), Python3, Scikit-learn, Poetr
 
 ## Application Architect & Cloud Platform Engineer
 
-SonarSource ▪ Annecy, France ▪ 2022 - 2023
+[SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2022 - 2023
 
 Provided design support and advice on Application and Cloud-based Architecture to the 4 delivery squads of the SonarCloud team, autonomously handled projects unfit for delivery pace, and occasionally joined squads' sprints as Cloud Platform Engineer.  
 
@@ -70,7 +70,7 @@ AWS (CDK, CodeBuild, Aurora, ECS, SNS, SQS, Step Functions, Lambda), Python3, Po
 
 ## Application Architect
 
-SonarSource ▪ Annecy, France ▪ 2021 - 2022 
+[SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2021 - 2022 
 
 Lead the effort to model SonarCloud as domains, following Domain-Driven Design (DDD) methodologies to ensure solid and 
 future-proof boundaries and definitions, to prepare for and support the refactoring of SonarCloud from a monolith, based 
@@ -94,7 +94,7 @@ Domain Driven Design, Event Storming
 
 ## Cross-Teams Senior Software Engineer
 
-SonarSource ▪ Annecy, France ▪ 2020-2021
+[SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2020-2021
 
 **Technical Assets**
 
@@ -108,7 +108,7 @@ MyBatis, Elasticsearch, Maven, Gradle, Github actions, Cirrus-ci, Postgresql
 
 ## Backend Software Engineer on SonarQube
 
-SonarSource ▪ Annecy area, France ▪ 2020 - 2021
+[SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy area, France ▪ 2020 - 2021
 
 **Technical Assets**
 
@@ -125,7 +125,7 @@ Java 1.4 to 8, Maven, Gradle, MyBatis, Elasticsearch, Bash, Jenkins, Postgresql,
 
 ## Senior Developer
 
-Ekino ▪ Paris, France ▪ 2014 - 2015
+[Ekino](https://www.ekino.fr/) ▪ Paris, France ▪ 2014 - 2015
 
 **Technical Assets**
 
@@ -139,7 +139,7 @@ Java 7, Spring Core/Mvc/Batch, MyBatis, MySQL, LiquiBase, Puppet, Capistrano, Lo
 
 ## Senior Developer / Technical Supervisor
 
-Fullsix ▪ Paris, France ▪ 2010 - 2014
+[Fullsix](https://www.linkedin.com/company/fullsix-groupe/) ▪ Paris, France ▪ 2010 - 2014
 
 **Technical Assets**
 
