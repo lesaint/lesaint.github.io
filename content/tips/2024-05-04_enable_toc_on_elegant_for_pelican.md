@@ -1,5 +1,5 @@
 title: Display Table of Content on Elegant for Pelican
-tags: pelican
+tags: Pelican
 
 [TOC]
 

@@ -1,5 +1,5 @@
 Title: Script to delete all objects in a Oracle schema
-Tags: Oracle, script
+Tags: Oracle, Bash
 
 Use the following script to drop all objects in a specific schema in an Oracle Database without droping the schema itself. It saves you from recreating the schema, its associated user, its rights, etc.
 

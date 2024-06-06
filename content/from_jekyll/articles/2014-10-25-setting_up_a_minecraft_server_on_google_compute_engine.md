@@ -1,5 +1,5 @@
 Title: Setting up a Minecraft server on Google Compute Engine
-Tags: Cloud, Minecraft, Google Compute Engine
+Tags: Cloud, Minecraft
 
 This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.
 

@@ -1,6 +1,6 @@
 Title: Using Jekyll for GitHub pages
 Summary: Personnal notes for installing and using Jekyll for GitHub pages
-Tags: Sublime Text, Github, Ruby
+Tags: Javatronic, Sublime Text, Github Pages, Ruby
 
 Here I gather notes on how I installed Jekyll for Github pages based mostly on informations from [Github's help page](https://help.github.com/articles/using-jekyll-with-pages).
 

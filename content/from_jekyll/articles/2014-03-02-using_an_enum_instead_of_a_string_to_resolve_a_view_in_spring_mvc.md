@@ -1,5 +1,5 @@
 Title: Using enum instead of String to resolve views in Spring MVC
-Tags: Spring MVC
+Tags: Spring
 
 The project I'm currently working on uses Spring MVC. This framework is nice, mature and efficient.
 

@@ -1,5 +1,5 @@
 Title: Implementing method-level security with Spring Security and Spring MVC
-Tags: Spring MVC, Spring Security, AOP
+Tags: Spring, AOP
 
 Using Spring Security with Spring MVC to provide method level security on Controller classes can be trooblesome : using CGLIB-based proxies might be mandatory and you might need to tweak your code to fit Spring.
 

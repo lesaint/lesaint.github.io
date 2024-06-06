@@ -8,7 +8,7 @@ So, here is how I installed from source the latest stable version of Weboob (1.0
 
 As stated on the website "Weboob is a collection of applications able to interact with websites, without requiring the user to open them in a browser. It also provides well-defined APIs to talk to websites lacking one". 
 
-Personnaly, I use Weboob to access my bank website and retrieve my history and incoming operations data from the command line to process it.
+Perso:qnally, I use Weboob to access my bank website and retrieve my history and incoming operations data from the command line to process it.
 
 # checkout Git source
 

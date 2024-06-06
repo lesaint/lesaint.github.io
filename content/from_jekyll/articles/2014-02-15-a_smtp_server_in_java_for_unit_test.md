@@ -1,5 +1,5 @@
 Title: A SMTP server in Java for unit test
-Tags: Java, JUnit, Smtp, Unit Testing
+Tags: Java, JUnit, Smtp, Testing
 
 If you ever had to write code that uses JavaMail to send emails, then you necessarily looked for a way of testing that code at some point.
 If you didn't, its bad. Otherwise, you have been looking for a pure-Java implementation of a SMTP server.

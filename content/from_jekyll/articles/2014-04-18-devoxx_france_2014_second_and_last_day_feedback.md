@@ -1,5 +1,5 @@
 Title: Devoxx France 2014, second and last day feedback
-Tags: Devoxx, Java8, Gradle, Cassandra, WebSocket, Bitcoin
+Tags: Devoxx, Java, Gradle
 
 This was my second and last day at Devoxx France 2014.
 

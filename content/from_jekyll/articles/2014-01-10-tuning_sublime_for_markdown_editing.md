@@ -1,9 +1,9 @@
-Title: Tuning Sublime for markdown editing
-Summary: Personnal notes for tuning Sublime Text 2
+Title: Tuning Sublime for Markdown editing
+Summary: Personal notes for tuning Sublime Text 2
 Tags: Sublime Text
 category: articles
 
-Here I keep a few notes on how to configure Sublime Text 2 to edit markdow editing.
+Here I keep a few notes on how to configure Sublime Text 2 to edit Markdown editing.
 
 
 # Markdown Editing in Sublime Text

@@ -1,5 +1,5 @@
 Title: Testing any Apache rewrite rule locally
-Tags: Apache, Ubuntu, Testing
+Tags: Apache, Linux, Testing
 
 Recently, I had to write a bunch of Apache rewrite rules which applied to the whole URL, including the hostname. I also add to use `RewriteMap` for efficiency.
 

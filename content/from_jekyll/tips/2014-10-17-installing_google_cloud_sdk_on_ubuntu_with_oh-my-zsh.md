@@ -1,5 +1,5 @@
 Title: Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh
-Tags: Cloud, Google Cloud, Ubuntu, Oh-My-Zsh
+Tags: Cloud, Ubuntu, Oh-My-Zsh
 
 To install the Google Cloud SDK, you can follow the [installation guidelines](https://cloud.google.com/sdk/) available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manual steps.
 

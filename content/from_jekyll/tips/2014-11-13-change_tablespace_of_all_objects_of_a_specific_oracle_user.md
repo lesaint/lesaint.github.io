@@ -1,5 +1,5 @@
 Title: Change tablespace of all objects of a specific Oracle User
-Tags: Oracle, script, SqlPlus, bash
+Tags: Oracle, SqlPlus, Bash
 
 Here is a convenient PL/SQL script to run with SqlPlus to change the tablespace of the objects (tables, indexes, lobs) of a specific user in a blink. It can also be use to fix inconsistency in tablespace used by the user objects.
 

@@ -1,5 +1,5 @@
 title: Activate venv in Makefile
-tags: python, makefile
+tags: Python, Makefile
 
 I finally found a solution to have Python command use the venv of the project when calling them from Make.
 

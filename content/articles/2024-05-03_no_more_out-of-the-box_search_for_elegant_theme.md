@@ -1,5 +1,5 @@
 title: No more out-of-the-box search support for Elegant theme anymore
-tags: pelican, personal website, python
+tags: Pelican, Javatronic, Python
 
 # tipue_search abandoned
 

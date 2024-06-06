@@ -1,5 +1,5 @@
 Title: Script to Refresh all materialized views in a schema
-Tags: Oracle, script
+Tags: Oracle, Bash
 
 Use the following script to refresh all materialized view in a schema of an Oracle database. This script can be run very easily from SqlPlus.
 
