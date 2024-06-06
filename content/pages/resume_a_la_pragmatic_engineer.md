@@ -168,9 +168,12 @@ Java 5, EJB3, Oracle, PL/SQL, JDBC, XML, JAX-WS, Struts, JSP, Maven, multi-threa
 * Successfully directed off-shore applications development projects in Tunisia.
 * Led user research and feasibility studies which contributed to design, development, and maintenance activities.
 
-# Talks
+# Presentations
 
-* Devoxx FR 2015 – hands-on lab - Compile-time annotation processing: @Nailed("it")
+* (2021) Organized and prepared the internal presentation at SonarSource by engineers from [Malt](https://www.malt.fr/) sharing their experience: 8 years searching for the best observability stack
+* (2017) Internal presentation at SonarSource: Do you know Climbing?
+* (2016) Internal presentation at SonarSource: Functional Programing in Java with Guava 12's FluentIterable and Optional 
+* (2015) Devoxx France – hands-on lab - Compile-time annotation processing: @Nailed("it")
 
 # Education
 
