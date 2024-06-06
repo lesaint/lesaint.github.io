@@ -39,49 +39,58 @@ AWS (CDK, EC2, Step Functions, S3, System Manager), Python3, Scikit-learn, Poetr
 
 SonarSource ▪ Annecy, France ▪ 2022 - 2023
 
-content to have: 
+Provided design support and advice on Application and Cloud-based Architecture to the 4 delivery squads of the SonarCloud team, autonomously handled projects unfit for delivery pace, and occasionally joined squads' sprints as Cloud Platform Engineer.  
 
-* worked on SonarCloud
-* worked on the challenging problems that required expert work outside regular delivery pace
-* worked on hard/spiky/hairy/challenging/out of delivery yet critical topics
-* Provided design support and advice to 4 delivery squads during the specification phase of their tri-weekly sprints or during weekly Specification Review team meetings
-    * => achievement: Reviewed the design and provided feedback on an average of 12 specifications a month, either as a participant into the specification phase of squad sprints or during weekly specification review team meetings 
-    * => achievement: Reviewed Cloud Architecture design on an average of 8 specifications a month, either as a participant in the specification phase of squads' sprints or during weekly specification review team meetings
-* Provided hands-on support, as a Cloud Platform Engineer, to the 4 SonarCloud delivery squads during sprints under high pressure
-    * => Joined delivery squads as hands-on Cloud Platform Engineer during sprints under high pressure  
-* Participated in SonarCloud community support, performing investigation and resolution on an average of 10 threads per month
+[//]: # (content to have: )
+[//]: # (* worked on SonarCloud)
+[//]: # (* worked on the challenging problems that required expert work outside regular delivery pace)
+[//]: # (* worked on hard/spiky/hairy/challenging/out of delivery yet critical topics)
+[//]: # (* Provided design support and advice to 4 delivery squads during the specification phase of their tri-weekly sprints or during weekly Specification Review team meetings)
+[//]: # (    * => achievement: Reviewed the design and provided feedback on an average of 12 specifications a month, either as a participant into the specification phase of squad sprints or during weekly specification review team meetings)
+[//]: # (* Provided hands-on support, as a Cloud Platform Engineer, to the 4 SonarCloud delivery squads during sprints under high pressure)
+[//]: # (    * => Joined delivery squads as hands-on Cloud Platform Engineer during sprints under high pressure  )
+[//]: # (* Participated in SonarCloud community support, performing investigation and resolution on an average of 10 threads per month)
 
 **Achievements**
 
+* Reviewed Architecture design on up to 8 specifications a month, during weekly specification review team meetings or as participant in the specification phase of squads' sprints
 * Designed and coded the weekly CodeBuild job sanitizing multiple XXXM rows tables in a XXXGb Postgresql snapshot, optimizing DDL and SQL queries to ultimately reliably complete within the 8 hours timeout
-* Job to clean orphans
+* TODO: Job to clean orphans
+* Participated in SonarCloud community support, tackling arduous threads with long investigations
 
 **Technical Assets**
 
 AWS (CDK, CodeBuild, Aurora, ECS, SNS, SQS, Step Functions, Lambda), Python3, Postgresql, SQL
 
-TODO
-
-* size of table (rows and storage)
-* size of postgresql dump
-* find technologies and topics I worked on as a CPE (look into Jira?)
-* techno and design of job to clean orphans 
+[//]: # (TODO)
+[//]: # (* size of table &#40;rows and storage&#41;)
+[//]: # (* size of postgresql dump)
+[//]: # (* find technologies and topics I worked on as a CPE &#40;look into Jira?&#41;)
+[//]: # (* techno and design of job to clean orphans )
 
 ## Application Architect
 
-SonarSource ▪ Annecy, France ▪ 2021 - 2022
+SonarSource ▪ Annecy, France ▪ 2021 - 2022 
 
-Lead the team-wide effort to model SonarCloud as domains to prepare and support the refactoring of SonarCloud from a monolith, based on SonarQube and 10 years-old code padded with cloud-based additions, to a microservice-based architecture carried by domain-specific squads.
+Lead the effort to model SonarCloud as domains, following Domain-Driven Design (DDD) methodologies to ensure solid and 
+future-proof boundaries and definitions, to prepare for and support the refactoring of SonarCloud from a monolith, based 
+on SonarQube and 10 years-old code padded with cloud-based additions, to a microservice-based architecture standing on domain-specific squads.
+
+[//]: # (* Contributed the most part of the model, as the only person dedicated to the project)
+[//]: # (* Main contributor to the model, as the only dedicated personnel to the effort)
+[//]: # (* Thoroughly followed Domain-Driven Design &#40;DDD&#41; methodologies to ensure solid and future-proof boundaries and definitions)
+[//]: # (* Main contributor to the modelling of SonarCloud along well-defined Domain-Driven Design &#40;DDD&#41; domains to prepare its refactoring from a monolith based on SonarQube to a fully micro-service-based architecture.)
 
 **Achievements**
 
-* thoroughly following Domain-Driven Design (DDD) methodologies to ensure solid and future-proof boundaries and definitions
-* Main contributor to the model, as the only dedicated personnel to the effort
-
-* Main contributor to the modelling of SonarCloud along well-defined Domain-Driven Design (DDD) domains to prepare its refactoring from a monolith based on SonarQube to a fully micro-service-based architecture.
-* Organized the training with an external vendor on DDD and then lead the task force made of team- and skill-representing members of the team, into defining the domains
-* Successfully implemented an innovative technical-free modelling approach over several months to build a future proof service and team architecture.
+* Formed a modelling task force of team- and skill-representing members, organizing the training with an external vendor on DDD, and managing the collaborative work pace with workshops and asynchronous tools
+* Incrementally modeled SonarCloud as 3 Core Domains and 9 additional domains, building up a model with 1k+ events representing 100+ processes within the service
+* Evangelized the model to the 4 delivery squads, sharing modelling updates, organizing workshops, writing up a reference documentation on DDD, and publishing a diary with 20+ entries solving squads' modelling questions over the course of 6 months
 * Led a team restructure (in a Reverse Conway Manoeuvre) around the defined domains and achieved clearer, smaller-scoped, and better scaling responsibilities, as well as comprehensive work sharing initiatives and community support among squads.
+
+**Assets**
+
+Domain Driven Design, Event Storming
 
 ## Cross-Teams Senior Software Engineer
 
