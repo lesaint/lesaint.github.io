@@ -1,6 +1,7 @@
 title: Resume
 subtitle: Sébastien Lesaint - Senior Software Engineer
 slug: sebastien_lesaint_resume
+header_position: 0
 
 [TOC]
 
