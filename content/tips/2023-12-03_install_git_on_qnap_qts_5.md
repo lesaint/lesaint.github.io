@@ -1,7 +1,7 @@
 title: Install Git on QNAP's QTS 5.X
-tags: Qnap, Git
+tags: QNAP, Git
 
-`Git` is not installed by default on Qnap's QTS 5.X systems (nor was it on QTS 4.X).
+`Git` is not installed by default on QNAP's QTS 5.X systems (nor was it on QTS 4.X).
 
 In absence of standard package managers (eg. `apt`), `Git` must be installed via a third-party App Repository in QNAP's App Center.
 
@@ -9,7 +9,7 @@ After searching the web and finding many references to non-existent or now-gone 
 
 1. it "replaces" QnapCloud.eu after this website disappeared
 	* some maintainers from QnapClub moved to MyQnap but they don't relate ([source](https://www.reddit.com/r/qnap/comments/108u0qn/qnapclub_is_back_and_no_longer_called_qnapclub/))
-2. it's a third-party Qnap App store with many open source utilities packaged as Apps
+2. it's a third-party QNAP App store with many open source utilities packaged as Apps
 3. Installed the app named `QGit` (or `Git` once installed)
 
 !!! warning

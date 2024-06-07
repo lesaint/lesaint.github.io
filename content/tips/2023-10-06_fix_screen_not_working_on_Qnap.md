@@ -1,5 +1,5 @@
-title: Fix screen not working on Qnap
-tags: Linux, Qnap
+title: Fix screen not working on QNAP
+tags: Linux, QNAP
 
 
 `screen` is a utility available on Linux that create virtual terminals.
@@ -7,9 +7,9 @@ tags: Linux, Qnap
 In practice, it enables user to run command on a remote device (ie. typically via a SSH session) that will continue
 running even if the connection is interrupted.
 
-# Screen is broken on Qnap
+# Screen is broken on QNAP
 
-Unfortunately, by default (tested right after installation), `screen` doesn't work on Qnap systems (tested on QTS 5.0 and QTS 5.1).
+Unfortunately, by default (tested right after installation), `screen` doesn't work on QNAP systems (tested on QTS 5.0 and QTS 5.1).
 
 When running `screen`, it fails with an error such as
 

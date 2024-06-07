@@ -1,9 +1,9 @@
-title: Emulate Crontab mailto feature with a script on Qnap NAS
-tags: Bash, Linux, Qnap
+title: Emulate Crontab mailto feature with a script on QNAP NAS
+tags: Bash, Linux, QNAP
 
 [TOC]
 
-I run jobs on a regular basis on my Qnap NAS with `cron` and I want to be notified if any of these jobs fails or sends
+I run jobs on a regular basis on my QNAP NAS with `cron` and I want to be notified if any of these jobs fails or sends
 warnings.
 
 `Crontab` has a simple and super neat feature called `MAILTO`.
@@ -18,9 +18,9 @@ To disable the feature, set the variable to an empty value: `MAILTO=""`
 
     * [crontab man7 page](https://man7.org/linux/man-pages/man5/crontab.5.html)
 
-# Crontab MAILTO not working on Qnap systems
+# Crontab MAILTO not working on QNAP systems
 
-Unfortunately, on Qnap NAS systems (at least on mine with QTS 5.X), `Crontab` `MAILTO` is disabled, not implemented, or
+Unfortunately, on QNAP NAS systems (at least on mine with QTS 5.X), `Crontab` `MAILTO` is disabled, not implemented, or
 not working.
 
 To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
@@ -28,7 +28,7 @@ written to `stdout` or `stderr`, send it by email to some recipient.
 
 !!! note " Sources"
 
-    * [Qnap forum on Crontab not sending email](https://forum.qnap.com/viewtopic.php?p=718601&sid=1238e70ddd95a7f07639632eed6c758d)
+    * [QNAP forum on Crontab not sending email](https://forum.qnap.com/viewtopic.php?p=718601&sid=1238e70ddd95a7f07639632eed6c758d)
 
 
 # A script mimicking Crontab's MAILTO
@@ -38,7 +38,7 @@ written to `stdout` or `stderr`, send it by email to some recipient.
 1. `ssmtp` available on path and configured to send out emails
 
 For tips on installing and configuring `sSMTP`, see [Configure sSMTP with Gmail on Ubuntu]({filename}/tips/2023-12-12_configure_ssmtp_with_gmail_on_ubuntu.md)
-and [Configure sSMTP with Gmail on Qnap]({filename}/tips/2023-12-14_configure_ssmtp_with_gmail_on_qnap.md).
+and [Configure sSMTP with Gmail on QNAP]({filename}/tips/2023-12-14_configure_ssmtp_with_gmail_on_qnap.md).
 
 ## Features
 
