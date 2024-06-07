@@ -236,7 +236,7 @@ warnings.&lt;/p&gt;
 &lt;h1 id="crontab-mailto-not-working-on-qnap-systems"&gt;Crontab MAILTO not working on QNAP systems&lt;a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Unfortunately, on QNAP NAS systems (at least on mine with QTS 5.X), &lt;code&gt;Crontab&lt;/code&gt; &lt;code&gt;MAILTO&lt;/code&gt; is disabled, not implemented, or
 not working.&lt;/p&gt;
-&lt;p&gt;To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
+&lt;p&gt;To work around this on my TS-253E, one can write a Bash script that will mimic the behavior: call a command, and if anything is
 written to &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt;, send it by email to some recipient. &lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt; Sources&lt;/p&gt;

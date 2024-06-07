@@ -238,7 +238,7 @@ Did you receive this message?
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;the configuration file is not in standard location (&lt;code&gt;/etc/ssmtp/ssmtp.conf&lt;/code&gt;): &lt;code&gt;/etc/config/ssmtp/ssmtp.conf&lt;/code&gt; &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1 id="configure-ssmtp"&gt;Configure sSMTP&lt;a class="headerlink" href="#configure-ssmtp" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id="configure-ssmtp-on-ts-243e"&gt;Configure sSMTP on TS-243E&lt;a class="headerlink" href="#configure-ssmtp-on-ts-243e" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Use the UI and QNAP's Notification center interface, add an email.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="clicks in QTS UI to create email account" src="https://www.javatronic.fr/images/2023-12-14_configure_ssmtp_with_gmail_on_qnap/screenshot_config_ssmtp_in_qnap.jpg"&gt;&lt;/p&gt;
 &lt;div class="admonition hint"&gt;
@@ -334,7 +334,7 @@ FROM:acme@gmail.com
 &lt;p&gt;There are very little security waranties with installing any software from MyQnap.&lt;/p&gt;
 &lt;p&gt;However, the convience appears to be worth trusting the people behind the package, is it?&lt;/p&gt;
 &lt;/div&gt;
-&lt;h1 id="install-git"&gt;Install Git&lt;a class="headerlink" href="#install-git" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id="install-git-on-my-ts-253e"&gt;Install Git on my TS-253E&lt;a class="headerlink" href="#install-git-on-my-ts-253e" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Add MyQnap App Repository:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="screenshot add app repository in QTS" src="https://www.javatronic.fr/images/2023-12-03_install_git_on_qnap_qts_5/screenshot_add_qnap_repository.jpg"&gt;&lt;/p&gt;
 &lt;p&gt;Install the &lt;code&gt;Git&lt;/code&gt; app:&lt;/p&gt;
@@ -347,11 +347,11 @@ FROM:acme@gmail.com
 &lt;/div&gt;</content><category term="tips"></category><category term="QNAP"></category><category term="Git"></category></entry><entry><title>Fix screen not working on QNAP</title><link href="https://www.javatronic.fr/posts/2023/10/06/fix-screen-not-working-on-qnap/" rel="alternate"></link><published>2023-10-06T00:00:00+02:00</published><updated>2023-10-06T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2023-10-06:/posts/2023/10/06/fix-screen-not-working-on-qnap/</id><summary type="html">&lt;p&gt;&lt;code&gt;screen&lt;/code&gt; is a utility available on Linux that create virtual terminals.&lt;/p&gt;
 &lt;p&gt;In practice, it enables user to run command on a remote device (ie. typically via a SSH session) that will continue
 running even if the connection is interrupted.&lt;/p&gt;
-&lt;h1 id="screen-is-broken-on-qnap"&gt;Screen is broken on QNAP&lt;a class="headerlink" href="#screen-is-broken-on-qnap" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;Unfortunately, by default (tested right after …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;code&gt;screen&lt;/code&gt; is a utility available on Linux that create virtual terminals.&lt;/p&gt;
+&lt;h1 id="screen-is-broken-on-qnap-ts-253e"&gt;Screen is broken on QNAP TS-253E&lt;a class="headerlink" href="#screen-is-broken-on-qnap-ts-253e" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Unfortunately, by default (tested right …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;code&gt;screen&lt;/code&gt; is a utility available on Linux that create virtual terminals.&lt;/p&gt;
 &lt;p&gt;In practice, it enables user to run command on a remote device (ie. typically via a SSH session) that will continue
 running even if the connection is interrupted.&lt;/p&gt;
-&lt;h1 id="screen-is-broken-on-qnap"&gt;Screen is broken on QNAP&lt;a class="headerlink" href="#screen-is-broken-on-qnap" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id="screen-is-broken-on-qnap-ts-253e"&gt;Screen is broken on QNAP TS-253E&lt;a class="headerlink" href="#screen-is-broken-on-qnap-ts-253e" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Unfortunately, by default (tested right after installation), &lt;code&gt;screen&lt;/code&gt; doesn't work on QNAP systems (tested on QTS 5.0 and QTS 5.1).&lt;/p&gt;
 &lt;p&gt;When running &lt;code&gt;screen&lt;/code&gt;, it fails with an error such as&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# screen

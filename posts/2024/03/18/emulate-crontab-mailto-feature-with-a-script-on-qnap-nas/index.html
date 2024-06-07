@@ -116,7 +116,7 @@ warnings.</p>
 <h1 id="crontab-mailto-not-working-on-qnap-systems">Crontab MAILTO not working on QNAP systems<a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link">¶</a></h1>
 <p>Unfortunately, on QNAP NAS systems (at least on mine with QTS 5.X), <code>Crontab</code> <code>MAILTO</code> is disabled, not implemented, or
 not working.</p>
-<p>To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
+<p>To work around this on my TS-253E, one can write a Bash script that will mimic the behavior: call a command, and if anything is
 written to <code>stdout</code> or <code>stderr</code>, send it by email to some recipient. </p>
 <div class="admonition note">
 <p class="admonition-title"> Sources</p>
@@ -379,7 +379,7 @@ fn_terminate_script
 
     <div id="fpowered">
         Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
-        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+        Theme: <a href="https://github.com/lesaint/pelican-theme-elegant/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Personal fork of Elegant</a>
     </div>
 </footer>            <script src="//code.jquery.com/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
