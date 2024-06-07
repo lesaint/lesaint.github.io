@@ -216,12 +216,12 @@ cp&lt;span class="w"&gt; &lt;/span&gt;_posts/tips/*.md&lt;span class="w"&gt; &lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If rendering of Markdown files is now ok, remove &lt;code&gt;.md.backup&lt;/code&gt; files:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rm&lt;span class="w"&gt; &lt;/span&gt;content/*/*.md.backup
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Pelican"></category><category term="Javatronic"></category></entry><entry><title>Emulate Crontab mailto feature with a script on Qnap NAS</title><link href="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/" rel="alternate"></link><published>2024-03-18T00:00:00+01:00</published><updated>2024-03-18T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-03-18:/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/</id><summary type="html">
-&lt;p&gt;I run jobs on a regular basis on my Qnap NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Pelican"></category><category term="Javatronic"></category></entry><entry><title>Emulate Crontab mailto feature with a script on QNAP NAS</title><link href="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/" rel="alternate"></link><published>2024-03-18T00:00:00+01:00</published><updated>2024-03-18T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-03-18:/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/</id><summary type="html">
+&lt;p&gt;I run jobs on a regular basis on my QNAP NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
 warnings.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Crontab&lt;/code&gt; has a simple and super neat feature called &lt;code&gt;MAILTO&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;When this variable is set, &lt;code&gt;Crontab&lt;/code&gt; sends any output from the cron …&lt;/p&gt;</summary><content type="html">
-&lt;p&gt;I run jobs on a regular basis on my Qnap NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
+&lt;p&gt;I run jobs on a regular basis on my QNAP NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
 warnings.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Crontab&lt;/code&gt; has a simple and super neat feature called &lt;code&gt;MAILTO&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;When this variable is set, &lt;code&gt;Crontab&lt;/code&gt; sends any output from the cron job to the recipient.&lt;/p&gt;
@@ -233,15 +233,15 @@ warnings.&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://man7.org/linux/man-pages/man5/crontab.5.html"&gt;crontab man7 page&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;h1 id="crontab-mailto-not-working-on-qnap-systems"&gt;Crontab MAILTO not working on Qnap systems&lt;a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;Unfortunately, on Qnap NAS systems (at least on mine with QTS 5.X), &lt;code&gt;Crontab&lt;/code&gt; &lt;code&gt;MAILTO&lt;/code&gt; is disabled, not implemented, or
+&lt;h1 id="crontab-mailto-not-working-on-qnap-systems"&gt;Crontab MAILTO not working on QNAP systems&lt;a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Unfortunately, on QNAP NAS systems (at least on mine with QTS 5.X), &lt;code&gt;Crontab&lt;/code&gt; &lt;code&gt;MAILTO&lt;/code&gt; is disabled, not implemented, or
 not working.&lt;/p&gt;
 &lt;p&gt;To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
 written to &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt;, send it by email to some recipient. &lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://forum.qnap.com/viewtopic.php?p=718601&amp;amp;sid=1238e70ddd95a7f07639632eed6c758d"&gt;Qnap forum on Crontab not sending email&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://forum.qnap.com/viewtopic.php?p=718601&amp;amp;sid=1238e70ddd95a7f07639632eed6c758d"&gt;QNAP forum on Crontab not sending email&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;h1 id="a-script-mimicking-crontabs-mailto"&gt;A script mimicking Crontab's MAILTO&lt;a class="headerlink" href="#a-script-mimicking-crontabs-mailto" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
@@ -249,6 +249,8 @@ written to &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt;, s
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;ssmtp&lt;/code&gt; available on path and configured to send out emails&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;For tips on installing and configuring &lt;code&gt;sSMTP&lt;/code&gt;, see &lt;a href="https://www.javatronic.fr/posts/2023/12/12/configure-ssmtp-with-gmail-on-ubuntu/"&gt;Configure sSMTP with Gmail on Ubuntu&lt;/a&gt;
+and &lt;a href="https://www.javatronic.fr/posts/2023/12/14/configure-ssmtp-with-gmail-on-qnap/"&gt;Configure sSMTP with Gmail on QNAP&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="features"&gt;Features&lt;a class="headerlink" href="#features" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;sends an email if command has any output (either &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt; or both) &lt;strong&gt;and/or&lt;/strong&gt; exit code is non-zero&lt;/li&gt;
@@ -359,7 +361,7 @@ fn_send_email&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/sp
 
 &lt;span class="c1"&gt;# clean up&lt;/span&gt;
 fn_terminate_script
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Bash"></category><category term="Linux"></category><category term="Qnap"></category></entry><entry><title>Setting up a Minecraft server on Google Compute Engine</title><link href="https://www.javatronic.fr/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/" rel="alternate"></link><published>2014-10-25T00:00:00+02:00</published><updated>2014-10-25T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-10-25:/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/</id><summary type="html">&lt;p&gt;This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Bash"></category><category term="Linux"></category><category term="QNAP"></category></entry><entry><title>Setting up a Minecraft server on Google Compute Engine</title><link href="https://www.javatronic.fr/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/" rel="alternate"></link><published>2014-10-25T00:00:00+02:00</published><updated>2014-10-25T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-10-25:/posts/2014/10/25/setting-up-a-minecraft-server-on-google-compute-engine/</id><summary type="html">&lt;p&gt;This article will get you through the (few) steps to set up a Minecraft server on a Google Compute Engine instance.&lt;/p&gt;
 
 &lt;h1 id="create-google-cloud-account"&gt;Create Google Cloud account&lt;a class="headerlink" href="#create-google-cloud-account" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Go to &lt;a href="https://console.developers.google.com/project"&gt;https://console.developers.google.com/project&lt;/a&gt;.&lt;/p&gt;

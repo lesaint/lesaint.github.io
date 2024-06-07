@@ -15,18 +15,18 @@
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="Bash, Linux, Qnap, articles, " />
+<meta name="keywords" content="Bash, Linux, QNAP, articles, " />
 
-<meta property="og:title" content="Emulate Crontab mailto feature with a script on Qnap NAS "/>
+<meta property="og:title" content="Emulate Crontab mailto feature with a script on QNAP NAS "/>
 <meta property="og:url" content="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/" />
-<meta property="og:description" content="I run jobs on a regular basis on my Qnap NAS with cron and I want to be notified if any of these jobs fails or sends warnings. Crontab has a simple and super neat feature called MAILTO. When this variable is set, Crontab sends any output from the cron …" />
+<meta property="og:description" content="I run jobs on a regular basis on my QNAP NAS with cron and I want to be notified if any of these jobs fails or sends warnings. Crontab has a simple and super neat feature called MAILTO. When this variable is set, Crontab sends any output from the cron …" />
 <meta property="og:site_name" content="Javatronic" />
 <meta property="og:article:author" content="Sébastien Lesaint" />
 <meta property="og:article:published_time" content="2024-03-18T00:00:00+01:00" />
-<meta name="twitter:title" content="Emulate Crontab mailto feature with a script on Qnap NAS ">
-<meta name="twitter:description" content="I run jobs on a regular basis on my Qnap NAS with cron and I want to be notified if any of these jobs fails or sends warnings. Crontab has a simple and super neat feature called MAILTO. When this variable is set, Crontab sends any output from the cron …">
+<meta name="twitter:title" content="Emulate Crontab mailto feature with a script on QNAP NAS ">
+<meta name="twitter:description" content="I run jobs on a regular basis on my QNAP NAS with cron and I want to be notified if any of these jobs fails or sends warnings. Crontab has a simple and super neat feature called MAILTO. When this variable is set, Crontab sends any output from the cron …">
 
-        <title>Emulate Crontab mailto feature with a script on Qnap NAS  · Javatronic
+        <title>Emulate Crontab mailto feature with a script on QNAP NAS  · Javatronic
 </title>
         <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
 
@@ -71,7 +71,7 @@
     <header class="page-header span10 offset2">
         <h1>
             <a href="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/">
-                Emulate Crontab mailto feature with a script on Qnap NAS
+                Emulate Crontab mailto feature with a script on QNAP NAS
             </a>
         </h1>
     </header>
@@ -83,7 +83,7 @@
         <h4>Contents</h4>
         <div class="toc">
 <ul>
-<li><a href="#crontab-mailto-not-working-on-qnap-systems">Crontab MAILTO not working on Qnap systems</a></li>
+<li><a href="#crontab-mailto-not-working-on-qnap-systems">Crontab MAILTO not working on QNAP systems</a></li>
 <li><a href="#a-script-mimicking-crontabs-mailto">A script mimicking Crontab's MAILTO</a><ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#features">Features</a></li>
@@ -101,7 +101,7 @@
     <div class="span8 article-content">
             
             
-<p>I run jobs on a regular basis on my Qnap NAS with <code>cron</code> and I want to be notified if any of these jobs fails or sends
+<p>I run jobs on a regular basis on my QNAP NAS with <code>cron</code> and I want to be notified if any of these jobs fails or sends
 warnings.</p>
 <p><code>Crontab</code> has a simple and super neat feature called <code>MAILTO</code>.</p>
 <p>When this variable is set, <code>Crontab</code> sends any output from the cron job to the recipient.</p>
@@ -113,15 +113,15 @@ warnings.</p>
 <li><a href="https://man7.org/linux/man-pages/man5/crontab.5.html">crontab man7 page</a></li>
 </ul>
 </div>
-<h1 id="crontab-mailto-not-working-on-qnap-systems">Crontab MAILTO not working on Qnap systems<a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link">¶</a></h1>
-<p>Unfortunately, on Qnap NAS systems (at least on mine with QTS 5.X), <code>Crontab</code> <code>MAILTO</code> is disabled, not implemented, or
+<h1 id="crontab-mailto-not-working-on-qnap-systems">Crontab MAILTO not working on QNAP systems<a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link">¶</a></h1>
+<p>Unfortunately, on QNAP NAS systems (at least on mine with QTS 5.X), <code>Crontab</code> <code>MAILTO</code> is disabled, not implemented, or
 not working.</p>
 <p>To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
 written to <code>stdout</code> or <code>stderr</code>, send it by email to some recipient. </p>
 <div class="admonition note">
 <p class="admonition-title"> Sources</p>
 <ul>
-<li><a href="https://forum.qnap.com/viewtopic.php?p=718601&amp;sid=1238e70ddd95a7f07639632eed6c758d">Qnap forum on Crontab not sending email</a></li>
+<li><a href="https://forum.qnap.com/viewtopic.php?p=718601&amp;sid=1238e70ddd95a7f07639632eed6c758d">QNAP forum on Crontab not sending email</a></li>
 </ul>
 </div>
 <h1 id="a-script-mimicking-crontabs-mailto">A script mimicking Crontab's MAILTO<a class="headerlink" href="#a-script-mimicking-crontabs-mailto" title="Permanent link">¶</a></h1>
@@ -129,6 +129,8 @@ written to <code>stdout</code> or <code>stderr</code>, send it by email to some 
 <ol>
 <li><code>ssmtp</code> available on path and configured to send out emails</li>
 </ol>
+<p>For tips on installing and configuring <code>sSMTP</code>, see <a href="https://www.javatronic.fr/posts/2023/12/12/configure-ssmtp-with-gmail-on-ubuntu/">Configure sSMTP with Gmail on Ubuntu</a>
+and <a href="https://www.javatronic.fr/posts/2023/12/14/configure-ssmtp-with-gmail-on-qnap/">Configure sSMTP with Gmail on QNAP</a>.</p>
 <h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">¶</a></h2>
 <ul>
 <li>sends an email if command has any output (either <code>stdout</code> or <code>stderr</code> or both) <strong>and/or</strong> exit code is non-zero</li>
@@ -267,10 +269,10 @@ fn_terminate_script
                     <span class="superscript">4</span>
 </a></li>
                 <li><a href="https://www.javatronic.fr/tags.html#linux-ref">Linux
-                    <span class="superscript">3</span>
+                    <span class="superscript">4</span>
 </a></li>
-                <li><a href="https://www.javatronic.fr/tags.html#qnap-ref">Qnap
-                    <span class="superscript">1</span>
+                <li><a href="https://www.javatronic.fr/tags.html#qnap-ref">QNAP
+                    <span class="superscript">4</span>
 </a></li>
             </ul>
 <h4>Contact</h4>

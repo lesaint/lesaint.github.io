@@ -15,7 +15,7 @@
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="Git, SSH, tips, " />
+<meta name="keywords" content="Git, tips, " />
 
 <meta property="og:title" content="Cloning a local Git repository from a remote machine "/>
 <meta property="og:url" content="https://www.javatronic.fr/posts/2014/01/20/cloning-a-local-git-repository-from-a-remote-machine/" />
@@ -83,23 +83,27 @@
             <p>If you happen to have a Git repository cloned a machine (let's say machine@work) and you want to retrieve it on another machine (let's say machine@home),
 you have a better (as in faster and more efficient) option than <code>scp</code> or <code>rsync</code> : <code>git clone</code>.</p>
 <h1 id="git-clone-of-a-local-repository-over-ssh">Git clone of a local repository over SSH<a class="headerlink" href="#git-clone-of-a-local-repository-over-ssh" title="Permanent link">&para;</a></h1>
-<p>Obviously, you could clone from the same remote repository (let's say Remote) as machine@work, but you may have local branches on machine@work that you specificall want to work on.
-Pushing local branche from machine@work to Remote is an option but it could polute other developers clones and/or you may not have access to Remote from machine@home.</p>
+<p>Obviously, you could clone from the same remote repository (let's say Remote) as machine@work, but you may have local branches on machine@work that you specifically want to work on.
+Pushing local branch from machine@work to Remote is an option, but it could pollute other developers clones and/or you may not have access to Remote from machine@home.</p>
 <p>Let's say the clone on machine @work is in directory <code>~/DEV/myclone</code>, here are the commands to use :</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/STUFF_FROM_WORK/
 git<span class="w"> </span>clone<span class="w"> </span>lesaint@lesaint.work.com:~/DEV/myclone/
 </code></pre></div>
 <p>And that's it !</p>
-<blockquote>
-<p>Please note :</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <ul>
 <li>you might be prompted to enter a password to connect over ssh (unless you have a ssh-agent with a loaded key for machine@work)</li>
-<li>you can specify the path where to clone the repository by adding a third argument like any other clone command</li>
+<li>you can specify the path where to clone the repository by adding a third argument like any other clone command<ul>
 <li><code>git clone lesaint@lesaint.work.com:~/DEV/myclone/ local_clone_name</code></li>
-<li>I used the "scp style" syntaxe of the <code>git clone</code> argument</li>
+</ul>
+</li>
+<li>I used the "scp style" syntaxe of the <code>git clone</code> argument<ul>
 <li>the ssh style syntax would be <code>ssh://lesaint@lesaint.work.com/~/DEV/myclone/</code></li>
 </ul>
-</blockquote>
+</li>
+</ul>
+</div>
 <h1 id="changing-remote-from-machine-to-the-true-remote">Changing remote from machine to the true remote<a class="headerlink" href="#changing-remote-from-machine-to-the-true-remote" title="Permanent link">&para;</a></h1>
 <p>After cloning from machine @work, you might notice that the remote of the clone of machine @home is machine @work.</p>
 <p>To fix that in the event you would happen to access to remote from home and that you would like to push to remote directly :</p>
@@ -130,10 +134,7 @@ git<span class="w"> </span>remote<span class="w"> </span><span class="nb">set</s
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://www.javatronic.fr/tags.html#git-ref">Git
-                    <span class="superscript">4</span>
-</a></li>
-                <li><a href="https://www.javatronic.fr/tags.html#ssh-ref">SSH
-                    <span class="superscript">1</span>
+                    <span class="superscript">5</span>
 </a></li>
             </ul>
 <h4>Contact</h4>

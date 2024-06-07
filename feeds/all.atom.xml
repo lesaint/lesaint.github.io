@@ -331,12 +331,12 @@ cp&lt;span class="w"&gt; &lt;/span&gt;_posts/tips/*.md&lt;span class="w"&gt; &lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If rendering of Markdown files is now ok, remove &lt;code&gt;.md.backup&lt;/code&gt; files:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rm&lt;span class="w"&gt; &lt;/span&gt;content/*/*.md.backup
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Pelican"></category><category term="Javatronic"></category></entry><entry><title>Emulate Crontab mailto feature with a script on Qnap NAS</title><link href="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/" rel="alternate"></link><published>2024-03-18T00:00:00+01:00</published><updated>2024-03-18T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-03-18:/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/</id><summary type="html">
-&lt;p&gt;I run jobs on a regular basis on my Qnap NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Pelican"></category><category term="Javatronic"></category></entry><entry><title>Emulate Crontab mailto feature with a script on QNAP NAS</title><link href="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/" rel="alternate"></link><published>2024-03-18T00:00:00+01:00</published><updated>2024-03-18T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-03-18:/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/</id><summary type="html">
+&lt;p&gt;I run jobs on a regular basis on my QNAP NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
 warnings.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Crontab&lt;/code&gt; has a simple and super neat feature called &lt;code&gt;MAILTO&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;When this variable is set, &lt;code&gt;Crontab&lt;/code&gt; sends any output from the cron …&lt;/p&gt;</summary><content type="html">
-&lt;p&gt;I run jobs on a regular basis on my Qnap NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
+&lt;p&gt;I run jobs on a regular basis on my QNAP NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
 warnings.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;Crontab&lt;/code&gt; has a simple and super neat feature called &lt;code&gt;MAILTO&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;When this variable is set, &lt;code&gt;Crontab&lt;/code&gt; sends any output from the cron job to the recipient.&lt;/p&gt;
@@ -348,15 +348,15 @@ warnings.&lt;/p&gt;
 &lt;li&gt;&lt;a href="https://man7.org/linux/man-pages/man5/crontab.5.html"&gt;crontab man7 page&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;h1 id="crontab-mailto-not-working-on-qnap-systems"&gt;Crontab MAILTO not working on Qnap systems&lt;a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;Unfortunately, on Qnap NAS systems (at least on mine with QTS 5.X), &lt;code&gt;Crontab&lt;/code&gt; &lt;code&gt;MAILTO&lt;/code&gt; is disabled, not implemented, or
+&lt;h1 id="crontab-mailto-not-working-on-qnap-systems"&gt;Crontab MAILTO not working on QNAP systems&lt;a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Unfortunately, on QNAP NAS systems (at least on mine with QTS 5.X), &lt;code&gt;Crontab&lt;/code&gt; &lt;code&gt;MAILTO&lt;/code&gt; is disabled, not implemented, or
 not working.&lt;/p&gt;
 &lt;p&gt;To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
 written to &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt;, send it by email to some recipient. &lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://forum.qnap.com/viewtopic.php?p=718601&amp;amp;sid=1238e70ddd95a7f07639632eed6c758d"&gt;Qnap forum on Crontab not sending email&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://forum.qnap.com/viewtopic.php?p=718601&amp;amp;sid=1238e70ddd95a7f07639632eed6c758d"&gt;QNAP forum on Crontab not sending email&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;h1 id="a-script-mimicking-crontabs-mailto"&gt;A script mimicking Crontab's MAILTO&lt;a class="headerlink" href="#a-script-mimicking-crontabs-mailto" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
@@ -364,6 +364,8 @@ written to &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt;, s
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;ssmtp&lt;/code&gt; available on path and configured to send out emails&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;For tips on installing and configuring &lt;code&gt;sSMTP&lt;/code&gt;, see &lt;a href="https://www.javatronic.fr/posts/2023/12/12/configure-ssmtp-with-gmail-on-ubuntu/"&gt;Configure sSMTP with Gmail on Ubuntu&lt;/a&gt;
+and &lt;a href="https://www.javatronic.fr/posts/2023/12/14/configure-ssmtp-with-gmail-on-qnap/"&gt;Configure sSMTP with Gmail on QNAP&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="features"&gt;Features&lt;a class="headerlink" href="#features" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;sends an email if command has any output (either &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt; or both) &lt;strong&gt;and/or&lt;/strong&gt; exit code is non-zero&lt;/li&gt;
@@ -474,7 +476,7 @@ fn_send_email&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/sp
 
 &lt;span class="c1"&gt;# clean up&lt;/span&gt;
 fn_terminate_script
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Bash"></category><category term="Linux"></category><category term="Qnap"></category></entry><entry><title>Merge multiple Git repositories while keeping history</title><link href="https://www.javatronic.fr/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/" rel="alternate"></link><published>2024-02-15T00:00:00+01:00</published><updated>2024-02-15T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-02-15:/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/</id><summary type="html">&lt;h1 id="why"&gt;WHY&lt;a class="headerlink" href="#why" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Bash"></category><category term="Linux"></category><category term="QNAP"></category></entry><entry><title>Merge multiple Git repositories while keeping history</title><link href="https://www.javatronic.fr/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/" rel="alternate"></link><published>2024-02-15T00:00:00+01:00</published><updated>2024-02-15T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-02-15:/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/</id><summary type="html">&lt;h1 id="why"&gt;WHY&lt;a class="headerlink" href="#why" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;I have 5 repositories (they are all private) holding scripts for my home backup strategy.
 I clone them on my NAS and maintain them on my laptop.&lt;/p&gt;
 &lt;ul&gt;
@@ -580,7 +582,162 @@ git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt
 git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;remove&lt;span class="w"&gt; &lt;/span&gt;onsite_backup_copy
 
 git&lt;span class="w"&gt; &lt;/span&gt;push
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="Git"></category></entry><entry><title>Install Weboob 1.0 on Ubuntu 14.04 (Trusty Tahr)</title><link href="https://www.javatronic.fr/posts/2014/12/30/install-weboob-10-on-ubuntu-1404-trusty-tahr/" rel="alternate"></link><published>2014-12-30T00:00:00+01:00</published><updated>2014-12-30T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-12-30:/posts/2014/12/30/install-weboob-10-on-ubuntu-1404-trusty-tahr/</id><summary type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014) is packaged for Ubuntu 15.04 (Vivid Vervet).&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="Git"></category></entry><entry><title>Configure sSMTP with Gmail on QNAP</title><link href="https://www.javatronic.fr/posts/2023/12/14/configure-ssmtp-with-gmail-on-qnap/" rel="alternate"></link><published>2023-12-14T00:00:00+01:00</published><updated>2023-12-14T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2023-12-14:/posts/2023/12/14/configure-ssmtp-with-gmail-on-qnap/</id><summary type="html">&lt;p&gt;&lt;code&gt;sSMTP&lt;/code&gt; is a send-only &lt;code&gt;sendmail&lt;/code&gt; emulator for Linux. It replaces &lt;code&gt;sendmail&lt;/code&gt;, in place, but implements only send features.&lt;/p&gt;
+&lt;h1 id="install-and-configure-ssmtp"&gt;Install and configure sSMTP&lt;a class="headerlink" href="#install-and-configure-ssmtp" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;On QTS 5.X, &lt;code&gt;sSMTP&lt;/code&gt; is already installed.&lt;/p&gt;
+&lt;p&gt;However, it is not the standard &lt;code&gt;ssmtp&lt;/code&gt; binary: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;it doesn't support providing recipient as argument (ie. the standard &lt;code&gt;sendmail foo …&lt;/code&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;&lt;code&gt;sSMTP&lt;/code&gt; is a send-only &lt;code&gt;sendmail&lt;/code&gt; emulator for Linux. It replaces &lt;code&gt;sendmail&lt;/code&gt;, in place, but implements only send features.&lt;/p&gt;
+&lt;h1 id="install-and-configure-ssmtp"&gt;Install and configure sSMTP&lt;a class="headerlink" href="#install-and-configure-ssmtp" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;On QTS 5.X, &lt;code&gt;sSMTP&lt;/code&gt; is already installed.&lt;/p&gt;
+&lt;p&gt;However, it is not the standard &lt;code&gt;ssmtp&lt;/code&gt; binary: &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;it doesn't support providing recipient as argument (ie. the standard &lt;code&gt;sendmail foo@bar.net&lt;/code&gt;). Recipients must be provided as header in the message:
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;To: jane.doe@gmail.com
+Subject: This is a subject
+
+Did you receive this message?
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;the configuration file is not in standard location (&lt;code&gt;/etc/ssmtp/ssmtp.conf&lt;/code&gt;): &lt;code&gt;/etc/config/ssmtp/ssmtp.conf&lt;/code&gt; &lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id="configure-ssmtp"&gt;Configure sSMTP&lt;a class="headerlink" href="#configure-ssmtp" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Use the UI and QNAP's Notification center interface, add an email.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="clicks in QTS UI to create email account" src="https://www.javatronic.fr/images/2023-12-14_configure_ssmtp_with_gmail_on_qnap/screenshot_config_ssmtp_in_qnap.jpg"&gt;&lt;/p&gt;
+&lt;div class="admonition hint"&gt;
+&lt;p&gt;QNAP's QTS configures authentication with Gmail through Oauth token-based authentication.&lt;/p&gt;
+&lt;p&gt;This can't be achieved (to my knowledge) in command line, but this is more secure than an Application Password
+stored in plain text (see &lt;a href="https://www.javatronic.fr/posts/2023/12/12/configure-ssmtp-with-gmail-on-ubuntu/"&gt;Configure sSMTP with Gmail on Ubuntu&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://linux.die.net/man/8/sendmail.sendmail"&gt;sSMTP man 8 page&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.qnap.com/operating-system/qts/5.1.x/en-us/configuring-an-email-notification-server-EB4E6D7F.html"&gt;QTS 5.1.X documentation: Configuring an email notification server&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="QNAP"></category></entry><entry><title>Configure sSMTP with Gmail on Ubuntu</title><link href="https://www.javatronic.fr/posts/2023/12/12/configure-ssmtp-with-gmail-on-ubuntu/" rel="alternate"></link><published>2023-12-12T00:00:00+01:00</published><updated>2023-12-12T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2023-12-12:/posts/2023/12/12/configure-ssmtp-with-gmail-on-ubuntu/</id><summary type="html">&lt;p&gt;&lt;code&gt;sSMTP&lt;/code&gt; is a send-only &lt;code&gt;sendmail&lt;/code&gt; emulator for Linux. It replaces &lt;code&gt;sendmail&lt;/code&gt;, in place, but implements only send features.&lt;/p&gt;
+&lt;h1 id="create-an-app-password-in-gmail"&gt;Create an App password in Gmail&lt;a class="headerlink" href="#create-an-app-password-in-gmail" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Only required when Two-Factor-Authentication (2FA) is enabled&lt;/strong&gt;, but:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;everyone should have 2FA enabled&lt;/li&gt;
+&lt;li&gt;prevents storing the email's password in plain text configuration files&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Procedure:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;go to …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;code&gt;sSMTP&lt;/code&gt; is a send-only &lt;code&gt;sendmail&lt;/code&gt; emulator for Linux. It replaces &lt;code&gt;sendmail&lt;/code&gt;, in place, but implements only send features.&lt;/p&gt;
+&lt;h1 id="create-an-app-password-in-gmail"&gt;Create an App password in Gmail&lt;a class="headerlink" href="#create-an-app-password-in-gmail" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;Only required when Two-Factor-Authentication (2FA) is enabled&lt;/strong&gt;, but:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;everyone should have 2FA enabled&lt;/li&gt;
+&lt;li&gt;prevents storing the email's password in plain text configuration files&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Procedure:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;go to &lt;code&gt;Google Account&lt;/code&gt; &amp;gt; &lt;code&gt;Security&lt;/code&gt; &amp;gt; &lt;code&gt;2-Step verification&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;scroll to the bottom to &lt;code&gt;App passwords&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="install-ssmtp"&gt;Install ssmtp&lt;a class="headerlink" href="#install-ssmtp" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;apt&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;ssmtp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Configure &lt;code&gt;sSMTP&lt;/code&gt;, edit &lt;code&gt;/etc/ssmtp/ssmtp.conf&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;#
+# Config file for sSMTP sendmail
+#
+# The person who gets all mail for userids &amp;lt; 1000
+# Make this empty to disable rewriting.
+root=postmaster
+
+# The place where the mail goes. The actual machine name is required no 
+# MX records are consulted. Commonly mailhosts are named mail.domain.com
+mailhub=mail
+
+# Where will the mail seem to come from?
+#rewriteDomain=
+
+# The full hostname
+hostname=Acme
+
+# Are users allowed to set their own From: address?
+# YES - Allow the user to specify their own From: address
+# NO - Use the system generated From: address
+#FromLineOverride=YES
+
+# added by me below
+AuthUser=acme@gmail.com
+AuthPass=secret_application_password
+mailhub=smtp.gmail.com:587
+UseSTARTTLS=YES
+FROM:acme@gmail.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="make-a-test"&gt;make a test&lt;a class="headerlink" href="#make-a-test" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Subject: test&amp;#39;s subject&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;echo&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;This is another test&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ssmtp&lt;span class="w"&gt; &lt;/span&gt;donut@gmail.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://nextpertise.net/posts/230313_command_line_email/"&gt;Sending Email through Google from the Command Line&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://noted.lol/setup-gmail-smtp-sending-2023/"&gt;You can Still use Gmail SMTP to Send E-Mails in 2024 and Here's How&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://unix.stackexchange.com/a/244296"&gt;Oneliner to test &lt;code&gt;sSMTP&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="Ubuntu"></category></entry><entry><title>Install Git on QNAP's QTS 5.X</title><link href="https://www.javatronic.fr/posts/2023/12/03/install-git-on-qnaps-qts-5x/" rel="alternate"></link><published>2023-12-03T00:00:00+01:00</published><updated>2023-12-03T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2023-12-03:/posts/2023/12/03/install-git-on-qnaps-qts-5x/</id><summary type="html">&lt;p&gt;&lt;code&gt;Git&lt;/code&gt; is not installed by default on QNAP's QTS 5.X systems (nor was it on QTS 4.X).&lt;/p&gt;
+&lt;p&gt;In absence of standard package managers (eg. &lt;code&gt;apt&lt;/code&gt;), &lt;code&gt;Git&lt;/code&gt; must be installed via a third-party App Repository in QNAP's App Center.&lt;/p&gt;
+&lt;p&gt;After searching the web and finding many references to non-existent …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;code&gt;Git&lt;/code&gt; is not installed by default on QNAP's QTS 5.X systems (nor was it on QTS 4.X).&lt;/p&gt;
+&lt;p&gt;In absence of standard package managers (eg. &lt;code&gt;apt&lt;/code&gt;), &lt;code&gt;Git&lt;/code&gt; must be installed via a third-party App Repository in QNAP's App Center.&lt;/p&gt;
+&lt;p&gt;After searching the web and finding many references to non-existent or now-gone App Centers, I settled on using &lt;a href="https://www.myqnap.org"&gt;MyQnap&lt;/a&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;it "replaces" QnapCloud.eu after this website disappeared&lt;ul&gt;
+&lt;li&gt;some maintainers from QnapClub moved to MyQnap but they don't relate (&lt;a href="https://www.reddit.com/r/qnap/comments/108u0qn/qnapclub_is_back_and_no_longer_called_qnapclub/"&gt;source&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;it's a third-party QNAP App store with many open source utilities packaged as Apps&lt;/li&gt;
+&lt;li&gt;Installed the app named &lt;code&gt;QGit&lt;/code&gt; (or &lt;code&gt;Git&lt;/code&gt; once installed)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="admonition warning"&gt;
+&lt;p class="admonition-title"&gt;Warning&lt;/p&gt;
+&lt;p&gt;There are very little security waranties with installing any software from MyQnap.&lt;/p&gt;
+&lt;p&gt;However, the convience appears to be worth trusting the people behind the package, is it?&lt;/p&gt;
+&lt;/div&gt;
+&lt;h1 id="install-git"&gt;Install Git&lt;a class="headerlink" href="#install-git" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Add MyQnap App Repository:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot add app repository in QTS" src="https://www.javatronic.fr/images/2023-12-03_install_git_on_qnap_qts_5/screenshot_add_qnap_repository.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;Install the &lt;code&gt;Git&lt;/code&gt; app:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot install git app from myqnap" src="https://www.javatronic.fr/images/2023-12-03_install_git_on_qnap_qts_5/screenshot_install_git_app.jpg"&gt;&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.myqnap.org/install-the-repo/"&gt;MyQnap documentation: How to install the repository&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="QNAP"></category><category term="Git"></category></entry><entry><title>Fix screen not working on QNAP</title><link href="https://www.javatronic.fr/posts/2023/10/06/fix-screen-not-working-on-qnap/" rel="alternate"></link><published>2023-10-06T00:00:00+02:00</published><updated>2023-10-06T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2023-10-06:/posts/2023/10/06/fix-screen-not-working-on-qnap/</id><summary type="html">&lt;p&gt;&lt;code&gt;screen&lt;/code&gt; is a utility available on Linux that create virtual terminals.&lt;/p&gt;
+&lt;p&gt;In practice, it enables user to run command on a remote device (ie. typically via a SSH session) that will continue
+running even if the connection is interrupted.&lt;/p&gt;
+&lt;h1 id="screen-is-broken-on-qnap"&gt;Screen is broken on QNAP&lt;a class="headerlink" href="#screen-is-broken-on-qnap" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Unfortunately, by default (tested right after …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;code&gt;screen&lt;/code&gt; is a utility available on Linux that create virtual terminals.&lt;/p&gt;
+&lt;p&gt;In practice, it enables user to run command on a remote device (ie. typically via a SSH session) that will continue
+running even if the connection is interrupted.&lt;/p&gt;
+&lt;h1 id="screen-is-broken-on-qnap"&gt;Screen is broken on QNAP&lt;a class="headerlink" href="#screen-is-broken-on-qnap" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Unfortunately, by default (tested right after installation), &lt;code&gt;screen&lt;/code&gt; doesn't work on QNAP systems (tested on QTS 5.0 and QTS 5.1).&lt;/p&gt;
+&lt;p&gt;When running &lt;code&gt;screen&lt;/code&gt;, it fails with an error such as&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;# screen
+/var/run/utmp: No such file or directory
+Cannot find termcap entry for &amp;#39;xterm-256color&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="fix-screen"&gt;Fix screen&lt;a class="headerlink" href="#fix-screen" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Create the missing file and some symlinks.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;touch&lt;span class="w"&gt; &lt;/span&gt;/var/run/utmp
+ln&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;/usr/share/terminfo/x/xterm-xfree86&lt;span class="w"&gt; &lt;/span&gt;/usr/share/terminfo/x/xterm-256color
+ln&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;/usr/share/terminfo/x/xterm-xfree86&lt;span class="w"&gt; &lt;/span&gt;/usr/share/terminfo/x/xterm-color
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="alternative-fix"&gt;Alternative fix&lt;a class="headerlink" href="#alternative-fix" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Rather than create symlinks, one can make &lt;code&gt;screen&lt;/code&gt; use existing termcap entry with the env variable &lt;code&gt;TERMINFO&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nv"&gt;TERMINFO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/usr/share/terminfo/&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;screen
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;However, this solution has proven more cumbersome and less reliable.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://linux.die.net/man/1/screen"&gt;screen man page&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.shan.info/item/451-screen-var-run-utmp-no-such-file-or-directory-cannot-find-termcap-entry-for.html"&gt;fix source&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="Linux"></category><category term="QNAP"></category></entry><entry><title>Install Weboob 1.0 on Ubuntu 14.04 (Trusty Tahr)</title><link href="https://www.javatronic.fr/posts/2014/12/30/install-weboob-10-on-ubuntu-1404-trusty-tahr/" rel="alternate"></link><published>2014-12-30T00:00:00+01:00</published><updated>2014-12-30T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-12-30:/posts/2014/12/30/install-weboob-10-on-ubuntu-1404-trusty-tahr/</id><summary type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014) is packaged for Ubuntu 15.04 (Vivid Vervet).&lt;/p&gt;
 &lt;p&gt;So, here is how I installed from source the latest stable version of Weboob (1.0) on Ubuntu 14.04 (Trusty Tahr).&lt;/p&gt;
 &lt;p&gt;As stated on the website "Weboob is a collection of applications able to interact with websites, without requiring the user to open them in a browser. It also provides well-defined APIs to talk to websites lacking one". &lt;/p&gt;
 &lt;p&gt;Perso:qnally, I use Weboob to access my bank website and retrieve my history and incoming operations data from the command line to process it.&lt;/p&gt;
@@ -2317,29 +2474,33 @@ you have a better (as in faster and more efficient) option than &lt;code&gt;scp&
 &lt;h1 id="git-clone-of-a-local-repository-over-ssh"&gt;Git clone of a local …&lt;/h1&gt;</summary><content type="html">&lt;p&gt;If you happen to have a Git repository cloned a machine (let's say machine@work) and you want to retrieve it on another machine (let's say machine@home),
 you have a better (as in faster and more efficient) option than &lt;code&gt;scp&lt;/code&gt; or &lt;code&gt;rsync&lt;/code&gt; : &lt;code&gt;git clone&lt;/code&gt;.&lt;/p&gt;
 &lt;h1 id="git-clone-of-a-local-repository-over-ssh"&gt;Git clone of a local repository over SSH&lt;a class="headerlink" href="#git-clone-of-a-local-repository-over-ssh" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;Obviously, you could clone from the same remote repository (let's say Remote) as machine@work, but you may have local branches on machine@work that you specificall want to work on.
-Pushing local branche from machine@work to Remote is an option but it could polute other developers clones and/or you may not have access to Remote from machine@home.&lt;/p&gt;
+&lt;p&gt;Obviously, you could clone from the same remote repository (let's say Remote) as machine@work, but you may have local branches on machine@work that you specifically want to work on.
+Pushing local branch from machine@work to Remote is an option, but it could pollute other developers clones and/or you may not have access to Remote from machine@home.&lt;/p&gt;
 &lt;p&gt;Let's say the clone on machine @work is in directory &lt;code&gt;~/DEV/myclone&lt;/code&gt;, here are the commands to use :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/STUFF_FROM_WORK/
 git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;lesaint@lesaint.work.com:~/DEV/myclone/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;And that's it !&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Please note :&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;you might be prompted to enter a password to connect over ssh (unless you have a ssh-agent with a loaded key for machine@work)&lt;/li&gt;
-&lt;li&gt;you can specify the path where to clone the repository by adding a third argument like any other clone command&lt;/li&gt;
+&lt;li&gt;you can specify the path where to clone the repository by adding a third argument like any other clone command&lt;ul&gt;
 &lt;li&gt;&lt;code&gt;git clone lesaint@lesaint.work.com:~/DEV/myclone/ local_clone_name&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;I used the "scp style" syntaxe of the &lt;code&gt;git clone&lt;/code&gt; argument&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;I used the "scp style" syntaxe of the &lt;code&gt;git clone&lt;/code&gt; argument&lt;ul&gt;
 &lt;li&gt;the ssh style syntax would be &lt;code&gt;ssh://lesaint@lesaint.work.com/~/DEV/myclone/&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;h1 id="changing-remote-from-machine-to-the-true-remote"&gt;Changing remote from machine to the true remote&lt;a class="headerlink" href="#changing-remote-from-machine-to-the-true-remote" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;After cloning from machine @work, you might notice that the remote of the clone of machine @home is machine @work.&lt;/p&gt;
 &lt;p&gt;To fix that in the event you would happen to access to remote from home and that you would like to push to remote directly :&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/STUFF_FROM_WORK/myclone
 git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;origin&lt;span class="w"&gt; &lt;/span&gt;lesaint@gitserver.work.com:project.git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="Git"></category><category term="SSH"></category></entry><entry><title>Using Jekyll for GitHub pages</title><link href="https://www.javatronic.fr/posts/2014/01/15/using-jekyll-for-github-pages/" rel="alternate"></link><published>2014-01-15T00:00:00+01:00</published><updated>2014-01-15T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-01-15:/posts/2014/01/15/using-jekyll-for-github-pages/</id><summary type="html">&lt;p&gt;Personnal notes for installing and using Jekyll for GitHub pages&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here I gather notes on how I installed Jekyll for Github pages based mostly on informations from &lt;a href="https://help.github.com/articles/using-jekyll-with-pages"&gt;Github's help page&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="Git"></category></entry><entry><title>Using Jekyll for GitHub pages</title><link href="https://www.javatronic.fr/posts/2014/01/15/using-jekyll-for-github-pages/" rel="alternate"></link><published>2014-01-15T00:00:00+01:00</published><updated>2014-01-15T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-01-15:/posts/2014/01/15/using-jekyll-for-github-pages/</id><summary type="html">&lt;p&gt;Personnal notes for installing and using Jekyll for GitHub pages&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here I gather notes on how I installed Jekyll for Github pages based mostly on informations from &lt;a href="https://help.github.com/articles/using-jekyll-with-pages"&gt;Github's help page&lt;/a&gt;.&lt;/p&gt;
 &lt;h1 id="installing"&gt;Installing&lt;a class="headerlink" href="#installing" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;h2 id="ruby-and-rubygems-as-first-prerequisite"&gt;Ruby and RubyGems as first prerequisite&lt;a class="headerlink" href="#ruby-and-rubygems-as-first-prerequisite" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;ul&gt;
