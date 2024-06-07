@@ -72,7 +72,7 @@ venvclean:
 	rm -rf $(VENV_DIR)
 
 $(THEME_DIR)/README.md:
-	test -d "$(THEME_DIR)" || git clone --depth 1 https://github.com/lesaint/pelicant-theme-elegant "$(THEME_DIR)"
+	test -d "$(THEME_DIR)" || git clone --depth 1 https://github.com/lesaint/pelican-theme-elegant "$(THEME_DIR)"
 
 eleganttheme: $(THEME_DIR)/README.md
 
