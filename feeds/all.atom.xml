@@ -331,7 +331,150 @@ cp&lt;span class="w"&gt; &lt;/span&gt;_posts/tips/*.md&lt;span class="w"&gt; &lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If rendering of Markdown files is now ok, remove &lt;code&gt;.md.backup&lt;/code&gt; files:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rm&lt;span class="w"&gt; &lt;/span&gt;content/*/*.md.backup
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Pelican"></category><category term="Javatronic"></category></entry><entry><title>Merge multiple Git repositories while keeping history</title><link href="https://www.javatronic.fr/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/" rel="alternate"></link><published>2024-02-15T00:00:00+01:00</published><updated>2024-02-15T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-02-15:/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/</id><summary type="html">&lt;h1 id="why"&gt;WHY&lt;a class="headerlink" href="#why" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Pelican"></category><category term="Javatronic"></category></entry><entry><title>Emulate Crontab mailto feature with a script on Qnap NAS</title><link href="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/" rel="alternate"></link><published>2024-03-18T00:00:00+01:00</published><updated>2024-03-18T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-03-18:/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/</id><summary type="html">
+&lt;p&gt;I run jobs on a regular basis on my Qnap NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
+warnings.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Crontab&lt;/code&gt; has a simple and super neat feature called &lt;code&gt;MAILTO&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;When this variable is set, &lt;code&gt;Crontab&lt;/code&gt; sends any output from the cron …&lt;/p&gt;</summary><content type="html">
+&lt;p&gt;I run jobs on a regular basis on my Qnap NAS with &lt;code&gt;cron&lt;/code&gt; and I want to be notified if any of these jobs fails or sends
+warnings.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Crontab&lt;/code&gt; has a simple and super neat feature called &lt;code&gt;MAILTO&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;When this variable is set, &lt;code&gt;Crontab&lt;/code&gt; sends any output from the cron job to the recipient.&lt;/p&gt;
+&lt;p&gt;The variable is set by default and the recipient is the current user (owner) of the crontab and the mail is a Linux "in-"mail.&lt;/p&gt;
+&lt;p&gt;To disable the feature, set the variable to an empty value: &lt;code&gt;MAILTO=""&lt;/code&gt;&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://man7.org/linux/man-pages/man5/crontab.5.html"&gt;crontab man7 page&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h1 id="crontab-mailto-not-working-on-qnap-systems"&gt;Crontab MAILTO not working on Qnap systems&lt;a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Unfortunately, on Qnap NAS systems (at least on mine with QTS 5.X), &lt;code&gt;Crontab&lt;/code&gt; &lt;code&gt;MAILTO&lt;/code&gt; is disabled, not implemented, or
+not working.&lt;/p&gt;
+&lt;p&gt;To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
+written to &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt;, send it by email to some recipient. &lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://forum.qnap.com/viewtopic.php?p=718601&amp;amp;sid=1238e70ddd95a7f07639632eed6c758d"&gt;Qnap forum on Crontab not sending email&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h1 id="a-script-mimicking-crontabs-mailto"&gt;A script mimicking Crontab's MAILTO&lt;a class="headerlink" href="#a-script-mimicking-crontabs-mailto" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;h2 id="requirements"&gt;Requirements&lt;a class="headerlink" href="#requirements" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;ssmtp&lt;/code&gt; available on path and configured to send out emails&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="features"&gt;Features&lt;a class="headerlink" href="#features" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;sends an email if command has any output (either &lt;code&gt;stdout&lt;/code&gt; or &lt;code&gt;stderr&lt;/code&gt; or both) &lt;strong&gt;and/or&lt;/strong&gt; exit code is non-zero&lt;/li&gt;
+&lt;li&gt;otherwise, the script only executes the command and has no side effect&lt;/li&gt;
+&lt;li&gt;subject is truncated to 78 chars&lt;/li&gt;
+&lt;li&gt;subject contains the current user to identify who's crontab was executed&lt;/li&gt;
+&lt;li&gt;subject contains the date and time of the execution of the command&lt;ul&gt;
+&lt;li&gt;this serves both a debugging purpose and prevents Gmail from not sending/receiving identical emails&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/a/1592310"&gt;RFC 2822 recommendation on subject size&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id="how-to-use"&gt;How to use&lt;a class="headerlink" href="#how-to-use" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;In a &lt;code&gt;crontab&lt;/code&gt; file, simply pass the command to execute as argument (&lt;strong&gt;mind using quotes to avoid command be executed and/or part of it missing&lt;/strong&gt;):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;CRONEXPRESSION&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/home/foo/scripts/cronmail.sh&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"/home/foo/scripts/bar.sh"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id="send-email-only-upon-error-output"&gt;send email only upon error output&lt;a class="headerlink" href="#send-email-only-upon-error-output" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Silence stdout with &lt;code&gt;1&amp;gt;/dev/null&lt;/code&gt;, eg.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="o"&gt;[&lt;/span&gt;CRONEXPRESSION&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;/home/foo/scripts/cronmail.sh&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"/home/foo/scripts/bar.sh 1&amp;gt;/dev/null"&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="the-script"&gt;The script&lt;a class="headerlink" href="#the-script" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="c1"&gt;# -----------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="c1"&gt;# Bash unofficial strict mode [source](http://redsymbol.net/articles/unofficial-bash-strict-mode/)&lt;/span&gt;
+&lt;span class="c1"&gt;# -----------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-euo&lt;span class="w"&gt; &lt;/span&gt;pipefail
+&lt;span class="nv"&gt;IFS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;$'\n\t'&lt;/span&gt;
+
+&lt;span class="c1"&gt;# -----------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="c1"&gt;# Functions&lt;/span&gt;
+&lt;span class="c1"&gt;# -----------------------------------------------------------------------------&lt;/span&gt;
+fn_terminate_script&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;STDOUT&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;!&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$STDOUT&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+fn_echo_email_header&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;# email subject:&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;#  * includes the date and time to work around Gmail not sending/receiving emails that are exactly the same&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;#    (maybe this applies only over some period of time)&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="c1"&gt;#  * will be truncated to 78 chars (RFC 2822 recommendation [source](https://stackoverflow.com/a/1592310))&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;local&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;subject&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"[CRON][&lt;/span&gt;&lt;span class="nv"&gt;$USER&lt;/span&gt;&lt;span class="s2"&gt;][&lt;/span&gt;&lt;span class="nv"&gt;$CMD_DATE&lt;/span&gt;&lt;span class="s2"&gt;] &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;CMD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"To: &lt;/span&gt;&lt;span class="nv"&gt;$MAILTO&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"Subject: &lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;subject&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;78&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"============ executed command ============"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$CMD&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"============== return code ==============="&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$CMD_RETURN_CODE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+fn_echo_email_no_output&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;fn_echo_email_header
+&lt;span class="w"&gt;    &lt;/span&gt;fn_echo_email_footer
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+fn_echo_email_with_output&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;fn_echo_email_header
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"================ output =================="&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;cat&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$STDOUT&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;fn_echo_email_footer
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+fn_echo_email_footer&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"=========================================="&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+fn_send_email&lt;span class="o"&gt;()&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;ssmtp
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# -----------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="c1"&gt;# Main&lt;/span&gt;
+&lt;span class="c1"&gt;# -----------------------------------------------------------------------------&lt;/span&gt;
+&lt;span class="c1"&gt;# constants&lt;/span&gt;
+&lt;span class="nv"&gt;MAILTO&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"foo.bar.acme@gmail.com"&lt;/span&gt;
+
+&lt;span class="c1"&gt;# the command to execute from CRON&lt;/span&gt;
+&lt;span class="nv"&gt;CMD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="nv"&gt;CMD_DATE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;date&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="s2"&gt;"%Y-%m-%d-%H%M%S"&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# create temporary file to collect stdout and stderr to&lt;/span&gt;
+&lt;span class="nv"&gt;STDOUT&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;mktemp&lt;span class="w"&gt; &lt;/span&gt;/tmp/cronme.out.XXXXXXXXXX&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;||&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"failed to create temp file"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ensure no file is left behind even if script is interrupted/killed&lt;/span&gt;
+&lt;span class="nb"&gt;trap&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;'fn_terminate_script'&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;SIGINT
+
+&lt;span class="c1"&gt;# evaluate the command, capturing both stdout and stderr to a file&lt;/span&gt;
+&lt;span class="c1"&gt;# disable bash's "e" option to ensure this script keeps on running if evaluated command is killed/exits with non-zero code&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;+e
+&lt;span class="nb"&gt;eval&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$CMD&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&amp;gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$STDOUT&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;&lt;span class="p"&gt;&amp;amp;&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="nv"&gt;CMD_RETURN_CODE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-e
+
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$STDOUT&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;fn_echo_email_with_output&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fn_send_email
+&lt;span class="k"&gt;elif&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$CMD_RETURN_CODE&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-ne&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;fn_echo_email_no_output&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;fn_send_email
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+&lt;span class="c1"&gt;# clean up&lt;/span&gt;
+fn_terminate_script
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Bash"></category><category term="Linux"></category><category term="Qnap"></category></entry><entry><title>Merge multiple Git repositories while keeping history</title><link href="https://www.javatronic.fr/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/" rel="alternate"></link><published>2024-02-15T00:00:00+01:00</published><updated>2024-02-15T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-02-15:/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/</id><summary type="html">&lt;h1 id="why"&gt;WHY&lt;a class="headerlink" href="#why" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;I have 5 repositories (they are all private) holding scripts for my home backup strategy.
 I clone them on my NAS and maintain them on my laptop.&lt;/p&gt;
 &lt;ul&gt;

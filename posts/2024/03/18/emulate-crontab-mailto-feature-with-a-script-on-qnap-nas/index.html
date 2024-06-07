@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Bash, Linux, Qnap, articles, " />
+
+<meta property="og:title" content="Emulate Crontab mailto feature with a script on Qnap NAS "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/" />
+<meta property="og:description" content="I run jobs on a regular basis on my Qnap NAS with cron and I want to be notified if any of these jobs fails or sends warnings. Crontab has a simple and super neat feature called MAILTO. When this variable is set, Crontab sends any output from the cron …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2024-03-18T00:00:00+01:00" />
+<meta name="twitter:title" content="Emulate Crontab mailto feature with a script on Qnap NAS ">
+<meta name="twitter:description" content="I run jobs on a regular basis on my Qnap NAS with cron and I want to be notified if any of these jobs fails or sends warnings. Crontab has a simple and super neat feature called MAILTO. When this variable is set, Crontab sends any output from the cron …">
+
+        <title>Emulate Crontab mailto feature with a script on Qnap NAS  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/pages/sebastien_lesaint_resume/">Resume</a></li>
+                                <li ><a href="https://www.javatronic.fr/pages/books-read/">Books read</a></li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.google.com/search" onsubmit="return validateForm(this.elements['q'][0].value);" target="_blank"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"><input type="hidden" name="q" value="site:https://www.javatronic.fr"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/posts/2024/03/18/emulate-crontab-mailto-feature-with-a-script-on-qnap-nas/">
+                Emulate Crontab mailto feature with a script on Qnap NAS
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#crontab-mailto-not-working-on-qnap-systems">Crontab MAILTO not working on Qnap systems</a></li>
+<li><a href="#a-script-mimicking-crontabs-mailto">A script mimicking Crontab's MAILTO</a><ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#how-to-use">How to use</a><ul>
+<li><a href="#send-email-only-upon-error-output">send email only upon error output</a></li>
+</ul>
+</li>
+<li><a href="#the-script">The script</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            
+<p>I run jobs on a regular basis on my Qnap NAS with <code>cron</code> and I want to be notified if any of these jobs fails or sends
+warnings.</p>
+<p><code>Crontab</code> has a simple and super neat feature called <code>MAILTO</code>.</p>
+<p>When this variable is set, <code>Crontab</code> sends any output from the cron job to the recipient.</p>
+<p>The variable is set by default and the recipient is the current user (owner) of the crontab and the mail is a Linux "in-"mail.</p>
+<p>To disable the feature, set the variable to an empty value: <code>MAILTO=""</code></p>
+<div class="admonition note">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://man7.org/linux/man-pages/man5/crontab.5.html">crontab man7 page</a></li>
+</ul>
+</div>
+<h1 id="crontab-mailto-not-working-on-qnap-systems">Crontab MAILTO not working on Qnap systems<a class="headerlink" href="#crontab-mailto-not-working-on-qnap-systems" title="Permanent link">¶</a></h1>
+<p>Unfortunately, on Qnap NAS systems (at least on mine with QTS 5.X), <code>Crontab</code> <code>MAILTO</code> is disabled, not implemented, or
+not working.</p>
+<p>To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
+written to <code>stdout</code> or <code>stderr</code>, send it by email to some recipient. </p>
+<div class="admonition note">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://forum.qnap.com/viewtopic.php?p=718601&amp;sid=1238e70ddd95a7f07639632eed6c758d">Qnap forum on Crontab not sending email</a></li>
+</ul>
+</div>
+<h1 id="a-script-mimicking-crontabs-mailto">A script mimicking Crontab's MAILTO<a class="headerlink" href="#a-script-mimicking-crontabs-mailto" title="Permanent link">¶</a></h1>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">¶</a></h2>
+<ol>
+<li><code>ssmtp</code> available on path and configured to send out emails</li>
+</ol>
+<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">¶</a></h2>
+<ul>
+<li>sends an email if command has any output (either <code>stdout</code> or <code>stderr</code> or both) <strong>and/or</strong> exit code is non-zero</li>
+<li>otherwise, the script only executes the command and has no side effect</li>
+<li>subject is truncated to 78 chars</li>
+<li>subject contains the current user to identify who's crontab was executed</li>
+<li>subject contains the date and time of the execution of the command<ul>
+<li>this serves both a debugging purpose and prevents Gmail from not sending/receiving identical emails</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/1592310">RFC 2822 recommendation on subject size</a></li>
+</ul>
+</div>
+<h2 id="how-to-use">How to use<a class="headerlink" href="#how-to-use" title="Permanent link">¶</a></h2>
+<p>In a <code>crontab</code> file, simply pass the command to execute as argument (<strong>mind using quotes to avoid command be executed and/or part of it missing</strong>):</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>CRONEXPRESSION<span class="o">]</span><span class="w"> </span>/home/foo/scripts/cronmail.sh<span class="w"> </span><span class="s2">"/home/foo/scripts/bar.sh"</span>
+</code></pre></div>
+<h3 id="send-email-only-upon-error-output">send email only upon error output<a class="headerlink" href="#send-email-only-upon-error-output" title="Permanent link">¶</a></h3>
+<p>Silence stdout with <code>1&gt;/dev/null</code>, eg.:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>CRONEXPRESSION<span class="o">]</span><span class="w"> </span>/home/foo/scripts/cronmail.sh<span class="w"> </span><span class="s2">"/home/foo/scripts/bar.sh 1&gt;/dev/null"</span>
+</code></pre></div>
+<h2 id="the-script">The script<a class="headerlink" href="#the-script" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># Bash unofficial strict mode [source](http://redsymbol.net/articles/unofficial-bash-strict-mode/)</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+<span class="nv">IFS</span><span class="o">=</span><span class="s1">$'\n\t'</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># Functions</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+fn_terminate_script<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STDOUT</span><span class="k">:-</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span>rm<span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$STDOUT</span><span class="s2">"</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+fn_echo_email_header<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># email subject:</span>
+<span class="w">    </span><span class="c1">#  * includes the date and time to work around Gmail not sending/receiving emails that are exactly the same</span>
+<span class="w">    </span><span class="c1">#    (maybe this applies only over some period of time)</span>
+<span class="w">    </span><span class="c1">#  * will be truncated to 78 chars (RFC 2822 recommendation [source](https://stackoverflow.com/a/1592310))</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">subject</span><span class="o">=</span><span class="s2">"[CRON][</span><span class="nv">$USER</span><span class="s2">][</span><span class="nv">$CMD_DATE</span><span class="s2">] </span><span class="si">${</span><span class="nv">CMD</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"To: </span><span class="nv">$MAILTO</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Subject: </span><span class="si">${</span><span class="nv">subject</span><span class="p">:</span><span class="nv">0</span><span class="p">:</span><span class="nv">78</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"============ executed command ============"</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"============== return code ==============="</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$CMD_RETURN_CODE</span><span class="s2">"</span>
+<span class="o">}</span>
+
+fn_echo_email_no_output<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>fn_echo_email_header
+<span class="w">    </span>fn_echo_email_footer
+<span class="o">}</span>
+
+fn_echo_email_with_output<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>fn_echo_email_header
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"================ output =================="</span>
+<span class="w">    </span>cat<span class="w"> </span><span class="s2">"</span><span class="nv">$STDOUT</span><span class="s2">"</span>
+<span class="w">    </span>fn_echo_email_footer
+<span class="o">}</span>
+
+fn_echo_email_footer<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"=========================================="</span>
+<span class="o">}</span>
+
+fn_send_email<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>ssmtp
+<span class="o">}</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># Main</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># constants</span>
+<span class="nv">MAILTO</span><span class="o">=</span><span class="s2">"foo.bar.acme@gmail.com"</span>
+
+<span class="c1"># the command to execute from CRON</span>
+<span class="nv">CMD</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="nv">CMD_DATE</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+<span class="s2">"%Y-%m-%d-%H%M%S"</span><span class="k">)</span>
+
+<span class="c1"># create temporary file to collect stdout and stderr to</span>
+<span class="nv">STDOUT</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>mktemp<span class="w"> </span>/tmp/cronme.out.XXXXXXXXXX<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">(</span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"failed to create temp file"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="o">)</span>
+
+<span class="c1"># ensure no file is left behind even if script is interrupted/killed</span>
+<span class="nb">trap</span><span class="w"> </span><span class="s1">'fn_terminate_script'</span><span class="w"> </span>SIGINT
+
+<span class="c1"># evaluate the command, capturing both stdout and stderr to a file</span>
+<span class="c1"># disable bash's "e" option to ensure this script keeps on running if evaluated command is killed/exits with non-zero code</span>
+<span class="nb">set</span><span class="w"> </span>+e
+<span class="nb">eval</span><span class="w"> </span><span class="s2">"</span><span class="nv">$CMD</span><span class="s2">"</span><span class="w"> </span><span class="m">1</span>&gt;<span class="s2">"</span><span class="nv">$STDOUT</span><span class="s2">"</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+<span class="nv">CMD_RETURN_CODE</span><span class="o">=</span><span class="nv">$?</span>
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="nv">$STDOUT</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>fn_echo_email_with_output<span class="w"> </span><span class="p">|</span><span class="w"> </span>fn_send_email
+<span class="k">elif</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$CMD_RETURN_CODE</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span>fn_echo_email_no_output<span class="w"> </span><span class="p">|</span><span class="w"> </span>fn_send_email
+<span class="k">fi</span>
+
+<span class="c1"># clean up</span>
+fn_terminate_script
+</code></pre></div>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2024-03-18T00:00:00+01:00">Mon 18 March 2024</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#bash-ref">Bash
+                    <span class="superscript">4</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#linux-ref">Linux
+                    <span class="superscript">3</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#qnap-ref">Qnap
+                    <span class="superscript">1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
