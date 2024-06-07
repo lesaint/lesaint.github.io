@@ -7,7 +7,7 @@ tags: Linux, QNAP
 In practice, it enables user to run command on a remote device (ie. typically via a SSH session) that will continue
 running even if the connection is interrupted.
 
-# Screen is broken on QNAP
+# Screen is broken on QNAP TS-253E
 
 Unfortunately, by default (tested right after installation), `screen` doesn't work on QNAP systems (tested on QTS 5.0 and QTS 5.1).
 

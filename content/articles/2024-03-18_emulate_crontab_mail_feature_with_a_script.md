@@ -23,7 +23,7 @@ To disable the feature, set the variable to an empty value: `MAILTO=""`
 Unfortunately, on QNAP NAS systems (at least on mine with QTS 5.X), `Crontab` `MAILTO` is disabled, not implemented, or
 not working.
 
-To work around this, one can write a Bash script that will mimic the behavior: call a command, and if anything is
+To work around this on my TS-253E, one can write a Bash script that will mimic the behavior: call a command, and if anything is
 written to `stdout` or `stderr`, send it by email to some recipient. 
 
 !!! note " Sources"

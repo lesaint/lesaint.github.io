@@ -18,7 +18,7 @@ After searching the web and finding many references to non-existent or now-gone 
 
 	However, the convience appears to be worth trusting the people behind the package, is it?
 
-# Install Git
+# Install Git on my TS-253E
 
 Add MyQnap App Repository:
 

@@ -19,7 +19,7 @@ However, it is not the standard `ssmtp` binary:
 2. the configuration file is not in standard location (`/etc/ssmtp/ssmtp.conf`): `/etc/config/ssmtp/ssmtp.conf` 
 
 
-# Configure sSMTP
+# Configure sSMTP on TS-243E
 
 Use the UI and QNAP's Notification center interface, add an email.
 
