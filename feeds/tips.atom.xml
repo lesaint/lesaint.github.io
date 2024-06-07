@@ -19,13 +19,13 @@
 &lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;ACTIVATE_VENV&lt;span class="k"&gt;)&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;python&lt;span class="w"&gt; &lt;/span&gt;foo.my
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;sources:&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;stackoverflow: &lt;a href="https://stackoverflow.com/a/55404948"&gt;effect and usage of .ONESHELL&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;stackoverflow: &lt;a href="https://stackoverflow.com/a/73837995"&gt;using a macro to factor activation code&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;
 &lt;h2 id="tracking-requirementstxt-changes"&gt;Tracking requirements.txt changes&lt;a class="headerlink" href="#tracking-requirementstxt-changes" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;The above can be combined with appropriate makefile usage as to prime venv only once, and then track changes to &lt;code&gt;requirements.txt&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c"&gt;# use .ONESHELL to activate venv and use it across a recipe without adding it before each command (source: https://stackoverflow.com/a/55404948)&lt;/span&gt;
@@ -45,9 +45,12 @@
 &lt;span class="nf"&gt;venvclean&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
 &lt;span class="w"&gt;    &lt;/span&gt;rm&lt;span class="w"&gt; &lt;/span&gt;-rf&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;VENV_DIR&lt;span class="k"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;source: stackoverflow: &lt;a href="https://stackoverflow.com/a/46188210"&gt;using a touch file&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;</content><category term="tips"></category><category term="Python"></category><category term="Makefile"></category></entry><entry><title>Display Table of Content on Elegant for Pelican</title><link href="https://www.javatronic.fr/posts/2024/05/04/display-table-of-content-on-elegant-for-pelican/" rel="alternate"></link><published>2024-05-04T00:00:00+02:00</published><updated>2024-05-04T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-05-04:/posts/2024/05/04/display-table-of-content-on-elegant-for-pelican/</id><summary type="html">
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;stackoverflow: &lt;a href="https://stackoverflow.com/a/46188210"&gt;using a touch file&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="Python"></category><category term="Makefile"></category></entry><entry><title>Display Table of Content on Elegant for Pelican</title><link href="https://www.javatronic.fr/posts/2024/05/04/display-table-of-content-on-elegant-for-pelican/" rel="alternate"></link><published>2024-05-04T00:00:00+02:00</published><updated>2024-05-04T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-05-04:/posts/2024/05/04/display-table-of-content-on-elegant-for-pelican/</id><summary type="html">
 &lt;p&gt;I did the following to enable Table of Contents display, on the side of posts, in Elegant theme:&lt;/p&gt;
 &lt;h2 id="enable-toc-extension"&gt;Enable &lt;code&gt;toc&lt;/code&gt; extension&lt;a class="headerlink" href="#enable-toc-extension" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Python Markdown's extension &lt;a href="https://python-markdown.github.io/extensions/toc/"&gt;Table of Contents&lt;/a&gt;&lt;/p&gt;
@@ -104,14 +107,120 @@ cp&lt;span class="w"&gt; &lt;/span&gt;-r&lt;span class="w"&gt; &lt;/span&gt;peli
   &lt;span class="p"&gt;}&lt;/span&gt;    
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;sources:&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;extract_toc's &lt;a href="https://github.com/getpelican/pelican-plugins/tree/master/extract_toc"&gt;README&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Elegant's documentation: &lt;a href="https://elegant.oncrashreboot.com/how-elegant-displays-table-of-contents"&gt;Add a Table of Contents to Your Articles&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Elegant's documentation: &lt;a href="https://elegant.oncrashreboot.com/permalinks-to-headings"&gt;Permalinks to Headings&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;</content><category term="tips"></category><category term="Pelican"></category></entry><entry><title>Install Weboob 1.0 on Ubuntu 14.04 (Trusty Tahr)</title><link href="https://www.javatronic.fr/posts/2014/12/30/install-weboob-10-on-ubuntu-1404-trusty-tahr/" rel="alternate"></link><published>2014-12-30T00:00:00+01:00</published><updated>2014-12-30T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-12-30:/posts/2014/12/30/install-weboob-10-on-ubuntu-1404-trusty-tahr/</id><summary type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014) is packaged for Ubuntu 15.04 (Vivid Vervet).&lt;/p&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="Pelican"></category></entry><entry><title>Merge multiple Git repositories while keeping history</title><link href="https://www.javatronic.fr/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/" rel="alternate"></link><published>2024-02-15T00:00:00+01:00</published><updated>2024-02-15T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-02-15:/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/</id><summary type="html">&lt;h1 id="why"&gt;WHY&lt;a class="headerlink" href="#why" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;I have 5 repositories (they are all private) holding scripts for my home backup strategy.
+I clone them on my NAS and maintain them on my laptop.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;onsite_backup&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;offsite_backup&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;local_backup&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;phanas_scripts&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;onsite_backup_copy&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cloning multiple repositories on multiple machine is cumbersome.&lt;/p&gt;
+&lt;p&gt;It is also error-prone as consistency between the scripts …&lt;/p&gt;</summary><content type="html">&lt;h1 id="why"&gt;WHY&lt;a class="headerlink" href="#why" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;I have 5 repositories (they are all private) holding scripts for my home backup strategy.
+I clone them on my NAS and maintain them on my laptop.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;onsite_backup&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;offsite_backup&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;local_backup&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;phanas_scripts&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;onsite_backup_copy&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cloning multiple repositories on multiple machine is cumbersome.&lt;/p&gt;
+&lt;p&gt;It is also error-prone as consistency between the scripts is sometimes required.&lt;/p&gt;
+&lt;p&gt;In addition, some code is duplicated and has diverged on a couple occasions already. &lt;/p&gt;
+&lt;h1 id="what"&gt;WHAT&lt;a class="headerlink" href="#what" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;I want to merge all repositories into &lt;code&gt;phanas_scripts&lt;/code&gt;, keeping the history.&lt;/p&gt;
+&lt;p&gt;I'll follow this procedure:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;in each repository, move content to a subdirectory with the name of the repo&lt;/li&gt;
+&lt;li&gt;merge content of the 3 other repos into &lt;code&gt;phanas_scripts&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;to keep the history, use &lt;code&gt;git merge --allow-unrelated-histories&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/a/76831513"&gt;https://stackoverflow.com/a/76831513&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h1 id="how"&gt;HOW&lt;a class="headerlink" href="#how" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/tmp
+mkdir&lt;span class="w"&gt; &lt;/span&gt;work_dir
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;work_dir
+
+&lt;span class="c1"&gt;# clone repositories, the target one and those to merge&lt;/span&gt;
+g&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;git@github.com:lesaint/phanas_scripts.git
+g&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;git@github.com:lesaint/local_backup.git
+g&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;git@github.com:lesaint/onsite_backup.git
+g&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;git@github.com:lesaint/offsite_backup.git
+g&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;git@github.com:lesaint/onsite_backup_copy.git
+
+&lt;span class="c1"&gt;# move local_backup repository content to a subdirectory&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;local_backup
+mkdir&lt;span class="w"&gt; &lt;/span&gt;local_backup
+git&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;local_backup.sh&lt;span class="w"&gt; &lt;/span&gt;README.md&lt;span class="w"&gt; &lt;/span&gt;rtb.sh&lt;span class="w"&gt; &lt;/span&gt;sync_on_nas.sh&lt;span class="w"&gt; &lt;/span&gt;local_backup/
+&lt;span class="c1"&gt;# fix rtb.sh symlink, broken by the move&lt;/span&gt;
+unlink&lt;span class="w"&gt; &lt;/span&gt;rtb.sh
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;local_backup
+ln&lt;span class="w"&gt; &lt;/span&gt;-s&lt;span class="w"&gt; &lt;/span&gt;../../rtb/rsync_tmbackup.sh&lt;span class="w"&gt; &lt;/span&gt;rtb.sh
+git&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;rtb.sh
+git&lt;span class="w"&gt; &lt;/span&gt;commit&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;move local_backup repository content to subdirectory local_backup&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# do the same with offsite_backup repository&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;../offsite_backup
+mkdir&lt;span class="w"&gt; &lt;/span&gt;offsite_backup
+git&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;exclude_rtb_managed_dirs&lt;span class="w"&gt; &lt;/span&gt;offsite_backup.sh&lt;span class="w"&gt; &lt;/span&gt;README.md&lt;span class="w"&gt; &lt;/span&gt;sync_on_phanas.sh&lt;span class="w"&gt; &lt;/span&gt;offsite_backup/
+git&lt;span class="w"&gt; &lt;/span&gt;commit&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;move offsite_backup repository content to offsite_backup subdirectory&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# do the same with onsite_backup repository&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;../onsite_backup
+mkdir&lt;span class="w"&gt; &lt;/span&gt;onsite_backup
+git&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;backup.sh&lt;span class="w"&gt; &lt;/span&gt;exclude_rtb_managed_dirs&lt;span class="w"&gt; &lt;/span&gt;README.md&lt;span class="w"&gt; &lt;/span&gt;onsite_backup/
+git&lt;span class="w"&gt; &lt;/span&gt;commit&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;move onsite_backup repository content to onsite_backup subdirectory&amp;quot;&lt;/span&gt;
+&lt;span class="c1"&gt;# take the opportunity to fix the name of the script&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;onsite_backup
+git&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;backup.sh&lt;span class="w"&gt; &lt;/span&gt;onsite_backup.sh
+git&lt;span class="w"&gt; &lt;/span&gt;commit&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;rename backup.sh to onsite_backup.sh for consistency&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# do the same with onsite_backup_copy repository&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;../onsite_backup_copy
+mkdir&lt;span class="w"&gt; &lt;/span&gt;onsite_backup_copy
+git&lt;span class="w"&gt; &lt;/span&gt;mv&lt;span class="w"&gt; &lt;/span&gt;copy.sh&lt;span class="w"&gt; &lt;/span&gt;exclude.rsync&lt;span class="w"&gt; &lt;/span&gt;README.md&lt;span class="w"&gt; &lt;/span&gt;onsite_backup_copy/
+git&lt;span class="w"&gt; &lt;/span&gt;commit&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;move onsite_backup_copy repo content to onsite_backup_copy subdirectory&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# go to target repository and add all source directories local clones as remote&lt;/span&gt;
+&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;../phanas_scripts
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;onsite_backup&lt;span class="w"&gt; &lt;/span&gt;../onsite_backup
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;offsite_backup&lt;span class="w"&gt; &lt;/span&gt;../offsite_backup
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;local_backup&lt;span class="w"&gt; &lt;/span&gt;../local_backup
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;add&lt;span class="w"&gt; &lt;/span&gt;onsite_backup_copy&lt;span class="w"&gt; &lt;/span&gt;../onsite_backup_copy
+
+&lt;span class="c1"&gt;# fetch all repository contents&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;fetch&lt;span class="w"&gt; &lt;/span&gt;--all
+
+&lt;span class="c1"&gt;# merge, one after the other, all source repositories&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;merge&lt;span class="w"&gt; &lt;/span&gt;--allow-unrelated-histories&lt;span class="w"&gt; &lt;/span&gt;onsite_backup/master&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;merge &amp;#39;onsite_backup&amp;#39; repository into &amp;#39;phanas_scripts&amp;#39; repository&amp;quot;&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;merge&lt;span class="w"&gt; &lt;/span&gt;--allow-unrelated-histories&lt;span class="w"&gt; &lt;/span&gt;offsite_backup/master&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;merge &amp;#39;offsite_backup&amp;#39; repository into &amp;#39;phanas_scripts&amp;#39; repository&amp;quot;&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;merge&lt;span class="w"&gt; &lt;/span&gt;--allow-unrelated-histories&lt;span class="w"&gt; &lt;/span&gt;local_backup/master&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;merge &amp;#39;local_backup&amp;#39; repository into &amp;#39;phanas_scripts&amp;#39; repository&amp;quot;&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;merge&lt;span class="w"&gt; &lt;/span&gt;--allow-unrelated-histories&lt;span class="w"&gt; &lt;/span&gt;onsite_backup_copy/master&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;merge &amp;#39;onsite_backup_copy&amp;#39; repository into &amp;#39;phanas_scripts&amp;#39; repository&amp;quot;&lt;/span&gt;
+
+&lt;span class="c1"&gt;# clean up remotes&lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;remove&lt;span class="w"&gt; &lt;/span&gt;local_backup
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;remove&lt;span class="w"&gt; &lt;/span&gt;offsite_backup
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;remove&lt;span class="w"&gt; &lt;/span&gt;onsite_backup&lt;span class="w"&gt; &lt;/span&gt;
+git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt;remove&lt;span class="w"&gt; &lt;/span&gt;onsite_backup_copy
+
+git&lt;span class="w"&gt; &lt;/span&gt;push
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="tips"></category><category term="Git"></category></entry><entry><title>Install Weboob 1.0 on Ubuntu 14.04 (Trusty Tahr)</title><link href="https://www.javatronic.fr/posts/2014/12/30/install-weboob-10-on-ubuntu-1404-trusty-tahr/" rel="alternate"></link><published>2014-12-30T00:00:00+01:00</published><updated>2014-12-30T00:00:00+01:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2014-12-30:/posts/2014/12/30/install-weboob-10-on-ubuntu-1404-trusty-tahr/</id><summary type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;As stated on the Weboob &lt;a href="http://weboob.org/install"&gt;install page&lt;/a&gt;, Ubuntu packages for &lt;a href="http://weboob.org/"&gt;Weboob&lt;/a&gt; are lagging behind (a lot). Package for the current LTS version of Ubuntu (14.04 - Trusty Tahr) is version 0.g-1 (can find how old this version is). The current version of Weboob (version 1.0, out October 2014) is packaged for Ubuntu 15.04 (Vivid Vervet).&lt;/p&gt;
 &lt;p&gt;So, here is how I installed from source the latest stable version of Weboob (1.0) on Ubuntu 14.04 (Trusty Tahr).&lt;/p&gt;
 &lt;p&gt;As stated on the website "Weboob is a collection of applications able to interact with websites, without requiring the user to open them in a browser. It also provides well-defined APIs to talk to websites lacking one". &lt;/p&gt;
 &lt;p&gt;Perso:qnally, I use Weboob to access my bank website and retrieve my history and incoming operations data from the command line to process it.&lt;/p&gt;
@@ -419,9 +528,12 @@ and&lt;span class="w"&gt; &lt;/span&gt;Real&lt;span class="w"&gt; &lt;/span&gt;A
 &lt;p&gt;You can get more details about the process using the regular &lt;code&gt;ps&lt;/code&gt; options such as &lt;code&gt;-f&lt;/code&gt;;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ps&lt;span class="w"&gt; &lt;/span&gt;-f&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;find&lt;span class="w"&gt; &lt;/span&gt;/proc/*/fd/*&lt;span class="w"&gt; &lt;/span&gt;-type&lt;span class="w"&gt; &lt;/span&gt;l&lt;span class="w"&gt; &lt;/span&gt;-lname&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;anon_inode:inotify&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&amp;gt;/dev/null&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;sed&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s+/proc/\([^/]*\)/fd/.*+\1+&amp;#39;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;source: https://bbs.archlinux.org/viewtopic.php?pid=1340024#p1340024&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=""&gt;https://bbs.archlinux.org/viewtopic.php?pid=1340024#p1340024&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;h1 id="count-nodes-per-process"&gt;Count nodes per process&lt;a class="headerlink" href="#count-nodes-per-process" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;find&lt;span class="w"&gt; &lt;/span&gt;/proc/*/fd/*&lt;span class="w"&gt; &lt;/span&gt;-type&lt;span class="w"&gt; &lt;/span&gt;l&lt;span class="w"&gt; &lt;/span&gt;-lname&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;anon_inode:inotify&amp;#39;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-print
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -648,7 +760,12 @@ git&lt;span class="w"&gt; &lt;/span&gt;remote&lt;span class="w"&gt; &lt;/span&gt
 &lt;p&gt;Using the &lt;code&gt;-t&lt;/code&gt; option of &lt;code&gt;git remote&lt;/code&gt; and a serie of commands, we can achieve that.&lt;/p&gt;
 &lt;h3 id="cloning-a-single-branch"&gt;Cloning a single branch&lt;a class="headerlink" href="#cloning-a-single-branch" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;To clone a repository and retrieve a single branch can be done as follow :&lt;/p&gt;
-&lt;p&gt;(source : &lt;a href="http://stackoverflow.com/a/4146786"&gt;http://stackoverflow.com/a/4146786&lt;/a&gt;)&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=""&gt;http://stackoverflow.com/a/4146786&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# create clone directory&lt;/span&gt;
 mkdir&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;
 &lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nv"&gt;$REPO&lt;/span&gt;
@@ -678,7 +795,12 @@ fatal:&lt;span class="w"&gt; &lt;/span&gt;The&lt;span class="w"&gt; &lt;/span&gt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The problem is that your local repository get kind of corrupted and all the next &lt;code&gt;git fetch&lt;/code&gt; command will also fail with the same error.&lt;/p&gt;
 &lt;p&gt;To fix it, edit file &lt;code&gt;.git/config&lt;/code&gt; and remove the wrong entry under '[remote origin]' starting with &lt;code&gt;fetch =&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;(source : &lt;a href="http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399"&gt;http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399&lt;/a&gt;)&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=""&gt;http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;h3 id="discussion"&gt;Discussion&lt;a class="headerlink" href="#discussion" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;This technic is a litle bit manual, but has many advantages :&lt;/p&gt;
 &lt;ul&gt;
@@ -702,4 +824,9 @@ git&lt;span class="w"&gt; &lt;/span&gt;clone&lt;span class="w"&gt; &lt;/span&gt;
 &lt;h2 id="apply-patch"&gt;apply patch&lt;a class="headerlink" href="#apply-patch" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;patch&lt;span class="w"&gt; &lt;/span&gt;-p1&lt;span class="w"&gt; &lt;/span&gt;&amp;lt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;path_to&lt;span class="o"&gt;]&lt;/span&gt;/some_file.patch
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;source : &lt;a href="http://stackoverflow.com/questions/13192806/how-to-generate-a-git-patch-with-a-local-commit"&gt;http://stackoverflow.com/questions/13192806/how-to-generate-a-git-patch-with-a-local-commit&lt;/a&gt;&lt;/p&gt;</content><category term="tips"></category><category term="Git"></category></entry></feed>
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=""&gt;http://stackoverflow.com/questions/13192806/how-to-generate-a-git-patch-with-a-local-commit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="Git"></category></entry></feed>

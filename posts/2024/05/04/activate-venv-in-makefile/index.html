@@ -97,13 +97,13 @@
 <span class="w">    </span><span class="k">$(</span>ACTIVATE_VENV<span class="k">)</span>
 <span class="w">    </span>python<span class="w"> </span>foo.my
 </code></pre></div>
-<blockquote>
-<p>sources:</p>
+<div class="admonition note">
+<p class="admonition-title"> Sources</p>
 <ul>
 <li>stackoverflow: <a href="https://stackoverflow.com/a/55404948">effect and usage of .ONESHELL</a></li>
 <li>stackoverflow: <a href="https://stackoverflow.com/a/73837995">using a macro to factor activation code</a></li>
 </ul>
-</blockquote>
+</div>
 <h2 id="tracking-requirementstxt-changes">Tracking requirements.txt changes<a class="headerlink" href="#tracking-requirementstxt-changes" title="Permanent link">&para;</a></h2>
 <p>The above can be combined with appropriate makefile usage as to prime venv only once, and then track changes to <code>requirements.txt</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="c"># use .ONESHELL to activate venv and use it across a recipe without adding it before each command (source: https://stackoverflow.com/a/55404948)</span>
@@ -123,9 +123,12 @@
 <span class="nf">venvclean</span><span class="o">:</span>
 <span class="w">    </span>rm<span class="w"> </span>-rf<span class="w"> </span><span class="k">$(</span>VENV_DIR<span class="k">)</span>
 </code></pre></div>
-<blockquote>
-<p>source: stackoverflow: <a href="https://stackoverflow.com/a/46188210">using a touch file</a></p>
-</blockquote>
+<div class="admonition note">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li>stackoverflow: <a href="https://stackoverflow.com/a/46188210">using a touch file</a></li>
+</ul>
+</div>
 
 
              

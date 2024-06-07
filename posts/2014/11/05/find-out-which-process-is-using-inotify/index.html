@@ -102,9 +102,12 @@
 <p>You can get more details about the process using the regular <code>ps</code> options such as <code>-f</code>;</p>
 <div class="highlight"><pre><span></span><code>ps<span class="w"> </span>-f<span class="w"> </span><span class="k">$(</span>find<span class="w"> </span>/proc/*/fd/*<span class="w"> </span>-type<span class="w"> </span>l<span class="w"> </span>-lname<span class="w"> </span><span class="s1">&#39;anon_inode:inotify&#39;</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span><span class="s1">&#39;s+/proc/\([^/]*\)/fd/.*+\1+&#39;</span><span class="k">)</span>
 </code></pre></div>
-<blockquote>
-<p>source: https://bbs.archlinux.org/viewtopic.php?pid=1340024#p1340024</p>
-</blockquote>
+<div class="admonition note">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="">https://bbs.archlinux.org/viewtopic.php?pid=1340024#p1340024</a></li>
+</ul>
+</div>
 <h1 id="count-nodes-per-process">Count nodes per process<a class="headerlink" href="#count-nodes-per-process" title="Permanent link">&para;</a></h1>
 <div class="highlight"><pre><span></span><code>find<span class="w"> </span>/proc/*/fd/*<span class="w"> </span>-type<span class="w"> </span>l<span class="w"> </span>-lname<span class="w"> </span><span class="s1">&#39;anon_inode:inotify&#39;</span><span class="w"> </span>-print
 </code></pre></div>

@@ -14,13 +14,13 @@
 &lt;p&gt;Unfortunately, this plugin and the jquery code it relies on is abandoned, as stated on Pelican Plugin's page of the plugin:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="screenshot tipue_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/tipue_search_abandoned_screenshot.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;pelican_search&lt;/code&gt; plugin should be used instead, but how?&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;sources:&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;https://elegant.oncrashreboot.com/add-search&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://elegant.oncrashreboot.com/add-search"&gt;Elegant theme doc: add search&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/pelican-plugins/tipue-search?tab=readme-ov-file"&gt;tipue_search's plugin Github page&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;
 &lt;h1 id="pelican_search-abandoned"&gt;pelican_search abandoned&lt;a class="headerlink" href="#pelican_search-abandoned" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;pelican_search relies on &lt;code&gt;stork&lt;/code&gt; and this tool should be installed prior to install and run the Pelican plugin: &lt;/p&gt;
 &lt;p&gt;Install Stork  on Ubuntu:&lt;/p&gt;
@@ -37,10 +37,14 @@ Found one for 2-years old Ubuntu 20 (&lt;a href="https://stackoverflow.com/a/726
 version of OpenSSL and that I would not have followed even if it applied to Ubuntu 22.&lt;/p&gt;
 &lt;p&gt;And then I found out the one maintainer of the project had stepped out a year ago:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="screenshot stork_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/stork_search_abandoned_screenshot.png"&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;sources: &lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://stork-search.net/docs/install"&gt;Stork install instructions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;a href="https://github.com/jameslittle230/stork/discussions/360"&gt;Maintainer's post on winding down from project&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
@@ -91,9 +95,12 @@ pelican-quickstart
 &amp;gt; Do you want to upload your website using GitHub Pages? (y/N) y
 &amp;gt; Is this your personal page (username.github.io)? (y/N) y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;source: https://docs.getpelican.com/en/latest/quickstart.html&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=""&gt;https://docs.getpelican.com/en/latest/quickstart.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;h1 id="customize-for-markdown"&gt;Customize for markdown&lt;a class="headerlink" href="#customize-for-markdown" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Add the following to &lt;code&gt;pelicanconf.py&lt;/code&gt;, which:&lt;/p&gt;
 &lt;ul&gt;
@@ -121,15 +128,15 @@ pelican-quickstart
   &lt;span class="s1"&gt;&amp;#39;output_format&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;html5&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;sources:&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://docs.getpelican.com/en/stable/settings.html#basic-settings"&gt;Pelican's documentation for setting &lt;code&gt;MARKDOWN&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://python-markdown.github.io/extensions/"&gt;Python Markdown built-in extensions&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://facelessuser.github.io/pymdown-extensions/extensions/superfences/"&gt;Documentation of superfences&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://facelessuser.github.io/pymdown-extensions/installation/"&gt;Installation of PyMDown Extensions&lt;/a&gt; superfences is a part of&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;
 &lt;h1 id="migrating-markdown-files-content"&gt;Migrating markdown files content&lt;a class="headerlink" href="#migrating-markdown-files-content" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;The following content in markdown must be changed.&lt;/p&gt;
 &lt;h2 id="metadata"&gt;metadata&lt;a class="headerlink" href="#metadata" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
@@ -164,13 +171,13 @@ pelican-quickstart
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;sources:&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://docs.getpelican.com/en/latest/content.html#linking-to-internal-content"&gt;Pelican's doc on linking to internal content&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://docs.getpelican.com/en/latest/content.html#linking-to-static-files"&gt;Pelican's doc on linking resources&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;
 &lt;h1 id="manual-migration-attempt"&gt;Manual migration attempt&lt;a class="headerlink" href="#manual-migration-attempt" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;find all code block types
@@ -1482,9 +1489,14 @@ sudo&lt;span class="w"&gt; &lt;/span&gt;ln&lt;span class="w"&gt; &lt;/span&gt;-s
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="w"&gt;  &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;gem&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;jekyll
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h2 id="github-pages"&gt;GitHub Pages&lt;a class="headerlink" href="#github-pages" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Source : &lt;a href="https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll"&gt;https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll&lt;/a&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="w"&gt;  &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;gem&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;github-pages
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=""&gt;https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;h2 id="rake"&gt;Rake&lt;a class="headerlink" href="#rake" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Rake is a build tool that we can use to automate several blog editing task&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="w"&gt;  &lt;/span&gt;sudo&lt;span class="w"&gt; &lt;/span&gt;gem&lt;span class="w"&gt; &lt;/span&gt;install&lt;span class="w"&gt; &lt;/span&gt;rake

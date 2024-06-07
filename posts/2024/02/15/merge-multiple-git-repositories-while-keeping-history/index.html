@@ -17,16 +17,16 @@
 
 <meta name="keywords" content="Git, tips, " />
 
-<meta property="og:title" content="Cloning a single branch "/>
-<meta property="og:url" content="https://www.javatronic.fr/posts/2014/01/06/cloning-a-single-branch/" />
-<meta property="og:description" content="On this new project I&#39;m working one, there is this huge repository that serves as a deployment mean for binaries in the stage and production environnement. Most branches content is totally different from one another and no one cares about the old branches and rarely use the tags. Since my …" />
+<meta property="og:title" content="Merge multiple Git repositories while keeping history "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/" />
+<meta property="og:description" content="WHY¶ I have 5 repositories (they are all private) holding scripts for my home backup strategy. I clone them on my NAS and maintain them on my laptop. onsite_backup offsite_backup local_backup phanas_scripts onsite_backup_copy Cloning multiple repositories on multiple machine is cumbersome. It is also error-prone as consistency between the scripts …" />
 <meta property="og:site_name" content="Javatronic" />
 <meta property="og:article:author" content="Sébastien Lesaint" />
-<meta property="og:article:published_time" content="2014-01-06T00:00:00+01:00" />
-<meta name="twitter:title" content="Cloning a single branch ">
-<meta name="twitter:description" content="On this new project I&#39;m working one, there is this huge repository that serves as a deployment mean for binaries in the stage and production environnement. Most branches content is totally different from one another and no one cares about the old branches and rarely use the tags. Since my …">
+<meta property="og:article:published_time" content="2024-02-15T00:00:00+01:00" />
+<meta name="twitter:title" content="Merge multiple Git repositories while keeping history ">
+<meta name="twitter:description" content="WHY¶ I have 5 repositories (they are all private) holding scripts for my home backup strategy. I clone them on my NAS and maintain them on my laptop. onsite_backup offsite_backup local_backup phanas_scripts onsite_backup_copy Cloning multiple repositories on multiple machine is cumbersome. It is also error-prone as consistency between the scripts …">
 
-        <title>Cloning a single branch  · Javatronic
+        <title>Merge multiple Git repositories while keeping history  · Javatronic
 </title>
         <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
 
@@ -70,8 +70,8 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="https://www.javatronic.fr/posts/2014/01/06/cloning-a-single-branch/">
-                Cloning a single branch
+            <a href="https://www.javatronic.fr/posts/2024/02/15/merge-multiple-git-repositories-while-keeping-history/">
+                Merge multiple Git repositories while keeping history
             </a>
         </h1>
     </header>
@@ -80,66 +80,101 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>On this new project I'm working one, there is this huge repository that serves as a deployment mean for binaries in the stage and production environnement.</p>
-<p>Most branches content is totally different from one another and no one cares about the old branches and rarely use the tags.</p>
-<p>Since my SSD was almost full, I wanted to avoid cloning the whole repository and clone only a specific branch instead. I would later retrieve other branches (and tags, very rarely) one by one.</p>
-<p>Using the <code>-t</code> option of <code>git remote</code> and a serie of commands, we can achieve that.</p>
-<h3 id="cloning-a-single-branch">Cloning a single branch<a class="headerlink" href="#cloning-a-single-branch" title="Permanent link">&para;</a></h3>
-<p>To clone a repository and retrieve a single branch can be done as follow :</p>
+            <h1 id="why">WHY<a class="headerlink" href="#why" title="Permanent link">&para;</a></h1>
+<p>I have 5 repositories (they are all private) holding scripts for my home backup strategy.
+I clone them on my NAS and maintain them on my laptop.</p>
+<ul>
+<li><code>onsite_backup</code></li>
+<li><code>offsite_backup</code></li>
+<li><code>local_backup</code></li>
+<li><code>phanas_scripts</code></li>
+<li><code>onsite_backup_copy</code></li>
+</ul>
+<p>Cloning multiple repositories on multiple machine is cumbersome.</p>
+<p>It is also error-prone as consistency between the scripts is sometimes required.</p>
+<p>In addition, some code is duplicated and has diverged on a couple occasions already. </p>
+<h1 id="what">WHAT<a class="headerlink" href="#what" title="Permanent link">&para;</a></h1>
+<p>I want to merge all repositories into <code>phanas_scripts</code>, keeping the history.</p>
+<p>I'll follow this procedure:</p>
+<ol>
+<li>in each repository, move content to a subdirectory with the name of the repo</li>
+<li>merge content of the 3 other repos into <code>phanas_scripts</code></li>
+<li>to keep the history, use <code>git merge --allow-unrelated-histories</code></li>
+</ol>
 <div class="admonition note">
 <p class="admonition-title"> Sources</p>
 <ul>
-<li><a href="">http://stackoverflow.com/a/4146786</a></li>
+<li><a href="https://stackoverflow.com/a/76831513">https://stackoverflow.com/a/76831513</a></li>
 </ul>
 </div>
-<div class="highlight"><pre><span></span><code><span class="c1"># create clone directory</span>
-mkdir<span class="w"> </span><span class="nv">$REPO</span>
-<span class="nb">cd</span><span class="w"> </span><span class="nv">$REPO</span>
-<span class="c1"># create an empty local master branch</span>
-git<span class="w"> </span>init
-<span class="c1"># add a remote repository for a specific branch</span>
-git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>-t<span class="w"> </span><span class="nv">$BRANCH</span><span class="w"> </span>-f<span class="w"> </span>origin<span class="w"> </span><span class="nv">$REMOTE_REPO</span>
-<span class="c1"># retrieve remote branch on disk</span>
-git<span class="w"> </span>fetch
-<span class="c1"># checkout branch locally</span>
-git<span class="w"> </span>checkout<span class="w"> </span><span class="nv">$BRANCH</span>
-</code></pre></div>
-<h3 id="checkout-new-branches">Checkout new branches<a class="headerlink" href="#checkout-new-branches" title="Permanent link">&para;</a></h3>
-<p>Checking out any branch/tag from the repo can be done as follow :
-It indeed requires to know the name of the remote branch from another source than your local checkout.</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span><span class="nv">$REPO</span>
-<span class="c1"># add a new remote branch</span>
-git<span class="w"> </span>remote<span class="w"> </span>set-branches<span class="w"> </span>--add<span class="w"> </span>origin<span class="w"> </span><span class="nv">$NEW_BRANCH</span>
-<span class="c1"># fetch all remote branches (the new one included) to disk</span>
-git<span class="w"> </span>fetch
-<span class="c1"># checkout branch locally</span>
-git<span class="w"> </span>co<span class="w"> </span><span class="nv">$NEW_BRANCH</span>
-</code></pre></div>
-<p>If the added remote branche does not exist on the remote repository, you will get the following error, fetch will fail.</p>
-<div class="highlight"><pre><span></span><code>fatal:<span class="w"> </span>Couldn<span class="err">&#39;</span>t<span class="w"> </span>find<span class="w"> </span>remote<span class="w"> </span>ref<span class="w"> </span>refs/heads/WRONG_BRANCH
-fatal:<span class="w"> </span>The<span class="w"> </span>remote<span class="w"> </span>end<span class="w"> </span>hung<span class="w"> </span>up<span class="w"> </span>unexpectedly
-</code></pre></div>
-<p>The problem is that your local repository get kind of corrupted and all the next <code>git fetch</code> command will also fail with the same error.</p>
-<p>To fix it, edit file <code>.git/config</code> and remove the wrong entry under '[remote origin]' starting with <code>fetch =</code>.</p>
-<div class="admonition note">
-<p class="admonition-title"> Sources</p>
-<ul>
-<li><a href="">http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399</a></li>
-</ul>
-</div>
-<h3 id="discussion">Discussion<a class="headerlink" href="#discussion" title="Permanent link">&para;</a></h3>
-<p>This technic is a litle bit manual, but has many advantages :</p>
-<ul>
-<li>writing a shell script to automate it is only a few hits on the keyboard away<ul>
-<li>hay ! How hard would it be to create a new Git command ? I must find time to dig into that</li>
-<li>maybe a simple GIT alias could do the job</li>
-</ul>
-</li>
-<li>you don't get pushing problems as you can get when using git shallow cloning</li>
-<li>you really are checking a single reference branch as opposed to using <code>git clone -b option</code></li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="c1"># retrieves all the remote branches locally and then checkout branch_name</span>
-git<span class="w"> </span>clone<span class="w"> </span>user@git-server:project_name.git<span class="w"> </span>-b<span class="w"> </span>branch_name
+<h1 id="how">HOW<a class="headerlink" href="#how" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/tmp
+mkdir<span class="w"> </span>work_dir
+<span class="nb">cd</span><span class="w"> </span>work_dir
+
+<span class="c1"># clone repositories, the target one and those to merge</span>
+g<span class="w"> </span>clone<span class="w"> </span>git@github.com:lesaint/phanas_scripts.git
+g<span class="w"> </span>clone<span class="w"> </span>git@github.com:lesaint/local_backup.git
+g<span class="w"> </span>clone<span class="w"> </span>git@github.com:lesaint/onsite_backup.git
+g<span class="w"> </span>clone<span class="w"> </span>git@github.com:lesaint/offsite_backup.git
+g<span class="w"> </span>clone<span class="w"> </span>git@github.com:lesaint/onsite_backup_copy.git
+
+<span class="c1"># move local_backup repository content to a subdirectory</span>
+<span class="nb">cd</span><span class="w"> </span>local_backup
+mkdir<span class="w"> </span>local_backup
+git<span class="w"> </span>mv<span class="w"> </span>local_backup.sh<span class="w"> </span>README.md<span class="w"> </span>rtb.sh<span class="w"> </span>sync_on_nas.sh<span class="w"> </span>local_backup/
+<span class="c1"># fix rtb.sh symlink, broken by the move</span>
+unlink<span class="w"> </span>rtb.sh
+<span class="nb">cd</span><span class="w"> </span>local_backup
+ln<span class="w"> </span>-s<span class="w"> </span>../../rtb/rsync_tmbackup.sh<span class="w"> </span>rtb.sh
+git<span class="w"> </span>add<span class="w"> </span>rtb.sh
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;move local_backup repository content to subdirectory local_backup&quot;</span>
+
+<span class="c1"># do the same with offsite_backup repository</span>
+<span class="nb">cd</span><span class="w"> </span>../offsite_backup
+mkdir<span class="w"> </span>offsite_backup
+git<span class="w"> </span>mv<span class="w"> </span>exclude_rtb_managed_dirs<span class="w"> </span>offsite_backup.sh<span class="w"> </span>README.md<span class="w"> </span>sync_on_phanas.sh<span class="w"> </span>offsite_backup/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;move offsite_backup repository content to offsite_backup subdirectory&quot;</span>
+
+<span class="c1"># do the same with onsite_backup repository</span>
+<span class="nb">cd</span><span class="w"> </span>../onsite_backup
+mkdir<span class="w"> </span>onsite_backup
+git<span class="w"> </span>mv<span class="w"> </span>backup.sh<span class="w"> </span>exclude_rtb_managed_dirs<span class="w"> </span>README.md<span class="w"> </span>onsite_backup/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;move onsite_backup repository content to onsite_backup subdirectory&quot;</span>
+<span class="c1"># take the opportunity to fix the name of the script</span>
+<span class="nb">cd</span><span class="w"> </span>onsite_backup
+git<span class="w"> </span>mv<span class="w"> </span>backup.sh<span class="w"> </span>onsite_backup.sh
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;rename backup.sh to onsite_backup.sh for consistency&quot;</span>
+
+<span class="c1"># do the same with onsite_backup_copy repository</span>
+<span class="nb">cd</span><span class="w"> </span>../onsite_backup_copy
+mkdir<span class="w"> </span>onsite_backup_copy
+git<span class="w"> </span>mv<span class="w"> </span>copy.sh<span class="w"> </span>exclude.rsync<span class="w"> </span>README.md<span class="w"> </span>onsite_backup_copy/
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;move onsite_backup_copy repo content to onsite_backup_copy subdirectory&quot;</span>
+
+<span class="c1"># go to target repository and add all source directories local clones as remote</span>
+<span class="nb">cd</span><span class="w"> </span>../phanas_scripts
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>onsite_backup<span class="w"> </span>../onsite_backup
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>offsite_backup<span class="w"> </span>../offsite_backup
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>local_backup<span class="w"> </span>../local_backup
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>onsite_backup_copy<span class="w"> </span>../onsite_backup_copy
+
+<span class="c1"># fetch all repository contents</span>
+git<span class="w"> </span>fetch<span class="w"> </span>--all
+
+<span class="c1"># merge, one after the other, all source repositories</span>
+git<span class="w"> </span>merge<span class="w"> </span>--allow-unrelated-histories<span class="w"> </span>onsite_backup/master<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;merge &#39;onsite_backup&#39; repository into &#39;phanas_scripts&#39; repository&quot;</span>
+git<span class="w"> </span>merge<span class="w"> </span>--allow-unrelated-histories<span class="w"> </span>offsite_backup/master<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;merge &#39;offsite_backup&#39; repository into &#39;phanas_scripts&#39; repository&quot;</span>
+git<span class="w"> </span>merge<span class="w"> </span>--allow-unrelated-histories<span class="w"> </span>local_backup/master<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;merge &#39;local_backup&#39; repository into &#39;phanas_scripts&#39; repository&quot;</span>
+git<span class="w"> </span>merge<span class="w"> </span>--allow-unrelated-histories<span class="w"> </span>onsite_backup_copy/master<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;merge &#39;onsite_backup_copy&#39; repository into &#39;phanas_scripts&#39; repository&quot;</span>
+
+<span class="c1"># clean up remotes</span>
+git<span class="w"> </span>remote<span class="w"> </span>remove<span class="w"> </span>local_backup
+git<span class="w"> </span>remote<span class="w"> </span>remove<span class="w"> </span>offsite_backup
+git<span class="w"> </span>remote<span class="w"> </span>remove<span class="w"> </span>onsite_backup<span class="w"> </span>
+git<span class="w"> </span>remote<span class="w"> </span>remove<span class="w"> </span>onsite_backup_copy
+
+git<span class="w"> </span>push
 </code></pre></div>
 
 
@@ -159,7 +194,7 @@ git<span class="w"> </span>clone<span class="w"> </span>user@git-server:project_
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2014-01-06T00:00:00+01:00">Mon 06 January 2014</time>
+            <time itemprop="dateCreated" datetime="2024-02-15T00:00:00+01:00">Thu 15 February 2024</time>
             <h4>Category</h4>
             <a class="category-link" href="https://www.javatronic.fr/categories.html#tips-ref">tips</a>
             <h4>Tags</h4>
