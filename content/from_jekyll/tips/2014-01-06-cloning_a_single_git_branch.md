@@ -13,7 +13,9 @@ Using the `-t` option of `git remote` and a serie of commands, we can achieve th
 ### Cloning a single branch
 To clone a repository and retrieve a single branch can be done as follow :
 
-(source : [http://stackoverflow.com/a/4146786](http://stackoverflow.com/a/4146786))
+!!! note " Sources"
+
+    * [http://stackoverflow.com/a/4146786]()
 
 ```sh
 # create clone directory
@@ -55,7 +57,9 @@ The problem is that your local repository get kind of corrupted and all the next
 
 To fix it, edit file `.git/config` and remove the wrong entry under '[remote origin]' starting with `fetch =`.
 
-(source : [http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399](http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399))
+!!! note " Sources"
+
+    * [http://stackoverflow.com/questions/6930147/git-pull-displays-fatal-couldnt-find-remote-ref-refs-heads-xxxx-and-hangs-up#comment8276807_6930399]()
 
 ### Discussion
 This technic is a litle bit manual, but has many advantages :

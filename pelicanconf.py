@@ -57,6 +57,7 @@ MARKDOWN = {
     "markdown.extensions.meta": {},
     "markdown.extensions.sane_lists": {},
     "pymdownx.superfences": {},
+    "markdown.extensions.admonition": {},
   },
   "output_format": "html5",
 }

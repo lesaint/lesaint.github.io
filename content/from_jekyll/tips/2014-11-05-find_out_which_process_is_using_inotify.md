@@ -38,7 +38,9 @@ You can get more details about the process using the regular `ps` options such a
 ps -f $(find /proc/*/fd/* -type l -lname 'anon_inode:inotify' 2>/dev/null | sed 's+/proc/\([^/]*\)/fd/.*+\1+')
 ```
 
->source: https://bbs.archlinux.org/viewtopic.php?pid=1340024#p1340024
+!!! note " Sources"
+
+    * [https://bbs.archlinux.org/viewtopic.php?pid=1340024#p1340024]()
 
 # Count nodes per process
 

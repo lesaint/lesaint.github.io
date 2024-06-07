@@ -19,5 +19,7 @@ git format-patch -1 HEAD
 patch -p1 < [path_to]/some_file.patch
 ```
 
-source : [http://stackoverflow.com/questions/13192806/how-to-generate-a-git-patch-with-a-local-commit](http://stackoverflow.com/questions/13192806/how-to-generate-a-git-patch-with-a-local-commit)
+!!! note " Sources"
+
+    * [http://stackoverflow.com/questions/13192806/how-to-generate-a-git-patch-with-a-local-commit]()
 

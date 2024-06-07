@@ -56,11 +56,13 @@ sudo apt-get install rubygems
 
 ## GitHub Pages
 
-Source : [https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll](https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll)
-
 ```sh
   sudo gem install github-pages
 ```
+
+!!! note " Sources"
+
+    * [https://help.github.com/articles/using-jekyll-with-pages#installing-jekyll]()
 
 ## Rake
 

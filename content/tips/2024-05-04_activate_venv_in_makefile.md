@@ -24,10 +24,10 @@ run: install
     python foo.my
 ```
 
-> sources:
-> 
-> * stackoverflow: [effect and usage of .ONESHELL](https://stackoverflow.com/a/55404948)
-> * stackoverflow: [using a macro to factor activation code](https://stackoverflow.com/a/73837995)
+!!! note " Sources"
+
+    * stackoverflow: [effect and usage of .ONESHELL](https://stackoverflow.com/a/55404948)
+    * stackoverflow: [using a macro to factor activation code](https://stackoverflow.com/a/73837995)
 
 ## Tracking requirements.txt changes
 
@@ -52,4 +52,6 @@ venvclean:
 	rm -rf $(VENV_DIR)
 ```
 
-> source: stackoverflow: [using a touch file](https://stackoverflow.com/a/46188210)
+!!! note " Sources"
+
+    * stackoverflow: [using a touch file](https://stackoverflow.com/a/46188210)

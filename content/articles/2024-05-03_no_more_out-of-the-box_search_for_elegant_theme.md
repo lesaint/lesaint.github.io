@@ -16,10 +16,10 @@ Unfortunately, this plugin and the jquery code it relies on is abandoned, as sta
 
 `pelican_search` plugin should be used instead, but how?
 
-> sources:
-> 
-> * https://elegant.oncrashreboot.com/add-search
-> * [tipue_search's plugin Github page](https://github.com/pelican-plugins/tipue-search?tab=readme-ov-file)
+!!! note " Sources"
+
+    * [Elegant theme doc: add search](https://elegant.oncrashreboot.com/add-search)
+    * [tipue_search's plugin Github page](https://github.com/pelican-plugins/tipue-search?tab=readme-ov-file)
 
 # pelican_search abandoned
 
@@ -48,9 +48,9 @@ And then I found out the one maintainer of the project had stepped out a year ag
 
 ![screenshot stork_search abandoned message]({static}/images/2024-05-03_enabling_search_in_elegant_theme/stork_search_abandoned_screenshot.png)
 
-> sources: 
-> 
-> * [Stork install instructions](https://stork-search.net/docs/install)
+!!! note " Sources"
+
+    * [Stork install instructions](https://stork-search.net/docs/install)
 > * [Maintainer's post on winding down from project](https://github.com/jameslittle230/stork/discussions/360)
 
 # Search with Google

@@ -29,7 +29,9 @@ I'll follow this procedure:
 2. merge content of the 3 other repos into `phanas_scripts`
 3. to keep the history, use `git merge --allow-unrelated-histories`
 
-> source: https://stackoverflow.com/a/76831513
+!!! note " Sources"
+
+    * [https://stackoverflow.com/a/76831513](https://stackoverflow.com/a/76831513)
 
 # HOW
 

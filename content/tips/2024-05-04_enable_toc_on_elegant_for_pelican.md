@@ -66,8 +66,8 @@ MARKDOWN = {
 ```
 
 
-> sources:
-> 
-> * extract_toc's [README](https://github.com/getpelican/pelican-plugins/tree/master/extract_toc)
-> * Elegant's documentation: [Add a Table of Contents to Your Articles](https://elegant.oncrashreboot.com/how-elegant-displays-table-of-contents)
-> * Elegant's documentation: [Permalinks to Headings](https://elegant.oncrashreboot.com/permalinks-to-headings)
+!!! note " Sources"
+
+    * extract_toc's [README](https://github.com/getpelican/pelican-plugins/tree/master/extract_toc)
+    * Elegant's documentation: [Add a Table of Contents to Your Articles](https://elegant.oncrashreboot.com/how-elegant-displays-table-of-contents)
+    * Elegant's documentation: [Permalinks to Headings](https://elegant.oncrashreboot.com/permalinks-to-headings)

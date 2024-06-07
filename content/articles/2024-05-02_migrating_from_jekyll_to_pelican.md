@@ -35,7 +35,9 @@ Options for quickstart configuration:
 > Is this your personal page (username.github.io)? (y/N) y
 ```
 
-> source: https://docs.getpelican.com/en/latest/quickstart.html
+!!! note " Sources"
+
+    * [https://docs.getpelican.com/en/latest/quickstart.html]()
 
 
 # Customize for markdown
@@ -68,12 +70,12 @@ MARKDOWN = {
 }
 ```
 
-> sources:
->
->  * [Pelican's documentation for setting `MARKDOWN`](https://docs.getpelican.com/en/stable/settings.html#basic-settings)
->  * [Python Markdown built-in extensions](https://python-markdown.github.io/extensions/)
->  * [Documentation of superfences](https://facelessuser.github.io/pymdown-extensions/extensions/superfences/)
->  * [Installation of PyMDown Extensions](https://facelessuser.github.io/pymdown-extensions/installation/) superfences is a part of
+!!! note " Sources"
+
+    * [Pelican's documentation for setting `MARKDOWN`](https://docs.getpelican.com/en/stable/settings.html#basic-settings)
+    * [Python Markdown built-in extensions](https://python-markdown.github.io/extensions/)
+    * [Documentation of superfences](https://facelessuser.github.io/pymdown-extensions/extensions/superfences/)
+    * [Installation of PyMDown Extensions](https://facelessuser.github.io/pymdown-extensions/installation/) superfences is a part of
 
 # Migrating markdown files content
 
@@ -106,10 +108,10 @@ The following content in markdown must be changed.
     * `{{ site.url }}/resourcs/foo.png` must become `{static}/images/foo.png`
     * (resources could also be "attached" but, so far, I haven't seen the use case, so I'll keep to `{static}`)
 
-> sources:
-> 
-> * [Pelican's doc on linking to internal content](https://docs.getpelican.com/en/latest/content.html#linking-to-internal-content)
-> * [Pelican's doc on linking resources](https://docs.getpelican.com/en/latest/content.html#linking-to-static-files)
+!!! note " Sources"
+
+    * [Pelican's doc on linking to internal content](https://docs.getpelican.com/en/latest/content.html#linking-to-internal-content)
+    * [Pelican's doc on linking resources](https://docs.getpelican.com/en/latest/content.html#linking-to-static-files)
 
 # Manual migration attempt
 
