@@ -37,6 +37,9 @@ written to `stdout` or `stderr`, send it by email to some recipient.
 
 1. `ssmtp` available on path and configured to send out emails
 
+For tips on installing and configuring `sSMTP`, see [Configure sSMTP with Gmail on Ubuntu]({filename}/tips/2023-12-12_configure_ssmtp_with_gmail_on_ubuntu.md)
+and [Configure sSMTP with Gmail on Qnap]({filename}/tips/2023-12-14_configure_ssmtp_with_gmail_on_qnap.md).
+
 ## Features
 
 * sends an email if command has any output (either `stdout` or `stderr` or both) **and/or** exit code is non-zero
