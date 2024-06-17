@@ -2,3 +2,4 @@ pelican[markdown]
 pymdown-extensions
 beautifulsoup4
 ghp-import
+pelican-extended-sitemap

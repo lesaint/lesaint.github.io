@@ -69,6 +69,28 @@ SOCIAL = (
     ("Github", "https://github.com/sns-seb/", "Public Github at SonarSource"),
 )
 
+##########################
+# Search engine indexing #
+##########################
+STATIC_PATHS.append("extra/robots.txt")
+EXTRA_PATH_METADATA["extra/robots.txt"] = {"path": "robots.txt"}
+
+PLUGINS.append("extended_sitemap")
+EXTENDED_SITEMAP_PLUGIN = {
+    'priorities': {
+        'index': 1.0,
+        'articles': 0.8,
+        'pages': 0.9,
+        'others': 0.4
+    },
+    'changefrequencies': {
+        'index': 'daily',
+        'articles': 'weekly',
+        'pages': 'monthly',
+        'others': 'monthly',
+    }
+}
+
 ##################################
 # Elegant theme related settings #
 ##################################
