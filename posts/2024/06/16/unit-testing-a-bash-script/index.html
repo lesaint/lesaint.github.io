@@ -249,7 +249,7 @@ variable <code>INJECT_NOW</code> to be set to provide the value to return instea
 <span class="w"> </span><span class="c1"># Date logic</span>
 -NOW<span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+<span class="s2">"%Y-%m-%d-%H%M%S"</span><span class="k">)</span>
 +fn_now<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="si">${</span><span class="nv">INJECT_NOW</span><span class="si">}</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
++<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">INJECT_NOW</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 +<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$INJECT_NOW</span><span class="s2">"</span>
 +<span class="w">    </span><span class="k">else</span>
 +<span class="w">        </span>date<span class="w"> </span>+<span class="s2">"%Y-%m-%d-%H%M%S"</span>
