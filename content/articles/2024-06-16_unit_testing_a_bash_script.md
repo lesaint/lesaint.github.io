@@ -110,7 +110,7 @@ Printing allows me to inspect the code. Exiting allows me to only execute the di
 +# Test code
 +# -----------------------------------------------------------------------------
 +fn_is_test1_active() {
-+    [ -n ${TEST1} ]
++    [ -n "${TEST1}" ]
 +}
 +
 +fn_test_1_echo_vars() {
@@ -179,7 +179,7 @@ variable `INJECT_NOW` to be set to provide the value to return instead of callin
  # Date logic
 -NOW=$(date +"%Y-%m-%d-%H%M%S")
 +fn_now() {
-+    if [ -n ${INJECT_NOW} ]; then
++    if [ -n "${INJECT_NOW}" ]; then
 +        echo "$INJECT_NOW"
 +    else
 +        date +"%Y-%m-%d-%H%M%S"
