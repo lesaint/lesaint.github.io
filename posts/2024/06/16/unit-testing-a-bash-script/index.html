@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Bash, Testing, articles, " />
+
+<meta property="og:title" content="Unit testing a Bash script "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2024/06/16/unit-testing-a-bash-script/" />
+<meta property="og:description" content="Fixing rsync-time-backup¶ rsync-time-backup is a Bash script I maintain that wraps around rsync to produce Apple Time Machine style backups. rsync is able to create incremental backups thanks to its --link-dest=DIR option, that creates hardlinks to files in DIR when unchanged. To leverage this option, rsync-time-backup has a key …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2024-06-16T00:00:00+02:00" />
+<meta name="twitter:title" content="Unit testing a Bash script ">
+<meta name="twitter:description" content="Fixing rsync-time-backup¶ rsync-time-backup is a Bash script I maintain that wraps around rsync to produce Apple Time Machine style backups. rsync is able to create incremental backups thanks to its --link-dest=DIR option, that creates hardlinks to files in DIR when unchanged. To leverage this option, rsync-time-backup has a key …">
+
+        <title>Unit testing a Bash script  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/pages/sebastien_lesaint_resume/">Resume</a></li>
+                                <li ><a href="https://www.javatronic.fr/pages/books-read/">Books read</a></li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.google.com/search" onsubmit="return validateForm(this.elements['q'][0].value);" target="_blank"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"><input type="hidden" name="q" value="site:https://www.javatronic.fr"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/posts/2024/06/16/unit-testing-a-bash-script/">
+                Unit testing a Bash script
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#fixing-rsync-time-backup">Fixing rsync-time-backup</a></li>
+<li><a href="#code-unit-tests-for-bash">Code Unit tests for Bash</a><ul>
+<li><a href="#run-the-tests">Run the tests</a></li>
+<li><a href="#run-the-script-from-the-tests">Run the script from the tests</a></li>
+<li><a href="#inspect-and-run-only-the-code-under-test">Inspect and run only the code under test</a></li>
+<li><a href="#ensure-reproducibility">Ensure reproducibility</a></li>
+<li><a href="#setup-and-teardown-for-reentrancy">Setup and teardown for reentrancy</a></li>
+<li><a href="#implement-assertions">Implement assertions</a><ul>
+<li><a href="#assertions-output-contains-lines">Assertions output contains line(s)</a></li>
+<li><a href="#assertion-output-ends-with-lines">Assertion output ends with line(s)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#conclusions">Conclusions</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            
+<h1 id="fixing-rsync-time-backup">Fixing rsync-time-backup<a class="headerlink" href="#fixing-rsync-time-backup" title="Permanent link">¶</a></h1>
+<p><a href="https://github.com/lesaint/rsync-time-backup">rsync-time-backup</a> is a Bash script I maintain that wraps around
+<a href="https://linux.die.net/man/1/rsync">rsync</a> to produce Apple Time Machine style backups.</p>
+<p><code>rsync</code> is able to create incremental backups thanks to its <code>--link-dest=DIR</code> option, that creates hardlinks to files in
+<code>DIR</code> when unchanged. </p>
+<p>To leverage this option, <code>rsync-time-backup</code> has a key piece of logic that resolves the directory (let's call it <code>LINK_DEST</code>)
+to use as the argument to the <code>link-dest</code> option.</p>
+<p>Resolving <code>LINK_DEST</code> must support several use cases. When the script runs:</p>
+<ol>
+<li>for the 1st time</li>
+<li>any later time</li>
+<li>after a previous backup attempt failed/was interrupted</li>
+<li>after several previous backup attempts failed/were interrupted.</li>
+</ol>
+<p>Last week, I changed the logic for the 4th use case because it was broken: the script would use an incomplete
+backup attempt as <code>LINK_DEST</code> and this broke the incremental backup, recreating many unchanged files as new.</p>
+<div class="admonition note">
+<p>The changes to <code>rsync-time-backup</code> described in this article are visible in commits
+<a href="https://github.com/lesaint/rsync-time-backup/commit/e2bc6ad08cdca55db548351666e1c04ba3ce6023">e2bc6ad</a> and 
+<a href="https://github.com/lesaint/rsync-time-backup/commit/6577c3eb714778bd8173d90145f749b955994b69">6577c3</a>.</p>
+</div>
+<p><strong>Keep and automate the tests</strong></p>
+<p>When coding the new logic, I found myself creating several directories reproducing the above use cases
+(and several others) to test my changes. </p>
+<p>Unit testing is seldom practice in <code>Bash</code>, probably due to the nature and usage of <code>Bash</code>, as well as due to the lack of
+tooling.</p>
+<p>Nevertheless, it's such a pity not to have these tests to prevent regressions during future changes. So I
+decided to take on the challenge, try and write Unit Test for Directory Resolution, time-boxed to a weekend.</p>
+<h1 id="code-unit-tests-for-bash">Code Unit tests for Bash<a class="headerlink" href="#code-unit-tests-for-bash" title="Permanent link">¶</a></h1>
+<p>The basic requirements for useful Unit Tests in Bash are:</p>
+<ol>
+<li>run the tests</li>
+<li>run the script from the tests</li>
+<li>inspect and run only the code under test</li>
+<li>ensure reproducibility</li>
+<li>ensure stateless execution to achieve reentrancy of the tests</li>
+<li>declare the expected behaviors with assertions, which would fail the test if not met</li>
+</ol>
+<h2 id="run-the-tests">Run the tests<a class="headerlink" href="#run-the-tests" title="Permanent link">¶</a></h2>
+<p>Following common practices in other programming languages, I'll code tests in a dedicated directory: <code>tests</code>. <br/>
+I'll have one script per feature under test, i.e. a test suite: <code>directory_resolution.sh</code>.</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>rsync-time-backup<span class="w"> </span>git:<span class="o">(</span>master<span class="o">)</span><span class="w"> </span>tree
+.
+├──<span class="w"> </span>README.md
+├──<span class="w"> </span>rsync_tmbackup.sh
+└──<span class="w"> </span>tests
+<span class="w">    </span>├──<span class="w"> </span>directory_resolution.sh
+</code></pre></div>
+<h2 id="run-the-script-from-the-tests">Run the script from the tests<a class="headerlink" href="#run-the-script-from-the-tests" title="Permanent link">¶</a></h2>
+<p><a href="https://en.wikipedia.org/wiki/KISS_principle">KISS</a>, I'll hardcore the path to <code>rsync_tmbackup.sh</code>, expecting test suites always to be called from their directory.</p>
+<div class="highlight"><pre><span></span><code>fn_run_test<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">test_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">under_test</span><span class="o">=</span><span class="s2">"../../../rsync_tmbackup.sh"</span>
+<span class="o">[</span>...<span class="o">]</span>
+</code></pre></div>
+<h2 id="inspect-and-run-only-the-code-under-test">Inspect and run only the code under test<a class="headerlink" href="#inspect-and-run-only-the-code-under-test" title="Permanent link">¶</a></h2>
+<p>Directory resolution is only one of many <code>rsync-time-backup</code> features. I don't want to run these other features when
+testing directory resolution.</p>
+<p>In other programming languages, the usual practice is to have the feature under test in a separate piece of code
+(a class, a package, a library, ...).
+In <code>Bash</code>, the candidates I see are files or functions.</p>
+<p>Such isolation does not exist (yet) and I decided against refactoring because:</p>
+<ol>
+<li>I lack tests to prevent regression during this refactoring (sic!)</li>
+<li>My focus is on proving I can write Unit Tests for Bash, not on writing testable Bash code (yet)</li>
+</ol>
+<p>So, I went for a simpler solution (which is also a bad practice) and altered my production code with two control points
+for my tests:</p>
+<ul>
+<li>The first one prints directory-resolution-related variables.</li>
+<li>The second one prints the same variables and stops <code>rsync-time-backup</code>.</li>
+<li>Both are inactive unless the variable <code>TEST1</code> is set.</li>
+</ul>
+<p>Printing allows me to inspect the code. Exiting allows me to only execute the directory resolution code (almost, see <a href="#conclusions">Conclusions</a>).</p>
+<div class="highlight"><pre><span></span><code>---<span class="w"> </span>i/rsync_tmbackup.sh
++++<span class="w"> </span>w/rsync_tmbackup.sh
+@@<span class="w"> </span>-165,6<span class="w"> </span>+165,32<span class="w"> </span>@@<span class="w"> </span>fn_dest_chown_link<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">     </span><span class="k">fi</span>
+<span class="w"> </span><span class="o">}</span>
+
++#<span class="w"> </span>-----------------------------------------------------------------------------
++#<span class="w"> </span>Test<span class="w"> </span>code
++#<span class="w"> </span>-----------------------------------------------------------------------------
++fn_is_test1_active<span class="o">()</span><span class="w"> </span><span class="o">{</span>
++<span class="w">    </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="si">${</span><span class="nv">TEST1</span><span class="si">}</span><span class="w"> </span><span class="o">]</span>
++<span class="o">}</span>
++
++fn_test_1_echo_vars<span class="o">()</span><span class="w"> </span><span class="o">{</span>
++<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"TEST1: SYM_LINK=</span><span class="nv">$SYM_LINK</span><span class="s2"> DEST=</span><span class="nv">$DEST</span><span class="s2"> LINK_DEST=</span><span class="nv">$LINK_DEST</span><span class="s2"> LAST_BACKUP_DIR=</span><span class="nv">$LAST_BACKUP_DIR</span><span class="s2">"</span>
++<span class="o">}</span>
++
++fn_test_1_step_1<span class="o">()</span><span class="w"> </span><span class="o">{</span>
++<span class="w">    </span><span class="k">if</span><span class="w"> </span>fn_is_test1_active<span class="p">;</span><span class="w"> </span><span class="k">then</span>
++<span class="w">        </span>fn_test_1_echo_vars
++<span class="w">    </span><span class="k">fi</span>
++<span class="o">}</span>
++
++fn_test_1_step_2<span class="o">()</span><span class="w"> </span><span class="o">{</span>
++<span class="w">    </span><span class="k">if</span><span class="w"> </span>fn_is_test1_active<span class="p">;</span><span class="w"> </span><span class="k">then</span>
++<span class="w">        </span>fn_test_1_echo_vars
++<span class="w">        </span><span class="c1"># end test</span>
++<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"TEST1: end execution"</span>
++<span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
++<span class="w">    </span><span class="k">fi</span>
++<span class="o">}</span>
++
+<span class="w"> </span><span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="w"> </span><span class="c1"># Source and destination information</span>
+<span class="w"> </span><span class="c1"># -----------------------------------------------------------------------------</span>
+@@<span class="w"> </span>-300,6<span class="w"> </span>+326,8<span class="w"> </span>@@<span class="w"> </span><span class="k">else</span>
+<span class="w">     </span><span class="nv">LINK_DEST</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>fn_dest_find_last_backup<span class="k">)</span><span class="s2">"</span>
+<span class="w"> </span><span class="k">fi</span>
+
++fn_test_1_step_1
++
+<span class="w"> </span><span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="w"> </span><span class="c1"># Handle case where a previous backup failed or was interrupted.</span>
+<span class="w"> </span><span class="c1"># -----------------------------------------------------------------------------</span>
+@@<span class="w"> </span>-330,6<span class="w"> </span>+358,8<span class="w"> </span>@@<span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>fn_dest_find<span class="w"> </span><span class="s2">"</span><span class="nv">$INPROGRESS_FILE</span><span class="s2">"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">     </span><span class="k">fi</span>
+<span class="w"> </span><span class="k">fi</span>
+
++fn_test_1_step_2
++
+<span class="w"> </span><span class="c1"># Run in a loop to handle the "No space left on device" logic.</span>
+<span class="w"> </span><span class="k">while</span><span class="w"> </span>:<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</code></pre></div>
+<h2 id="ensure-reproducibility">Ensure reproducibility<a class="headerlink" href="#ensure-reproducibility" title="Permanent link">¶</a></h2>
+<p>There is one non-deterministic piece of code in Directory Resolution: the name of the new backup directory is generated 
+from the current date.</p>
+<p>Such code is a challenge to test, notably because it is a dependency to code outside our own.</p>
+<p>The common practice in other programming languages in such case is to mock, or patch in <code>Python</code>, the dependency.</p>
+<p>There are no libraries to mock or patch with <code>Bash</code><sup>*</sup>.</p>
+<p>Focusing on my goal to write tests, I went for the same (and bad) solution as above: I altered the production code.</p>
+<p>This time, I replaced the code that computes the name of a directory from the current date with a function and allowed
+variable <code>INJECT_NOW</code> to be set to provide the value to return instead of calling the system's <code>date</code> function.</p>
+<div class="highlight"><pre><span></span><code>---<span class="w"> </span>i/rsync_tmbackup.sh<span class="w"> </span>
++++<span class="w"> </span>w/rsync_tmbackup.sh
+@@<span class="w"> </span>-273,7<span class="w"> </span>+273,15<span class="w"> </span>@@<span class="w"> </span><span class="k">fi</span>
+<span class="w"> </span><span class="c1"># -----------------------------------------------------------------------------</span>
+
+<span class="w"> </span><span class="c1"># Date logic</span>
+-NOW<span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+<span class="s2">"%Y-%m-%d-%H%M%S"</span><span class="k">)</span>
++fn_now<span class="o">()</span><span class="w"> </span><span class="o">{</span>
++<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="si">${</span><span class="nv">INJECT_NOW</span><span class="si">}</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
++<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$INJECT_NOW</span><span class="s2">"</span>
++<span class="w">    </span><span class="k">else</span>
++<span class="w">        </span>date<span class="w"> </span>+<span class="s2">"%Y-%m-%d-%H%M%S"</span>
++<span class="w">    </span><span class="k">fi</span>
++<span class="o">}</span>
++
++NOW<span class="o">=</span><span class="k">$(</span>fn_now<span class="k">)</span>
+<span class="w"> </span><span class="nv">EPOCH</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span><span class="s2">"+%s"</span><span class="k">)</span>
+<span class="w"> </span><span class="nv">KEEP_ALL_DATE</span><span class="o">=</span><span class="k">$((</span><span class="nv">EPOCH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">86400</span><span class="k">))</span><span class="w">       </span><span class="c1"># 1 day ago</span>
+<span class="w"> </span><span class="nv">KEEP_DAILIES_DATE</span><span class="o">=</span><span class="k">$((</span><span class="nv">EPOCH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">15768000</span><span class="k">))</span><span class="w"> </span><span class="c1"># 6 months</span>
+</code></pre></div>
+<div class="admonition note">
+<p><em><sup>*</sup> I didn't do an extensive search. At least, there is none in the standard <code>Bash</code> ecosystem.</em></p>
+</div>
+<h2 id="setup-and-teardown-for-reentrancy">Setup and teardown for reentrancy<a class="headerlink" href="#setup-and-teardown-for-reentrancy" title="Permanent link">¶</a></h2>
+<p>Directory resolution needs... directories. A source directory (the one to back up) and a target directory (the one 
+where to create backups).</p>
+<p>I'll create source and target directories for the tests in a dedicated directory for a run of the test suite, which I 
+create in setup code and execute before all tests.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># creates a directory dedicated to this run of tests</span>
+fn_prepare_test<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"out"</span>
+<span class="w">    </span><span class="nv">TEST_DIR</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>mktemp<span class="w"> </span>--tmpdir<span class="o">=</span><span class="s2">"out"</span><span class="w"> </span>-d<span class="w"> </span>test1-XXXXXXXX<span class="k">)</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="o">[</span>...<span class="o">]</span>
+
+<span class="c1">##########################</span>
+<span class="c1">#--- the actual tests ---#</span>
+<span class="c1">##########################</span>
+<span class="c1"># Suite level preparation</span>
+fn_prepare_test
+</code></pre></div>
+<p>The source directory is only read and can be the same for tests. This one is set up once for all tests.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># creates an empty directory</span>
+fn_prepare_source_dir<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_DIR</span><span class="s2">/src"</span>
+<span class="o">}</span>
+
+<span class="o">[</span>...<span class="o">]</span>
+
+<span class="c1">##########################</span>
+<span class="c1">#--- the actual tests ---#</span>
+<span class="c1">##########################</span>
+<span class="c1"># Test level preparation</span>
+fn_prepare_test
+<span class="c1"># same source dir is used for all tests</span>
+fn_prepare_source_dir
+</code></pre></div>
+<p>Target directory changes from one test to the other AND directory resolution may its content (when resuming from an interrupted backup).</p>
+<p>I have setup code before each test, creating the directories for that one test:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># creates an empty directory</span>
+fn_prepare_source_dir<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_DIR</span><span class="s2">/src"</span>
+<span class="o">}</span>
+
+<span class="c1"># create a target directory with name 1st argument and executes method 2nd argument in it</span>
+fn_prepare_target_dir<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">test_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">prepare_function</span><span class="o">=</span><span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">target_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$TEST_DIR</span><span class="s2">/target/</span><span class="nv">$test_dir</span><span class="s2">"</span>
+
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"**************** </span><span class="nv">$test_dir</span><span class="s2"> ****************"</span>
+
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">"</span><span class="nv">$target_dir</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$target_dir</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Preparing </span><span class="nv">$test_dir</span><span class="s2">..."</span>
+<span class="w">    </span><span class="nv">$prepare_function</span>
+
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">"../../../../"</span>
+<span class="o">}</span>
+
+<span class="c1">#--- common functions used during prepare of a test ---#</span>
+fn_marker_file<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>touch<span class="w"> </span><span class="s2">"backup.marker"</span>
+<span class="o">}</span>
+
+fn_inprogress_file<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>touch<span class="w"> </span><span class="s2">"backup.inprogress"</span>
+<span class="o">}</span>
+
+fn_latest_symlink<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">target_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="w">    </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="nv">$target_dir</span><span class="s2">"</span><span class="w"> </span><span class="s2">"latest"</span>
+<span class="o">}</span>
+
+<span class="o">[</span>...<span class="o">]</span>
+
+fn_prepare_target_2nd_backup_interrupted<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>fn_marker_file
+<span class="w">    </span>mkdir<span class="w"> </span><span class="s2">"2022-04-19-202210"</span>
+<span class="w">    </span>mkdir<span class="w"> </span><span class="s2">"2022-10-25-213541"</span>
+<span class="w">    </span>fn_latest_symlink<span class="w"> </span><span class="s2">"2022-04-19-202210"</span>
+<span class="w">    </span>fn_inprogress_file
+<span class="o">}</span>
+fn_prepare_target_dir<span class="w"> </span><span class="s2">"2nd_backup_interrupted"</span><span class="w"> </span><span class="s2">"fn_prepare_target_2nd_backup_interrupted"</span>
+</code></pre></div>
+<p>After successfully completing the tests, I delete the directory for the suite in a piece of teardown code for the test suite.    </p>
+<div class="highlight"><pre><span></span><code>fn_teardown_test<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Clean up: deleting </span><span class="si">${</span><span class="nv">TEST_DIR</span><span class="si">}</span><span class="s2">..."</span>
+<span class="w">    </span>rm<span class="w"> </span>-Rf<span class="w"> </span>--<span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_DIR</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="o">[</span>...<span class="o">]</span>
+
+fn_teardown_test
+
+<span class="o">[</span>EOF<span class="o">]</span>
+</code></pre></div>
+<h2 id="implement-assertions">Implement assertions<a class="headerlink" href="#implement-assertions" title="Permanent link">¶</a></h2>
+<p>Because this is the way I verified the code behavior when modifying directory resolution, I want to code assertions 
+against some logs produced by the script.</p>
+<p>The assertions will be line-based and will be exact matches (<a href="https://en.wikipedia.org/wiki/KISS_principle">KISS</a> again). <br/>
+They come in 2 flavors: 1/ find a line in the logs 2/ verify the logs ends with the N following lines</p>
+<p>To code assertions on the script output, I need:</p>
+<ol>
+<li>to capture the script output (both <code>stdout</code> and <code>stderr</code>, indistinctly for now)</li>
+<li>have a readable and convenient way to declare expected line or lines</li>
+</ol>
+<p>The former is achieved by storing the output into variable <code>TEST_OUTPUT</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Runs the executable under_test with the specified $1 directory as target.</span>
+<span class="c1"># Output of execution of under_test is set into variable TEST_OUTPUT</span>
+fn_run_test<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">test_dir</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">under_test</span><span class="o">=</span><span class="s2">"../../../rsync_tmbackup.sh"</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">out</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="w">    </span><span class="c1"># ensure no leakage from previous test</span>
+<span class="w">    </span><span class="nv">TEST_OUTPUT</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="w">    </span><span class="c1"># print content of target directory</span>
+<span class="w">    </span>tree<span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_DIR</span><span class="s2">/target/</span><span class="nv">$test_dir</span><span class="s2">"</span>
+
+<span class="w">    </span><span class="c1"># temporarily do not exit if command returns a non-zero exit code</span>
+<span class="w">    </span><span class="c1"># doc: https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#The-Set-Builtin</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Running </span><span class="nv">$test_dir</span><span class="s2">..."</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_DIR</span><span class="s2">"</span>
+<span class="w">    </span><span class="c1"># make sure executable exists and is accessible</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[</span><span class="w"> </span>-x<span class="w"> </span><span class="s2">"</span><span class="nv">$under_test</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/</span><span class="nv">$under_test</span><span class="s2"> is not accessible or executable"</span>
+<span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">    </span><span class="nb">set</span><span class="w"> </span>+e
+<span class="w">    </span><span class="nv">TEST_OUTPUT</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span><span class="w"> </span><span class="si">${</span><span class="nv">under_test</span><span class="si">}</span><span class="w"> </span><span class="s2">"src"</span><span class="w"> </span><span class="s2">"target/</span><span class="nv">$test_dir</span><span class="s2">"</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="k">)</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">set</span><span class="w"> </span>-e
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span><span class="s2">"../.."</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_OUTPUT</span><span class="s2">"</span>
+<span class="o">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>I use <code>set +e</code> and <code>set -e</code> around the call to the script because the whole test suite is coded with 
+<a href="http://redsymbol.net/articles/unofficial-bash-strict-mode/">Bash unofficial strict mode</a>. Otherwise, the script
+exiting with a non-zero code would exit the whole test suite.</p>
+</div>
+<p>The latter is achieved by having lines as function arguments and use <code>\</code> to put each expected line on a different line.</p>
+<h3 id="assertions-output-contains-lines">Assertions output contains line(s)<a class="headerlink" href="#assertions-output-contains-lines" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># checks whether a single line is present in TEST_OUTPUT</span>
+fn_test_output_contains_line<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">expected</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="w">    </span><span class="c1"># declare line local to prevent leak of lines read in this function out of it</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">line</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="w">    </span><span class="c1"># read TEST_OUTPUT line by line and compare each of them to searched line</span>
+<span class="w">    </span><span class="c1"># source: https://superuser.com/a/284226</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="nv">IFS</span><span class="o">=</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>line<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$line</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"</span><span class="nv">$expected</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span><span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_OUTPUT</span><span class="s2">"</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+<span class="o">}</span>
+
+<span class="c1"># checks whether test output contains all the specified lines (one line per argument), IN NO SPECIFIC ORDER</span>
+fn_test_output_contains_lines<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">line</span><span class="o">=</span><span class="s2">""</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>line<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>fn_test_output_contains_line<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">line</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"[TEST FAILURE] Expecting output to contain \"</span><span class="nv">$line</span><span class="s2">\""</span>
+<span class="w">            </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">        </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="o">}</span>
+
+<span class="o">[</span>...<span class="o">]</span>
+
+fn_run_test<span class="w"> </span><span class="s2">"no_marker_file"</span>
+fn_test_output_contains_lines<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">"rsync_tmbackup: Safety check failed - the destination does not appear to be a backup folder or drive (marker file not found)."</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">"rsync_tmbackup: mkdir -p -- \"target/no_marker_file\" ; touch \"target/no_marker_file/backup.marker\""</span>
+</code></pre></div>
+<h3 id="assertion-output-ends-with-lines">Assertion output ends with line(s)<a class="headerlink" href="#assertion-output-ends-with-lines" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># checks that the last lines of TEST_OUTPUT are the same as the lines provided as arguments (IN ORDER)</span>
+fn_test_output_ends_with<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="c1"># concatenating arguments with new lines in between</span>
+<span class="w">    </span><span class="c1"># source: https://www.baeldung.com/linux/add-newline-variable-bash#4-shell-parameter-expansion</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">expected</span><span class="o">=</span><span class="s2">""</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>arg<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">expected</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">expected</span><span class="si">}${</span><span class="nv">arg</span><span class="si">}</span><span class="s2">"</span><span class="s1">$'\n'</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">    </span><span class="c1"># remove trailing \n</span>
+<span class="w">    </span><span class="nv">expected</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">expected</span><span class="p">:</span><span class="k">:-</span><span class="nv">1</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="w">    </span><span class="c1"># capture the last n lines of TEST_OUTPUT</span>
+<span class="w">    </span><span class="c1"># $# is the number of arguments</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">tested</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$TEST_OUTPUT</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span><span class="s2">"-</span><span class="nv">$#</span><span class="s2">"</span><span class="k">)</span>
+
+<span class="w">    </span><span class="c1"># diff between two variables</span>
+<span class="w">    </span><span class="c1"># source: https://stackoverflow.com/a/13437445</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>diff<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$tested</span><span class="s2">"</span><span class="o">)</span><span class="w"> </span>&lt;<span class="o">(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$expected</span><span class="s2">"</span><span class="o">)</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"[TEST FAILURE] Expecting output to end with (see diff output above):"</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span>arg<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"  </span><span class="nv">$arg</span><span class="s2">"</span>
+<span class="w">        </span><span class="k">done</span>
+<span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="o">[</span>...<span class="o">]</span>
+
+fn_run_test<span class="w"> </span><span class="s2">"1st_backup"</span>
+fn_test_output_ends_with<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">"rsync_tmbackup: target/1st_backup/latest exists and targets existing directory target/1st_backup/2022-04-19-202210."</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">"TEST1: SYM_LINK=target/1st_backup/latest DEST=target/1st_backup/</span><span class="si">${</span><span class="nv">INJECT_NOW</span><span class="si">}</span><span class="s2"> LINK_DEST=target/1st_backup/2022-04-19-202210 LAST_BACKUP_DIR=target/1st_backup/2022-04-19-202210"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">"TEST1: SYM_LINK=target/1st_backup/latest DEST=target/1st_backup/</span><span class="si">${</span><span class="nv">INJECT_NOW</span><span class="si">}</span><span class="s2"> LINK_DEST=target/1st_backup/2022-04-19-202210 LAST_BACKUP_DIR=target/1st_backup/2022-04-19-202210"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">"TEST1: end execution"</span>
+</code></pre></div>
+<h1 id="conclusions">Conclusions<a class="headerlink" href="#conclusions" title="Permanent link">¶</a></h1>
+<p>Positive conclusions:</p>
+<ul>
+<li>it works! And it does the job, failing when log changes</li>
+<li>the test code is very succinct, readable and to the point, writing new tests is easy and fast</li>
+<li>the exercise confirms that Unit Testing is not language-specific, only the tooling is. </li>
+</ul>
+<p>Improvements:</p>
+<ul>
+<li>the script could be easier to test, isolating features in function or files<ul>
+<li>this would also remove the tests having side effects unrelated to the feature under test:  e.g. creation of the <code>pid</code> file  </li>
+</ul>
+</li>
+<li>the test could have assertions on the content of the source and target directories instead of assertions on logs<ul>
+<li>this would be less brittle: test can fail because logs changed while directories are still in the expected state</li>
+<li>behavior on directories IS what is expected from the script, not logs</li>
+<li>this would imply less to no production code changes</li>
+</ul>
+</li>
+<li>writing tests for other pieces of the script may not be as easy/possible<ul>
+<li>code was located at the beginning of the script</li>
+<li>code worked solely on directories and symlink, with little state to set up and to verify</li>
+<li>dependencies on external code were small (just <code>date</code>)</li>
+</ul>
+</li>
+</ul>
+<p>Further writing of Unit Test for <code>Bash</code> will certainly be an opportunity for more fun and learning. </p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2024-06-16T00:00:00+02:00">Sun 16 June 2024</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#bash-ref">Bash
+                    <span class="superscript">5</span>
+</a></li>
+                <li><a href="https://www.javatronic.fr/tags.html#testing-ref">Testing
+                    <span class="superscript">3</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://github.com/lesaint/pelican-theme-elegant/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Personal fork of Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
