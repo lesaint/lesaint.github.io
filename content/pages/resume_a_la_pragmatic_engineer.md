@@ -19,18 +19,18 @@ header_position: 0
 
 [SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2023 - 2024
 
-* Collaborated closely with SonarSource's Machine Learning (ML) scientists, providing integral support to 4 research initiatives, notably through the crafting of cloud-based scaling solutions tailored to their requirements.
+* Collaborated closely with SonarSource's Machine Learning (ML) scientists, providing integral support to 4 research initiatives, notably through the crafting of cloud-based solutions tailored to their requirements.
 
 **Achievements**
 
-* Effectively influenced the direction of 2 ML research studies, ensuring alignment with future operationalization constraints on [SonarCloud](https://sonarcloud.io), [SonarQube](https://www.sonarsource.com/products/sonarqube/), and [SonarLint](https://www.sonarsource.com/products/sonarlint/).
+* Advised scientists in 2 ML research studies, ensuring alignment with future operationalization constraints on [SonarCloud](https://sonarcloud.io), [SonarQube](https://www.sonarsource.com/products/sonarqube/), and [SonarLint](https://www.sonarsource.com/products/sonarlint/).
 * Coded, in plain Java, the [RoBERTA](https://huggingface.co/docs/transformers/model_doc/roberta) tokenizer and a [Logistic Regression](https://en.wikipedia.org/wiki/Logistic_regression) model, matching precisely the reference implementation in Python (Scikit-learn + Hugging Face), to run across all SonarSource products.
-* Designed and implemented with Step Functions the AWS workload running SonarQube code tweaked by ML scientists to produce data to train their model on, scaling EC2 instances to scan up to thousands of projects within 30 minutes, with secured and autonomous control for ML scientists.
+* Designed and implemented with Step Functions the AWS workload running SonarQube code tweaked by ML scientists to produce data to train their model on, scaling EC2 instances to scan up to hundreds of projects within 30 minutes, with secured and autonomous control for ML scientists.
 * Analyzed the produced data, with Jupiter Notebooks, Pandas, and Seaborn, to assist ML scientists.
 
 **Technical Assets**
 
-AWS (CDK, EC2, Step Functions, S3, System Manager), Python3, Scikit-learn, Poetry, Jupiter, Numpy, Pandas, Seaborn, Scikit-learn, Hugging Face, Java 11, Bash, Makefile
+AWS (CDK, EC2, Step Functions, S3, IAM, System Manager), Python3, Scikit-learn, Poetry, Jupiter, Numpy, Pandas, Seaborn, Scikit-learn, Hugging Face, Java 11, Bash, Makefile
 
 ## Application Architect & Cloud Platform Engineer
 
@@ -54,13 +54,13 @@ SonarCloud is [SAAS](https://en.wikipedia.org/wiki/Software_as_a_service) with 1
 **Achievements**
 
 * Reviewed Architecture design on up to 6 specifications a month, during weekly specification review team meetings or as participant in the specification phase of squads' sprints.
-* Designed and coded the weekly CodeBuild job sanitizing 0.5 to multi-billion rows, TB-scale tables in a 6TB+ Postgresql snapshot, optimizing DDL and SQL queries to ultimately reliably complete within the 8 hours timeout, secure customer data, and enable developers to work on production-like data.
+* Designed and coded the weekly CodeBuild job sanitizing 0.5 to multi-billion rows, TB-scale tables in a 6TB+ Postgresql snapshot, optimizing DDL and SQL queries to ensure reliable completion within the 8 hours timeout, secure customer data, and enable developers to work on production-like data.
 * Researched and optimized SQL queries to clean orphan rows in a 3.5B rows table for a daily, reentrant, and interruptable job, running on the writer node in production with no impact to users.
 * Participated in [SonarCloud](https://sonarcloud.io) community support and backlog processing, focusing on cloud-based Security risks and costly in time/arduous threads and issues.
 
 **Technical Assets**
 
-AWS (CDK, CodeBuild, Aurora, RDS, ECS, SNS, SQS, Step Functions, Lambda), Python3, Postgresql, SQL
+AWS (CDK, CodeBuild, Aurora, RDS, ECS, SNS, SQS, Step Functions, Lambda, VPC, API Gateway, ELB, WAF), Python3, Postgresql, SQL
 
 [//]: # (TODO)
 [//]: # (* find technologies and topics I worked on as a CPE &#40;look into Jira?&#41;)
@@ -79,10 +79,11 @@ AWS (CDK, CodeBuild, Aurora, RDS, ECS, SNS, SQS, Step Functions, Lambda), Python
 
 **Achievements**
 
-* Formed a modelling task force of squad- and skill-representing members, organizing the training with an external vendor on DDD, and managing the collaborative work pace with workshops and asynchronous tools.
+* Formed a modelling task force of squad- and skill-representing members, organizing DDD training with an external vendor, and managing the collaborative work pace with workshops and asynchronous tools.
 * Incrementally modeled [SonarCloud](https://sonarcloud.io) as 3 core and 9 other domains, building up a model with 1k+ events representing 100+ processes within the service.
-* Evangelized the model to the 4 delivery squads, sharing modelling updates, organizing workshops, writing up a reference documentation on DDD, and publishing a diary with 20+ entries solving squads' modelling questions.
-* Led a team restructure (in a Reverse Conway Manoeuvre) around the defined domains and achieved clearer, smaller-scoped, and better scaling responsibilities, as well as comprehensive work sharing initiatives and community support among squads.
+* Evangelized the model to the 4 delivery squads, sharing modelling updates, organizing workshops, writing up a reference documentation on DDD, and publishing 20+ notes solving squads' modelling questions.
+* Led a team restructure (in a Reverse Conway Manoeuvre) around the defined domains and achieved clearer, smaller-scoped, and better scaling responsibilities, as well as comprehensive work sharing and community support among squads.
+[//]: # (* Conducted book review meetings)
 
 **Assets**
 
@@ -140,7 +141,7 @@ Domain Driven Design, Event Storming
 
 **Technical Assets**
 
-Elasticsearch, OpenSearch, Maven, Gradle, Bash GitHub actions, Cirrus CI, Travis, Postgresql, SQL, MyBatis
+Elasticsearch, OpenSearch, Maven, Gradle, Bash, GitHub actions, Cirrus CI, Travis, Postgresql, SQL, MyBatis
 
 ## Senior Backend Software Engineer 
 
