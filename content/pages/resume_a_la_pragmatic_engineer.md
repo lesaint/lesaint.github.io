@@ -24,19 +24,21 @@ Collaborated closely with SonarSource's Machine Learning (ML) scientists, provid
 **Achievements**
 
 * Effectively influenced the direction of 2 ML research studies, ensuring alignment with future operationalization constraints on [SonarCloud](https://sonarcloud.io), [SonarQube](https://www.sonarsource.com/products/sonarqube/), and [SonarLint](https://www.sonarsource.com/products/sonarlint/).
-* Coded, in plain Java, the RoBERTA tokenizer and a Linear Regression model, matching precisely the reference implementation in Python (Scikit-learn), to run across all SonarSource products.
+* Coded, in plain Java, the [RoBERTA](https://huggingface.co/docs/transformers/model_doc/roberta) tokenizer and a [Logistic Regression](https://en.wikipedia.org/wiki/Logistic_regression) model, matching precisely the reference implementation in Python (Scikit-learn + Hugging Face), to run across all SonarSource products.
 * Designed and implemented with Step Functions the AWS workload running SonarQube code tweaked by ML scientists to produce data to train their model on, scaling EC2 instances to scan up to thousands of projects within 30 minutes, with secured and autonomous control for ML scientists.
-* Performed data analysis, with Jupiter Notebooks with Pandas and Seaborn of the produced data, to assist ML scientists.
+* Analyzed the produced data, with Jupiter Notebooks, Pandas, and Seaborn, to assist ML scientists.
 
 **Technical Assets**
 
-AWS (CDK, EC2, Step Functions, S3, System Manager), Python3, Scikit-learn, Poetry, Jupiter, Numpy, Pandas, Seaborn, Scikit-learn, Java 11, Bash, Makefile
+AWS (CDK, EC2, Step Functions, S3, System Manager), Python3, Scikit-learn, Poetry, Jupiter, Numpy, Pandas, Seaborn, Scikit-learn, Hugging Face, Java 11, Bash, Makefile
 
 ## Application Architect & Cloud Platform Engineer
 
 [SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2022 - 2023
 
-Provided design support and advice on Application and Cloud-based Architecture to the 4 delivery squads of the SonarCloud team, autonomously handled projects unfit for delivery pace, and occasionally joined squads' sprints as Cloud Platform Engineer.  
+Provided design support and advice on application and cloud-based architecture to the 4 delivery squads of the [SonarCloud](https://sonarcloud.io) team (35 people).     
+Handled research projects, unfit for the team's delivery pace, and occasionally joined squads' sprints as a Cloud Platform Engineer.     
+SonarCloud is [SAAS](https://en.wikipedia.org/wiki/Software_as_a_service) with 1.3B+ API requests per day, 1.5B jobs per week and a 6TB-storage relational database.
 
 [//]: # (content to have: )
 [//]: # (* worked on SonarCloud)
@@ -50,28 +52,24 @@ Provided design support and advice on Application and Cloud-based Architecture t
 
 **Achievements**
 
-* Reviewed Architecture design on up to 8 specifications a month, during weekly specification review team meetings or as participant in the specification phase of squads' sprints.
-* Designed and coded the weekly CodeBuild job sanitizing multiple XXXM rows tables in a XXXGb Postgresql snapshot, optimizing DDL and SQL queries to ultimately reliably complete within the 8 hours timeout.
-* TODO: Job to clean orphans
-* Participated in SonarCloud community support, tackling arduous threads with long investigations.
+* Reviewed Architecture design on up to 6 specifications a month, during weekly specification review team meetings or as participant in the specification phase of squads' sprints.
+* Designed and coded the weekly CodeBuild job sanitizing 0.5 to multi-billion rows, TB-scale tables in a 6TB+ Postgresql snapshot, optimizing DDL and SQL queries to ultimately reliably complete within the 8 hours timeout, secure customer data, and enable developers to work on production-like data.
+* Researched and optimized SQL queries to clean orphan rows in a 3.5B rows table for a daily, reentrant, and interruptable job, running on the writer node in production with no impact to users.
+* Participated in [SonarCloud](https://sonarcloud.io) community support and backlog processing, focusing on cloud-based Security risks and costly in time/arduous threads and issues.
 
 **Technical Assets**
 
-AWS (CDK, CodeBuild, Aurora, ECS, SNS, SQS, Step Functions, Lambda), Python3, Postgresql, SQL
+AWS (CDK, CodeBuild, Aurora, RDS, ECS, SNS, SQS, Step Functions, Lambda), Python3, Postgresql, SQL
 
 [//]: # (TODO)
-[//]: # (* size of table &#40;rows and storage&#41;)
-[//]: # (* size of postgresql dump)
 [//]: # (* find technologies and topics I worked on as a CPE &#40;look into Jira?&#41;)
-[//]: # (* techno and design of job to clean orphans )
 
 ## Application Architect
 
 [SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2021 - 2022 
 
-Lead the effort to model SonarCloud as domains, following Domain-Driven Design (DDD) methodologies to ensure solid and 
-future-proof boundaries and definitions, to prepare for and support the refactoring of SonarCloud from a monolith, based 
-on SonarQube and 10 years-old code, padded with cloud-based additions to a microservice-based architecture standing on domain-specific squads.
+Lead the modelling of [SonarCloud](https://sonarcloud.io) as domains, following [Domain-Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design) (DDD) methodologies to ensure solid and future-proof boundaries and definitions. <br/>
+This effort prepared for and supported the refactoring of SonarCloud from a monolith, based on [SonarQube](https://www.sonarsource.com/products/sonarqube/) and 10 years-old code, padded with cloud-based additions, to a microservice-based architecture standing on domain-specific squads.
 
 [//]: # (* Contributed the most part of the model, as the only person dedicated to the project)
 [//]: # (* Main contributor to the model, as the only dedicated personnel to the effort)
@@ -81,7 +79,7 @@ on SonarQube and 10 years-old code, padded with cloud-based additions to a micro
 **Achievements**
 
 * Formed a modelling task force of squad- and skill-representing members, organizing the training with an external vendor on DDD, and managing the collaborative work pace with workshops and asynchronous tools.
-* Incrementally modeled SonarCloud as 3 core and 9 other domains, building up a model with 1k+ events representing 100+ processes within the service.
+* Incrementally modeled [SonarCloud](https://sonarcloud.io) as 3 core and 9 other domains, building up a model with 1k+ events representing 100+ processes within the service.
 * Evangelized the model to the 4 delivery squads, sharing modelling updates, organizing workshops, writing up a reference documentation on DDD, and publishing a diary with 20+ entries solving squads' modelling questions.
 * Led a team restructure (in a Reverse Conway Manoeuvre) around the defined domains and achieved clearer, smaller-scoped, and better scaling responsibilities, as well as comprehensive work sharing initiatives and community support among squads.
 
@@ -103,32 +101,88 @@ Domain Driven Design, Event Storming
 [//]: # (* JWT token revocation)
 [//]: # (* database schema and data refactoring &#40;replacing integer IDs with UUIDs in million+ rows tables on 4 DBMS in 2 versions each&#41;)
 
+[//]: # (I would like to announce that Sébastien is going to move out of the SonarQube team and take a new position as a Software Engineer, outside of product development teams.  Sébastien will work with Simon to achieve engineering excellence and promote sustainable design and architecture in our products)
+[//]: # (Being a softare engineer outside of product development teams, in other words out of the critical path of product delivery, Sébastien will bring different perspectives to help the teams to achieve their missions. )
+[//]: # (His development expertise will be at the service of the teams to:)
+[//]: # (    Troubleshoot bugs, vulnerabilities and production incidents)
+[//]: # (    Advise the teams on deep technical topics or design questions)
+[//]: # (    Recommend best-practices)
+[//]: # (    Train developers to existing or new technologies)
+[//]: # (    Promote architecture and design changes)
+[//]: # (    Implement POCs)
+[//]: # (    Be onboarded in sprints by teams when strong technical skills are required)
+[//]: # (    Share engineering knowledge among the different teams)
+
+[//]: # (Promoted to Software Engineer outside of product teams to lead projects and research unfit for the critical path of delivery and/or crossing team boundaries.    )
+
+Lead projects and research unfit for the critical path of product delivery and/or crossing team boundaries.    
+Seconded the CTO in achieving engineering excellence and promoting sustainable design and architecture within all SonarSource products.   
+Delivered Proof-of-Concepts and research for product teams ahead of feature development and provided engineering consultations and design support to developer teams on demand.  
+Provided company-wide expertise on relational databases, Elasticsearch and OpenSearch. 
+
 **Achievements**
 
-* Determined engineering topics crossing product team boundaries (testing, CI/CD) to support Release Engineering Team at SonarSource: a support team bringing common tooling around CI/CD and responsible for consistent and secure management of technical artefacts.
-* Delivered Proof-of-Concepts and research for product teams ahead of feature development. Topics included Elasticsearch (ES) upgrades, Asynchronous indexing into ES, Security Token storage and management
-* Provided engineering consultations and design support to developer squads on demand.
+* Prescribed the company's policy for Artifacts Management and directed the teams' Release Software Engineers to modify CI/CD toolchains and achieve consistent and secure management of software artifacts.
+* Formed the Release Engineering Team at SonarSource (a support team bringing common tooling around CI/CD), contributing as the initial leader, and as an individual contributor to the Gradle, Maven, Bash scripting, and CI/CD codebase.
+* Fixed and optimized search and indexing Elasticsearch requests, redesigned indices and requests to accommodate breaking changes from version upgrades, for both [SonarCloud](https://sonarcloud.io) and [SonarQube](https://www.sonarsource.com/products/sonarqube/).
+* Concluded on the impact of the 2021 Elastic license change on SonarSource products, collaborating with the Legal Team.
+* Researched and designed asynchronous indexing of data into Elasticsearch, achieving reduction of [SonarQube](https://www.sonarsource.com/products/sonarqube/) upgrade downtime from hours linearly increasing with data size to constant time under 30 minutes, and similarly achieving Medium Time To Recovery (MTTR) on SonarCloud constant and under 1 hour.
+* Researched and prescribed the solution to ensure JWT tokens expiry on [SonarCloud](https://sonarcloud.io), fixing Session Hijacking risks, and enabling targeted or global revocation in case of Security incident.
+
+[//]: # (*  )
+[//]: # (*  )
+[//]: # (* Researched solutions to breaking changes caused by the upgrade Elasticsearch 4 indices &#40;ES&#41; on SonarQube instances with up to dozens of GB, achieving smooth upgrade thanks to the design and implementation of an asynchronous data indexing based on SonarQube's Compute Engine.  )
+[//]: # (* Concluded on the impacts on Sonarqube of the Elastic licence change in 2021, collaborating with the Legal team, and provided expert support to the SonarCloud team during their migration from Elasticsearch to OpenSearch.)
+[//]: # ()
+[//]: # (* Topics included Elasticsearch &#40;ES&#41; upgrades, Asynchronous indexing into ES, Security Token storage and management)
+[//]: # (* )
+[//]: # (* Elastic search, license change impact, and major version upgrade)
 
 **Technical Assets**
 
-MyBatis, Elasticsearch, Maven, Gradle, Github actions, Cirrus CI, Travis, Postgresql
+Elasticsearch, OpenSearch, Maven, Gradle, Bash GitHub actions, Cirrus CI, Travis, Postgresql, SQL, MyBatis
 
-## Backend Software Engineer on SonarQube
+## Senior Backend Software Engineer 
 
 [SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy area, France ▪ 2015 - 2020
 
+[//]: # (Operated as a Backend Developer in the [SonarQube]&#40;https://www.sonarsource.com/products/sonarqube/&#41; team &#40;which grew from 3 to 15 members&#41;, )
+[//]: # (during the startup and growth phase of the company, while cooperating directly with founding partners of SonarSource.   )
+[//]: # (Directed the design, implementation, optimization, and troubleshooting of a multiprocess software made of a Java-based Webserver, )
+[//]: # (a Java-based task processor, and embedded Elasticsearch, running on premises with deployments of all scales and supporting 4 different DBMS vendors.)
+
+Operated as a Backend Developer in the [SonarQube](https://www.sonarsource.com/products/sonarqube/) team (which grew from 3, including the CTO, to 15 members), 
+during the startup and growth phase of the company, and while cooperating directly with founding partners of SonarSource.   
+Directed the design, implementation, optimization, and troubleshooting of a multiprocess software made of a Java-based Webserver, 
+a Java-based task processor, and embedded Elasticsearch, running on premises with deployments of all scales and supporting 4 different DBMS vendors.
+
+SonarQube is an application pairing a multiprocess server with Java-based clients running on the developer's machine or in CI/CD pipelines.
+The server is made of a Java-based Webserver, a Java-based task processor, and embedded Elasticsearch.
+On premises deployments range from a few MB to TB of data stored in a relational database with 4 supported DBMS vendors.
+
+
 **Achievements**
 
-* Operated as a Backend Developer on SonarQube (SQ) for five years while cooperating closely with founding partners of organization.
 * Leveraged instrumental impacts toward the design and code of the core features and concepts still in active existent programs presently.
-* Directed the design, implementation and optimization on a multi-process software made of a Java-based Webserver, a Java-based task processor, and embedded Elasticsearch.
-* Designed and coded a generic task processor and the report processing task in SonarQube.
+* Designed and coded a generic task processor and the report processing task in [SonarQube](https://www.sonarsource.com/products/sonarqube/).
 * Honed expertise in troubleshooting and fixing performance issues with both the JVM and the database to ameliorate issues of all sizes on four various DBMS.
 * Completed memory flow optimization on the JVM along with database design and SQL optimizations on four DBMS targeting SQ instances of all sizes, including schema and data migrations.
+* Developed the automatic lifecycle management of [SonarQube](https://www.sonarsource.com/products/sonarqube/) instances working together as a cluster, over a Hazelcast-based network, to achieve high availability.
+* TODO: hiring
+
+[//]: # (* RoR migration, adding Elasticsearch, cutting client connection to the database by adding an asynchronous task processor, cluster support, on premises + cloud based deployment)
+
+[//]: # (* Operated as a Backend Developer on SonarQube &#40;SQ&#41; for five years while cooperating closely with founding partners of organization.)
+[//]: # (* Leveraged instrumental impacts toward the design and code of the core features and concepts still in active existent programs presently.)
+[//]: # (* Directed the design, implementation and optimization on a multiprocess software made of a Java-based Webserver, a Java-based task processor, and embedded Elasticsearch.)
+[//]: # (* Designed and coded a generic task processor and the report processing task in SonarQube.)
+[//]: # (* Honed expertise in troubleshooting and fixing performance issues with both the JVM and the database to ameliorate issues of all sizes on four various DBMS.)
+[//]: # (* Completed memory flow optimization on the JVM along with database design and SQL optimizations on four DBMS targeting SQ instances of all sizes, including schema and data migrations.)
+[//]: # (* TODO: hiring)
 
 **Technical Assets**
 
-Java 1.4 to 8, Maven, Gradle, MyBatis, Elasticsearch, Bash, Jenkins, Postgresql, Mysql, MariaDB, Oracle, SQL Server, Git, Github, Jira
+Java 1.4 to 8, Maven, Gradle, MyBatis, Elasticsearch, Hazelcast, Bash, Jenkins, Postgresql, Mysql, MariaDB, Oracle, SQL Server, Git, Github, Jira
 
 ## Senior Developer
 
@@ -196,5 +250,5 @@ Java 5, EJB3, Oracle, PL/SQL, JDBC, XML, JAX-WS, Struts, JSP, Maven, multi-threa
 # Interests
 
 * I climb twice a week indoors (boulder and lead) and make the best of mountain outdoors: skying (alpine and Nordic) in the winter, running, hiking, climbing, and swimming in lakes the rest of the year.
-* I set up and maintain my home data protection strategy with rsync, Bash and Python, achieving full redundancy and encryption (local online, offline, and remote online) across devices in the household. Recovered with no impact from home breaking in 2021.
-* I'm proud to share my 500+ european comics and mangas, video games, and an eclectic music taste with my family.
+* I set up and maintain my home data protection strategy with rsync, Bash and Python, achieving full redundancy (local online and offline, remote online) and encryption across devices in the household. Recovered with no impact from home breaking in 2021.
+* I'm proud to share my 500+ european comics and mangas, video games, movies, and an eclectic music taste with my family.
