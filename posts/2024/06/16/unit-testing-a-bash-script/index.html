@@ -134,7 +134,13 @@ tooling.</p>
 <p>Nevertheless, it's such a pity not to have these tests to prevent regressions during future changes. So I
 decided to take on the challenge, try and write Unit Test for Directory Resolution, time-boxed to a weekend.</p>
 <h1 id="code-unit-tests-for-bash">Code Unit tests for Bash<a class="headerlink" href="#code-unit-tests-for-bash" title="Permanent link">¶</a></h1>
-<p>The basic requirements for useful Unit Tests in Bash are:</p>
+<div class="admonition attention">
+<p>There are some existing tools to test <code>Bash</code> scripts (e.g. <a href="https://github.com/bats-core/bats-core">Bats-core</a>).    <br/>
+I want to try and explore feasibility and how far I can go writing Unit Tests on my own. <br/>
+Also, having defined a very small timebox, I'd rather save the time to learn another tool, and potentially have to 
+adapt my script to it, and get to it right away (and keep it for later, maybe).</p>
+</div>
+<p>The basic requirements for useful Unit Tests in <code>Bash</code> are:</p>
 <ol>
 <li>run the tests</li>
 <li>run the script from the tests</li>
