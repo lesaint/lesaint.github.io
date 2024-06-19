@@ -19,7 +19,7 @@ header_position: 0
 
 [SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2023 - 2024
 
-Collaborated closely with SonarSource's Machine Learning (ML) scientists, providing integral support to 4 research initiatives, notably through the crafting of cloud-based scaling solutions tailored to their requirements.
+* Collaborated closely with SonarSource's Machine Learning (ML) scientists, providing integral support to 4 research initiatives, notably through the crafting of cloud-based scaling solutions tailored to their requirements.
 
 **Achievements**
 
@@ -36,8 +36,9 @@ AWS (CDK, EC2, Step Functions, S3, System Manager), Python3, Scikit-learn, Poetr
 
 [SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2022 - 2023
 
-Provided design support and advice on application and cloud-based architecture to the 4 delivery squads of the [SonarCloud](https://sonarcloud.io) team (35 people).     
-Handled research projects, unfit for the team's delivery pace, and occasionally joined squads' sprints as a Cloud Platform Engineer.     
+* Provided design support and advice on application and cloud-based architecture to the 4 delivery squads of the [SonarCloud](https://sonarcloud.io) team (35 people).     
+* Handled research projects, unfit for the team's delivery pace, and occasionally joined squads' sprints as a Cloud Platform Engineer.     
+
 SonarCloud is [SAAS](https://en.wikipedia.org/wiki/Software_as_a_service) with 1.3B+ API requests per day, 1.5B jobs per week and a 6TB-storage relational database.
 
 [//]: # (content to have: )
@@ -68,8 +69,8 @@ AWS (CDK, CodeBuild, Aurora, RDS, ECS, SNS, SQS, Step Functions, Lambda), Python
 
 [SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy, France ▪ 2021 - 2022 
 
-Lead the modelling of [SonarCloud](https://sonarcloud.io) as domains, following [Domain-Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design) (DDD) methodologies to ensure solid and future-proof boundaries and definitions. <br/>
-This effort prepared for and supported the refactoring of SonarCloud from a monolith, based on [SonarQube](https://www.sonarsource.com/products/sonarqube/) and 10 years-old code, padded with cloud-based additions, to a microservice-based architecture standing on domain-specific squads.
+* Lead the modelling of [SonarCloud](https://sonarcloud.io) as domains, following [Domain-Driven Design](https://en.wikipedia.org/wiki/Domain-driven_design) (DDD) methodologies to ensure solid and future-proof boundaries and definitions.  
+* Prepared the forthcoming refactoring of SonarCloud from a monolith, based on [SonarQube](https://www.sonarsource.com/products/sonarqube/) and 10 years-old code, padded with cloud-based additions, to a microservice-based architecture upheld by domain-specific squads.
 
 [//]: # (* Contributed the most part of the model, as the only person dedicated to the project)
 [//]: # (* Main contributor to the model, as the only dedicated personnel to the effort)
@@ -115,9 +116,9 @@ Domain Driven Design, Event Storming
 
 [//]: # (Promoted to Software Engineer outside of product teams to lead projects and research unfit for the critical path of delivery and/or crossing team boundaries.    )
 
-Lead projects and research unfit for the critical path of product delivery and/or crossing team boundaries.    
-Seconded the CTO in achieving engineering excellence and promoting sustainable design and architecture.   
-Delivered Proof-of-Concepts and research for product teams ahead of feature development, engineering consultations and design support to developer squads on demand, and company-wide expertise on relational databases, Elasticsearch and OpenSearch.  
+* Lead projects and research unfit for the critical path of product delivery and/or crossing team boundaries.    
+* Seconded the CTO in achieving engineering excellence and promoting sustainable design and architecture.   
+* Delivered Proof-of-Concepts and research for product teams ahead of feature development, engineering consultations and design support to developer squads on demand, and company-wide expertise on relational databases, Elasticsearch and OpenSearch.  
 
 **Achievements**
 
