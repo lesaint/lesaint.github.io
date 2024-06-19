@@ -42,7 +42,13 @@ decided to take on the challenge, try and write Unit Test for Directory Resoluti
 
 # Code Unit tests for Bash
 
-The basic requirements for useful Unit Tests in Bash are:
+!!! attention ""
+    There are some existing tools to test `Bash` scripts (e.g. [Bats-core](https://github.com/bats-core/bats-core)).      
+    I want to try and explore feasibility and how far I can go writing Unit Tests on my own.   
+    Also, having defined a very small timebox, I'd rather save the time to learn another tool, and potentially have to 
+    adapt my script to it, and get to it right away (and keep it for later, maybe).
+
+The basic requirements for useful Unit Tests in `Bash` are:
 
 1. run the tests
 2. run the script from the tests
