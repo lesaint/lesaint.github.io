@@ -143,7 +143,7 @@ Domain Driven Design, Event Storming
 
 Elasticsearch, OpenSearch, Maven, Gradle, Bash, GitHub actions, Cirrus CI, Travis, Postgresql, SQL, MyBatis
 
-## Senior Backend Software Engineer 
+## Backend Software Engineer 
 
 [SonarSource](https://www.sonarsource.com/company/about/) ▪ Annecy area, France ▪ 2015 - 2020
 
@@ -152,24 +152,42 @@ Elasticsearch, OpenSearch, Maven, Gradle, Bash, GitHub actions, Cirrus CI, Travi
 [//]: # (Directed the design, implementation, optimization, and troubleshooting of a multiprocess software made of a Java-based Webserver, )
 [//]: # (a Java-based task processor, and embedded Elasticsearch, running on premises with deployments of all scales and supporting 4 different DBMS vendors.)
 
-Operated as a Backend Developer in the [SonarQube](https://www.sonarsource.com/products/sonarqube/) team (which grew from 3, including the CTO, to 15 members), 
-during the startup and growth phase of the company, and while cooperating directly with founding partners of SonarSource.   
-Directed the design, implementation, optimization, and troubleshooting of a multiprocess software made of a Java-based Webserver, 
-a Java-based task processor, and embedded Elasticsearch, running on premises with deployments of all scales and supporting 4 different DBMS vendors.
+* Operated as a Backend Developer on [SonarQube](https://www.sonarsource.com/products/sonarqube/), researching, designing, implementing, optimizing, and troubleshooting
+new features and improvements on the founding product of the company during the startup and growth phases of the business.   
+* Engaged in development of webservice APIs, server-side task processing, Java-based clients, relational database, and internal hosting observability 
+as well as production support, software security, engineering best practices, software build, open source publication, and hiring.
 
-SonarQube is an application pairing a multiprocess server with Java-based clients running on the developer's machine or in CI/CD pipelines.
-The server is made of a Java-based Webserver, a Java-based task processor, and embedded Elasticsearch.
-On premises deployments range from a few MB to TB of data stored in a relational database with 4 supported DBMS vendors.
+SonarQube is a Java-based server with clients for different build systems and CI/CD environments.  
+The server includes a Webserver, a task processor, embedded Elasticsearch, and supports 4 DBMS vendors.  
+On-premises deployments range from a few MB to hundreds of GB and handle a few to thousands of users.
+
+
+[//]: # (&#40;which grew from 5, including the CTO, to 25 members&#41;, )
+[//]: # (during the startup and growth phase of the business.   )
+[//]: # (and while cooperating directly with founding partners of SonarSource.)
+[//]: # (design, implementation, optimization, and troubleshooting)
+[//]: # (developing new features, from research and design, to implementation, troubleshooting and support, in collaboration with Product Owners, Frontend developers and Ops)
+[//]: # (spanning from the clients and the server, to the build system and infrastructure for both internal and public demonstration deployment)
+[//]: # (database, web APIs, process management, Compute Engine,)
+[//]: # (RoR migration,)
+replaced clients connecting to database by asynchronous task processor on the server-side, achieving easier deployment for customers and unmatched scale of deployments
+design the incremental startup process of the server, supporting human trigger DB migrations
+design Java code and build to produce binaries for open-source, multiple closed sources editions and internal cloud-based deployment from the same codebase and repository.
+Codebase supporting both on premises and cloud-based deployment for early versions of SonarCloud.
+[//]: # (High availability with several instance running in a cluster and coordinating over Hazelcast)
+[//]: # (easy and safe coding of frequent database migrations.)
 
 
 **Achievements**
 
-* Leveraged instrumental impacts toward the design and code of the core features and concepts still in active existent programs presently.
-* Designed and coded a generic task processor and the report processing task in [SonarQube](https://www.sonarsource.com/products/sonarqube/).
+[//]: # (* Leveraged instrumental impacts toward the design and code of the core features and concepts still in active existent programs presently.)
+[//]: # (* Designed and coded a generic task processor and the report processing task in [SonarQube]&#40;https://www.sonarsource.com/products/sonarqube/&#41;.)
+* Designed and coded a generic task processor, a task coding framework and the task processing reports from clients enabling the removal of the connections from clients to the database and achieving hundredfold scalability.
 * Honed expertise in troubleshooting and fixing performance issues with both the JVM and the database to ameliorate issues of all sizes on four various DBMS.
 * Completed memory flow optimization on the JVM along with database design and SQL optimizations on four DBMS targeting SQ instances of all sizes, including schema and data migrations.
 * Developed the automatic lifecycle management of [SonarQube](https://www.sonarsource.com/products/sonarqube/) instances working together as a cluster, over a Hazelcast-based network, to achieve high availability.
-* TODO: hiring
+* Replaced legacy, RoR-based database migration solution with in-house, Java-based and SQL free framework to achieve transparent support of 4 different DBMS vendors and ensure consistent and performant database migrations across versions and developers.
+* Contributed to the growth of the development team (from 5 to 20+) as its first hiring manager, screening resumes and conducting first and technical interviews.
 
 [//]: # (* RoR migration, adding Elasticsearch, cutting client connection to the database by adding an asynchronous task processor, cluster support, on premises + cloud based deployment)
 
