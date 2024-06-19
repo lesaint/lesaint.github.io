@@ -116,17 +116,16 @@ Domain Driven Design, Event Storming
 [//]: # (Promoted to Software Engineer outside of product teams to lead projects and research unfit for the critical path of delivery and/or crossing team boundaries.    )
 
 Lead projects and research unfit for the critical path of product delivery and/or crossing team boundaries.    
-Seconded the CTO in achieving engineering excellence and promoting sustainable design and architecture within all SonarSource products.   
-Delivered Proof-of-Concepts and research for product teams ahead of feature development and provided engineering consultations and design support to developer teams on demand.  
-Provided company-wide expertise on relational databases, Elasticsearch and OpenSearch. 
+Seconded the CTO in achieving engineering excellence and promoting sustainable design and architecture.   
+Delivered Proof-of-Concepts and research for product teams ahead of feature development, engineering consultations and design support to developer squads on demand, and company-wide expertise on relational databases, Elasticsearch and OpenSearch.  
 
 **Achievements**
 
-* Prescribed the company's policy for Artifacts Management and directed the teams' Release Software Engineers to modify CI/CD toolchains and achieve consistent and secure management of software artifacts.
+* Prescribed the company's policy for Artifacts Management, directed the teams' Release Software Engineers to modify CI/CD toolchains, and achieve consistent and secure management of software artifacts.
 * Formed the Release Engineering Team at SonarSource (a support team bringing common tooling around CI/CD), contributing as the initial leader, and as an individual contributor to the Gradle, Maven, Bash scripting, and CI/CD codebase.
 * Fixed and optimized search and indexing Elasticsearch requests, redesigned indices and requests to accommodate breaking changes from version upgrades, for both [SonarCloud](https://sonarcloud.io) and [SonarQube](https://www.sonarsource.com/products/sonarqube/).
 * Concluded on the impact of the 2021 Elastic license change on SonarSource products, collaborating with the Legal Team.
-* Researched and designed asynchronous indexing of data into Elasticsearch, achieving reduction of [SonarQube](https://www.sonarsource.com/products/sonarqube/) upgrade downtime from hours linearly increasing with data size to constant time under 30 minutes, and similarly achieving Medium Time To Recovery (MTTR) on SonarCloud constant and under 1 hour.
+* Designed and prototyped asynchronous indexing of data into Elasticsearch, achieving reduction of [SonarQube](https://www.sonarsource.com/products/sonarqube/) upgrade downtime from hours linearly increasing with data size to constant time under 30 minutes, and similarly achieving constant and under 1 hour Time To Recovery on SonarCloud.
 * Researched and prescribed the solution to ensure JWT tokens expiry on [SonarCloud](https://sonarcloud.io), fixing Session Hijacking risks, and enabling targeted or global revocation in case of Security incident.
 
 [//]: # (*  )
