@@ -8,7 +8,7 @@ header_position: 0
 # Professional Profile
 
 * Goal-driven technical professional with an illustrated track record of innovation in high quality software development, complex systems modelling, cloud-based architecture, and backend programming for high-traffic servers and services.
-* Backend developer with 15 years of expertise in Java development and more than 2 years in Python programming, relational database design and usage, who extended skills towards infrastructure, CI/CD, software engineering and security.
+* Backend developer with 15 years of expertise in Java development and relational database design and usage, over 3 years of Python programming experience, and diversified skills in infrastructure, CI/CD, software engineering and security.
 * Proven leader recognized for strong technical acumen, as well as dynamic problem-solving, communication, interpersonal, analytical, and decision-making skills.
 * Eager to learn and adopt new approaches and languages to fulfil requirements particular to unique contexts.
 * Demonstrated expertise in technology management, including application server management and knowledge sharing.
