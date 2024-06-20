@@ -270,6 +270,6 @@ Java 5, EJB3, Oracle, PL/SQL, JDBC, XML, JAX-WS, Struts, JSP, Maven, multi-threa
 
 # Interests
 
-* I climb twice a week indoors (boulder and lead) and make the best of mountain outdoors: skying (alpine and Nordic) in the winter, running, hiking, climbing, and swimming in lakes the rest of the year.
+* I climb twice a week indoors (boulder and lead) and make the best of mountain outdoors: alpine and Nordic skying in the winter, running, hiking, climbing, and swimming in lakes the rest of the year.
 * I set up and maintain my home data protection strategy with rsync, Bash and Python, achieving full redundancy (local online and offline, remote online) and encryption across devices in the household. Recovered with no impact from home breaking in 2021.
-* I'm proud to share my 500+ european comics and mangas, video games, movies, and an eclectic music taste with my family.
+* I enjoy sharing with my family outdoor activities, my collection of over 500 European comics and mangas, video games, movies, and my eclectic music taste.
