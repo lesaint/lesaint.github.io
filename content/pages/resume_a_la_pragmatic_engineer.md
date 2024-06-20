@@ -6,14 +6,19 @@ header_position: 0
 
 [TOC]
 
-[//]: # (# Professional Profile)
-[//]: # ()
-[//]: # (Goal-driven technical professional with an illustrated track record of innovation in high quality software development, complex systems modelling, cloud-based architecture, and backend programming for high-traffic website. 15 years expert in Java development and Python programming. Eager to learn and adopt new approaches and languages to fulfil requirements particular to unique contexts. Demonstrated expertise in technology management, including application server management and knowledge sharing. Conversant to industry trends and driving continuous improvement through the adoption of new tools and methodologies. Proven leader recognized for strong technical acumen, as well as dynamic problem-solving, communication, interpersonal, analytical, and decision-making skills.)
-[//]: # ()
-[//]: # (# Competencies)
-[//]: # (* Technical Design Domain Driven Design ▪ Business Rules Analysis ▪ Research & Development ▪ Programming Open Source Mapping ▪ Quality Assurance Production Troubleshooting ▪ Stakeholder Engagement ▪ Performance Optimization &#40;SQL, CPU/Mem, Cross-Service&#41;)
+# Professional Profile
 
-# Career Summary
+* Goal-driven technical professional with an illustrated track record of innovation in high quality software development, complex systems modelling, cloud-based architecture, and backend programming for high-traffic servers and services.
+* Backend developer with 15 years of expertise in Java development and more than 2 years in Python programming, relational database design and usage, who extended skills towards infrastructure, CI/CD, software engineering and security.
+* Proven leader recognized for strong technical acumen, as well as dynamic problem-solving, communication, interpersonal, analytical, and decision-making skills.
+* Eager to learn and adopt new approaches and languages to fulfil requirements particular to unique contexts.
+* Demonstrated expertise in technology management, including application server management and knowledge sharing.
+* Conversant to industry trends and driving continuous improvement through the adoption of new tools and methodologies.
+
+# Competencies
+<dl><dd>Technical Design ▪ Domain Driven Design ▪ Business Rules Analysis ▪ Stakeholder Engagement ▪ Research & Development ▪ Open Source Mindset ▪ Quality Assurance ▪ Production Troubleshooting ▪ Performance Optimization (SQL, CPU/Mem, Cross-Service)</dd></dl>
+
+# Career
 
 ## Machine Learning Engineer
 
