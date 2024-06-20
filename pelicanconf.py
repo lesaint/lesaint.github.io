@@ -75,6 +75,9 @@ SOCIAL = (
 STATIC_PATHS.append("extra/robots.txt")
 EXTRA_PATH_METADATA["extra/robots.txt"] = {"path": "robots.txt"}
 
+STATIC_PATHS.append("extra/google_property_verification_file")
+EXTRA_PATH_METADATA["extra/google_property_verification_file"] = {"path": "googled2a1d235c02ddb0d.html"}
+
 PLUGINS.append("extended_sitemap")
 EXTENDED_SITEMAP_PLUGIN = {
     'priorities': {
