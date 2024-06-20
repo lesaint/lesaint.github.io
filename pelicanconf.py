@@ -106,14 +106,14 @@ PROJECTS = [
             {
                 "name": "PyLMS",
                 "url": "https://github.com/lesaint/pylms",
-                "description": "A demo, yet useful, project for Python development, software engineering best practices, "
-                               "software and cloud architecting, and technology learning"
+                "description": "A tool to remind me of people's names and relationships, also serving as a learning "
+                               "and demonstration project."
             },
             {
                 "name": "Phanas Desktop",
                 "url": "https://github.com/lesaint/phanas_desktop",
-                "description": "The Python-based GUI program acting as the client app for my home backup strategy "
-                               "across desktop devices at home"
+                "description": "The Python-based GUI program acting as the client application for my home backup"
+                               " strategy across desktop devices"
             },
             {
                 "name": "rsync-time-backup",
@@ -151,7 +151,8 @@ PROJECTS = [
                 "name": "DAMapping",
                 "url": "https://www.javatronic.fr/damapping/presentations/damapping_why_and_how.html#/",
                 "description": "A stack of components to implement object mapping in Java with complete source "
-                               "control for the developer"
+                               "control for the developer - Abandoned because too big, wrong project management, "
+                               "exhausted interest, and lack of time"
             },
         ]
     },
