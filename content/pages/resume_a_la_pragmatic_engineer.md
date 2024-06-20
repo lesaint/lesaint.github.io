@@ -83,7 +83,7 @@ AWS (CDK, CodeBuild, Aurora, RDS, ECS, SNS, SQS, Step Functions, Lambda, VPC, AP
 * Incrementally modeled [SonarCloud](https://sonarcloud.io) as 3 core and 9 other domains, building up a model with 1k+ events representing 100+ processes within the service.
 * Evangelized the model to the 4 delivery squads, sharing modelling updates, organizing workshops, writing up a reference documentation on DDD, and publishing 20+ notes solving squads' modelling questions.
 * Led a team restructure (in a Reverse Conway Manoeuvre) around the defined domains and achieved clearer, smaller-scoped, and better scaling responsibilities, as well as comprehensive work sharing and community support among squads.
-[//]: # (* Conducted book review meetings)
+[//]: # (* Conducted book review meetings ... to ensure a common knowledge base on monolith refactoring technics and pitfalls across the team)
 
 **Assets**
 
@@ -152,8 +152,8 @@ Elasticsearch, OpenSearch, Maven, Gradle, Bash, GitHub actions, Cirrus CI, Travi
 [//]: # (Directed the design, implementation, optimization, and troubleshooting of a multiprocess software made of a Java-based Webserver, )
 [//]: # (a Java-based task processor, and embedded Elasticsearch, running on premises with deployments of all scales and supporting 4 different DBMS vendors.)
 
-* Operated as a Backend Developer on [SonarQube](https://www.sonarsource.com/products/sonarqube/), researching, designing, implementing, optimizing, and troubleshooting
-new features and improvements on the founding product of the company during the startup and growth phases of the business.   
+* Operated as a Backend Developer on [SonarQube](https://www.sonarsource.com/products/sonarqube/), the founding product of SonarSource, researching, designing, 
+implementing, optimizing, and troubleshooting new features and improvements during the startup and growth phases of the business.   
 * Engaged in development of webservice APIs, server-side task processing, Java-based clients, relational database, and internal hosting observability 
 as well as production support, software security, engineering best practices, software build, open source publication, and hiring.
 
@@ -161,7 +161,7 @@ SonarQube is a Java-based server with clients for different build systems and CI
 The server includes a Webserver, a task processor, embedded Elasticsearch, and supports 4 DBMS vendors.  
 On-premises deployments range from a few MB to hundreds of GB and handle a few to thousands of users.
 
-
+[//]: # (************* COVERED *************)
 [//]: # (&#40;which grew from 5, including the CTO, to 25 members&#41;, )
 [//]: # (during the startup and growth phase of the business.   )
 [//]: # (and while cooperating directly with founding partners of SonarSource.)
@@ -170,24 +170,26 @@ On-premises deployments range from a few MB to hundreds of GB and handle a few t
 [//]: # (spanning from the clients and the server, to the build system and infrastructure for both internal and public demonstration deployment)
 [//]: # (database, web APIs, process management, Compute Engine,)
 [//]: # (RoR migration,)
-replaced clients connecting to database by asynchronous task processor on the server-side, achieving easier deployment for customers and unmatched scale of deployments
-design the incremental startup process of the server, supporting human trigger DB migrations
-design Java code and build to produce binaries for open-source, multiple closed sources editions and internal cloud-based deployment from the same codebase and repository.
-Codebase supporting both on premises and cloud-based deployment for early versions of SonarCloud.
+[//]: # (replaced clients connecting to database by asynchronous task processor on the server-side, achieving easier deployment for customers and unmatched scale of deployments)
 [//]: # (High availability with several instance running in a cluster and coordinating over Hazelcast)
 [//]: # (easy and safe coding of frequent database migrations.)
+
+[//]: # (************* NOT YET COVERED &#40;if ever?&#41; *************)
+[//]: # (design the incremental startup process of the server, supporting human trigger DB migrations)
+[//]: # (design Java code and build to produce binaries for open-source, multiple closed sources editions and internal cloud-based deployment from the same codebase and repository.)
+[//]: # (Codebase supporting both on premises and cloud-based deployment for early versions of SonarCloud.)
 
 
 **Achievements**
 
 [//]: # (* Leveraged instrumental impacts toward the design and code of the core features and concepts still in active existent programs presently.)
 [//]: # (* Designed and coded a generic task processor and the report processing task in [SonarQube]&#40;https://www.sonarsource.com/products/sonarqube/&#41;.)
-* Designed and coded a generic task processor, a task coding framework and the task processing reports from clients enabling the removal of the connections from clients to the database and achieving hundredfold scalability.
-* Honed expertise in troubleshooting and fixing performance issues with both the JVM and the database to ameliorate issues of all sizes on four various DBMS.
-* Completed memory flow optimization on the JVM along with database design and SQL optimizations on four DBMS targeting SQ instances of all sizes, including schema and data migrations.
-* Developed the automatic lifecycle management of [SonarQube](https://www.sonarsource.com/products/sonarqube/) instances working together as a cluster, over a Hazelcast-based network, to achieve high availability.
-* Replaced legacy, RoR-based database migration solution with in-house, Java-based and SQL free framework to achieve transparent support of 4 different DBMS vendors and ensure consistent and performant database migrations across versions and developers.
-* Contributed to the growth of the development team (from 5 to 20+) as its first hiring manager, screening resumes and conducting first and technical interviews.
+* Designed and coded a generic task processor, a task framework and the task processing reports from clients, enabling the removal of the connections from clients to the database and achieving tenfold scalability improvement.
+* Honed expertise in troubleshooting and fixing performance issues with both the JVM memory flow and SQL queries, achieving Out-Of-Memory-Error-free report processing and consistent and reliable performance regardless of report size and content.
+* Developed the automatic lifecycle management of [SonarQube](https://www.sonarsource.com/products/sonarqube/) instances working together as a cluster, over a Hazelcast network, to achieve high availability.
+* Replaced a legacy, RoR-based database migration solution with a custom Java-based, SQL-free framework ensuring transparent support of and automated testing on 4 different DBMS, as well as consistent and performant behavior across versions and developers.
+* Contributed to the growth of the development team, adding 5 people, as first hiring manager, screening resumes and conducting first and technical interviews.
+* Invented and implemented [public-git-sync](https://github.com/lesaint/public-git-sync), the utility synchronizing several SonarSource private repositories (with both open and closed source code) with their open source counterpart, providing automated creation of clean and consistent Git history and content, with branches and tags support.
 
 [//]: # (* RoR migration, adding Elasticsearch, cutting client connection to the database by adding an asynchronous task processor, cluster support, on premises + cloud based deployment)
 
