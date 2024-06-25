@@ -3,14 +3,15 @@ slug: landing-page-about-hidden
 status: hidden
 layout: page
 
-Goal-driven technical professional with an illustrated track record of:
+French Goal-driven technical professional with an illustrated track record of:
 
 * Innovation in high quality software development.
 * Complex systems modelling, thanks to strong analytical skills.
 * Cloud-based and on-premises architecture design, backend programming, and database design and SQL optimization for high-traffic websites and services.
 * Dynamic problem-solving and troubleshooting, including during production incidents.
-* 15 years of expertise in Java development, over 3 years of Python programming experience.
-* Diversified skills in infrastructure, CI/CD, software engineering and security.
+* 15 years of Java development and over 3 years of Python programming experience.
+* Diversified skills in infrastructure, CI/CD, software engineering and security, and Machine Learning.
+* Experimented Small-team leader and consultant to 30+ people teams 
 
 Successful work experiences include:
 

@@ -154,8 +154,8 @@ PROJECTS = [
                 "name": "DAMapping",
                 "url": "https://www.javatronic.fr/damapping/presentations/damapping_why_and_how.html#/",
                 "description": "A stack of components to implement object mapping in Java with complete source "
-                               "control for the developer - Abandoned because too big, wrong project management, "
-                               "exhausted interest, and lack of time"
+                               "control for the developer | Abandoned because of exhaustion of time and interest due "
+                               "to starting an intense job"
             },
         ]
     },
