@@ -412,20 +412,22 @@ fn_test_output_ends_with&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Further writing of Unit Test for &lt;code&gt;Bash&lt;/code&gt; will certainly be an opportunity for more fun and learning. &lt;/p&gt;</content><category term="articles"></category><category term="Bash"></category><category term="Testing"></category></entry><entry><title>No more out-of-the-box search support for Elegant theme anymore</title><link href="https://www.javatronic.fr/posts/2024/05/03/no-more-out-of-the-box-search-support-for-elegant-theme-anymore/" rel="alternate"></link><published>2024-05-03T00:00:00+02:00</published><updated>2024-05-03T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-05-03:/posts/2024/05/03/no-more-out-of-the-box-search-support-for-elegant-theme-anymore/</id><summary type="html">&lt;h1 id="tipue_search-abandoned"&gt;tipue_search abandoned&lt;a class="headerlink" href="#tipue_search-abandoned" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Further writing of Unit Test for &lt;code&gt;Bash&lt;/code&gt; will certainly be an opportunity for more fun and learning. &lt;/p&gt;</content><category term="articles"></category><category term="Bash"></category><category term="Testing"></category></entry><entry><title>No more out-of-the-box search support for Elegant theme</title><link href="https://www.javatronic.fr/posts/2024/05/03/no-more-out-of-the-box-search-support-for-elegant-theme/" rel="alternate"></link><published>2024-05-03T00:00:00+02:00</published><updated>2024-05-03T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-05-03:/posts/2024/05/03/no-more-out-of-the-box-search-support-for-elegant-theme/</id><summary type="html">
+&lt;h1 id="tipue_search-abandoned"&gt;tipue_search abandoned&lt;a class="headerlink" href="#tipue_search-abandoned" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Element theme documentation suggests using the following configuration to enable search, which relies on the &lt;code&gt;tipue_search&lt;/code&gt; plugin:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tipue_search&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="n"&gt;DIRECT_TEMPLATES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;search&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'tipue_search'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;DIRECT_TEMPLATES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'search'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Unfortunately, this plugin and the jquery code it relies on is abandoned, as stated on Pelican Plugin's page of the plugin:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="screenshot tipue_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/tipue_search_abandoned_screenshot.png"&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;pelican_search&lt;/code&gt; plugin should be used instead …&lt;/p&gt;</summary><content type="html">&lt;h1 id="tipue_search-abandoned"&gt;tipue_search abandoned&lt;a class="headerlink" href="#tipue_search-abandoned" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;img alt="screenshot tipue_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/tipue_search_abandoned_screenshot.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pelican_search&lt;/code&gt; plugin should be used instead …&lt;/p&gt;</summary><content type="html">
+&lt;h1 id="tipue_search-abandoned"&gt;tipue_search abandoned&lt;a class="headerlink" href="#tipue_search-abandoned" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Element theme documentation suggests using the following configuration to enable search, which relies on the &lt;code&gt;tipue_search&lt;/code&gt; plugin:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tipue_search&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="n"&gt;DIRECT_TEMPLATES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;search&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'tipue_search'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;DIRECT_TEMPLATES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'search'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Unfortunately, this plugin and the jquery code it relies on is abandoned, as stated on Pelican Plugin's page of the plugin:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="screenshot tipue_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/tipue_search_abandoned_screenshot.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot tipue_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/tipue_search_abandoned_screenshot.png"/&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;pelican_search&lt;/code&gt; plugin should be used instead, but how?&lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
@@ -434,7 +436,7 @@ fn_test_output_ends_with&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="se"&
 &lt;li&gt;&lt;a href="https://github.com/pelican-plugins/tipue-search?tab=readme-ov-file"&gt;tipue_search's plugin Github page&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;h1 id="pelican_search-abandoned"&gt;pelican_search abandoned&lt;a class="headerlink" href="#pelican_search-abandoned" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id="pelican_search-abandoned"&gt;pelican_search abandoned&lt;a class="headerlink" href="#pelican_search-abandoned" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;pelican_search relies on &lt;code&gt;stork&lt;/code&gt; and this tool should be installed prior to install and run the Pelican plugin: &lt;/p&gt;
 &lt;p&gt;Install Stork  on Ubuntu:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;~/bin
@@ -449,7 +451,7 @@ stork:&lt;span class="w"&gt; &lt;/span&gt;error&lt;span class="w"&gt; &lt;/span&
 Found one for 2-years old Ubuntu 20 (&lt;a href="https://stackoverflow.com/a/72633324"&gt;https://stackoverflow.com/a/72633324&lt;/a&gt;) that required manually installing a specific
 version of OpenSSL and that I would not have followed even if it applied to Ubuntu 22.&lt;/p&gt;
 &lt;p&gt;And then I found out the one maintainer of the project had stepped out a year ago:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="screenshot stork_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/stork_search_abandoned_screenshot.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot stork_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/stork_search_abandoned_screenshot.png"/&gt;&lt;/p&gt;
 &lt;div class="admonition note"&gt;
 &lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
 &lt;ul&gt;
@@ -461,17 +463,101 @@ version of OpenSSL and that I would not have followed even if it applied to Ubun
 &lt;li&gt;&lt;a href="https://github.com/jameslittle230/stork/discussions/360"&gt;Maintainer's post on winding down from project&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
-&lt;h1 id="search-with-google"&gt;Search with Google&lt;a class="headerlink" href="#search-with-google" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;h1 id="use-google-search-instead"&gt;Use Google search instead&lt;a class="headerlink" href="#use-google-search-instead" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;I don't have enough time to investigate alternative solutions to stork and the pelican_search plugin.&lt;/p&gt;
+&lt;h2 id="change-the-search-form"&gt;Change the search form&lt;a class="headerlink" href="#change-the-search-form" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;However, I can customize the Elegant Theme search field, that I have forked.&lt;/p&gt;
 &lt;p&gt;In file &lt;code&gt;base.html&lt;/code&gt;, I can replace&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;navbar-search&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ SITEURL }}/{{ SEARCH_URL }}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;onsubmit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;return validateForm(this.elements[&amp;#39;q&amp;#39;].value);&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;search-query&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;placeholder&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Search&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;q&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;tipue_search_input&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"navbar-search"&lt;/span&gt; &lt;span class="na"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"{{ SITEURL }}/{{ SEARCH_URL }}"&lt;/span&gt; &lt;span class="na"&gt;onsubmit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"return validateForm(this.elements['q'].value);"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"text"&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"search-query"&lt;/span&gt; &lt;span class="na"&gt;placeholder&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"Search"&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"q"&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"tipue_search_input"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;by the following and create a Google search in a new window with &lt;code&gt;site:www.javatronic.fr&lt;/code&gt; as a filter:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;{% if SEARCH_URL %}
-&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;navbar-search&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{SEARCH_URL}}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;onsubmit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;return validateForm(this.elements[&amp;#39;q&amp;#39;][0].value);&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;target&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;_blank&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;search-query&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;placeholder&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Search&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;q&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;tipue_search_input&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;hidden&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;q&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;site:{{ SITEURL }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"navbar-search"&lt;/span&gt; &lt;span class="na"&gt;action&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"{{SEARCH_URL}}"&lt;/span&gt; &lt;span class="na"&gt;onsubmit&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"return validateForm(this.elements['q'][0].value);"&lt;/span&gt; &lt;span class="na"&gt;target&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"_blank"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"text"&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"search-query"&lt;/span&gt; &lt;span class="na"&gt;placeholder&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"Search"&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"q"&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"tipue_search_input"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;input&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"hidden"&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"q"&lt;/span&gt; &lt;span class="na"&gt;value&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"site:{{ SITEURL }}"&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;form&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
 {% endif %}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="articles"></category><category term="Pelican"></category><category term="Javatronic"></category><category term="Python"></category></entry><entry><title>Migrating from Jekyll to Pelican</title><link href="https://www.javatronic.fr/posts/2024/05/02/migrating-from-jekyll-to-pelican/" rel="alternate"></link><published>2024-05-02T00:00:00+02:00</published><updated>2024-05-02T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-05-02:/posts/2024/05/02/migrating-from-jekyll-to-pelican/</id><summary type="html">&lt;h1 id="boostrap"&gt;Boostrap&lt;a class="headerlink" href="#boostrap" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id="enable-indexing-by-google"&gt;Enable indexing by Google&lt;a class="headerlink" href="#enable-indexing-by-google" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;To appear in search results, the website must first be crawled and indexed by Google's robots.&lt;/p&gt;
+&lt;p&gt;This can be achieved by adding a &lt;code&gt;robots.txt&lt;/code&gt; file to the root of the website and creating a site map.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Add &lt;code&gt;robots.txt&lt;/code&gt; to Pelican&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Create file &lt;code&gt;extra/robots.txt&lt;/code&gt;, informing that no robot (not only Google) can crawl any page of the website but those
+indicated in the referred sitemap file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;User-agent:&lt;span class="w"&gt; &lt;/span&gt;*
+Disallow:
+
+Sitemap:&lt;span class="w"&gt; &lt;/span&gt;https://www.javatronic.fr/sitemap.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Have this file deployed to the generated website by adding the following to &lt;code&gt;pelicanconf.py&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;STATIC_PATHS&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"extra/robots.txt"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;EXTRA_PATH_METADATA&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"extra/robots.txt"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"path"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"robots.txt"&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Create a sitemap&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;There is a &lt;a href="https://github.com/getpelican/pelican-plugins/tree/master/sitemap"&gt;plugin to generate a sitemap&lt;/a&gt; within the
+official pelican plugin repository.&lt;/p&gt;
+&lt;p&gt;For the small additions it provides, I decided to use the &lt;a href="https://pypi.org/project/pelican-extended-sitemap/"&gt;pelican-extended-sitemap&lt;/a&gt; plugin.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Add &lt;code&gt;pelican-extended-sitemap&lt;/code&gt; to &lt;code&gt;requirements.txt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;In &lt;code&gt;pelicanconf.py&lt;/code&gt;, enable &lt;code&gt;pelican-extended-sitemap&lt;/code&gt; with
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;PLUGINS&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"extended_sitemap"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Since my resume is a page, I want to boost the priority of pages compared to the default configuration and I'll
+overwrite &lt;code&gt;EXTENDED_SITEMAP_PLUGIN&lt;/code&gt; in &lt;code&gt;pelicanconf.py&lt;/code&gt;: 
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;EXTENDED_SITEMAP_PLUGIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;'priorities'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s1"&gt;'index'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;'articles'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;'pages'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;'others'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.4&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="s1"&gt;'changefrequencies'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s1"&gt;'index'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'daily'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;'articles'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'weekly'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;'pages'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'monthly'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s1"&gt;'others'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'monthly'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="ask-google-to-reindex"&gt;Ask Google to reindex&lt;a class="headerlink" href="#ask-google-to-reindex" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Simply waiting a few days for Google to reindex the website didn't work for me.&lt;/p&gt;
+&lt;p&gt;I decided to use the submission of a sitemap in Search Console to get re-indexed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;verify website property&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;To add a website to your Google Account's Search Console, you first need to prove you own it.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Go to Google's search console: https://search.google.com/search-console/welcome?action=inspect&lt;/li&gt;
+&lt;li&gt;Select the Inspection method, I selected "URL prefix" as I have subdomains I don't need/want indexed  &lt;br/&gt;
+&lt;img alt="screenshot select property validation method" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/select_property_method_screenshot.jpg"/&gt;&lt;/li&gt;
+&lt;li&gt;Select property method with HTML file (the default one)&lt;br/&gt;
+&lt;img alt="screenshot download HTML validation file and validate" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/download_html_file_and_validate_screenshot.jpg"/&gt;&lt;/li&gt;
+&lt;li&gt;Download the HTML file, store it in the &lt;code&gt;content/extra&lt;/code&gt; directory&lt;/li&gt;
+&lt;li&gt;Keep note of the original name of the file and rename it to &lt;code&gt;google_property_verification_file&lt;/code&gt; (or any other name without the &lt;code&gt;.html&lt;/code&gt; suffix to avoid Pelican error not finding a title)&lt;/li&gt;
+&lt;li&gt;Add the following to &lt;code&gt;pelicanconf.py&lt;/code&gt;, using the original name of your file:
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;STATIC_PATHS&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"extra/google_property_verification_file"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;EXTRA_PATH_METADATA&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;"extra/google_property_verification_file"&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s2"&gt;"path"&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;"googled2a1d235c02ddb0d.html"&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Commit and publish the file and changes to &lt;code&gt;pelicanconf.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Click on "Validate"&lt;/li&gt;
+&lt;li&gt;After a few seconds, the Search Console for the website is accessible&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;submit the sitemap&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;In the Search Console, go to sitemaps&lt;/li&gt;
+&lt;li&gt;Input the URL to the &lt;code&gt;sitemap.xml&lt;/code&gt; file&lt;br/&gt;
+&lt;img alt="screenshot add a sitemap in Google Console" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/add_a_sitemap_screenshot.jpg"/&gt;&lt;/li&gt;
+&lt;li&gt;Validate and confirm, after a few seconds, whether Google successfully read the sitemap
+    &lt;img alt="screenshot sitemap successfully read" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/sitemap_successfully_read_screenshot.jpg"/&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;verify indexing is in progress&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In the search console, go to "Pages" and confirm indexing is pending&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot page indexing is pending" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/indexing_pending_screenshot.jpg"/&gt;&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/search/docs/crawling-indexing/robots/create-robots-txt?sjid=3511096558821730991-EU"&gt;Google's documentation: How to write and submit a robots.txt file&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl"&gt;Google's documentation: Ask Google to recrawl your URLs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap#addsitemap"&gt;Google's documentation: Submit your sitemap to Google&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://jackdewinter.github.io/2019/10/30/fine-tuning-pelican-enabling-website-crawling/"&gt;Jack's Digital Workbench: Fine Tuning Pelican: Enabling Website Crawling&lt;/a&gt; (who coincidentally also uses both Pelican and the Elegant theme)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="articles"></category><category term="Pelican"></category><category term="Javatronic"></category><category term="Python"></category></entry><entry><title>Migrating from Jekyll to Pelican</title><link href="https://www.javatronic.fr/posts/2024/05/02/migrating-from-jekyll-to-pelican/" rel="alternate"></link><published>2024-05-02T00:00:00+02:00</published><updated>2024-05-02T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-05-02:/posts/2024/05/02/migrating-from-jekyll-to-pelican/</id><summary type="html">&lt;h1 id="boostrap"&gt;Boostrap&lt;a class="headerlink" href="#boostrap" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;Setup project directory:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;python3&lt;span class="w"&gt; &lt;/span&gt;-m&lt;span class="w"&gt; &lt;/span&gt;venv&lt;span class="w"&gt; &lt;/span&gt;.venv
 &lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;pelican[markdown]&amp;quot;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&amp;gt;&lt;span class="w"&gt; &lt;/span&gt;requirements.txt

@@ -17,16 +17,16 @@
 
 <meta name="keywords" content="Pelican, Javatronic, Python, articles, " />
 
-<meta property="og:title" content="No more out-of-the-box search support for Elegant theme anymore "/>
-<meta property="og:url" content="https://www.javatronic.fr/posts/2024/05/03/no-more-out-of-the-box-search-support-for-elegant-theme-anymore/" />
+<meta property="og:title" content="No more out-of-the-box search support for Elegant theme "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2024/05/03/no-more-out-of-the-box-search-support-for-elegant-theme/" />
 <meta property="og:description" content="tipue_search abandoned¶ Element theme documentation suggests using the following configuration to enable search, which relies on the tipue_search plugin: PLUGINS = [&#39;tipue_search&#39;] DIRECT_TEMPLATES = [&#39;search&#39;] Unfortunately, this plugin and the jquery code it relies on is abandoned, as stated on Pelican Plugin&#39;s page of the plugin: pelican_search plugin should be used instead …" />
 <meta property="og:site_name" content="Javatronic" />
 <meta property="og:article:author" content="Sébastien Lesaint" />
 <meta property="og:article:published_time" content="2024-05-03T00:00:00+02:00" />
-<meta name="twitter:title" content="No more out-of-the-box search support for Elegant theme anymore ">
+<meta name="twitter:title" content="No more out-of-the-box search support for Elegant theme ">
 <meta name="twitter:description" content="tipue_search abandoned¶ Element theme documentation suggests using the following configuration to enable search, which relies on the tipue_search plugin: PLUGINS = [&#39;tipue_search&#39;] DIRECT_TEMPLATES = [&#39;search&#39;] Unfortunately, this plugin and the jquery code it relies on is abandoned, as stated on Pelican Plugin&#39;s page of the plugin: pelican_search plugin should be used instead …">
 
-        <title>No more out-of-the-box search support for Elegant theme anymore  · Javatronic
+        <title>No more out-of-the-box search support for Elegant theme  · Javatronic
 </title>
         <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
 
@@ -70,23 +70,41 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="https://www.javatronic.fr/posts/2024/05/03/no-more-out-of-the-box-search-support-for-elegant-theme-anymore/">
-                No more out-of-the-box search support for Elegant theme anymore
+            <a href="https://www.javatronic.fr/posts/2024/05/03/no-more-out-of-the-box-search-support-for-elegant-theme/">
+                No more out-of-the-box search support for Elegant theme
             </a>
         </h1>
     </header>
 </div>
 
 <div class="row-fluid">
-        <div class="span8 offset2 article-content">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#tipue_search-abandoned">tipue_search abandoned</a></li>
+<li><a href="#pelican_search-abandoned">pelican_search abandoned</a></li>
+<li><a href="#use-google-search-instead">Use Google search instead</a><ul>
+<li><a href="#change-the-search-form">Change the search form</a></li>
+<li><a href="#enable-indexing-by-google">Enable indexing by Google</a></li>
+<li><a href="#ask-google-to-reindex">Ask Google to reindex</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
             
-            <h1 id="tipue_search-abandoned">tipue_search abandoned<a class="headerlink" href="#tipue_search-abandoned" title="Permanent link">&para;</a></h1>
+            
+<h1 id="tipue_search-abandoned">tipue_search abandoned<a class="headerlink" href="#tipue_search-abandoned" title="Permanent link">¶</a></h1>
 <p>Element theme documentation suggests using the following configuration to enable search, which relies on the <code>tipue_search</code> plugin:</p>
-<div class="highlight"><pre><span></span><code><span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tipue_search&#39;</span><span class="p">]</span>
-<span class="n">DIRECT_TEMPLATES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;search&#39;</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="n">PLUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'tipue_search'</span><span class="p">]</span>
+<span class="n">DIRECT_TEMPLATES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'search'</span><span class="p">]</span>
 </code></pre></div>
 <p>Unfortunately, this plugin and the jquery code it relies on is abandoned, as stated on Pelican Plugin's page of the plugin:</p>
-<p><img alt="screenshot tipue_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/tipue_search_abandoned_screenshot.png"></p>
+<p><img alt="screenshot tipue_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/tipue_search_abandoned_screenshot.png"/></p>
 <p><code>pelican_search</code> plugin should be used instead, but how?</p>
 <div class="admonition note">
 <p class="admonition-title"> Sources</p>
@@ -95,7 +113,7 @@
 <li><a href="https://github.com/pelican-plugins/tipue-search?tab=readme-ov-file">tipue_search's plugin Github page</a></li>
 </ul>
 </div>
-<h1 id="pelican_search-abandoned">pelican_search abandoned<a class="headerlink" href="#pelican_search-abandoned" title="Permanent link">&para;</a></h1>
+<h1 id="pelican_search-abandoned">pelican_search abandoned<a class="headerlink" href="#pelican_search-abandoned" title="Permanent link">¶</a></h1>
 <p>pelican_search relies on <code>stork</code> and this tool should be installed prior to install and run the Pelican plugin: </p>
 <p>Install Stork  on Ubuntu:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>~/bin
@@ -110,7 +128,7 @@ stork:<span class="w"> </span>error<span class="w"> </span><span class="k">while
 Found one for 2-years old Ubuntu 20 (<a href="https://stackoverflow.com/a/72633324">https://stackoverflow.com/a/72633324</a>) that required manually installing a specific
 version of OpenSSL and that I would not have followed even if it applied to Ubuntu 22.</p>
 <p>And then I found out the one maintainer of the project had stepped out a year ago:</p>
-<p><img alt="screenshot stork_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/stork_search_abandoned_screenshot.png"></p>
+<p><img alt="screenshot stork_search abandoned message" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/stork_search_abandoned_screenshot.png"/></p>
 <div class="admonition note">
 <p class="admonition-title"> Sources</p>
 <ul>
@@ -122,17 +140,101 @@ version of OpenSSL and that I would not have followed even if it applied to Ubun
 <li><a href="https://github.com/jameslittle230/stork/discussions/360">Maintainer's post on winding down from project</a></li>
 </ul>
 </blockquote>
-<h1 id="search-with-google">Search with Google<a class="headerlink" href="#search-with-google" title="Permanent link">&para;</a></h1>
+<h1 id="use-google-search-instead">Use Google search instead<a class="headerlink" href="#use-google-search-instead" title="Permanent link">¶</a></h1>
 <p>I don't have enough time to investigate alternative solutions to stork and the pelican_search plugin.</p>
+<h2 id="change-the-search-form">Change the search form<a class="headerlink" href="#change-the-search-form" title="Permanent link">¶</a></h2>
 <p>However, I can customize the Elegant Theme search field, that I have forked.</p>
 <p>In file <code>base.html</code>, I can replace</p>
-<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">form</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-search&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;{{ SITEURL }}/{{ SEARCH_URL }}&quot;</span> <span class="na">onsubmit</span><span class="o">=</span><span class="s">&quot;return validateForm(this.elements[&#39;q&#39;].value);&quot;</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;search-query&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Search&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;q&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;tipue_search_input&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">form</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">form</span> <span class="na">class</span><span class="o">=</span><span class="s">"navbar-search"</span> <span class="na">action</span><span class="o">=</span><span class="s">"{{ SITEURL }}/{{ SEARCH_URL }}"</span> <span class="na">onsubmit</span><span class="o">=</span><span class="s">"return validateForm(this.elements['q'].value);"</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">class</span><span class="o">=</span><span class="s">"search-query"</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">"Search"</span> <span class="na">name</span><span class="o">=</span><span class="s">"q"</span> <span class="na">id</span><span class="o">=</span><span class="s">"tipue_search_input"</span><span class="p">&gt;&lt;/</span><span class="nt">form</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>by the following and create a Google search in a new window with <code>site:www.javatronic.fr</code> as a filter:</p>
 <div class="highlight"><pre><span></span><code>{% if SEARCH_URL %}
-<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">form</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;navbar-search&quot;</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;{{SEARCH_URL}}&quot;</span> <span class="na">onsubmit</span><span class="o">=</span><span class="s">&quot;return validateForm(this.elements[&#39;q&#39;][0].value);&quot;</span> <span class="na">target</span><span class="o">=</span><span class="s">&quot;_blank&quot;</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;search-query&quot;</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Search&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;q&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;tipue_search_input&quot;</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;q&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;site:{{ SITEURL }}&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">form</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">form</span> <span class="na">class</span><span class="o">=</span><span class="s">"navbar-search"</span> <span class="na">action</span><span class="o">=</span><span class="s">"{{SEARCH_URL}}"</span> <span class="na">onsubmit</span><span class="o">=</span><span class="s">"return validateForm(this.elements['q'][0].value);"</span> <span class="na">target</span><span class="o">=</span><span class="s">"_blank"</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">class</span><span class="o">=</span><span class="s">"search-query"</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">"Search"</span> <span class="na">name</span><span class="o">=</span><span class="s">"q"</span> <span class="na">id</span><span class="o">=</span><span class="s">"tipue_search_input"</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"hidden"</span> <span class="na">name</span><span class="o">=</span><span class="s">"q"</span> <span class="na">value</span><span class="o">=</span><span class="s">"site:{{ SITEURL }}"</span><span class="p">&gt;&lt;/</span><span class="nt">form</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
 {% endif %}
 </code></pre></div>
+<h2 id="enable-indexing-by-google">Enable indexing by Google<a class="headerlink" href="#enable-indexing-by-google" title="Permanent link">¶</a></h2>
+<p>To appear in search results, the website must first be crawled and indexed by Google's robots.</p>
+<p>This can be achieved by adding a <code>robots.txt</code> file to the root of the website and creating a site map.</p>
+<p><strong>Add <code>robots.txt</code> to Pelican</strong></p>
+<p>Create file <code>extra/robots.txt</code>, informing that no robot (not only Google) can crawl any page of the website but those
+indicated in the referred sitemap file.</p>
+<div class="highlight"><pre><span></span><code>User-agent:<span class="w"> </span>*
+Disallow:
+
+Sitemap:<span class="w"> </span>https://www.javatronic.fr/sitemap.xml
+</code></pre></div>
+<p>Have this file deployed to the generated website by adding the following to <code>pelicanconf.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">STATIC_PATHS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"extra/robots.txt"</span><span class="p">)</span>
+<span class="n">EXTRA_PATH_METADATA</span><span class="p">[</span><span class="s2">"extra/robots.txt"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"path"</span><span class="p">:</span> <span class="s2">"robots.txt"</span><span class="p">}</span>
+</code></pre></div>
+<p><strong>Create a sitemap</strong></p>
+<p>There is a <a href="https://github.com/getpelican/pelican-plugins/tree/master/sitemap">plugin to generate a sitemap</a> within the
+official pelican plugin repository.</p>
+<p>For the small additions it provides, I decided to use the <a href="https://pypi.org/project/pelican-extended-sitemap/">pelican-extended-sitemap</a> plugin.</p>
+<ol>
+<li>Add <code>pelican-extended-sitemap</code> to <code>requirements.txt</code></li>
+<li>In <code>pelicanconf.py</code>, enable <code>pelican-extended-sitemap</code> with
+    <div class="highlight"><pre><span></span><code><span class="n">PLUGINS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"extended_sitemap"</span><span class="p">)</span>
+</code></pre></div></li>
+<li>Since my resume is a page, I want to boost the priority of pages compared to the default configuration and I'll
+overwrite <code>EXTENDED_SITEMAP_PLUGIN</code> in <code>pelicanconf.py</code>: 
+    <div class="highlight"><pre><span></span><code><span class="n">EXTENDED_SITEMAP_PLUGIN</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'priorities'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'index'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="s1">'articles'</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+        <span class="s1">'pages'</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+        <span class="s1">'others'</span><span class="p">:</span> <span class="mf">0.4</span>
+    <span class="p">},</span>
+    <span class="s1">'changefrequencies'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'index'</span><span class="p">:</span> <span class="s1">'daily'</span><span class="p">,</span>
+        <span class="s1">'articles'</span><span class="p">:</span> <span class="s1">'weekly'</span><span class="p">,</span>
+        <span class="s1">'pages'</span><span class="p">:</span> <span class="s1">'monthly'</span><span class="p">,</span>
+        <span class="s1">'others'</span><span class="p">:</span> <span class="s1">'monthly'</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ol>
+<h2 id="ask-google-to-reindex">Ask Google to reindex<a class="headerlink" href="#ask-google-to-reindex" title="Permanent link">¶</a></h2>
+<p>Simply waiting a few days for Google to reindex the website didn't work for me.</p>
+<p>I decided to use the submission of a sitemap in Search Console to get re-indexed.</p>
+<p><strong>verify website property</strong></p>
+<p>To add a website to your Google Account's Search Console, you first need to prove you own it.</p>
+<ol>
+<li>Go to Google's search console: https://search.google.com/search-console/welcome?action=inspect</li>
+<li>Select the Inspection method, I selected "URL prefix" as I have subdomains I don't need/want indexed  <br/>
+<img alt="screenshot select property validation method" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/select_property_method_screenshot.jpg"/></li>
+<li>Select property method with HTML file (the default one)<br/>
+<img alt="screenshot download HTML validation file and validate" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/download_html_file_and_validate_screenshot.jpg"/></li>
+<li>Download the HTML file, store it in the <code>content/extra</code> directory</li>
+<li>Keep note of the original name of the file and rename it to <code>google_property_verification_file</code> (or any other name without the <code>.html</code> suffix to avoid Pelican error not finding a title)</li>
+<li>Add the following to <code>pelicanconf.py</code>, using the original name of your file:
+    <div class="highlight"><pre><span></span><code><span class="n">STATIC_PATHS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"extra/google_property_verification_file"</span><span class="p">)</span>
+<span class="n">EXTRA_PATH_METADATA</span><span class="p">[</span><span class="s2">"extra/google_property_verification_file"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"path"</span><span class="p">:</span> <span class="s2">"googled2a1d235c02ddb0d.html"</span><span class="p">}</span>
+</code></pre></div></li>
+<li>Commit and publish the file and changes to <code>pelicanconf.py</code></li>
+<li>Click on "Validate"</li>
+<li>After a few seconds, the Search Console for the website is accessible</li>
+</ol>
+<p><strong>submit the sitemap</strong></p>
+<ol>
+<li>In the Search Console, go to sitemaps</li>
+<li>Input the URL to the <code>sitemap.xml</code> file<br/>
+<img alt="screenshot add a sitemap in Google Console" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/add_a_sitemap_screenshot.jpg"/></li>
+<li>Validate and confirm, after a few seconds, whether Google successfully read the sitemap
+    <img alt="screenshot sitemap successfully read" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/sitemap_successfully_read_screenshot.jpg"/></li>
+</ol>
+<p><strong>verify indexing is in progress</strong></p>
+<p>In the search console, go to "Pages" and confirm indexing is pending</p>
+<p><img alt="screenshot page indexing is pending" src="https://www.javatronic.fr/images/2024-05-03_enabling_search_in_elegant_theme/indexing_pending_screenshot.jpg"/></p>
+<div class="admonition note">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://developers.google.com/search/docs/crawling-indexing/robots/create-robots-txt?sjid=3511096558821730991-EU">Google's documentation: How to write and submit a robots.txt file</a></li>
+<li><a href="https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl">Google's documentation: Ask Google to recrawl your URLs</a></li>
+<li><a href="https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap#addsitemap">Google's documentation: Submit your sitemap to Google</a></li>
+<li><a href="https://jackdewinter.github.io/2019/10/30/fine-tuning-pelican-enabling-website-crawling/">Jack's Digital Workbench: Fine Tuning Pelican: Enabling Website Crawling</a> (who coincidentally also uses both Pelican and the Elegant theme)</li>
+</ul>
+</div>
 
 
              
