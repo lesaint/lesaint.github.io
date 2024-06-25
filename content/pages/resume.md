@@ -43,7 +43,7 @@ AWS (CDK, EC2, Step Functions, S3, IAM, System Manager), Python3, Scikit-learn, 
 * Provided design support and advice on application and cloud-based architecture to the 4 delivery squads of the [SonarCloud](https://sonarcloud.io) team (35 people).     
 * Handled research projects, unfit for the team's delivery pace, and occasionally joined squads' sprints as a Cloud Platform Engineer.     
 
-SonarCloud is [SAAS](https://en.wikipedia.org/wiki/Software_as_a_service) with 1.3B+ API requests per day, 1.5B jobs per week and a 6TB-storage relational database.
+SonarCloud is [SAAS](https://en.wikipedia.org/wiki/Software_as_a_service) with 1.3B+ API requests and a million server-side jobs per week, with a 6TB-storage relational database.
 
 [//]: # (content to have: )
 [//]: # (* worked on SonarCloud)
