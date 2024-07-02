@@ -5,13 +5,9 @@ layout: page
 
 French Goal-driven technical professional with an illustrated track record of:
 
-* Innovation in high quality software development.
-* Complex systems modelling, thanks to strong analytical skills.
-* Cloud-based and on-premises architecture design, backend programming, and database design and SQL optimization for high-traffic websites and services.
-* Dynamic problem-solving and troubleshooting, including during production incidents.
-* 15 years of Java development and over 3 years of Python programming experience.
-* Diversified skills in infrastructure, CI/CD, software engineering and security, and Machine Learning.
-* Experimented Small-team leader and consultant to 30+ people teams 
+* Goal-driven professional with an illustrated track record of innovation in high quality software development, complex systems modeling, cloud-based architecture for high-traffic servers and services.
+* 17 years of experience in Backend Java development, relational database design and usage, 3 years in Python, with skills in infrastructure, CI/CD, software engineering and security, machine learning, and production.
+* Proven leader recognized for strong technical acumen, as well as dynamic problem-solving, communication, interpersonal, analytical, and decision-making skills. 
 
 Successful work experiences include:
 
