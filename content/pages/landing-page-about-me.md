@@ -3,11 +3,12 @@ slug: landing-page-about-hidden
 status: hidden
 layout: page
 
-French Goal-driven technical professional with an illustrated track record of:
+French Goal-driven technical professional and hands-on leader with:
 
-* Goal-driven professional with an illustrated track record of innovation in high quality software development, complex systems modeling, cloud-based architecture for high-traffic servers and services.
-* 17 years of experience in Backend Java development, relational database design and usage, 3 years in Python, with skills in infrastructure, CI/CD, software engineering and security, machine learning, and production.
-* Proven leader recognized for strong technical acumen, as well as dynamic problem-solving, communication, interpersonal, analytical, and decision-making skills. 
+* An illustrated track record of innovation in high quality software development, complex systems modeling, and cloud-based architecture for high-traffic servers and services.
+* 17 years of experience in Backend Java development, relational databases design and usage, 3 years in Python.
+* Skills in infrastructure, CI/CD, software engineering and security, machine learning, and production.
+* Strong technical acumen, as well as dynamic problem-solving, communication, interpersonal, analytical, and decision-making skills. 
 
 Successful work experiences include:
 
