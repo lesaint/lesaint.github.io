@@ -9,10 +9,15 @@ Here are some that I read inside out and stroke my memory.
 
 ## 2024
 
+* [Data-Oriented Programming](https://www.manning.com/books/data-oriented-programming)
+    * by Yehonathan Sharvit
+    * Manning
+    * July 2022, 424 pages
+    * ISBN: 9781617298578
 * [The Tech Resume Inside Out](https://thetechresume.com/)
     * by Gergely Orosz
     * Mike Reeves-McMillan
-    * 2020, 215 p
+    * 2020, 215 pages
     * ISBN-13: 978-1636494166
 * [Dead Simple Python](https://nostarch.com/dead-simple-python)
     * by Jason C. McDonald
@@ -25,14 +30,14 @@ Here are some that I read inside out and stroke my memory.
 * [Effective Pandas: Patterns for Data Manipulation](https://store.metasnake.com/effective-pandas1-book)
     * by Matt Harrison
     * Independently published
-    * December 2021, 497 p
+    * December 2021, 497 pages
     * ISBN-13 : 979-8772692936 
 
 ## 2022
 
 * [Monolith to Microservices](https://www.oreilly.com/library/view/monolith-to-microservices/9781492047834/)
     * by Sam Newman
-    * November 2019, 270 p 
+    * November 2019, 270 pages 
     * ISBN-13: 978-1492047841 
   
 ## 2020
@@ -40,5 +45,5 @@ Here are some that I read inside out and stroke my memory.
 * [Software Engineering at Google](https://www.oreilly.com/library/view/software-engineering-at/9781492082781/)
     * by Titus Winters, Tom Manshreck, Hyrum Wright
     * O'Reilly
-    * March 2020, 550 p 
+    * March 2020, 550 pages 
     * ISBN-13: 978-1492082798
