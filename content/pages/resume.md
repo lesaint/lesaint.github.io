@@ -26,6 +26,12 @@ header_position: 0
     Performance Optimization (SQL, CPU/Mem, Cross-Service) ▪
     Open Source Mindset</dd></dl>
 
+# Recent certifications and trainings
+ 	
+* [Kubernetes - Automated container management](https://www.ambient-it.net/formation/formation-kubernetes/)
+* [AWS Certified Solutions Architect – Associate (SAA-C03)](https://aws.amazon.com/certification/certified-solutions-architect-associate)
+* [AWS Certified Solutions Architect – Practitioner (CLF-C02)](https://aws.amazon.com/certification/certified-cloud-practitioner/)
+
 # Career
 
 ## Machine Learning Engineer
@@ -271,11 +277,6 @@ Java 5, EJB3, Oracle, PL/SQL, JDBC, XML, JAX-WS, Struts, JSP, Maven, multi-threa
 * Master of Engineering in Computer Software Development ▪ ESIEA ▪ Paris, France
 * BSc in Computer Software Development (First Class Honours) ▪ [Anglia Polytechnic University](https://www.aru.ac.uk/ "a.k.a. APU, now Anglia Ruskin University") ▪ Chelmsford, UK
 * High School Graduate with Mathematics, Biology, and Technical Majors ▪ Notre Dame la Riche ▪ Tours, France
-
-# Certifications
- 	
-* AWS Certified Solutions Architect – Associate	
-* AWS Certified Solutions Architect – Practitioner 
 
 # Interests
 
