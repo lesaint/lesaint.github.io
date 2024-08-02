@@ -13,7 +13,7 @@ French Goal-driven technical professional and hands-on leader with:
 Successful work experiences include:
 
 * Application Architect, Backend Developer and Machine Learning Engineer at [SonarSource](https://www.sonarsource.com/company/about/).
-* Working with TB-scale databases and billions rows SQL tables, for both on premises client-server applications and SAAS APIs with 1B+ requests and a million server-side jobs per day.
+* Working with TB-scale databases and billions rows SQL tables, for both on premises client-server applications and SAAS APIs with 1.3B+ requests and a million server-side jobs per week.
 * Senior Developer, Technical Supervisor and level-3 support Engineer for [SFR](https://www.sfr.fr/) (n°2 Telco in France).
 * Founding developer and contributor to a legal startup company.
 
