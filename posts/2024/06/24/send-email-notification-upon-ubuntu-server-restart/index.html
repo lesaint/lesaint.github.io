@@ -15,18 +15,18 @@
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="Cloud, Ubuntu, Oh-My-Zsh, tips, " />
+<meta name="keywords" content="Ubuntu, tips, " />
 
-<meta property="og:title" content="Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh "/>
-<meta property="og:url" content="https://www.javatronic.fr/posts/2014/10/17/installing-google-cloud-sdk-on-ubuntu-with-oh-my-zsh/" />
-<meta property="og:description" content="To install the Google Cloud SDK, you can follow the installation guidelines available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won&#39;t work and you need to do some manual steps. Install via the bash installer¶ Run the following command …" />
+<meta property="og:title" content="Send email notification upon Ubuntu server restart "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2024/06/24/send-email-notification-upon-ubuntu-server-restart/" />
+<meta property="og:description" content="I want to be notified by email upon restart of the remote server serving the HDD where I do the offsite backup of my data. I used init in the past for such purpose, combined with a script that sends an email. But init is gone and has been replaced …" />
 <meta property="og:site_name" content="Javatronic" />
 <meta property="og:article:author" content="Sébastien Lesaint" />
-<meta property="og:article:published_time" content="2014-10-17T00:00:00+02:00" />
-<meta name="twitter:title" content="Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh ">
-<meta name="twitter:description" content="To install the Google Cloud SDK, you can follow the installation guidelines available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won&#39;t work and you need to do some manual steps. Install via the bash installer¶ Run the following command …">
+<meta property="og:article:published_time" content="2024-06-24T00:00:00+02:00" />
+<meta name="twitter:title" content="Send email notification upon Ubuntu server restart ">
+<meta name="twitter:description" content="I want to be notified by email upon restart of the remote server serving the HDD where I do the offsite backup of my data. I used init in the past for such purpose, combined with a script that sends an email. But init is gone and has been replaced …">
 
-        <title>Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh  · Javatronic
+        <title>Send email notification upon Ubuntu server restart  · Javatronic
 </title>
         <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
 
@@ -70,54 +70,136 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="https://www.javatronic.fr/posts/2014/10/17/installing-google-cloud-sdk-on-ubuntu-with-oh-my-zsh/">
-                Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh
+            <a href="https://www.javatronic.fr/posts/2024/06/24/send-email-notification-upon-ubuntu-server-restart/">
+                Send email notification upon Ubuntu server restart
             </a>
         </h1>
     </header>
 </div>
 
 <div class="row-fluid">
-        <div class="span8 offset2 article-content">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#send-an-email">Send an email</a></li>
+<li><a href="#create-the-service">Create the service</a></li>
+<li><a href="#test-the-service">Test the service</a></li>
+<li><a href="#enable-the-service">Enable the service</a></li>
+<li><a href="#monitor-the-service">Monitor the service</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
             
-            <p>To install the Google Cloud SDK, you can follow the <a href="https://cloud.google.com/sdk/">installation guidelines</a> available online. But if you are running Ubuntu and uses Oh-My-Zsh (or to some extent, Zsh alone), automatic installation won't work and you need to do some manual steps.</p>
-<h2 id="install-via-the-bash-installer">Install via the bash installer<a class="headerlink" href="#install-via-the-bash-installer" title="Permanent link">&para;</a></h2>
-<p>Run the following command to download and install the SDK on your disk.</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://sdk.cloud.google.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
-</code></pre></div>
-<h3 id="bash">Bash<a class="headerlink" href="#bash" title="Permanent link">&para;</a></h3>
-<p>If your are running <code>bash</code>, answer <code>Y</code> when prompted to add <code>gcloud</code> to the <code>PATH</code> and install auto-completion. Don't worry, the installer creates a backup before modifying your <code>.bashrc</code>.</p>
-<h3 id="zsh">Zsh<a class="headerlink" href="#zsh" title="Permanent link">&para;</a></h3>
-<p>If you are running <code>Zsh</code>, specify the path to your <code>.zshrc</code> when prompted instead of going for the default <code>.bashrc</code> file.</p>
-<p>You will then have to manually modify your <code>.zshrc</code>.</p>
-<p>The installer adds the following lines:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># The next line updates PATH for the Google Cloud SDK.</span>
-<span class="nb">source</span><span class="w"> </span><span class="s1">&#39;/path/to/google-cloud-sdk/path.bash.inc&#39;</span>
+            
+<p>I want to be notified by email upon restart of the remote server serving the HDD where I do the offsite backup of my
+data.</p>
+<p>I used <code>init</code> in the past for such purpose, combined with a script that sends an email.</p>
+<p>But <code>init</code> is gone and has been replaced by <code>systemd</code> in Ubuntu for a while now.</p>
+<p>Yet, the same result can be achieved by creating a service in <code>systemd</code> and have it run only once.</p>
+<h1 id="send-an-email">Send an email<a class="headerlink" href="#send-an-email" title="Permanent link">¶</a></h1>
+<p>I'll create a script in my home directory that sends me an email: <code>vi ~/scripts/notify_start.sh</code>.</p>
+<p>To prevent emails from stacking in the same conversation in Gmail, I'll include the current date and time in the subject
+(plus it's a useful information, in case emails are delayed).</p>
+<p>Since restarts happen only so often, I'll include instructions in the body of what and how I should be doing manually
+upon restart, in case I forget.</p>
+<p>I'll use <code>ssmtp</code> to send the email, see <a href="https://www.javatronic.fr/posts/2023/12/12/configure-ssmtp-with-gmail-on-ubuntu/">how to configure gmail with SSMTP on Ubuntu</a>.</p>
+<p>I'll use the braces + pipe trick and the <code>echo</code> command to send multiple lines to <code>ssmtp</code> (over the harder to read <code>cat</code>
++ delimiter, which I find harder to read and maintain).</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
 
-<span class="c1"># The next line enables bash completion for gcloud.</span>
-<span class="nb">source</span><span class="w"> </span><span class="s1">&#39;/path/to/google-cloud-sdk/completion.bash.inc&#39;</span>
-</code></pre></div>
-<p>Just replace the <code>bash</code> part in the file names with <code>zsh</code> to use the Zsh specific scripts provided with the SDK.</p>
-<h3 id="oh-my-zsh-compatibility">Oh-my-zsh compatibility<a class="headerlink" href="#oh-my-zsh-compatibility" title="Permanent link">&para;</a></h3>
-<p>I use Oh-My-Zsh as a shell and unfortunately, the procedure above did not work for me.</p>
-<p>When loading a new shell, I got errors such as the following and command line completion did not work.</p>
-<div class="highlight"><pre><span></span><code>/path/to/google-cloud-sdk/completion.bash.inc:8:<span class="w"> </span><span class="nb">command</span><span class="w"> </span>not<span class="w"> </span>found:<span class="w"> </span><span class="nb">complete</span>
-/path/to/google-cloud-sdk/completion.bash.inc:19:<span class="w"> </span>parse<span class="w"> </span>error<span class="w"> </span>near<span class="w"> </span><span class="sb">`</span><span class="o">]]</span><span class="err">&#39;</span>
-</code></pre></div>
-<p>I did the following to fix the install.</p>
-<h4 id="load-the-sdk-files-before-oh-my-zsh">load the SDK files before <code>Oh-My-Zsh</code><a class="headerlink" href="#load-the-sdk-files-before-oh-my-zsh" title="Permanent link">&para;</a></h4>
-<p>First, move the lines added by the installer <em>before</em> the source command loading <code>Oh-My-Zsh</code> (<code>source $ZSH/oh-my-zsh.sh</code>).</p>
-<h4 id="load-missing-zsh-module">load missing <code>Zsh</code> module<a class="headerlink" href="#load-missing-zsh-module" title="Permanent link">&para;</a></h4>
-<p>Then two lines to tell <code>Zsh</code> to load and init some specific modules required for completion to work <em>before</em> the <code>source</code> command for completion. I a no expert with <code>Zsh</code> nor <code>Oh-My-Zsh</code>, but looking at <code>oh-my-zsh.sh</code> it seems that only <code>compinit</code> is loaded.</p>
-<p>You should end up with the following, at the beginning of your <code>.zshrc</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># The next line updates PATH for the Google Cloud SDK.</span>
-<span class="nb">source</span><span class="w"> </span><span class="s1">&#39;/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/path.zsh.inc&#39;</span>
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
 
-<span class="c1"># The next lines enables bash completion in Zsh for gcloud. </span>
-autoload<span class="w"> </span>-U<span class="w"> </span>compinit<span class="w"> </span>compdef
-compinit
-<span class="nb">source</span><span class="w"> </span><span class="s1">&#39;/home/lesaint/GOOGLE_CLOUD/google-cloud-sdk/completion.zsh.inc&#39;</span>
+<span class="nv">DATE</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+<span class="s2">"%Y-%m-%d-%H%M%S"</span><span class="k">)</span>
+<span class="o">{</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Subject: MyServer (re)started at </span><span class="nv">$DATE</span><span class="s2">"</span>
+<span class="w">        </span><span class="nb">echo</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"This email is sent from systemd service notify_start.service on MyServer."</span>
+<span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Check service logs with either 'sudo systemctl status notify_start.service' or 'journalctl -u notify_start.service'."</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Immediate actions to take:"</span>
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" * mount and open HDD with '/blablabla/mount.sh'"</span>
+<span class="o">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ssmtp<span class="w"> </span>me@gmail.com
 </code></pre></div>
+<h1 id="create-the-service">Create the service<a class="headerlink" href="#create-the-service" title="Permanent link">¶</a></h1>
+<p>The unit of work in <code>systemd</code> is a <code>unit</code>. We will use one of type <code>service</code>, since <code>systemd</code> starts, stops and 
+generally manages the lifecycle of those, and we can declare dependencies on other services (see below).</p>
+<p>A unit is created with a configuration file. I'll use <code>/etc/systemd/system</code> as location since it prevails over any other
+and I have root access.</p>
+<p><code>sudo vi /etc/systemd/system/notify_start.service</code></p>
+<ul>
+<li>I create and a description to the unit
+    <div class="highlight"><pre><span></span><code>[Unit]
+Description=Send me an email when system starts
+</code></pre></div></li>
+<li>the unit is a service
+    <div class="highlight"><pre><span></span><code>[Service]
+</code></pre></div></li>
+<li>the service calls the above script (upon starting):
+    <div class="highlight"><pre><span></span><code>ExecStart=/home/phan/scripts/pidatabak_scripts/notify_start/notify_start.sh
+</code></pre></div></li>
+<li>the service must be started only once (to run the script only once):
+    <div class="highlight"><pre><span></span><code>Type=oneshot
+</code></pre></div></li>
+<li>since the script sends an email, the service requires network to be available before running:
+    <div class="highlight"><pre><span></span><code>After=network-online.target
+Wants=network-online.target
+</code></pre></div></li>
+</ul>
+<p>Side benefit: since the service just calls a script, it can be easily duplicated to serve other purpose.</p>
+<h1 id="test-the-service">Test the service<a class="headerlink" href="#test-the-service" title="Permanent link">¶</a></h1>
+<p>After testing the script, test the service with <code>sudo systemctl start notify_start.service</code>.</p>
+<p>If service was already tested, stop it first: <code>sudo systemctl stop notify_start.service</code>.</p>
+<h1 id="enable-the-service">Enable the service<a class="headerlink" href="#enable-the-service" title="Permanent link">¶</a></h1>
+<p>To have the service managed by <code>systemd</code>, it needs to be enabled with <code>sudo systemctl enable notify_start.service</code>.</p>
+<p>This fails with the following message:</p>
+<div class="highlight"><pre><span></span><code>The unit files have no installation config (WantedBy=, RequiredBy=, Also=,
+Alias= settings in the [Install] section, and DefaultInstance= for template
+units). This means they are not meant to be enabled using systemctl.
+
+Possible reasons for having this kind of units are:
+• A unit may be statically enabled by being symlinked from another unit's
+  .wants/ or .requires/ directory.
+• A unit's purpose may be to act as a helper for some other unit which has
+  a requirement dependency on it.
+• A unit may be started when needed via activation (socket, path, timer,
+  D-Bus, udev, scripted systemctl call, ...).
+• In case of template units, the unit is meant to be enabled with some
+  instance name specified.
+</code></pre></div>
+<p>To fix this, add the following:</p>
+<div class="highlight"><pre><span></span><code>[Install]
+WantedBy=multi-user.target
+</code></pre></div>
+<h1 id="monitor-the-service">Monitor the service<a class="headerlink" href="#monitor-the-service" title="Permanent link">¶</a></h1>
+<ul>
+<li>check logs with either <code>sudo systemctl status notify_start.service</code> or <code>journalctl -u notify_start.service</code></li>
+<li>check status with <code>sudo systemctl status notify_start.service</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code>[Unit]
+Description=Send me an email when system starts
+# source: https://systemd.io/NETWORK_ONLINE/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/phan/scripts/pidatabak_scripts/notify_start/notify_start.sh
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://unix.stackexchange.com/a/506374">Fixing missing WantedBy</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files">Understanding Systemd Units and Unit Files</a></li>
+</ul>
+</div>
 
 
              
@@ -136,17 +218,11 @@ compinit
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2014-10-17T00:00:00+02:00">Fri 17 October 2014</time>
+            <time itemprop="dateCreated" datetime="2024-06-24T00:00:00+02:00">Mon 24 June 2024</time>
             <h4>Category</h4>
             <a class="category-link" href="https://www.javatronic.fr/categories.html#tips-ref">tips</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://www.javatronic.fr/tags.html#cloud-ref">Cloud
-                    <span class="superscript">2</span>
-</a></li>
-                <li><a href="https://www.javatronic.fr/tags.html#oh-my-zsh-ref">Oh-My-Zsh
-                    <span class="superscript">1</span>
-</a></li>
                 <li><a href="https://www.javatronic.fr/tags.html#ubuntu-ref">Ubuntu
                     <span class="superscript">4</span>
 </a></li>

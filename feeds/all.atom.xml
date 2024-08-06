@@ -1,5 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Javatronic</title><link href="https://www.javatronic.fr/" rel="alternate"></link><link href="https://www.javatronic.fr/feeds/all.atom.xml" rel="self"></link><id>https://www.javatronic.fr/</id><updated>2024-06-16T00:00:00+02:00</updated><entry><title>Unit testing a Bash script</title><link href="https://www.javatronic.fr/posts/2024/06/16/unit-testing-a-bash-script/" rel="alternate"></link><published>2024-06-16T00:00:00+02:00</published><updated>2024-06-16T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-06-16:/posts/2024/06/16/unit-testing-a-bash-script/</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Javatronic</title><link href="https://www.javatronic.fr/" rel="alternate"></link><link href="https://www.javatronic.fr/feeds/all.atom.xml" rel="self"></link><id>https://www.javatronic.fr/</id><updated>2024-06-24T00:00:00+02:00</updated><entry><title>Send email notification upon Ubuntu server restart</title><link href="https://www.javatronic.fr/posts/2024/06/24/send-email-notification-upon-ubuntu-server-restart/" rel="alternate"></link><published>2024-06-24T00:00:00+02:00</published><updated>2024-06-24T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-06-24:/posts/2024/06/24/send-email-notification-upon-ubuntu-server-restart/</id><summary type="html">
+&lt;p&gt;I want to be notified by email upon restart of the remote server serving the HDD where I do the offsite backup of my
+data.&lt;/p&gt;
+&lt;p&gt;I used &lt;code&gt;init&lt;/code&gt; in the past for such purpose, combined with a script that sends an email.&lt;/p&gt;
+&lt;p&gt;But &lt;code&gt;init&lt;/code&gt; is gone and has been replaced …&lt;/p&gt;</summary><content type="html">
+&lt;p&gt;I want to be notified by email upon restart of the remote server serving the HDD where I do the offsite backup of my
+data.&lt;/p&gt;
+&lt;p&gt;I used &lt;code&gt;init&lt;/code&gt; in the past for such purpose, combined with a script that sends an email.&lt;/p&gt;
+&lt;p&gt;But &lt;code&gt;init&lt;/code&gt; is gone and has been replaced by &lt;code&gt;systemd&lt;/code&gt; in Ubuntu for a while now.&lt;/p&gt;
+&lt;p&gt;Yet, the same result can be achieved by creating a service in &lt;code&gt;systemd&lt;/code&gt; and have it run only once.&lt;/p&gt;
+&lt;h1 id="send-an-email"&gt;Send an email&lt;a class="headerlink" href="#send-an-email" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;I'll create a script in my home directory that sends me an email: &lt;code&gt;vi ~/scripts/notify_start.sh&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To prevent emails from stacking in the same conversation in Gmail, I'll include the current date and time in the subject
+(plus it's a useful information, in case emails are delayed).&lt;/p&gt;
+&lt;p&gt;Since restarts happen only so often, I'll include instructions in the body of what and how I should be doing manually
+upon restart, in case I forget.&lt;/p&gt;
+&lt;p&gt;I'll use &lt;code&gt;ssmtp&lt;/code&gt; to send the email, see &lt;a href="https://www.javatronic.fr/posts/2023/12/12/configure-ssmtp-with-gmail-on-ubuntu/"&gt;how to configure gmail with SSMTP on Ubuntu&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I'll use the braces + pipe trick and the &lt;code&gt;echo&lt;/code&gt; command to send multiple lines to &lt;code&gt;ssmtp&lt;/code&gt; (over the harder to read &lt;code&gt;cat&lt;/code&gt;
++ delimiter, which I find harder to read and maintain).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/env bash&lt;/span&gt;
+
+&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;-euo&lt;span class="w"&gt; &lt;/span&gt;pipefail
+
+&lt;span class="nv"&gt;DATE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;date&lt;span class="w"&gt; &lt;/span&gt;+&lt;span class="s2"&gt;"%Y-%m-%d-%H%M%S"&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;{&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"Subject: MyServer (re)started at &lt;/span&gt;&lt;span class="nv"&gt;$DATE&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"This email is sent from systemd service notify_start.service on MyServer."&lt;/span&gt;
+&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"Check service logs with either 'sudo systemctl status notify_start.service' or 'journalctl -u notify_start.service'."&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;""&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;"Immediate actions to take:"&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;" * mount and open HDD with '/blablabla/mount.sh'"&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;ssmtp&lt;span class="w"&gt; &lt;/span&gt;me@gmail.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="create-the-service"&gt;Create the service&lt;a class="headerlink" href="#create-the-service" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;The unit of work in &lt;code&gt;systemd&lt;/code&gt; is a &lt;code&gt;unit&lt;/code&gt;. We will use one of type &lt;code&gt;service&lt;/code&gt;, since &lt;code&gt;systemd&lt;/code&gt; starts, stops and 
+generally manages the lifecycle of those, and we can declare dependencies on other services (see below).&lt;/p&gt;
+&lt;p&gt;A unit is created with a configuration file. I'll use &lt;code&gt;/etc/systemd/system&lt;/code&gt; as location since it prevails over any other
+and I have root access.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo vi /etc/systemd/system/notify_start.service&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I create and a description to the unit
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;[Unit]
+Description=Send me an email when system starts
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;the unit is a service
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;[Service]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;the service calls the above script (upon starting):
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ExecStart=/home/phan/scripts/pidatabak_scripts/notify_start/notify_start.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;the service must be started only once (to run the script only once):
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Type=oneshot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;since the script sends an email, the service requires network to be available before running:
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;After=network-online.target
+Wants=network-online.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Side benefit: since the service just calls a script, it can be easily duplicated to serve other purpose.&lt;/p&gt;
+&lt;h1 id="test-the-service"&gt;Test the service&lt;a class="headerlink" href="#test-the-service" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;After testing the script, test the service with &lt;code&gt;sudo systemctl start notify_start.service&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If service was already tested, stop it first: &lt;code&gt;sudo systemctl stop notify_start.service&lt;/code&gt;.&lt;/p&gt;
+&lt;h1 id="enable-the-service"&gt;Enable the service&lt;a class="headerlink" href="#enable-the-service" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;To have the service managed by &lt;code&gt;systemd&lt;/code&gt;, it needs to be enabled with &lt;code&gt;sudo systemctl enable notify_start.service&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This fails with the following message:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;The unit files have no installation config (WantedBy=, RequiredBy=, Also=,
+Alias= settings in the [Install] section, and DefaultInstance= for template
+units). This means they are not meant to be enabled using systemctl.
+
+Possible reasons for having this kind of units are:
+• A unit may be statically enabled by being symlinked from another unit's
+  .wants/ or .requires/ directory.
+• A unit's purpose may be to act as a helper for some other unit which has
+  a requirement dependency on it.
+• A unit may be started when needed via activation (socket, path, timer,
+  D-Bus, udev, scripted systemctl call, ...).
+• In case of template units, the unit is meant to be enabled with some
+  instance name specified.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To fix this, add the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1 id="monitor-the-service"&gt;Monitor the service&lt;a class="headerlink" href="#monitor-the-service" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;check logs with either &lt;code&gt;sudo systemctl status notify_start.service&lt;/code&gt; or &lt;code&gt;journalctl -u notify_start.service&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;check status with &lt;code&gt;sudo systemctl status notify_start.service&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;[Unit]
+Description=Send me an email when system starts
+# source: https://systemd.io/NETWORK_ONLINE/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/phan/scripts/pidatabak_scripts/notify_start/notify_start.sh
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://unix.stackexchange.com/a/506374"&gt;Fixing missing WantedBy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files"&gt;Understanding Systemd Units and Unit Files&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="Ubuntu"></category></entry><entry><title>Unit testing a Bash script</title><link href="https://www.javatronic.fr/posts/2024/06/16/unit-testing-a-bash-script/" rel="alternate"></link><published>2024-06-16T00:00:00+02:00</published><updated>2024-06-16T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-06-16:/posts/2024/06/16/unit-testing-a-bash-script/</id><summary type="html">
 &lt;h1 id="fixing-rsync-time-backup"&gt;Fixing rsync-time-backup&lt;a class="headerlink" href="#fixing-rsync-time-backup" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;&lt;a href="https://github.com/lesaint/rsync-time-backup"&gt;rsync-time-backup&lt;/a&gt; is a Bash script I maintain that wraps around
 &lt;a href="https://linux.die.net/man/1/rsync"&gt;rsync&lt;/a&gt; to produce Apple Time Machine style backups.&lt;/p&gt;
