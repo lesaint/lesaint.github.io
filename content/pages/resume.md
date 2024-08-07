@@ -2,6 +2,8 @@ title: Resume
 subtitle: Sébastien Lesaint - Senior Software Engineer & Application Architect
 slug: sebastien_lesaint_resume
 header_position: 0
+date: 2024-06-04 10:20
+modified: 2024-07-30 09:35
 
 [TOC]
 
