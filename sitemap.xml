@@ -186,11 +186,13 @@
 <changefreq>monthly</changefreq>
 <priority>0.80</priority>
 </url><url>
-<loc>https://www.javatronic.fr/pages/books-read/</loc>
+<loc>https://www.javatronic.fr/pages/sebastien_lesaint_resume/</loc>
+<lastmod>2024-07-30</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.90</priority>
 </url><url>
-<loc>https://www.javatronic.fr/pages/sebastien_lesaint_resume/</loc>
+<loc>https://www.javatronic.fr/pages/books-read/</loc>
+<lastmod>2024-07-24</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.90</priority>
 </url><url>
