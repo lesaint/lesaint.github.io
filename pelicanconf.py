@@ -88,8 +88,8 @@ EXTENDED_SITEMAP_PLUGIN = {
     },
     'changefrequencies': {
         'index': 'daily',
-        'articles': 'weekly',
-        'pages': 'monthly',
+        'articles': 'monthly',
+        'pages': 'daily',
         'others': 'monthly',
     }
 }
