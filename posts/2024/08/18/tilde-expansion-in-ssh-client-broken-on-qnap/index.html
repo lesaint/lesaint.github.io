@@ -19,12 +19,12 @@
 
 <meta property="og:title" content="Tilde expansion in SSH client broken on QNAP "/>
 <meta property="og:url" content="https://www.javatronic.fr/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/" />
-<meta property="og:description" content="I have a nightly job running on my QNAP NAS, connecting to a remote device over SSH. The job had been running fine for months, but a couple of days ago, it started failing with The authenticity of host &#39;[&lt;redacted&gt;]:&lt;redacted&gt; ([&lt;redacted&gt;]:&lt;redacted&gt;)&#39; can&#39;t be established.. I started investigating because …" />
+<meta property="og:description" content="I have a nightly job running on my QNAP NAS (QTS 5.1.8.2823 2024/07/12), connecting to a remote device over SSH. The job had been running fine for months, but a couple of days ago, it started failing with The authenticity of host &#39;[&lt;redacted&gt;]:&lt;redacted&gt; ([&lt;redacted …" />
 <meta property="og:site_name" content="Javatronic" />
 <meta property="og:article:author" content="Sébastien Lesaint" />
 <meta property="og:article:published_time" content="2024-08-18T00:00:00+02:00" />
 <meta name="twitter:title" content="Tilde expansion in SSH client broken on QNAP ">
-<meta name="twitter:description" content="I have a nightly job running on my QNAP NAS, connecting to a remote device over SSH. The job had been running fine for months, but a couple of days ago, it started failing with The authenticity of host &#39;[&lt;redacted&gt;]:&lt;redacted&gt; ([&lt;redacted&gt;]:&lt;redacted&gt;)&#39; can&#39;t be established.. I started investigating because …">
+<meta name="twitter:description" content="I have a nightly job running on my QNAP NAS (QTS 5.1.8.2823 2024/07/12), connecting to a remote device over SSH. The job had been running fine for months, but a couple of days ago, it started failing with The authenticity of host &#39;[&lt;redacted&gt;]:&lt;redacted&gt; ([&lt;redacted …">
 
         <title>Tilde expansion in SSH client broken on QNAP  · Javatronic
 </title>
@@ -95,13 +95,15 @@
     <div class="span8 article-content">
             
             
-<p>I have a nightly job running on my QNAP NAS, connecting to a remote device over SSH.
+<p>I have a nightly job running on my QNAP NAS (QTS 5.1.8.2823 2024/07/12), connecting to a remote device over SSH.
 The job had been running fine for months, but a couple of days ago, it started failing with <code>The authenticity of host '[&lt;redacted&gt;]:&lt;redacted&gt; ([&lt;redacted&gt;]:&lt;redacted&gt;)' can't be established.</code>.</p>
 <p>I started investigating because the host had not changed (neither IP nor SSH server configuration), the host identity
 was and is still in <code>~/.ssh/known_hosts</code> and accepting the new host information simply isn't the right secure move.</p>
 <h1 id="tldr">TLDR<a class="headerlink" href="#tldr" title="Permanent link">¶</a></h1>
 <p>The error was only one of several symptoms caused by the expansion of <code>~</code> (tilde) in the path to the user's identity
 file (eg. <code>~/.ssh/id_rsa</code>) or known_hosts file (<code>~/.ssh/known_hosts</code>) not working on my QNAP device for non-root users.</p>
+<p>I initially had the error with the admin user created upon initial setup of my QNAP system and reproduced with another
+non-root user.</p>
 <p>A workaround is to create a user SSH client configuration file <code>~/.ssh/config</code> and add two options with absolute paths
 to the files know_hosts and identity files:</p>
 <div class="highlight"><pre><span></span><code>UserKnownHostsFile /home/the_user/.ssh/known_hosts

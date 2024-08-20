@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Javatronic - tips</title><link href="https://www.javatronic.fr/" rel="alternate"></link><link href="https://www.javatronic.fr/feeds/tips.atom.xml" rel="self"></link><id>https://www.javatronic.fr/</id><updated>2024-08-18T00:00:00+02:00</updated><entry><title>Tilde expansion in SSH client broken on QNAP</title><link href="https://www.javatronic.fr/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/" rel="alternate"></link><published>2024-08-18T00:00:00+02:00</published><updated>2024-08-18T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-08-18:/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/</id><summary type="html">
-&lt;p&gt;I have a nightly job running on my QNAP NAS, connecting to a remote device over SSH.
-The job had been running fine for months, but a couple of days ago, it started failing with &lt;code&gt;The authenticity of host '[&amp;lt;redacted&amp;gt;]:&amp;lt;redacted&amp;gt; ([&amp;lt;redacted&amp;gt;]:&amp;lt;redacted&amp;gt;)' can't be established.&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;I started investigating because …&lt;/p&gt;</summary><content type="html">
-&lt;p&gt;I have a nightly job running on my QNAP NAS, connecting to a remote device over SSH.
+&lt;p&gt;I have a nightly job running on my QNAP NAS (QTS 5.1.8.2823 2024/07/12), connecting to a remote device over SSH.
+The job had been running fine for months, but a couple of days ago, it started failing with &lt;code&gt;The authenticity of host '[&amp;lt;redacted&amp;gt;]:&amp;lt;redacted&amp;gt; ([&amp;lt;redacted …&lt;/code&gt;&lt;/p&gt;</summary><content type="html">
+&lt;p&gt;I have a nightly job running on my QNAP NAS (QTS 5.1.8.2823 2024/07/12), connecting to a remote device over SSH.
 The job had been running fine for months, but a couple of days ago, it started failing with &lt;code&gt;The authenticity of host '[&amp;lt;redacted&amp;gt;]:&amp;lt;redacted&amp;gt; ([&amp;lt;redacted&amp;gt;]:&amp;lt;redacted&amp;gt;)' can't be established.&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;I started investigating because the host had not changed (neither IP nor SSH server configuration), the host identity
 was and is still in &lt;code&gt;~/.ssh/known_hosts&lt;/code&gt; and accepting the new host information simply isn't the right secure move.&lt;/p&gt;
 &lt;h1 id="tldr"&gt;TLDR&lt;a class="headerlink" href="#tldr" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;p&gt;The error was only one of several symptoms caused by the expansion of &lt;code&gt;~&lt;/code&gt; (tilde) in the path to the user's identity
 file (eg. &lt;code&gt;~/.ssh/id_rsa&lt;/code&gt;) or known_hosts file (&lt;code&gt;~/.ssh/known_hosts&lt;/code&gt;) not working on my QNAP device for non-root users.&lt;/p&gt;
+&lt;p&gt;I initially had the error with the admin user created upon initial setup of my QNAP system and reproduced with another
+non-root user.&lt;/p&gt;
 &lt;p&gt;A workaround is to create a user SSH client configuration file &lt;code&gt;~/.ssh/config&lt;/code&gt; and add two options with absolute paths
 to the files know_hosts and identity files:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;UserKnownHostsFile /home/the_user/.ssh/known_hosts
