@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="QNAP, tips, " />
+
+<meta property="og:title" content="Tilde expansion in SSH client broken on QNAP "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/" />
+<meta property="og:description" content="I have a nightly job running on my QNAP NAS, connecting to a remote device over SSH. The job had been running fine for months, but a couple of days ago, it started failing with The authenticity of host &#39;[&lt;redacted&gt;]:&lt;redacted&gt; ([&lt;redacted&gt;]:&lt;redacted&gt;)&#39; can&#39;t be established.. I started investigating because …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2024-08-18T00:00:00+02:00" />
+<meta name="twitter:title" content="Tilde expansion in SSH client broken on QNAP ">
+<meta name="twitter:description" content="I have a nightly job running on my QNAP NAS, connecting to a remote device over SSH. The job had been running fine for months, but a couple of days ago, it started failing with The authenticity of host &#39;[&lt;redacted&gt;]:&lt;redacted&gt; ([&lt;redacted&gt;]:&lt;redacted&gt;)&#39; can&#39;t be established.. I started investigating because …">
+
+        <title>Tilde expansion in SSH client broken on QNAP  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/pages/sebastien_lesaint_resume/">Resume</a></li>
+                                <li ><a href="https://www.javatronic.fr/pages/books-read/">Books read</a></li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.google.com/search" onsubmit="return validateForm(this.elements['q'][0].value);" target="_blank"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"><input type="hidden" name="q" value="site:https://www.javatronic.fr"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/">
+                Tilde expansion in SSH client broken on QNAP
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#tldr">TLDR</a></li>
+<li><a href="#host-identity-hash-protocol-is-different">Host identity hash protocol is different</a></li>
+<li><a href="#known_host-file-is-not-read">known_host file is not read</a></li>
+<li><a href="#workaround">Workaround</a></li>
+<li><a href="#tilde-expansion-works-for-some-files-but-not-others">Tilde expansion works for some files but not others</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            
+<p>I have a nightly job running on my QNAP NAS, connecting to a remote device over SSH.
+The job had been running fine for months, but a couple of days ago, it started failing with <code>The authenticity of host '[&lt;redacted&gt;]:&lt;redacted&gt; ([&lt;redacted&gt;]:&lt;redacted&gt;)' can't be established.</code>.</p>
+<p>I started investigating because the host had not changed (neither IP nor SSH server configuration), the host identity
+was and is still in <code>~/.ssh/known_hosts</code> and accepting the new host information simply isn't the right secure move.</p>
+<h1 id="tldr">TLDR<a class="headerlink" href="#tldr" title="Permanent link">¶</a></h1>
+<p>The error was only one of several symptoms caused by the expansion of <code>~</code> (tilde) in the path to the user's identity
+file (eg. <code>~/.ssh/id_rsa</code>) or known_hosts file (<code>~/.ssh/known_hosts</code>) not working on my QNAP device for non-root users.</p>
+<p>A workaround is to create a user SSH client configuration file <code>~/.ssh/config</code> and add two options with absolute paths
+to the files know_hosts and identity files:</p>
+<div class="highlight"><pre><span></span><code>UserKnownHostsFile /home/the_user/.ssh/known_hosts
+IdentityFile /home/the_user/.ssh/id_rsa
+</code></pre></div>
+<p>Oddly enough, this workaround demonstrates that tilde expansion appears to work for the SSH client configuration file.</p>
+<p>As to what causes the failed tilde expansion, I don't know at this point but pinned down to a handful possible causes
+(see <a href="#tilde-expansion-works-for-some-files-but-not-others">Tilde expansion works for some files but not others</a>).</p>
+<div class="admonition note">
+<p>To ease reading, instead of redacting information, I'll use dummy values for SSH port number (<code>9999</code>), user (<code>the_user</code>), hostname (<code>donut.acme.com</code>) and IP (<code>126.126.126.126</code>).</p>
+</div>
+<h1 id="host-identity-hash-protocol-is-different">Host identity hash protocol is different<a class="headerlink" href="#host-identity-hash-protocol-is-different" title="Permanent link">¶</a></h1>
+<p>I reproduced the SSH call and the error directly from the command line and activated the full debug logs to try and
+understand what caused the host authentication error:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ssh<span class="w"> </span>-vvvv<span class="w"> </span>-p<span class="w"> </span><span class="m">9999</span><span class="w"> </span>the_user@donut.acme.com<span class="w"> </span><span class="s1">'ls -1'</span>
+</code></pre></div>
+<p>And here is an extract of the output around the host authentication failure:</p>
+<div class="highlight"><pre><span></span><code>debug1:<span class="w"> </span>expecting<span class="w"> </span>SSH2_MSG_KEX_ECDH_REPLY
+debug3:<span class="w"> </span>receive<span class="w"> </span>packet:<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="m">31</span>
+debug1:<span class="w"> </span>SSH2_MSG_KEX_ECDH_REPLY<span class="w"> </span>received
+debug1:<span class="w"> </span>Server<span class="w"> </span>host<span class="w"> </span>key:<span class="w"> </span>ssh-ed25519<span class="w"> </span>SHA256:&lt;redacted&gt;
+debug3:<span class="w"> </span>put_host_port:<span class="w"> </span><span class="o">[</span><span class="m">126</span>.126.126.126<span class="o">]</span>:9999
+debug3:<span class="w"> </span>put_host_port:<span class="w"> </span><span class="o">[</span>donut.acme.com<span class="o">]</span>:9999
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/.ssh/known_hosts:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/.ssh/known_hosts2:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/usr/etc/ssh_known_hosts:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/usr/etc/ssh_known_hosts2:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>checking<span class="w"> </span>without<span class="w"> </span>port<span class="w"> </span>identifier
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/.ssh/known_hosts:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/.ssh/known_hosts2:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/usr/etc/ssh_known_hosts:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/usr/etc/ssh_known_hosts2:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug3:<span class="w"> </span>hostkeys_find_by_key_hostfile:<span class="w"> </span>trying<span class="w"> </span>user<span class="w"> </span>hostfile<span class="w"> </span><span class="s2">"/.ssh/known_hosts"</span>
+debug1:<span class="w"> </span>hostkeys_find_by_key_hostfile:<span class="w"> </span>hostkeys<span class="w"> </span>file<span class="w"> </span>/.ssh/known_hosts<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist
+debug3:<span class="w"> </span>hostkeys_find_by_key_hostfile:<span class="w"> </span>trying<span class="w"> </span>user<span class="w"> </span>hostfile<span class="w"> </span><span class="s2">"/.ssh/known_hosts2"</span>
+debug1:<span class="w"> </span>hostkeys_find_by_key_hostfile:<span class="w"> </span>hostkeys<span class="w"> </span>file<span class="w"> </span>/.ssh/known_hosts2<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist
+debug3:<span class="w"> </span>hostkeys_find_by_key_hostfile:<span class="w"> </span>trying<span class="w"> </span>system<span class="w"> </span>hostfile<span class="w"> </span><span class="s2">"/usr/etc/ssh_known_hosts"</span>
+debug1:<span class="w"> </span>hostkeys_find_by_key_hostfile:<span class="w"> </span>hostkeys<span class="w"> </span>file<span class="w"> </span>/usr/etc/ssh_known_hosts<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist
+debug3:<span class="w"> </span>hostkeys_find_by_key_hostfile:<span class="w"> </span>trying<span class="w"> </span>system<span class="w"> </span>hostfile<span class="w"> </span><span class="s2">"/usr/etc/ssh_known_hosts2"</span>
+debug1:<span class="w"> </span>hostkeys_find_by_key_hostfile:<span class="w"> </span>hostkeys<span class="w"> </span>file<span class="w"> </span>/usr/etc/ssh_known_hosts2<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>exist
+The<span class="w"> </span>authenticity<span class="w"> </span>of<span class="w"> </span>host<span class="w"> </span><span class="s1">'[donut.acme.com]:9999 ([126.126.126.126]:9999)'</span><span class="w"> </span>can<span class="err">'</span>t<span class="w"> </span>be<span class="w"> </span>established.
+</code></pre></div>
+<p>At this point, I'm not sure what to think of these logs.</p>
+<p>However, I notice that the job does connect to the server just before the failure, with a <code>rsync</code> command over
+<code>ssh</code>. The only difference is that the <code>rsync</code> command runs with <code>sudo</code> and explicitly provides the path to the identity
+file on the command line. So <code>sudo</code> is really the only difference (keep that in mind for later). </p>
+<p>So I try with <code>sudo</code> and intend to compare the debug output.</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>sudo<span class="w"> </span>ssh<span class="w"> </span>-vvvv<span class="w"> </span>-i<span class="w"> </span>/home/the_user/.ssh/id_rsa<span class="w"> </span>-p<span class="w"> </span><span class="m">9999</span><span class="w"> </span>the_user@donut.acme.com<span class="w"> </span><span class="s1">'ls -1'</span>
+</code></pre></div>
+<p>And here is an extract of the output around the host authentication failure:</p>
+<div class="highlight"><pre><span></span><code>debug1:<span class="w"> </span>expecting<span class="w"> </span>SSH2_MSG_KEX_ECDH_REPLY
+debug3:<span class="w"> </span>receive<span class="w"> </span>packet:<span class="w"> </span><span class="nb">type</span><span class="w"> </span><span class="m">31</span>
+debug1:<span class="w"> </span>SSH2_MSG_KEX_ECDH_REPLY<span class="w"> </span>received
+debug1:<span class="w"> </span>Server<span class="w"> </span>host<span class="w"> </span>key:<span class="w"> </span>ecdsa-sha2-nistp256<span class="w"> </span>SHA256:&lt;redacted&gt;
+debug3:<span class="w"> </span>put_host_port:<span class="w"> </span><span class="o">[</span><span class="m">126</span>.126.126.126<span class="o">]</span>:9999
+debug3:<span class="w"> </span>put_host_port:<span class="w"> </span><span class="o">[</span>donut.acme.com<span class="o">]</span>:9999
+debug3:<span class="w"> </span>record_hostkey:<span class="w"> </span>found<span class="w"> </span>key<span class="w"> </span><span class="nb">type</span><span class="w"> </span>ECDSA<span class="w"> </span><span class="k">in</span><span class="w"> </span>file<span class="w"> </span>/root/.ssh/known_hosts:2
+debug3:<span class="w"> </span>load_hostkeys_file:<span class="w"> </span>loaded<span class="w"> </span><span class="m">1</span><span class="w"> </span>keys<span class="w"> </span>from<span class="w"> </span><span class="o">[</span>donut.acme.com<span class="o">]</span>:9999
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/root/.ssh/known_hosts2:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/usr/etc/ssh_known_hosts:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>load_hostkeys:<span class="w"> </span>fopen<span class="w"> </span>/usr/etc/ssh_known_hosts2:<span class="w"> </span>No<span class="w"> </span>such<span class="w"> </span>file<span class="w"> </span>or<span class="w"> </span>directory
+debug1:<span class="w"> </span>Host<span class="w"> </span><span class="s1">'[donut.acme.com]:9999'</span><span class="w"> </span>is<span class="w"> </span>known<span class="w"> </span>and<span class="w"> </span>matches<span class="w"> </span>the<span class="w"> </span>ECDSA<span class="w"> </span>host<span class="w"> </span>key.
+debug1:<span class="w"> </span>Found<span class="w"> </span>key<span class="w"> </span><span class="k">in</span><span class="w"> </span>/root/.ssh/known_hosts:2
+</code></pre></div>
+<p>I noticed that the host key protocol is <code>ecdsa-sha2-nistp256</code> with <code>sudo</code>, while it is <code>ssh-ed25519</code> without it.</p>
+<p>From previous knowledge of the SSH protocol, my assumption was that the client, somehow, would request different
+protocols from the server for authentication. So, I want to loop up earlier occurrences of the protocol names in both
+logs but decide to simply text-compare the whole logs, to get a better view and see all the differences.</p>
+<p><img alt="screenshot meld diff logs with and without sudo" src="https://www.javatronic.fr/images/2024-08-18_ssh_tilde_expansion_in_SSH_broken_on_qnap/meld_diff_ssh_debug_logs.png"/></p>
+<p>This highlights the reason a different protocol is used:</p>
+<ul>
+<li>when <code>sudo</code> is used: a key for the host is found and the SSH client requests protocols that match the existing key
+    <div class="highlight"><pre><span></span><code>debug3: record_hostkey: found key type ECDSA in file /root/.ssh/known_hosts:2
+[...]
+debug3: order_hostkeyalgs: prefer hostkeyalgs: ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256
+</code></pre></div></li>
+<li>when <code>sudo</code> is not used: no key is found and the SSH client let the server send hash key in its favorite protocol
+    <div class="highlight"><pre><span></span><code>debug1: load_hostkeys: fopen /.ssh/known_hosts: No such file or directory
+[...]
+debug3: order_hostkeyalgs: no algorithms matched; accept original
+</code></pre></div></li>
+</ul>
+<h1 id="known_host-file-is-not-read">known_host file is not read<a class="headerlink" href="#known_host-file-is-not-read" title="Permanent link">¶</a></h1>
+<p>As stated before, the host key IS present in the user's know_host file <code>/home/the_user/.ssh/known_host</code>. In addition,
+it is the same as the one in root user's known_host file <code>/root/.ssh/known_hosts</code>.</p>
+<p>So, the question becomes why is the user's know_host file not read?</p>
+<p><code>/home/the_user/.ssh/known_host</code> does not appear in logs. <code>/.ssh/known_host</code> is shown instead and, of course, does not
+exist since the path <code>/.ssh/</code> is not valid.</p>
+<p>The following log caught my attention and demonstrates that, when not running as root, <code>~</code> is not replaced by 
+<code>/home/the_user</code> as it should be. </p>
+<div class="highlight"><pre><span></span><code>debug3:<span class="w"> </span>expanded<span class="w"> </span>UserKnownHostsFile<span class="w"> </span><span class="s1">'~/.ssh/known_hosts'</span><span class="w"> </span>-&gt;<span class="w"> </span><span class="s1">'/.ssh/known_hosts'</span>
+</code></pre></div>
+<p>This debug log is produced by at <a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/ssh.c#L1522-L1523">line 1522</a>
+in SSH client's <code>main</code> function.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">num_user_hostfiles</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">options</span><span class="p">.</span><span class="n">user_hostfiles</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span>
+<span class="w">        </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tilde_expand_filename</span><span class="p">(</span><span class="n">options</span><span class="p">.</span><span class="n">user_hostfiles</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="n">getuid</span><span class="p">());</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">default_client_percent_dollar_expand</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span><span class="w"> </span><span class="n">cinfo</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">options</span><span class="p">.</span><span class="n">user_hostfiles</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">debug3</span><span class="p">(</span><span class="s">"expanded UserKnownHostsFile '%s' -&gt; "</span>
+<span class="w">            </span><span class="s">"'%s'"</span><span class="p">,</span><span class="w"> </span><span class="n">options</span><span class="p">.</span><span class="n">user_hostfiles</span><span class="p">[</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+<span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">options</span><span class="p">.</span><span class="n">user_hostfiles</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">cp</span><span class="p">);</span>
+<span class="w">    </span><span class="n">options</span><span class="p">.</span><span class="n">user_hostfiles</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The expansion is performed by function <a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/misc.c#L1245-L1253"><code>tilde_expand_filename</code></a>, 
+calling the implementation function <a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/misc.c#L1173-L1243"><code>tilde_expand</code></a>.</p>
+<div class="highlight"><pre><span></span><code><span class="kt">char</span><span class="w"> </span><span class="o">*</span>
+<span class="nf">tilde_expand_filename</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="kt">uid_t</span><span class="w"> </span><span class="n">uid</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ret</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tilde_expand</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="n">uid</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">ret</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">        </span><span class="n">cleanup_exit</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/*</span>
+<span class="cm"> * Expands tildes in the file name.  Returns data allocated by xmalloc.</span>
+<span class="cm"> * Warning: this calls getpw*.</span>
+<span class="cm"> */</span>
+<span class="kt">int</span>
+<span class="nf">tilde_expand</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">filename</span><span class="p">,</span><span class="w"> </span><span class="kt">uid_t</span><span class="w"> </span><span class="n">uid</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">retp</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">ocopy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">copy</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">passwd</span><span class="w"> </span><span class="o">*</span><span class="n">pw</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">len</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">slash</span><span class="p">;</span>
+
+<span class="w">    </span><span class="o">*</span><span class="n">retp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">filename</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="sc">'~'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">*</span><span class="n">retp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xstrdup</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">ocopy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xstrdup</span><span class="p">(</span><span class="n">filename</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">copy</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">'\0'</span><span class="p">)</span><span class="w">              </span><span class="cm">/* ~ */</span>
+<span class="w">        </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">copy</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">'/'</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">copy</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">strspn</span><span class="p">(</span><span class="n">copy</span><span class="p">,</span><span class="w"> </span><span class="s">"/"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">copy</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">'\0'</span><span class="p">)</span>
+<span class="w">            </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w">            </span><span class="cm">/* ~/ */</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="p">;</span><span class="w">            </span><span class="cm">/* ~/path */</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strchr</span><span class="p">(</span><span class="n">copy</span><span class="p">,</span><span class="w"> </span><span class="sc">'/'</span><span class="p">))</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">copy</span><span class="p">[</span><span class="n">path</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">copy</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">'\0'</span><span class="p">;</span>
+<span class="w">            </span><span class="n">path</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="n">path</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">strspn</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="s">"/"</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">path</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">'\0'</span><span class="p">)</span><span class="w">      </span><span class="cm">/* ~user/ */</span>
+<span class="w">                </span><span class="n">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">            </span><span class="cm">/* else              ~user/path */</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="cm">/* else                 ~user */</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">pw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpwnam</span><span class="p">(</span><span class="n">user</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">error_f</span><span class="p">(</span><span class="s">"No such user %s"</span><span class="p">,</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+<span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">pw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpwuid</span><span class="p">(</span><span class="n">uid</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">error_f</span><span class="p">(</span><span class="s">"No such uid %ld"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">uid</span><span class="p">);</span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="cm">/* Make sure directory has a trailing '/' */</span>
+<span class="w">    </span><span class="n">slash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">[</span><span class="n">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="sc">'/'</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xasprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s">"%s%s%s"</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">,</span>
+<span class="w">        </span><span class="n">slash</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"/"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">""</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">error_f</span><span class="p">(</span><span class="s">"xasprintf failed"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">PATH_MAX</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">error_f</span><span class="p">(</span><span class="s">"Path too long"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="cm">/* success */</span>
+<span class="w">    </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="o">*</span><span class="n">retp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+<span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w"> </span><span class="nl">out</span><span class="p">:</span>
+<span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">ocopy</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>If my understanding of the code is correct, the home directory path is retrieved by calling function <code>getpwuid(uid)</code> and
+reading the returned field <code>pw_dir</code> (<a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/misc.c#L1226">here</a>),
+which <code>uuid</code> argument is retrieved by a call to function <code>getuuid()</code> (<a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/ssh.c#L1519">here</a>).</p>
+<p>According to <a href="https://linux.die.net/man/3/getpwuid">getpwuid man page</a>, reads the <code>/etc/passwd</code> file and I confirmed
+that the user's directory is set in this file.</p>
+<div class="highlight"><pre><span></span><code><span class="n">slash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">[</span><span class="n">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="sc">'/'</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xasprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s">"%s%s%s"</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">,</span>
+<span class="w">    </span><span class="n">slash</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"/"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">path</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">""</span><span class="p">))</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre></div>
+<p>According to the code above, the string <code>~/.ssh/known_hosts</code> being transformed to <code>/.ssh/known_hosts</code> could have two
+possible causes:</p>
+<ul>
+<li><code>pw-&gt;pw_dir</code> is an empty string, in which case the heading slash in <code>/.ssh/known_hosts</code> comes from <code>slash</code> variable
+being <code>true</code> (because <code>len</code> is <code>0</code>)</li>
+<li><code>pw-&gt;pw_dir</code> is <code>/</code></li>
+</ul>
+<h1 id="workaround">Workaround<a class="headerlink" href="#workaround" title="Permanent link">¶</a></h1>
+<p>Without much hope, because accessing it also requires expanding the tilde, I tried providing the path to the known_hosts
+file in the user's SSH client config file <code>~/.ssh/config</code> (remember to change the file permissions <code>chmod 600 ~/.ssh/config</code>):</p>
+<div class="highlight"><pre><span></span><code>UserKnownHostsFile /home/the_user/.ssh/known_hosts
+</code></pre></div>
+<p>Authenticating the remote host worked but the SSH command failed with a new error:</p>
+<div class="highlight"><pre><span></span><code>debug1: Authentications that can continue: publickey
+debug3: start over, passed a different list publickey
+debug3: preferred publickey,keyboard-interactive,password
+debug3: authmethod_lookup publickey
+debug3: remaining preferred: keyboard-interactive,password
+debug3: authmethod_is_enabled publickey
+debug1: Next authentication method: publickey
+debug1: Will attempt key: /.ssh/id_rsa 
+debug1: Will attempt key: /.ssh/id_ecdsa 
+debug1: Will attempt key: /.ssh/id_ecdsa_sk 
+debug1: Will attempt key: /.ssh/id_ed25519 
+debug1: Will attempt key: /.ssh/id_ed25519_sk 
+debug1: Will attempt key: /.ssh/id_xmss 
+debug2: pubkey_prepare: done
+debug1: Trying private key: /.ssh/id_rsa
+debug3: no such identity: /.ssh/id_rsa: No such file or directory
+debug1: Trying private key: /.ssh/id_ecdsa
+debug3: no such identity: /.ssh/id_ecdsa: No such file or directory
+debug1: Trying private key: /.ssh/id_ecdsa_sk
+debug3: no such identity: /.ssh/id_ecdsa_sk: No such file or directory
+debug1: Trying private key: /.ssh/id_ed25519
+debug3: no such identity: /.ssh/id_ed25519: No such file or directory
+debug1: Trying private key: /.ssh/id_ed25519_sk
+debug3: no such identity: /.ssh/id_ed25519_sk: No such file or directory
+debug1: Trying private key: /.ssh/id_xmss
+debug3: no such identity: /.ssh/id_xmss: No such file or directory
+debug2: we did not send a packet, disable method
+debug1: No more authentication methods to try.
+the_user@donut.acme.com: Permission denied (publickey).
+</code></pre></div>
+<p>This demonstrates that tilde expansion is also failing for the identity file, which must also be provided with an 
+absolute path in <code>~/.ssh/config</code>:</p>
+<div class="highlight"><pre><span></span><code>UserKnownHostsFile /home/the_user/.ssh/known_hosts
+IdentityFile /home/the_user/.ssh/id_rsa
+</code></pre></div>
+<h1 id="tilde-expansion-works-for-some-files-but-not-others">Tilde expansion works for some files but not others<a class="headerlink" href="#tilde-expansion-works-for-some-files-but-not-others" title="Permanent link">¶</a></h1>
+<p>Investigation so far allowed us to corner down that tilde expansion works for the user's SSH config file but does not 
+for the user's known_host file and identity file.</p>
+<p>Let's see how expansion happens for the user's SSH config file.</p>
+<p>Path config file appears to not be expanded with function <code>tilde_expand</code> but computed with a specific piece of code:</p>
+<ul>
+<li>user's SSH config file is resolved and read in function <code>process_config_files</code> (<a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/ssh.c#L556-L587">source</a>)</li>
+<li>the user's directory is concatenated with a constant unless a config file was explicitly provided (<a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/ssh.c#L575-L576">source</a>) 
+<div class="highlight"><pre><span></span><code><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">snprintf</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="s">"%s/%s"</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">,</span><span class="w"> </span><span class="n">_PATH_SSH_USER_CONFFILE</span><span class="p">);</span>
+</code></pre></div></li>
+<li>value of <code>_PATH_SSH_USER_CONFFILE</code> is <code>.ssh/config</code> (<a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/pathnames.h#L61-L94">source</a>) 
+<div class="highlight"><pre><span></span><code><span class="cp">#define _PATH_SSH_USER_DIR      ".ssh"</span>
+<span class="p">[...]</span>
+<span class="cp">#define _PATH_SSH_USER_CONFFILE     _PATH_SSH_USER_DIR "/config"</span>
+</code></pre></div></li>
+<li>and <code>pw</code> in <code>pw-&gt;pw_dir</code> also comes from calls to <code>getuid</code> and <code>getpwuid</code> (<a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/ssh.c#L709-L716">source</a>)
+<div class="highlight"><pre><span></span><code><span class="cm">/* Get user data. */</span>
+<span class="n">pw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpwuid</span><span class="p">(</span><span class="n">getuid</span><span class="p">());</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">pw</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">logit</span><span class="p">(</span><span class="s">"No user exists for uid %lu"</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">u_long</span><span class="p">)</span><span class="n">getuid</span><span class="p">());</span>
+<span class="w">    </span><span class="n">exit</span><span class="p">(</span><span class="mi">255</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cm">/* Take a copy of the returned structure. */</span>
+<span class="n">pw</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pwcopy</span><span class="p">(</span><span class="n">pw</span><span class="p">);</span>
+</code></pre></div></li>
+<li><code>pwcopy</code> does a plain copy of the field <code>pw_dir</code> (<a href="https://github.com/openssh/openssh-portable/blob/V_9_8_P1/misc.c#L483-L507">source</a>):
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">passwd</span><span class="w"> </span><span class="o">*</span>
+<span class="n">pwcopy</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">passwd</span><span class="w"> </span><span class="o">*</span><span class="n">pw</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">passwd</span><span class="w"> </span><span class="o">*</span><span class="n">copy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xcalloc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">copy</span><span class="p">));</span>
+
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xstrdup</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_name</span><span class="p">);</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_passwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xstrdup</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_passwd</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">"*"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_passwd</span><span class="p">);</span>
+<span class="cp">#ifdef HAVE_STRUCT_PASSWD_PW_GECOS</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_gecos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xstrdup</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_gecos</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_uid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_uid</span><span class="p">;</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_gid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_gid</span><span class="p">;</span>
+<span class="cp">#ifdef HAVE_STRUCT_PASSWD_PW_EXPIRE</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_expire</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_expire</span><span class="p">;</span>
+<span class="cp">#endif</span>
+<span class="cp">#ifdef HAVE_STRUCT_PASSWD_PW_CHANGE</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_change</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_change</span><span class="p">;</span>
+<span class="cp">#endif</span>
+<span class="cp">#ifdef HAVE_STRUCT_PASSWD_PW_CLASS</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_class</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xstrdup</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_class</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xstrdup</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_dir</span><span class="p">);</span>
+<span class="w">    </span><span class="n">copy</span><span class="o">-&gt;</span><span class="n">pw_shell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xstrdup</span><span class="p">(</span><span class="n">pw</span><span class="o">-&gt;</span><span class="n">pw_shell</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">copy</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ul>
+<p>To sum up, the difference between tilde expansion for the user SSH client config file and the known_host and identity files could be:</p>
+<ul>
+<li>a bug in string replacement code I could have missed?</li>
+<li>the usage of <code>pwcopy</code> making a difference?</li>
+<li>a different <code>uuid</code> being returned by <code>getuid()</code>?</li>
+<li><code>getpwuid()</code> somehow not returning the same structure on the second/later call?</li>
+</ul>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2024-08-18T00:00:00+02:00">Sun 18 August 2024</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#tips-ref">tips</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#qnap-ref">QNAP
+                    <span class="superscript">5</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://github.com/lesaint/pelican-theme-elegant/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Personal fork of Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
