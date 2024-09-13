@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Javatronic - tips</title><link href="https://www.javatronic.fr/" rel="alternate"></link><link href="https://www.javatronic.fr/feeds/tips.atom.xml" rel="self"></link><id>https://www.javatronic.fr/</id><updated>2024-08-18T00:00:00+02:00</updated><entry><title>Tilde expansion in SSH client broken on QNAP</title><link href="https://www.javatronic.fr/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/" rel="alternate"></link><published>2024-08-18T00:00:00+02:00</published><updated>2024-08-18T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-08-18:/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Javatronic - tips</title><link href="https://www.javatronic.fr/" rel="alternate"></link><link href="https://www.javatronic.fr/feeds/tips.atom.xml" rel="self"></link><id>https://www.javatronic.fr/</id><updated>2024-09-13T00:00:00+02:00</updated><entry><title>Fix warning "Unable to import Android Lint report file(s)" in SonarQube/SonarCloud</title><link href="https://www.javatronic.fr/posts/2024/09/13/fix-warning-unable-to-import-android-lint-report-files-in-sonarqubesonarcloud/" rel="alternate"></link><published>2024-09-13T00:00:00+02:00</published><updated>2024-09-13T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-09-13:/posts/2024/09/13/fix-warning-unable-to-import-android-lint-report-files-in-sonarqubesonarcloud/</id><summary type="html">&lt;p&gt;I used Android Studio Koala Feature Drop | 2024.1.2 to create a new Android Application project (I used the 
+"Empty Activity" template) and set up the SonarCloud analysis using the scanner for Gradle.&lt;/p&gt;
+&lt;p&gt;I had the following warning in Gradle logs:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; Task :sonar
+Unable to import Android Lint report …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;I used Android Studio Koala Feature Drop | 2024.1.2 to create a new Android Application project (I used the 
+"Empty Activity" template) and set up the SonarCloud analysis using the scanner for Gradle.&lt;/p&gt;
+&lt;p&gt;I had the following warning in Gradle logs:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; Task :sonar
+Unable to import Android Lint report file(s):
+- /home/runner/work/PyLMS/PyLMS/android/app/build/reports/lint-results-debug.xml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and further down the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; Task :app:lintReportDebug
+Wrote HTML report to file:///home/runner/work/PyLMS/PyLMS/android/app/build/reports/lint-results-debug.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;I concluded that the &lt;code&gt;sonar&lt;/code&gt; task was executed to early.&lt;/p&gt;
+&lt;p&gt;I modified the &lt;code&gt;build.gradle.kts&lt;/code&gt; of the root project (where I configure the sonar tasks) to create a dependency onto
+the task &lt;code&gt;:app:lint&lt;/code&gt; (&lt;code&gt;:app:lintReportDebug&lt;/code&gt; is a child task):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;// add a dependency of sonar task onto any task lint of any subproject
+// use afterEvaluate otherwise the task set is empty
+val sonarTask = tasks.getByName(&amp;quot;sonar&amp;quot;)
+subprojects {
+    afterEvaluate {
+        project.tasks.filter { it.name == &amp;quot;lint&amp;quot; }.forEach{ sonarTask.dependsOn(it)}
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The warning is removed and Android Lint issues are now visible in SonarQube/SonarCloud.&lt;/p&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Resources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.sonarsource.com/sonarcloud/advanced-setup/ci-based-analysis/sonarscanner-for-gradle/"&gt;Configure SonarCloud scanner for Gradle&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://plugins.gradle.org/plugin/org.sonarqube"&gt;version of latest SonarCloud scanner for Gradle&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="tips"></category><category term="Android"></category></entry><entry><title>Tilde expansion in SSH client broken on QNAP</title><link href="https://www.javatronic.fr/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/" rel="alternate"></link><published>2024-08-18T00:00:00+02:00</published><updated>2024-08-18T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-08-18:/posts/2024/08/18/tilde-expansion-in-ssh-client-broken-on-qnap/</id><summary type="html">
 &lt;p&gt;I have a nightly job running on my QNAP NAS (QTS 5.1.8.2823 2024/07/12), connecting to a remote device over SSH.
 The job had been running fine for months, but a couple of days ago, it started failing with &lt;code&gt;The authenticity of host '[&amp;lt;redacted&amp;gt;]:&amp;lt;redacted&amp;gt; ([&amp;lt;redacted …&lt;/code&gt;&lt;/p&gt;</summary><content type="html">
 &lt;p&gt;I have a nightly job running on my QNAP NAS (QTS 5.1.8.2823 2024/07/12), connecting to a remote device over SSH.
