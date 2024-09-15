@@ -1,5 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Javatronic</title><link href="https://www.javatronic.fr/" rel="alternate"></link><link href="https://www.javatronic.fr/feeds/all.atom.xml" rel="self"></link><id>https://www.javatronic.fr/</id><updated>2024-09-13T00:00:00+02:00</updated><entry><title>Fix warning "Unable to import Android Lint report file(s)" in SonarQube/SonarCloud</title><link href="https://www.javatronic.fr/posts/2024/09/13/fix-warning-unable-to-import-android-lint-report-files-in-sonarqubesonarcloud/" rel="alternate"></link><published>2024-09-13T00:00:00+02:00</published><updated>2024-09-13T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-09-13:/posts/2024/09/13/fix-warning-unable-to-import-android-lint-report-files-in-sonarqubesonarcloud/</id><summary type="html">&lt;p&gt;I used Android Studio Koala Feature Drop | 2024.1.2 to create a new Android Application project (I used the 
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Javatronic</title><link href="https://www.javatronic.fr/" rel="alternate"></link><link href="https://www.javatronic.fr/feeds/all.atom.xml" rel="self"></link><id>https://www.javatronic.fr/</id><updated>2024-09-13T00:00:00+02:00</updated><entry><title>Create an Android app from scratch, with CI, and no knowledge - Part 1</title><link href="https://www.javatronic.fr/posts/2024/09/13/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-1/" rel="alternate"></link><published>2024-09-13T00:00:00+02:00</published><updated>2024-09-13T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-09-13:/posts/2024/09/13/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-1/</id><summary type="html">
+&lt;div class="admonition warning"&gt;
+&lt;p class="admonition-title"&gt; This is a multi-part article&lt;/p&gt;
+&lt;p&gt;You're reading part 1.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.javatronic.fr/posts/2024/09/13/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-1/"&gt;Part 1&lt;/a&gt; focuses on bootstrapping an Android app dev project and run it on an emulated device&lt;/li&gt;
+&lt;li&gt;Part 2 will focus on deploying the app to my phone and create a CI pipeline producing APKs&lt;/li&gt;
+&lt;li&gt;Part 3 will focus on basic …&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">
+&lt;div class="admonition warning"&gt;
+&lt;p class="admonition-title"&gt; This is a multi-part article&lt;/p&gt;
+&lt;p&gt;You're reading part 1.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.javatronic.fr/posts/2024/09/13/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-1/"&gt;Part 1&lt;/a&gt; focuses on bootstrapping an Android app dev project and run it on an emulated device&lt;/li&gt;
+&lt;li&gt;Part 2 will focus on deploying the app to my phone and create a CI pipeline producing APKs&lt;/li&gt;
+&lt;li&gt;Part 3 will focus on basic Jetpack Compose and Kotlin programming to create a demo UI for LMS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h1 id="the-context"&gt;The context&lt;a class="headerlink" href="#the-context" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Work on &lt;a href="https://github.com/lesaint/PyLMS/"&gt;PyLMS&lt;/a&gt; has proved that the approach is viable enough to continue.&lt;/p&gt;
+&lt;p&gt;However, a CLI or a Desktop GUI are not the best to access the information I may store in the tool. 
+Only my phone is (almost) always at reach when a "Lacune Mémorielle Sociale" (aka LMS) hits me.&lt;/p&gt;
+&lt;p&gt;I need an Android App, but I have never programmed one (I only looked at Android programming quickly many years ago).&lt;/p&gt;
+&lt;p&gt;Last Monday (today is Friday), I decided to create one, with the following goals and constraints:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;create a UI that demonstrates the feasibility of listing persons and filtering them by inputting text&lt;/li&gt;
+&lt;li&gt;use state-of-the-art Android programming&lt;/li&gt;
+&lt;li&gt;my phone is the only target&lt;/li&gt;
+&lt;li&gt;demonstrate deployment on it&lt;/li&gt;
+&lt;li&gt;demonstrate building APKs with Github Actions&lt;/li&gt;
+&lt;li&gt;setup minimal quality control (with SonarCloud)&lt;/li&gt;
+&lt;li&gt;refactor PyLMS repository to hold both PyLMS and the Android App&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt; Disclaimer&lt;/p&gt;
+&lt;p&gt;This series describes what I did in less than 4 days, starting with zero knowledge on Android and Kotlin development, 
+googling and reading my way toward a solution.&lt;/p&gt;
+&lt;p&gt;Any Android- and Kotlin-related statement reflects the knowledge acquired over that short period.&lt;/p&gt;
+&lt;p&gt;Of course, I'm skipping all the back and forth, tries and errors, and only describing the end result.&lt;/p&gt;
+&lt;/div&gt;
+&lt;h1 id="install-android-studio"&gt;Install Android Studio&lt;a class="headerlink" href="#install-android-studio" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Android Studio (Koala Feature Drop at the moment) is THE IDE for Android Development.&lt;/p&gt;
+&lt;p&gt;I followed these steps to install it:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;download from &lt;a href="https://developer.android.com/studio"&gt;Android Developers&lt;/a&gt; (&lt;a href="https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2024.1.2.12/android-studio-2024.1.2.12-linux.tar.gz"&gt;direct link&lt;/a&gt;, skips the licence to skip the licence agreement screen)&lt;/li&gt;
+&lt;li&gt;Unpack the &lt;code&gt;.tar.gz&lt;/code&gt; to an appropriate location (&lt;code&gt;~/DEV/Android_Studio&lt;/code&gt; in my case)
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;tar xvfz android-studio-2024.1.2.12-linux.tar.gz
+mv android-studio 2024.1.2.12
+ln -s 2024.1.2.12
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Install i386 libraries because I run a 64-bit version of Linux
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Open terminal and launch Android Studio
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;~/DEV/Android_Studio/current/bin/studio.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Do not import previous Android Studio settings&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Complete the Android Studio Setup Wizard&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I selected "custom install" but it would not let me install any other SDK than 35&lt;/li&gt;
+&lt;li&gt;I selected &lt;code&gt;~/DEV/Android_Studio/android&lt;/code&gt; as destination&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="screenshot Install Wizard Installation Type" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/setup_wizard_select_install_type.png"/&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Install Wizard SDK Componnents Setup" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/setup_wizard_sdk_components_setup.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wizard advised configuring hardware acceleration for the emulator (see &lt;a href="#install-emulator-acceleration"&gt;Install Emulator Acceleration&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Install Wizard Emulator Settings" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/setup_wizard_emulator_settings.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create Desktop entry with &lt;code&gt;Tools &amp;gt; Create Desktop Entry...&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Search &lt;code&gt;Android Studio&lt;/code&gt; in Gnome's application hub and add it to favorites&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="admonition hint"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developer.android.com/studio/install#linux"&gt;Install Android Studio on Linux - Android Developers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developer.android.com/about/versions/14/setup-sdk"&gt;Set up the Android 14 SDK - Android Developers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h1 id="install-android-sdk"&gt;Install Android SDK&lt;a class="headerlink" href="#install-android-sdk" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;I checked &lt;code&gt;Settings &amp;gt; About my phone &amp;gt; About software&lt;/code&gt; in phone, it runs Android 14.&lt;/p&gt;
+&lt;p&gt;I need to install Android SDK Platform 34 package for Android 14.0 ("UpsideDownCake") and remove SDK 35.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open Settings with &lt;code&gt;File &amp;gt; Settings&lt;/code&gt; and go to &lt;code&gt;Android SDKs&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Untick &lt;code&gt;Android API 35&lt;/code&gt; and tick &lt;code&gt;Android 14.0 ("UpsideDownCake")&lt;/code&gt; with API Level &lt;code&gt;34&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="screenshot Install Android SDK" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/install_android_sdk.png"/&gt;&lt;/p&gt;
+&lt;h1 id="bootstrap-an-application"&gt;Bootstrap an application&lt;a class="headerlink" href="#bootstrap-an-application" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Use Android Studio &lt;code&gt;File &amp;gt; New &amp;gt; New Project...&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Android Studio Create Project wizard screen 1" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/new_project_wizard_1.png"/&gt;
+&lt;img alt="screenshot Android Studio Create Project wizard screen 2" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/new_project_wizard_2.png"/&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;select template &lt;code&gt;Empty Activity&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Name: &lt;code&gt;AndroLMS&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Package: &lt;code&gt;fr.javatronic.lms.android&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="run-on-an-emulator"&gt;Run on an emulator&lt;a class="headerlink" href="#run-on-an-emulator" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
+&lt;h2 id="create-a-device"&gt;Create a device&lt;a class="headerlink" href="#create-a-device" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Open the Device Manager&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Create Virtual Device in Device Manager" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/create_virtual_device_in_device_manager.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open Create a new Hardware Profile&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Open New Hardware Profile" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/new_hardware_profile.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create Galaxy S23 profile&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Create Hardware Profile screen" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/create_hardware_profile_screen.png"/&gt;
+(S23 data comes from Samsung's skin website (see &lt;a href="#use-a-phone-skin"&gt;Use a phone skin&lt;/a&gt;))&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="install-emulator-acceleration"&gt;Install Emulator Acceleration&lt;a class="headerlink" href="#install-emulator-acceleration" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Install and run &lt;code&gt;cpu-checker&lt;/code&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ sudo apt-get install cpu-checker
+$ sudo sudo kvm-ok
+INFO: /dev/kvm exists
+KVM acceleration can be used
+$ sudo apt-get remove cpu-checker
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Install KVM
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;verify with
+    &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ~/DEV/Android_Studio/android/sdk/emulator/emulator -accel-check
+INFO    | Storing crashdata in: /tmp/android-lesaint/emu-crash-35.1.20.db, detection is enabled for process: 711988
+accel:
+0
+KVM (version 12) is installed and usable.
+accel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="admonition hint"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developer.android.com/studio/run/emulator-acceleration#vm-linux"&gt;Configure VM acceleration on Linux - Android Developer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/a/63975329"&gt;Checking if android emulator is using KVM accelation or not? - Stackoverflow&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id="run-the-app"&gt;Run the app&lt;a class="headerlink" href="#run-the-app" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;To run the app in Emulator:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Run the app in emulator" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/run_the_app_in_emulator.png"/&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Make sure the device created earlier is selected&lt;/li&gt;
+&lt;li&gt;Maks sure &lt;code&gt;app&lt;/code&gt; is selected&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;app&lt;/code&gt; is the name of Gradle submodule that contains the Android App in the Gradle project generated by Android Studio&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click on the 'Run' icon&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;if the icon is disabled, make sure the Gradle configuration is synchronized. If so you may be seeing this banner. Click on &lt;code&gt;Sync&lt;/code&gt;. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="screenshot Run the app in emulator" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/run_the_app_in_emulator.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The emulated device's screen appears in a panel on the right-hand side of the IDE
+   (screenshot of &lt;code&gt;AndroLMS&lt;/code&gt; MVP UI, not of the generated application)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="screenshot Emulated device screen" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/emulated_device_no_skin.png"/&gt;&lt;/p&gt;
+&lt;h2 id="stop-the-emulator"&gt;Stop the emulator&lt;a class="headerlink" href="#stop-the-emulator" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Closing the tab with the device screen is not enough. To make sure the emulator is stopped, go to the Device Manager and click on the square icon.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Stop the emulator" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/stop_the_emulator.png"/&gt;&lt;/p&gt;
+&lt;h2 id="use-a-phone-skin"&gt;Use a phone skin&lt;a class="headerlink" href="#use-a-phone-skin" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;A "skin" can be used to better visualize the application's look on the screen with the device's borders around it and 
+the whole shape of the device.&lt;/p&gt;
+&lt;p&gt;I googled and found a Samsung page where I can download a skin for the S23, with the specification of the S23's screen.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot S23 skin" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/s23_specifications.png"/&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Download the skin's zip file from the &lt;a href="https://developer.samsung.com/galaxy-emulator-skin/galaxy-s.html"&gt;website&lt;/a&gt; to &lt;code&gt;~/DEV/Android_Studio/android/skin/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Unzip it&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open the Device Manager and edit the S23 device&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Edit device in Device Manager" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/edit_device_from_device_manager.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Display advanced settings&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Show advanced settings of device" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/show_advanced_settings.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Scroll to the very bottom, tick "Enable device frame" and select the directory where the skin is stored &lt;code&gt;~/DEV/Android_Studio/android/skin/Galaxy_S23&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Show advanced settings of device" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/select_skin.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Stop the emulator (see &lt;a href="#stop-the-emulator"&gt;Stop the emulator&lt;/a&gt;) and run the app again (see &lt;a href="#run-the-app"&gt;Run the app&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="screenshot Emulated device screen with skin" src="https://www.javatronic.fr/images/2024-09-13_create_a_POC_android_app_from_scratch/emulated_device_with_skin.png"/&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="admonition note"&gt;
+&lt;p class="admonition-title"&gt;Note&lt;/p&gt;
+&lt;p&gt;Samsung documentation advises unchecking "Launch in the Running Devices tool window" to launch Android Emulator as a
+standalone application and ensure correct rendering of the skin.&lt;/p&gt;
+&lt;p&gt;I initially followed this advise, which opened the emulator in a new window rather than in a tab, but reverted as I
+noticed the skin rendered correctly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="admonition hint"&gt;
+&lt;p class="admonition-title"&gt; Sources&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developer.samsung.com/galaxy-emulator-skin/galaxy-s.html"&gt;Galaxy S skins downloads - Samsung developer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developer.samsung.com/galaxy-emulator-skin/guide.html"&gt;Skin installation following instruction - Samsung developer&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;</content><category term="articles"></category><category term="Android"></category></entry><entry><title>Fix warning "Unable to import Android Lint report file(s)" in SonarQube/SonarCloud</title><link href="https://www.javatronic.fr/posts/2024/09/13/fix-warning-unable-to-import-android-lint-report-files-in-sonarqubesonarcloud/" rel="alternate"></link><published>2024-09-13T00:00:00+02:00</published><updated>2024-09-13T00:00:00+02:00</updated><author><name>Sébastien Lesaint</name></author><id>tag:www.javatronic.fr,2024-09-13:/posts/2024/09/13/fix-warning-unable-to-import-android-lint-report-files-in-sonarqubesonarcloud/</id><summary type="html">&lt;p&gt;I used Android Studio Koala Feature Drop | 2024.1.2 to create a new Android Application project (I used the 
 "Empty Activity" template) and set up the SonarCloud analysis using the scanner for Gradle.&lt;/p&gt;
 &lt;p&gt;I had the following warning in Gradle logs:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; Task :sonar

@@ -6,6 +6,11 @@
 <changefreq>daily</changefreq>
 <priority>1.00</priority>
 </url><url>
+<loc>https://www.javatronic.fr/posts/2024/09/13/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-1/</loc>
+<lastmod>2024-09-13</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.80</priority>
+</url><url>
 <loc>https://www.javatronic.fr/posts/2024/09/13/fix-warning-unable-to-import-android-lint-report-files-in-sonarqubesonarcloud/</loc>
 <lastmod>2024-09-13</lastmod>
 <changefreq>monthly</changefreq>
@@ -207,7 +212,7 @@
 <priority>0.90</priority>
 </url><url>
 <loc>https://www.javatronic.fr/category/articles.html</loc>
-<lastmod>2024-06-16</lastmod>
+<lastmod>2024-09-13</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.40</priority>
 </url><url>
