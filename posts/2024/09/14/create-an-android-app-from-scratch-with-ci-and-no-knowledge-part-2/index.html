@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Android, articles, " />
+
+<meta property="og:title" content="Create an Android app from scratch, with CI, and no knowledge - Part 2 "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2024/09/14/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-2/" />
+<meta property="og:description" content="This is a multi-part article You&#39;re reading part 2. Part 1 focuses on bootstrapping an Android app dev project and run it on an emulated device Part 2 focuses on deploying the app to my phone and create a CI pipeline producing APKs Part 3 will focus on basic Jetpack …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2024-09-14T00:00:00+02:00" />
+<meta name="twitter:title" content="Create an Android app from scratch, with CI, and no knowledge - Part 2 ">
+<meta name="twitter:description" content="This is a multi-part article You&#39;re reading part 2. Part 1 focuses on bootstrapping an Android app dev project and run it on an emulated device Part 2 focuses on deploying the app to my phone and create a CI pipeline producing APKs Part 3 will focus on basic Jetpack …">
+
+        <title>Create an Android app from scratch, with CI, and no knowledge - Part 2  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/pages/sebastien_lesaint_resume/">Resume</a></li>
+                                <li ><a href="https://www.javatronic.fr/pages/books-read/">Books read</a></li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.google.com/search" onsubmit="return validateForm(this.elements['q'][0].value);" target="_blank"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"><input type="hidden" name="q" value="site:https://www.javatronic.fr"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/posts/2024/09/14/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-2/">
+                Create an Android app from scratch, with CI, and no knowledge - Part 2
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#deploy-to-my-phone">Deploy to my phone</a><ul>
+<li><a href="#build-the-project">Build the project</a></li>
+<li><a href="#create-signed-apks">Create signed APKs</a><ul>
+<li><a href="#with-android-studio">With Android Studio</a></li>
+<li><a href="#from-the-command-line">From the command line</a></li>
+</ul>
+</li>
+<li><a href="#install-the-app">Install the app</a></li>
+</ul>
+</li>
+<li><a href="#create-an-android-ci-pipeline">Create an Android CI pipeline</a><ul>
+<li><a href="#adapt-github-workflow-to-a-monorepo-setup">Adapt GitHub workflow to a monorepo setup</a></li>
+<li><a href="#build-android-apks-with-github-action">Build Android APKs with GitHub Action</a><ul>
+<li><a href="#change-gradle-build-to-securely-read-the-signing-key">Change Gradle build to securely read the signing key</a></li>
+<li><a href="#create-github-repository-secrets">Create GitHub repository secrets</a></li>
+<li><a href="#create-the-github-action-job">Create the GitHub Action job</a></li>
+</ul>
+</li>
+<li><a href="#make-the-apks-available-for-download">Make the APKs available for download</a></li>
+<li><a href="#shorten-retention-of-a-github-action-archive">Shorten retention of a GitHub action archive</a></li>
+<li><a href="#create-a-pr-comment-with-apk-download-link">Create a PR comment with APK download link</a></li>
+<li><a href="#verify-the-apk-is-signed">Verify the APK is signed</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            
+<div class="admonition warning">
+<p class="admonition-title"> This is a multi-part article</p>
+<p>You're reading part 2.</p>
+<ul>
+<li><a href="https://www.javatronic.fr/posts/2024/09/13/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-1/">Part 1</a> focuses on bootstrapping an Android app dev project and run it on an emulated device</li>
+<li><a href="https://www.javatronic.fr/posts/2024/09/14/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-2/">Part 2</a> focuses on deploying the app to my phone and create a CI pipeline producing APKs</li>
+<li>Part 3 will focus on basic Jetpack Compose and Kotlin programming to create a demo UI for LMS</li>
+</ul>
+</div>
+<h1 id="deploy-to-my-phone">Deploy to my phone<a class="headerlink" href="#deploy-to-my-phone" title="Permanent link">¶</a></h1>
+<h2 id="build-the-project">Build the project<a class="headerlink" href="#build-the-project" title="Permanent link">¶</a></h2>
+<p>Two options</p>
+<ol>
+<li>use Android Studio<ul>
+<li>deploying the app the emulator automatically builds the app (see <a href="https://www.javatronic.fr/posts/2024/09/13/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-1/#run-the-app">Run the app</a>)</li>
+<li>otherwise <code>Build &gt; Make project</code> or the keyboard shortcut (CTRL+F9 on Ubuntu Gnome)</li>
+</ul>
+</li>
+<li>use the command line<ul>
+<li><code>./gradlew build</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="create-signed-apks">Create signed APKs<a class="headerlink" href="#create-signed-apks" title="Permanent link">¶</a></h2>
+<h3 id="with-android-studio">With Android Studio<a class="headerlink" href="#with-android-studio" title="Permanent link">¶</a></h3>
+<ul>
+<li>
+<p>I selected <code>Build &gt; Generate Signed App Bundle / APK...</code></p>
+</li>
+<li>
+<p>I selected <code>APK</code> as I target only my phone (and not Google Play)</p>
+</li>
+</ul>
+<p><img alt="screenshot Select APK and click next" src="https://www.javatronic.fr/images/2024-09-14_create_an_android_app_from_scratch_part_2/generate_signed_apk_select_apk.png"/></p>
+<ul>
+<li>I selected <code>Create new</code> to create a keystore with the wizard, as I don't have one yet</li>
+</ul>
+<p><img alt="screenshot Click Create new" src="https://www.javatronic.fr/images/2024-09-14_create_an_android_app_from_scratch_part_2/generate_signed_apk_keystore.png"/></p>
+<ul>
+<li>I input the following keystore details<ul>
+<li>location: <code>[path to project]/app/signing_keystore.jks</code>, this location makes it straightforward to reference it from Gradle (see <a href="#from-the-command-line">From the command line</a>)</li>
+<li>I used strong passwords for both the keystore and the key</li>
+<li>I named the key <code>release</code> (because this matches the build signing configuration in Gradle (see <a href="#from-the-command-line">From the command line</a>)</li>
+<li>I only filed the <code>Organization</code> with <code>javatronic.fr</code> as I don't see the point of providing any personal data</li>
+</ul>
+</li>
+</ul>
+<p><img alt="screenshot Input keystore and key details" src="https://www.javatronic.fr/images/2024-09-14_create_an_android_app_from_scratch_part_2/generate_signed_apk_new_keystore.png"/></p>
+<ul>
+<li>Click on <code>Create</code> creates the keystore and shows the previous screen with all fields completed</li>
+<li>Click on <code>Next</code> and make sure to select at least build variant <code>release</code><ul>
+<li>the build variant <code>debug</code> actually uses a Google's signing key, see <a href="#verify-the-apk-is-signed">Verify the APK is signed</a> (this can be overridden, but it doesn't matter at this point)</li>
+</ul>
+</li>
+</ul>
+<p><img alt="screenshot Select build variants" src="https://www.javatronic.fr/images/2024-09-14_create_an_android_app_from_scratch_part_2/generate_signed_apk_build_variants.png"/></p>
+<ul>
+<li>Android Studio starts a Gradle build with targets <code>[:app:assembleDebug, :app:assembleRelease]</code> (if both variants were selected)<ul>
+<li>the logs are visible in the build tab as any other build</li>
+<li>the APKs are written to directories <code>app/release</code> and <code>app/debug</code></li>
+</ul>
+</li>
+</ul>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://developer.android.com/studio/publish/app-signing#generate-key">Generate an upload key and keystore with Android Studio - Android Developer</a></li>
+</ul>
+</div>
+<h3 id="from-the-command-line">From the command line<a class="headerlink" href="#from-the-command-line" title="Permanent link">¶</a></h3>
+<p>Building from the command line requires a keystore, its password, a key alias and the key password.</p>
+<p>I used the one created with Android Studio but Java JDK's <code>keytool</code> utility can be used as well (not tested).</p>
+<p>Modify <code>app/build.gradle.kts</code></p>
+<ol>
+<li>before the <code>buildTypes</code> bloc, add a signing configuration named <code>release</code>. It describes where and how to read the signing key.<ul>
+<li>➊: create and specify the name of configuration</li>
+<li>➋: path can be absolute (not great) or relative to the current Gradle file</li>
+<li>➌: the name of the key to use (there can be more than one in a keystore)</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">signingConfigs</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">create</span><span class="p">(</span><span class="s">"release"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">            </span><span class="n">storeFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">(</span><span class="s">"signing_keystore.jks"</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">            </span><span class="n">storePassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"the_store_password"</span>
+<span class="w">            </span><span class="n">keyAlias</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"release"</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">            </span><span class="n">keyPassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"the_key_password"</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title"> Don't use passwords in clear-text</p>
+<p>Use of password written in clear-text in <code>build.gradle.kts</code> is bad. A better way, using environment variables, is
+described below.</p>
+<p>It's ok to use locally for testing. Do not push it to GitHub (or any other non-local place) unless you intend to
+delete and drop the keystore, and not use these passwords ever again. </p>
+</div>
+<ol start="2">
+<li>modify the <code>release</code> bloc in <code>buildTypes</code> to reference and use this new signing configuration<ul>
+<li>➊: reference the signing configuration with name <code>release</code> created above</li>
+<li>➋ and ➌: as is from Android Developer reference</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">buildTypes</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">release</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">signingConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">signingConfigs</span><span class="p">.</span><span class="na">getByName</span><span class="p">(</span><span class="s">"release"</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">            </span><span class="n">isMinifyEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">            </span><span class="n">proguardFiles</span><span class="p">(</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">                </span><span class="n">getDefaultProguardFile</span><span class="p">(</span><span class="s">"proguard-android-optimize.txt"</span><span class="p">),</span>
+<span class="w">                </span><span class="s">"proguard-rules.pro"</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+<ol start="3">
+<li>Generate the signed APKs (both <code>debug</code> and <code>release</code>, the former appears to be implicit) with</li>
+</ol>
+<div class="highlight"><pre><span></span><code>./gradlew<span class="w"> </span>build
+</code></pre></div>
+<ol start="4">
+<li>The signed APKs are generated in <code>app/build/outputs/apk/debug/</code> and <code>app/build/outputs/apk/release/</code></li>
+</ol>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://developer.android.com/build/building-cmdline#gradle_signing">Configure Gradle to sign your app - Android developer</a></li>
+<li><a href="https://developer.android.com/build/building-cmdline#sign_cmdline">Create a keystore for Android signing with keytool - Android developer</a></li>
+</ul>
+</div>
+<h2 id="install-the-app">Install the app<a class="headerlink" href="#install-the-app" title="Permanent link">¶</a></h2>
+<p>I downloaded the release APK onto my phone via SSH from my NAS (because I had this method readily available, but email,
+Google Drive or many other ways will do).</p>
+<p>On the phone, enable Installation from Unknown Sources:</p>
+<ol>
+<li>Open <code>Paramètres</code> (<code>Settings</code>)</li>
+<li>Open <code>Sécurité et confidentialité</code></li>
+<li>Open <code>Autres paramètres de sécurité</code></li>
+<li>Open <code>Installation applis inconnues</code></li>
+<li>Enable <code>Amaze</code> (or any other tool intended to open the APK with)</li>
+<li>Go to <code>Amaze</code>, find the APK, click on it and install it</li>
+<li>Start <code>AndroLMS</code> like any other app</li>
+</ol>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://medium.com/@msowski/release-your-apps-apk-file-and-deploy-it-on-your-device-66a5a2177ac8">Release your app’s APK file and deploy it on your device by Msowski</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.amaze.filemanager">Amaze file manager - Google Play</a></li>
+</ul>
+</div>
+<h1 id="create-an-android-ci-pipeline">Create an Android CI pipeline<a class="headerlink" href="#create-an-android-ci-pipeline" title="Permanent link">¶</a></h1>
+<p>The goal is to have a GitHub Action workflow build and publish APKs with GitHub actions.</p>
+<p>This can be achieved with the following steps:</p>
+<ol>
+<li>Install Java</li>
+<li>Build the project with Gradle, securely providing the key to sign the APK</li>
+<li>Upload the APKs as GitHub artifacts</li>
+<li>Add a comment to the PR (when building on a PR) with a link to download the APKs</li>
+</ol>
+<h2 id="adapt-github-workflow-to-a-monorepo-setup">Adapt GitHub workflow to a monorepo setup<a class="headerlink" href="#adapt-github-workflow-to-a-monorepo-setup" title="Permanent link">¶</a></h2>
+<p>The <code>PyLMS</code> repository contains a Python project. I want to add the Android <code>AndroLMS</code> project to the same repo and soon rename the repository to <code>LMS</code>.</p>
+<p>I've decided to move all Python code to subdirectory <code>python</code> and put the Android project into the <code>android</code> subdirectory.</p>
+<p>The existing workflow building the Python project must be adapted:</p>
+<ul>
+<li>➊: Rename some steps for consistency</li>
+<li>➋: run the steps in the <code>python</code> subdirectory and not from root anymore<ul>
+<li>depending on the step's implementation, how this is achieved varies</li>
+<li><code>working-directory</code> works for raw steps</li>
+<li>commonly, steps using an action accepts <code>with.working-directory</code></li>
+<li>SonarCloud takes <code>with.projectBaseDir</code></li>
+</ul>
+</li>
+<li>➌: Trigger the job only when change happens in the <code>pyton</code> subdirectory<ul>
+<li>except changes to <code>README.md</code>, as obviously it does not impact the Python artefacts</li>
+<li>note the <code>!</code> at the beginning of the path to exclude it</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PyLMS CI</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➌</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"python/**"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"!python/README.md"</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">opened</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">synchronize</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">reopened</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➌</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"python/**"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"!python/README.md"</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">python-ci</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➊</span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">  </span><span class="c1"># Shallow clones should be disabled for a better relevancy of analysis</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python 3.10</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">"3.10"</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">check-format</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">make check-format</span>
+<span class="w">      </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span><span class="w"> </span><span class="c1"># ➋</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tests</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coactions/setup-xvfb@v1.0.1</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make test-ci</span>
+<span class="w">        </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span><span class="w"> </span><span class="c1"># ➋</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SonarCloud Scan</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SonarSource/sonarcloud-github-action@master</span>
+<span class="w">      </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">GITHUB_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span><span class="w">  </span><span class="c1"># Needed to get PR information, if any</span>
+<span class="w">        </span><span class="nt">SONAR_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SONAR_TOKEN }}</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➋</span>
+<span class="w">        </span><span class="nt">projectBaseDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python/</span>
+<span class="w">  </span><span class="nt">python-build</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➊</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">pull-requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Python 3.10</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">"3.10"</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coactions/setup-xvfb@v1.0.1</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">make build</span>
+<span class="w">        </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python</span><span class="w"> </span><span class="c1"># ➋</span>
+</code></pre></div>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Monorepo">Monorepo - Wikipedia</a></li>
+<li><a href="https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow#using-filters-to-target-specific-paths-for-pull-request-or-push-events">Using filters to target specific paths for pull request or push events - GitHub doc</a></li>
+<li><a href="https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsworking-directory">jobs.&lt;job_id&gt;.steps[*].working-directory - GitHub doc</a></li>
+<li><a href="https://docs.sonarsource.com/sonarcloud/advanced-setup/ci-based-analysis/github-actions-for-sonarcloud/#github-actions-yml-file">Sample Github Action workflow for monorepo setup - SonarCloud doc</a></li>
+</ul>
+</div>
+<h2 id="build-android-apks-with-github-action">Build Android APKs with GitHub Action<a class="headerlink" href="#build-android-apks-with-github-action" title="Permanent link">¶</a></h2>
+<p>Building the APKs with a Github Action workflow is the same as building from the command line (see <a href="#from-the-command-line">From the command line</a>),
+except that it's not acceptable to have the keystore in Git.</p>
+<p>We need an alternative way to read it from the disk of the GitHub Action runner.</p>
+<p>The one way to access sensitive data in GitHub action is using secrets.</p>
+<h3 id="change-gradle-build-to-securely-read-the-signing-key">Change Gradle build to securely read the signing key<a class="headerlink" href="#change-gradle-build-to-securely-read-the-signing-key" title="Permanent link">¶</a></h3>
+<p>Let's change the Gradle build to:</p>
+<ul>
+<li>Read the keystore from a file in the runner's filesystem's temporary folder when executed on a GitHub Action runner <ul>
+<li>➊: The situation is detected by checking whether the environment variable <code>RUNNER_TEMP</code> is set</li>
+<li>the <code>RUNNER_TEMP</code> directory is emptied at the beginning and end of each job, preventing leak</li>
+<li>➋: if not on a runner, read the keystore from the current directory</li>
+</ul>
+</li>
+<li>➌: Fail if the subdirectory <code>androlms</code> or the <code>keystore</code> is not found<ul>
+<li>explicit fail intends to ease debugging</li>
+<li>using a subdirectory to reduce the risk of collisions in a shared directory</li>
+</ul>
+</li>
+<li>➍: Read password from environment variables<ul>
+<li>environment variables can securely be set from GitHub secrets</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">signingConfigs</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">register</span><span class="p">(</span><span class="s">"release"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">keyAlias</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"release"</span>
+<span class="w">        </span><span class="n">storePassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getenv</span><span class="p">(</span><span class="s">"SIGNING_STORE_PASSWORD"</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➍</span>
+<span class="w">        </span><span class="n">keyPassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getenv</span><span class="p">(</span><span class="s">"SIGNING_KEY_PASSWORD"</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➍</span>
+
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">runnerTemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getenv</span><span class="p">(</span><span class="s">"RUNNER_TEMP"</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">runnerTemp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">storeFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="p">(</span><span class="s">"signing_keystore.jks"</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">keystoreDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="n">runnerTemp</span><span class="p">,</span><span class="w"> </span><span class="s">"androlms"</span><span class="p">)</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">keystoreFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span><span class="p">(</span><span class="n">keystoreDir</span><span class="p">,</span><span class="w"> </span><span class="s">"signing_keystore.jks"</span><span class="p">)</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">keystoreDir</span><span class="p">.</span><span class="na">exists</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="n">FileNotFoundException</span><span class="p">(</span><span class="s">"</span><span class="si">${</span><span class="n">keystoreDir</span><span class="p">.</span><span class="na">absolutePath</span><span class="si">}</span><span class="s"> not found"</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">keystoreFile</span><span class="p">.</span><span class="na">exists</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="n">FileNotFoundException</span><span class="p">(</span><span class="s">"</span><span class="si">${</span><span class="n">keystoreFile</span><span class="p">.</span><span class="na">absolutePath</span><span class="si">}</span><span class="s"> not found"</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">storeFile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">keystoreFile</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions">Using secrets in GitHub Actions - GitHub doc</a></li>
+<li><a href="https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables">RUNNER_TEMP env var in Github Action - GitHub doc</a></li>
+<li><a href="https://proandroiddev.com/how-to-securely-build-and-sign-your-android-app-with-github-actions-ad5323452ce">How To Securely Build and Sign Your Android App With GitHub Actions by Yanneck Reiß</a></li>
+</ul>
+</div>
+<h3 id="create-github-repository-secrets">Create GitHub repository secrets<a class="headerlink" href="#create-github-repository-secrets" title="Permanent link">¶</a></h3>
+<p>GitHub secrets only accepts text, so we must encode the keystore (binary data) with Base64. <code>openssl</code> is the best tool
+in this context.</p>
+<p>The following prints the Base64 encoding of the keystore to the console.</p>
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>base64<span class="w"> </span>&lt;<span class="w"> </span>app/signing_keystore.jks
+</code></pre></div>
+<p>In GitHub's UI of your repository, go to <code>Settings &gt; Secrets and variables &gt; Actions</code> and click on <code>New Repository Secret</code>:</p>
+<ul>
+<li>store the encoded keystore under secret <code>SIGNING_KEYSTORE</code></li>
+<li>store passwords under <code>SIGNING_STORE_PASSWORD</code> and <code>SIGNING_KEY_PASSWORD</code></li>
+</ul>
+<p><img alt="screenshot Create New Repository secret on GitHub" src="https://www.javatronic.fr/images/2024-09-14_create_an_android_app_from_scratch_part_2/create_new_repository_secret.png"/></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The name of the secrets is not important but must be consistent with GitHub workflow steps (see <a href="#create-the-github-action-job">Create the GitHub Action job</a>).</p>
+</div>
+<h3 id="create-the-github-action-job">Create the GitHub Action job<a class="headerlink" href="#create-the-github-action-job" title="Permanent link">¶</a></h3>
+<p>Gradle has only one requirement: a Java JDK. Android requires Java 17+.</p>
+<p>Similarly to the Python project, the job:</p>
+<ul>
+<li>➊ runs on pushes to the <code>main</code> branch (and only that branch)</li>
+<li>➋ runs when Pull Request are opened, reopened and pushed to</li>
+<li>➌ runs only when changes are made to the <code>android</code> subdirectory, except to the <code>README.md</code> file</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AndroLMS CI</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➊</span>
+<span class="w">    </span><span class="nt">branches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➌</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"android/**"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"!android/README.md"</span>
+<span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➋</span>
+<span class="w">    </span><span class="nt">types</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">opened</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">synchronize</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">reopened</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">paths</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➌</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"android/**"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"!android/README.md"</span>
+</code></pre></div>
+<p>The job has the following steps:</p>
+<ol>
+<li>Write the keystore from the GitHub Repository secret and write it to the runner's disk<ul>
+<li>➊ stores the value of secret <code>SIGNING_KEYSTORE</code> into environment variable <code>ENCODED_STRING</code> of the step</li>
+<li>➋ create directory <code>androlms</code> in <code>$RUNNER_TEMP</code> directory and decode the keystore from Base64 into file <code>${RUNNER_TEMP}/androlms/signing_keystore.jks</code></li>
+</ul>
+</li>
+<li>Print the MD5 sum of the keystore (Optional - only for troubleshooting purpose)</li>
+<li>Check out the repository's content</li>
+<li>Install Java 17 using action <code>actions/setup-java@v4</code><ul>
+<li>➌ using <code>Temurin</code> distribution because it is opensource and from the Eclipse Foundation </li>
+</ul>
+</li>
+<li>Install Gradle using Gradle's official action <code>gradle/actions/setup-gradle@v3</code></li>
+<li>Build the APKs<ul>
+<li>➍ passing password as environment variables</li>
+<li>➎ running the same command as <a href="#from-the-command-line">From the command line</a> with the additional option <code>--no-daemon</code> 
+  as Gradle's daemon is slow to start and useless since we run Gradle only once</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">android-ci</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">pull-requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Decode Keystore</span>
+<span class="w">      </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ENCODED_STRING</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SIGNING_KEYSTORE }}</span><span class="w"> </span><span class="c1"># ➊</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"> </span><span class="c1"># ➋</span>
+<span class="w">        </span><span class="no">TMP_KEYSTORE_FILE_PATH="${RUNNER_TEMP}/androlms"</span>
+<span class="w">        </span><span class="no">mkdir "${TMP_KEYSTORE_FILE_PATH}"</span>
+<span class="w">        </span><span class="no">echo "$ENCODED_STRING" | base64 --decode --ignore-garbage &gt; "${TMP_KEYSTORE_FILE_PATH}/signing_keystore.jks"</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Show Keystore checksum</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">md5sum "${RUNNER_TEMP}/androlms/signing_keystore.jks"</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Java</span><span class="w"> </span><span class="c1"># ➌</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-java@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">distribution</span><span class="p">:</span><span class="w"> </span><span class="s">'temurin'</span>
+<span class="w">        </span><span class="nt">java-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">17</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup Gradle</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gradle/actions/setup-gradle@v3</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build with Gradle</span>
+<span class="w">      </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">SIGNING_STORE_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SIGNING_STORE_PASSWORD }}</span><span class="w"> </span><span class="c1"># ➍</span>
+<span class="w">        </span><span class="nt">SIGNING_KEY_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SIGNING_KEY_PASSWORD }}</span><span class="w"> </span><span class="c1"># ➍</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./gradlew build --no-daemon</span><span class="w"> </span><span class="c1"># ➎</span>
+<span class="w">      </span><span class="nt">working-directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">android</span>
+</code></pre></div>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://github.com/actions/setup-java">action to install Java (setup-java)</a></li>
+<li><a href="https://github.com/gradle/actions/blob/main/docs/setup-gradle.md">action to install and run Gradle (setup-gradle)</a></li>
+</ul>
+</div>
+<h2 id="make-the-apks-available-for-download">Make the APKs available for download<a class="headerlink" href="#make-the-apks-available-for-download" title="Permanent link">¶</a></h2>
+<p>The action from GitHub <code>actions/upload-artifact</code> allows upload artifacts and make them available for download from the
+Actions User Interface on GitHub.com of a specific run.</p>
+<ul>
+<li>➊ the name of the archive, both in the UI and for the archive file.</li>
+<li>➋ put both the <code>debug</code> and the <code>release</code> APK in the archive</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">APKs upload</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AndroLMS_artifacts</span><span class="w"> </span><span class="c1"># ➊</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"> </span><span class="c1"># ➋</span>
+<span class="w">          </span><span class="no">android/app/build/outputs/apk/debug/AndroLMS-*.apk </span>
+<span class="w">          </span><span class="no">android/app/build/outputs/apk/release/AndroLMS-*.apk</span>
+</code></pre></div>
+<p><img alt="screenshot Open GitHub Action UI of a specific run" src="https://www.javatronic.fr/images/2024-09-14_create_an_android_app_from_scratch_part_2/go_to_action_ui.png"/></p>
+<p><img alt="screenshot Download the archive of a specific run" src="https://www.javatronic.fr/images/2024-09-14_create_an_android_app_from_scratch_part_2/download_archive_from_action_ui.png"/></p>
+<h2 id="shorten-retention-of-a-github-action-archive">Shorten retention of a GitHub action archive<a class="headerlink" href="#shorten-retention-of-a-github-action-archive" title="Permanent link">¶</a></h2>
+<p>By default, uploaded archives are stored for 30 days. Especially for PRs, we don't need that long storage. For the main branch, we can always re-run the job.
+So, let's be nice to the planet (and to GitHub) and shorten the retention:</p>
+<ul>
+<li>➊ set retention to 7 days</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">APKs upload</span>
+<span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apk-upload-step</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AndroLMS_artifacts</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">android/app/build/outputs/apk/debug/AndroLMS-*.apk </span>
+<span class="w">          </span><span class="no">android/app/build/outputs/apk/release/AndroLMS-*.apk</span>
+<span class="w">        </span><span class="nt">retention-days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span><span class="w"> </span><span class="c1"># ➊</span>
+</code></pre></div>
+<h2 id="create-a-pr-comment-with-apk-download-link">Create a PR comment with APK download link<a class="headerlink" href="#create-a-pr-comment-with-apk-download-link" title="Permanent link">¶</a></h2>
+<p>I find going to the UI of a specific run too complicated.</p>
+<p>I want to have the link to download in a comment on the PR, I only care about the latest built archives, and never mind
+the email notifications with every comment on a PR that I configured, the quick access is worth the noise in my mailbox.</p>
+<p>Also, for the fun (and my convenience, a bit), let's add to the comment the last day the archive will be available.</p>
+<p>Let's modify the workflow:</p>
+<ol>
+<li>Make the number of days a env variable to share the value between steps<ul>
+<li>➊ define env variable <code>UPLOAD_RETENTION</code> for the whole workflow</li>
+<li>➋ use the env variable the <code>actions/upload-artifact@v4</code> action</li>
+</ul>
+</li>
+<li>add a step computing the expiration date as a string with the Bash's <code>date</code> command and make the value an output of the step<ul>
+<li>➌ <code>echo "key=value" &gt;&gt; $GITHUB_OUTPUT</code> is the new syntax to create a step output from command line within a runner </li>
+<li>➍ for other steps to access its output, a step must have an <code>id</code></li>
+</ul>
+</li>
+<li>add a step creating a pull request comment<ul>
+<li>➎ using with action <code>thollander/actions-comment-pull-request@v2</code>. Found this action and does the job.</li>
+<li>➏ using output of steps "APKs upload" (named <code>artifact-url</code>) for the download URL and the date from step 
+  "Compute expiration date" (named <code>expiration_date</code>) to create a comment with dynamic content</li>
+<li>➐ to make the action recreate a comment every time the job runs, use both <code>comment_tag</code> (for the action to find 
+  its previous comment from run to another) and <code>mode: recreate</code> (using <code>mode: upsert</code> will not move the comment to
+  the end of the conversation)</li>
+<li>➑ the same job is used on both PRs and the <code>main</code> branch, use this condition to not execute this step for PRs, it
+  would fail</li>
+<li>➒ to create the PR comment, the job must be given write permissions</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AndroLMS CI</span>
+<span class="nt">env</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">UPLOAD_RETENTION</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span><span class="w"> </span><span class="c1"># ➊</span>
+<span class="nt">on</span><span class="p">:</span>
+<span class="p p-Indicator">[</span><span class="nv">...</span><span class="p p-Indicator">]</span>
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">android-ci</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">permissions</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">pull-requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span><span class="w"> </span><span class="c1"># ➒</span>
+<span class="p p-Indicator">[</span><span class="nv">...</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">APKs upload</span>
+<span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apk-upload-step</span><span class="w"> </span><span class="c1"># ➍</span>
+<span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/upload-artifact@v4</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AndroLMS_artifacts</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">android/app/build/outputs/apk/debug/AndroLMS-*.apk </span>
+<span class="w">          </span><span class="no">android/app/build/outputs/apk/release/AndroLMS-*.apk</span>
+<span class="w">        </span><span class="nt">retention-days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ env.UPLOAD_RETENTION }}</span><span class="w"> </span><span class="c1"># ➋</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Compute expiration date</span>
+<span class="w">      </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">expiration-date</span><span class="w"> </span><span class="c1"># ➍</span>
+<span class="w">      </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">echo "expiration_date=$(date --date ${UPLOAD_RETENTION}d +%Y-%m-%d)" &gt;&gt; $GITHUB_OUTPUT</span><span class="w"> </span><span class="c1"># ➌</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">thollander/actions-comment-pull-request@v2</span><span class="w"> </span><span class="c1"># ➎</span>
+<span class="w">      </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ github.event_name == 'pull_request' }}</span><span class="w"> </span><span class="c1"># ➑</span>
+<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Latest AndroLMS artifacts available from ${{ steps.apk-upload-step.outputs.artifact-url }} until ${{ steps.expiration-date.outputs.expiration_date }}.</span><span class="w"> </span><span class="c1"># ➏</span>
+<span class="w">        </span><span class="nt">comment_tag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apk-upload</span><span class="w"> </span><span class="c1"># ➐</span>
+<span class="w">        </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">recreate</span><span class="w"> </span><span class="c1"># ➐</span>
+</code></pre></div>
+<p>And here is a sample of the result</p>
+<p><img alt="screenshot PR comment to download AndroLMS archive" src="https://www.javatronic.fr/images/2024-09-14_create_an_android_app_from_scratch_part_2/androlms_artifact_download_comment.png"/></p>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://github.com/actions/upload-artifact?tab=readme-ov-file#using-outputs">Get the artifact download URL from the <code>upload-artifact</code> action - GitHub doc</a></li>
+<li><a href="https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/passing-information-between-jobs">Passing information between jobs - GitHub doc</a></li>
+<li><a href="https://github.com/thollander/actions-comment-pull-request?tab=readme-ov-file#permissions">Write permission to create a PR comment - <code>actions-comment-pull-request</code> action doc</a></li>
+<li><a href="https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsif">Conditionally run a step, including an exemple for running only in Pull Request - GitHub doc</a></li>
+<li><a href="https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/#examples">Create step output from Command Line - GitHub blog</a></li>
+<li><a href="https://stackoverflow.com/a/60942437">Compute the current date in GitHub action (but uses deprecated syntax) - Stackoverflow</a></li>
+</ul>
+</div>
+<h2 id="verify-the-apk-is-signed">Verify the APK is signed<a class="headerlink" href="#verify-the-apk-is-signed" title="Permanent link">¶</a></h2>
+<p>Finally, we need to confirm the produced APKs are signed as expected.</p>
+<p>After downloading the AndroLMS archives from GitHub, use the <code>apksigner</code> tool from the Android SDK.</p>
+<p>The <code>--print-certs</code> options shows digest and certificates fields of the key used to sign the APK:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>/<span class="o">[</span>some_path<span class="o">]</span>/sdk/build-tools/34.0.0/apksigner<span class="w"> </span>apksigner<span class="w"> </span>verify<span class="w"> </span>--print-certs<span class="w"> </span>/tmp/AndroLMS-1.0-release.apk<span class="w"> </span>
+Signer<span class="w"> </span><span class="c1">#1 certificate DN: O=javatronic.fr</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate SHA-256 digest: e8b09ece77c0f37a24c9cc5dbe1f83a16ffc563a337c03d938324c71b2c01ea9</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate SHA-1 digest: c968ba63a8b8270e23d7c16247805f6fcb00333a</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate MD5 digest: 26aee2775b3f788fc33dea2611ad7e31</span>
+</code></pre></div>
+<p>Using <code>apksigner</code> of the debug APK shows Google's key is used:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>/<span class="o">[</span>some_path<span class="o">]</span>/sdk/build-tools/34.0.0/apksigner<span class="w"> </span>apksigner<span class="w"> </span>verify<span class="w"> </span>--print-certs<span class="w"> </span>/tmp/AndroLMS-1.0-debug.apk<span class="w">              </span>
+Signer<span class="w"> </span><span class="c1">#1 certificate DN: C=US, O=Android, CN=Android Debug</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate SHA-256 digest: 0f244cc1996da11be5d27a08c58dcc58519fcb88f6a980ad2706cfafa9dbb373</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate SHA-1 digest: 15d42424d81e9ca193bbcd0a7f95c3f39dca7711</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate MD5 digest: 3b59ba84d68a1f45d71d528a4ff34836</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>One can find many articles advising using Java JDK's <code>keytool</code> or <code>jarsigner</code> tool to verify an APK is signed.</p>
+<p>Those are most likely outdated as Jar signing was the first signing scheme used and appears to not be used by
+default anymore. See below for insights.</p>
+</div>
+<p>Using <code>--verbose</code> shows that <code>apksigner</code> verifies multiple signature scheme and informs which one is used:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>/<span class="o">[</span>some_path<span class="o">]</span>/sdk/build-tools/34.0.0/apksigner<span class="w"> </span>apksigner<span class="w"> </span>verify<span class="w"> </span>--verbose<span class="w"> </span>--print-certs<span class="w"> </span>/tmp/AndroLMS-1.0-release.apk<span class="w">              </span>
+Verifies
+Verified<span class="w"> </span>using<span class="w"> </span>v1<span class="w"> </span>scheme<span class="w"> </span><span class="o">(</span>JAR<span class="w"> </span>signing<span class="o">)</span>:<span class="w"> </span><span class="nb">false</span>
+Verified<span class="w"> </span>using<span class="w"> </span>v2<span class="w"> </span>scheme<span class="w"> </span><span class="o">(</span>APK<span class="w"> </span>Signature<span class="w"> </span>Scheme<span class="w"> </span>v2<span class="o">)</span>:<span class="w"> </span><span class="nb">true</span>
+Verified<span class="w"> </span>using<span class="w"> </span>v3<span class="w"> </span>scheme<span class="w"> </span><span class="o">(</span>APK<span class="w"> </span>Signature<span class="w"> </span>Scheme<span class="w"> </span>v3<span class="o">)</span>:<span class="w"> </span><span class="nb">false</span>
+Verified<span class="w"> </span>using<span class="w"> </span>v3.1<span class="w"> </span>scheme<span class="w"> </span><span class="o">(</span>APK<span class="w"> </span>Signature<span class="w"> </span>Scheme<span class="w"> </span>v3.1<span class="o">)</span>:<span class="w"> </span><span class="nb">false</span>
+Verified<span class="w"> </span>using<span class="w"> </span>v4<span class="w"> </span>scheme<span class="w"> </span><span class="o">(</span>APK<span class="w"> </span>Signature<span class="w"> </span>Scheme<span class="w"> </span>v4<span class="o">)</span>:<span class="w"> </span><span class="nb">false</span>
+Verified<span class="w"> </span><span class="k">for</span><span class="w"> </span>SourceStamp:<span class="w"> </span><span class="nb">false</span>
+Number<span class="w"> </span>of<span class="w"> </span>signers:<span class="w"> </span><span class="m">1</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate DN: O=javatronic.fr</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate SHA-256 digest: e8b09ece77c0f37a24c9cc5dbe1f83a16ffc563a337c03d938324c71b2c01ea9</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate SHA-1 digest: c968ba63a8b8270e23d7c16247805f6fcb00333a</span>
+Signer<span class="w"> </span><span class="c1">#1 certificate MD5 digest: 26aee2775b3f788fc33dea2611ad7e31</span>
+Signer<span class="w"> </span><span class="c1">#1 key algorithm: RSA</span>
+Signer<span class="w"> </span><span class="c1">#1 key size (bits): 2048</span>
+Signer<span class="w"> </span><span class="c1">#1 public key SHA-256 digest: 211d040fd3924474e9052fb87eb549bc0e76cf96371d4a607f88046f88922e8c</span>
+Signer<span class="w"> </span><span class="c1">#1 public key SHA-1 digest: 72ad7d19e7cd951e92f9c2ea9756f28aac9d5367</span>
+Signer<span class="w"> </span><span class="c1">#1 public key MD5 digest: 1faa2d71812f475b21e40663c158866d</span>
+</code></pre></div>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2024-09-14T00:00:00+02:00">Sat 14 September 2024</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#android-ref">Android
+                    <span class="superscript">3</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://github.com/lesaint/pelican-theme-elegant/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Personal fork of Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
