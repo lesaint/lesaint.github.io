@@ -328,7 +328,6 @@ Google Drive or many other ways will do).</p>
 <span class="w">      </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SonarSource/sonarcloud-github-action@master</span>
 <span class="w">      </span><span class="nt">env</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">GITHUB_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.GITHUB_TOKEN }}</span><span class="w">  </span><span class="c1"># Needed to get PR information, if any</span>
-<span class="w">        </span><span class="nt">SONAR_TOKEN</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${{ secrets.SONAR_TOKEN }}</span>
 <span class="w">      </span><span class="nt">with</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➋</span>
 <span class="w">        </span><span class="nt">projectBaseDir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python/</span>
 <span class="w">  </span><span class="nt">python-build</span><span class="p">:</span><span class="w"> </span><span class="c1"># ➊</span>
