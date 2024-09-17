@@ -7,7 +7,7 @@ tags: Android
     You're reading part 1.
     
     * [Part 1]({filename}/articles/2024-09-13_create_an_android_app_from_scratch_part_1.md) focuses on bootstrapping an Android app dev project and run it on an emulated device
-    * Part 2 will focus on deploying the app to my phone and create a CI pipeline producing APKs
+    * [Part 2]({filename}/articles/2024-09-14_create_an_android_app_from_scratch_part_2.md) focuses on deploying the app to my phone and create a CI pipeline producing APKs
     * Part 3 will focus on basic Jetpack Compose and Kotlin programming to create a demo UI for LMS
 
 The context
