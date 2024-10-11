@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://www.javatronic.fr/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="Sébastien Lesaint" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="Android, articles, " />
+
+<meta property="og:title" content="Create an Android app from scratch, with CI, and no knowledge - Part 3 "/>
+<meta property="og:url" content="https://www.javatronic.fr/posts/2024/10/11/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-3/" />
+<meta property="og:description" content="This is a multi-part article You&#39;re reading part 3. Part 1 focuses on bootstrapping an Android app dev project and run it on an emulated device Part 2 focuses on deploying the app to my phone and create a CI pipeline producing APKs Part 3 focuses on basic Jetpack Compose …" />
+<meta property="og:site_name" content="Javatronic" />
+<meta property="og:article:author" content="Sébastien Lesaint" />
+<meta property="og:article:published_time" content="2024-10-11T00:00:00+02:00" />
+<meta name="twitter:title" content="Create an Android app from scratch, with CI, and no knowledge - Part 3 ">
+<meta name="twitter:description" content="This is a multi-part article You&#39;re reading part 3. Part 1 focuses on bootstrapping an Android app dev project and run it on an emulated device Part 2 focuses on deploying the app to my phone and create a CI pipeline producing APKs Part 3 focuses on basic Jetpack Compose …">
+
+        <title>Create an Android app from scratch, with CI, and no knowledge - Part 3  · Javatronic
+</title>
+        <link href="https://www.javatronic.fr/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Javatronic - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://www.javatronic.fr/"><span class=site-name>Javatronic</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://www.javatronic.fr
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://www.javatronic.fr/pages/sebastien_lesaint_resume/">Resume</a></li>
+                                <li ><a href="https://www.javatronic.fr/pages/books-read/">Books read</a></li>
+                                <li ><a href="https://www.javatronic.fr/categories.html">Categories</a></li>
+                                <li ><a href="https://www.javatronic.fr/tags.html">Tags</a></li>
+                                <li ><a href="https://www.javatronic.fr/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://www.google.com/search" onsubmit="return validateForm(this.elements['q'][0].value);" target="_blank"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"><input type="hidden" name="q" value="site:https://www.javatronic.fr"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://www.javatronic.fr/posts/2024/10/11/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-3/">
+                Create an Android app from scratch, with CI, and no knowledge - Part 3
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+    <div class="span2 table-of-content">
+        <nav>
+        <h4>Contents</h4>
+        <div class="toc">
+<ul>
+<li><a href="#kotlin-for-programming">Kotlin for programming</a></li>
+<li><a href="#jetpack-compose-for-the-ui">Jetpack Compose for the UI</a></li>
+<li><a href="#recommended-android-app-ui">Recommended Android app UI</a></li>
+<li><a href="#list-of-persons">List of persons</a></li>
+<li><a href="#improve-personview">Improve PersonView</a></li>
+<li><a href="#search-field">Search field</a><ul>
+<li><a href="#add-a-textfield">Add a TextField</a></li>
+<li><a href="#react-upon-line-return">React upon line return</a></li>
+<li><a href="#hide-keyboard-upon-line-return">Hide keyboard upon line return</a></li>
+<li><a href="#add-icon-to-clear-search">Add icon to clear search</a></li>
+</ul>
+</li>
+<li><a href="#filter-the-list-of-persons">Filter the list of persons</a></li>
+</ul>
+</div>
+        </nav>
+    </div>
+    <div class="span8 article-content">
+            
+            
+<div class="admonition warning">
+<p class="admonition-title"> This is a multi-part article</p>
+<p>You're reading part 3.</p>
+<ul>
+<li><a href="https://www.javatronic.fr/posts/2024/09/13/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-1/">Part 1</a> focuses on bootstrapping an Android app dev project and run it on an emulated device</li>
+<li><a href="https://www.javatronic.fr/posts/2024/09/14/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-2/">Part 2</a> focuses on deploying the app to my phone and create a CI pipeline producing APKs</li>
+<li><a href="https://www.javatronic.fr/posts/2024/10/11/create-an-android-app-from-scratch-with-ci-and-no-knowledge-part-3/">Part 3</a> focuses on basic Jetpack Compose and Kotlin programming to create a demo UI for LMS</li>
+</ul>
+</div>
+<p>So far, we worked on the Hello World Android App generated by Android Studio.</p>
+<p>However, the point of all this is to create the TODO LINK MVP of an Android App for LMS, and find out how easy/hard it is.</p>
+<p>The requirements are:</p>
+<ul>
+<li>an input field to search, initially empty</li>
+<li>a list displaying persons (id, first name, and last name)</li>
+<li>the same behaviors as the PyLMS UI: display all persons by default, display the result of filtering first and last name by the value of the input field on submit</li>
+<li>(Optional) use state-of-the-art/recommended UI patterns for Android</li>
+</ul>
+<h1 id="kotlin-for-programming">Kotlin for programming<a class="headerlink" href="#kotlin-for-programming" title="Permanent link">¶</a></h1>
+<p>I knew from keeping an eye on the news that Kotlin is THE programing language for Android for a while.</p>
+<p>I never programmed with Kotlin. I do have a high-level understanding of the language from looking at Java-Kotlin
+comparison articles over time and collaborating with Kotlin developers at work. </p>
+<p>I'm happy to have a practical opportunity to learn a new language. Plus, I'm super eager to find out how a language
+intended to provide a faster and more fluent syntax for coding on the JVM compares to Python.</p>
+<h1 id="jetpack-compose-for-the-ui">Jetpack Compose for the UI<a class="headerlink" href="#jetpack-compose-for-the-ui" title="Permanent link">¶</a></h1>
+<p>I recalled from past looks at Android programming that the UI was coded with XML. And indeed, the 1st few resources I
+found confirmed it.</p>
+<p>Yet, my deep self couldn't help but try and find an alternative where I could code everything (eg. generate XML with Code). </p>
+<p>And indeed, after a little googling, I stumbled upon articles talking about Jetpack Compose as the new and recommended
+way of UI programming for Android, and I liked what I saw.</p>
+<p>In a nutshell, Jetpack Compose has nothing to do with XML and my understanding of it is:</p>
+<ul>
+<li>it is based on Kotlin functions, annotated with <code>@Composable</code>, each describing a piece of the UI</li>
+<li>functions are composed of one another, down to using Jetpack Compose base UI <code>@Composable</code> functions (eg. an input field) (or drawing functions -- I guess), </li>
+<li>and variables implementing <code>State</code> (or more commonly <code>MutableState</code>), to hold any state related to the UI.</li>
+</ul>
+<p>Jetpack Compose is then responsible for drawing the UI calling these methods, as well as refreshing the UI, upon 
+both user/system events and changes of state variables (which Jetpack monitors), calling <strong>only the 
+impacted</strong> functions.</p>
+<p>As a consequence, it's important to understand that <code>@Composable</code> functions:</p>
+<ul>
+<li>may <strong>not</strong> be called <a href="https://developer.android.com/develop/ui/compose/mental-model#any-order">in the order</a> they are defined in code,</li>
+<li>will be called <a href="https://developer.android.com/develop/ui/compose/mental-model#frequent">multiple times</a>,</li>
+<li>can be called <a href="https://developer.android.com/develop/ui/compose/mental-model#parallel">in parallel</a>,</li>
+<li>as a consequence, they <strong>must not have side effects</strong>.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>@Composable</code> functions are expected to be named with a capital head letter. This is not standard for Kotlin.</p>
+<p>Since functions are typically named after components, my guess is that it is intended to make it easier for
+developers to reason around functions as composable UI components.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://developer.android.com/develop/ui/compose/why-adopt">Why adopt Compose - Android Developer</a></li>
+<li><a href="https://developer.android.com/develop/ui/compose/mental-model">Thinking in Compose - Android Developer</a></li>
+</ul>
+</div>
+<h1 id="recommended-android-app-ui">Recommended Android app UI<a class="headerlink" href="#recommended-android-app-ui" title="Permanent link">¶</a></h1>
+<p>I'm not a UI guy. So, my go-to action is to find references on how to design an Android app.</p>
+<p>Turns out, there is exactly that, provided directly by Google: <a href="https://m3.material.io/">Material Design 3</a>.</p>
+<p><code>Scaffold</code> is a top component, provided by Jetpack Compose, that provides scaffolding to create an App with the
+typical (and recommended) appearance: a top bar, a bottom bar, content in the middle, and a floating action
+button.</p>
+<p>I took the code sample from Android Developer and built my MVP from there:</p>
+<ul>
+<li>➊ usage of the <code>TopAppBar</code> function requires adding <code>OptIn(ExperimentalMaterial3Api::class)</code> to the wrapping <code>@Composable</code> function</li>
+<li>➋ color code copy/pasted from code example</li>
+<li>➌ top bar only need to contain the name of the App for now</li>
+<li>➍ bottom bar will display infos about displayed data, whether it's filtered or not</li>
+<li>➎ I disabled/hide the floating button as it is out of scope of the MVP, but it seems a great way to add a new person</li>
+<li>➏ this function defines the "content" (what's between top and bottom bars) and takes a parameter <code>innerPadding</code> which 
+     must be passed to the top inner component. If not passed, inner content will render behind the top bar (if top aligned).</li>
+<li>➐ more on <code>PersonsList</code> below (see <a href="#list-of-persons">List of persons</a>)</li>
+<li>➑ passing the padding value as a <code>Modifier</code> type to <code>PersonsList</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">AndroLMSScaffold</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TopAppBar</span><span class="p">(</span><span class="n">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TopAppBarDefaults</span><span class="p">.</span><span class="na">topAppBarColors</span><span class="p">(</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">            </span><span class="n">containerColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primaryContainer</span><span class="p">,</span>
+<span class="w">            </span><span class="n">titleContentColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primary</span>
+<span class="w">        </span><span class="p">),</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Text</span><span class="p">(</span><span class="s">"AndroLMS"</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="n">bottomBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">BottomAppBar</span><span class="p">(</span>
+<span class="w">            </span><span class="n">containerColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primaryContainer</span><span class="p">,</span>
+<span class="w">            </span><span class="n">contentColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primary</span><span class="p">,</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Text</span><span class="p">(</span>
+<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(),</span>
+<span class="w">                </span><span class="n">textAlign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TextAlign</span><span class="p">.</span><span class="na">Center</span><span class="p">,</span>
+<span class="w">                </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Displaying everything"</span><span class="p">,</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="c1">//    }, floatingActionButton = { # ➎</span>
+<span class="c1">//        FloatingActionButton(onClick = { }) {</span>
+<span class="c1">//            Icon(Icons.Default.Add, contentDescription = "Create person")</span>
+<span class="c1">//        }</span>
+<span class="w">    </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">innerPadding</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➏</span>
+<span class="w">        </span><span class="n">PersonsList</span><span class="p">(</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➐</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">innerPadding</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➑</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Compose appears to make extensive use of the Kotlin convention that allows writing a lambda expression
+after the function's arguments when the trailing parameter is a function (see ➏). <br/>
+I find this quite neat, and it does improve the readability of the code.<br/>
+At first sight, though, it does create confusion of capitalized functions with call to class constructors.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Usage of <code>@OptIn(ExperimentalMaterial3Api::class)</code> may not be required in 35 and above, it is with API 34 (the one I target for my phone).</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://m3.material.io/get-started">Get to know Material 3 - material.io</a></li>
+<li><a href="https://developer.android.com/develop/ui/compose/components/scaffold#example">Scaffold code example - Android Developer</a></li>
+<li><a href="https://kotlinlang.org/docs/lambdas.html#passing-trailing-lambdas">Passing trailing lambdas - Kotlinlang.org</a></li>
+</ul>
+</div>
+<h1 id="list-of-persons">List of persons<a class="headerlink" href="#list-of-persons" title="Permanent link">¶</a></h1>
+<p>To display a list of persons, I looked for a List, or tree component.</p>
+<p>I didn't find one and quick googling (and asking Copilot on Skype - I had to use the software for communication, 
+discover it had a bot built-in and gave it a try) taught me that the correct approach with Android is to use a <code>Column</code>
+component with any other repeated component inside. A <code>Text</code> one will do.</p>
+<ul>
+<li>🄌 introducing a data class to mock a <code>Person</code> in the app</li>
+<li>➊ following Compose approach, every piece of the UI is a <code>@Composable</code> function</li>
+<li>➋ to be side-effect-free, it must take the list of persons to display as a parameter</li>
+<li>➌ and accept the padding from <code>Scaffold</code> to not be displayed behind the top bar</li>
+<li>➍ using <code>LazyColumn</code> instead of <code>Column</code> to get a vertical scrollbar</li>
+<li>➎ using the <code>items</code> function from the <code>LazyDsl</code> to load all the persons at once (which is not lazy at all, but <a href="https://en.wikipedia.org/wiki/KISS_principle">KISS</a>)</li>
+<li>➏ each person is represented on screen with a <code>PersonView</code>, another <code>@Composable</code> function</li>
+<li>➐ a <code>PersonView</code> is only made of one <code>Text</code>, which content is the person's id followed by first and last name</li>
+<li>➑ the <code>Text</code> takes the full width of the screen (and content is left-aligned by default -- is it localized?)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Person</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">firstname</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">lastname</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">🄌</span>
+
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">PersonsList</span><span class="p">(</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">    </span><span class="n">persons</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">LazyColumn</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➍</span>
+<span class="w">        </span><span class="n">items</span><span class="p">(</span><span class="n">persons</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➎</span><span class="w"> </span>
+<span class="w">            </span><span class="n">item</span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">PersonView</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➏</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">PersonView</span><span class="p">(</span><span class="n">person</span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➏</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">lastname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="na">lastname</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="na">lastname</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s">""</span>
+<span class="w">    </span><span class="n">Text</span><span class="p">(</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➐</span>
+<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"(</span><span class="si">${</span><span class="n">person</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">) </span><span class="si">${</span><span class="n">person</span><span class="p">.</span><span class="na">firstname</span><span class="si">}${</span><span class="n">lastname</span><span class="si">}</span><span class="s">"</span><span class="p">,</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">()</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➑</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>To provide a list of persons to <code>PersonsList</code>, the calling code must be changed a bit:</p>
+<ul>
+<li>➊ create a mocked list of 300 persons, odd ones don't have a last name</li>
+<li>➋ we will change the list of persons and let's take the good habit of passing any data to the UI as <code>State</code>. <br/>
+     This is not required though, passing <code>p</code> will equally work for static content as it is now.</li>
+<li>➌ skipping unchanged constructor parameters in this snippet</li>
+<li>➍ pass the persons</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">AndroLMSScaffold</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="m">1.</span><span class="p">.</span><span class="m">300</span><span class="p">).</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="nb">it</span><span class="p">,</span><span class="w"> </span><span class="s">"fn</span><span class="si">${</span><span class="nb">it</span><span class="si">}</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">it</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="s">"ln</span><span class="si">${</span><span class="nb">it</span><span class="si">}</span><span class="s">"</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">persons</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+
+<span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span>
+<span class="w">        </span><span class="o">[</span><span class="p">...</span><span class="o">]</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">innerPadding</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">PersonsList</span><span class="p">(</span>
+<span class="w">            </span><span class="n">persons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">persons</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➍</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">innerPadding</span><span class="p">)</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The result looks quite plain, but data is displayed and scrolling works:</p>
+<p><img alt="Screenshot simplistic display of a list of persons" src="https://www.javatronic.fr/images/2024-10-11_create_an_android_app_from_scratch_part_3/simplistic_list_of_persons.png"/></p>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://developer.android.com/develop/ui/compose/components/scaffold">Scaffold component doc and code example - Android Developer</a></li>
+<li><a href="https://developer.android.com/develop/ui/compose/layouts/basics#standard-layouts">Standard layouts, including Column - Android Developer</a></li>
+<li><a href="https://developer.android.com/develop/ui/compose/lists#lazy">Lazy lists - Android Developer</a></li>
+<li><a href="https://developer.android.com/reference/kotlin/androidx/compose/foundation/lazy/package-summary#LazyColumn(androidx.compose.ui.Modifier,androidx.compose.foundation.lazy.LazyListState,androidx.compose.foundation.layout.PaddingValues,kotlin.Boolean,androidx.compose.foundation.layout.Arrangement.Vertical,androidx.compose.ui.Alignment.Horizontal,androidx.compose.foundation.gestures.FlingBehavior,kotlin.Boolean,kotlin.Function1)">Lazy column documentation - Android Developer</a></li>
+</ul>
+</div>
+<h1 id="improve-personview">Improve PersonView<a class="headerlink" href="#improve-personview" title="Permanent link">¶</a></h1>
+<p>The least improvement to make is to have a clearer separation of the people lines and plan for future touch actions on 
+them, highlighting the sensitive zone of each line.</p>
+<ul>
+<li>➊ the <code>Card</code> function adds a background with rounded corners out of the box </li>
+<li>➋ adds a little distance between cards</li>
+<li>➌ just add previous <code>Text</code> as content for now. <code>Card</code> is a container and would make it easy to add an icon, multiple texts with diverse alignments, ...</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">PersonView</span><span class="p">(</span><span class="n">person</span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Card</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">5.</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">lastname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="na">lastname</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="na">lastname</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s">""</span>
+<span class="w">        </span><span class="n">Text</span><span class="p">(</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">            </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"(</span><span class="si">${</span><span class="n">person</span><span class="p">.</span><span class="na">id</span><span class="si">}</span><span class="s">) </span><span class="si">${</span><span class="n">person</span><span class="p">.</span><span class="na">firstname</span><span class="si">}${</span><span class="n">lastname</span><span class="si">}</span><span class="s">"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">()</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="Screenshot display of a list of persons with Card" src="https://www.javatronic.fr/images/2024-10-11_create_an_android_app_from_scratch_part_3/PersonView_with_a_Card.png"/></p>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://developer.android.com/develop/ui/compose/components/card">The Card base component - Android Developer</a></li>
+</ul>
+</div>
+<h1 id="search-field">Search field<a class="headerlink" href="#search-field" title="Permanent link">¶</a></h1>
+<h3 id="add-a-textfield">Add a TextField<a class="headerlink" href="#add-a-textfield" title="Permanent link">¶</a></h3>
+<p>To allow searching a person, I'll add an input field between the top bar and the list of persons.</p>
+<ul>
+<li>➊ using a <code>Column</code> to put the search field "on top" of the list of persons, withing the content of the <code>Scaffold</code> 
+     component. Note that the <code>Column</code> receives the modifier from <code>Scaffold</code> not the <code>LazyColumn</code> anymore.</li>
+<li>➋ using a <code>Composable</code> function for the search field is overkill at this stage since it contains a single component
+     but this will become useful as the component becomes more complex</li>
+<li>➌ add a <code>10</code> "dp" (for Density Independent Pixel, aka. dpi) between the search field and the list</li>
+<li>➍ Using an <code>OutlinedTextField</code>, only the style changes and I believe it looks much better at very low cost</li>
+<li>➎ parameters <code>value</code> and <code>onValueChange</code> are discussed below (TODO link). They are mandatory, so provide empty values</li>
+<li>➏ use "Search" as label. it is plain text but could easily include an icon or whatever. Out of the box, the label 
+     neatly appears within the text field until the user focuses on it, and it moves to the top-left and over the outline. </li>
+<li>➐ limit the field to display only one line. At this stage, user can use return to create more than one line, and they
+     won't be visible.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">PersonsList</span><span class="p">(</span><span class="n">persons</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">onSearchStringChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span><span class="w"> </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Column</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SearchField</span><span class="p">(</span><span class="n">onSearchStringChange</span><span class="p">)</span><span class="w"> </span>
+<span class="w">        </span><span class="n">LazyColumn</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.</span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.</span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10.</span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">items</span><span class="p">(</span><span class="n">persons</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">item</span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">PersonView</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">SearchField</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">    </span><span class="n">OutlinedTextField</span><span class="p">(</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➍</span><span class="w"> </span>
+<span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➎</span>
+<span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➎</span>
+<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"Search"</span><span class="p">)</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➏</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➐</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="Screenshot OutlinedTextField out of focus" src="https://www.javatronic.fr/images/2024-10-11_create_an_android_app_from_scratch_part_3/Plain_OutlinedTextField_out_of_focus.png"/></p>
+<p><img alt="Screenshot OutlinedTextField in focus" src="https://www.javatronic.fr/images/2024-10-11_create_an_android_app_from_scratch_part_3/Plain_OutlinedTextField_in_focus.png"/></p>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://m2.material.io/design/layout/pixel-density.html#density-independence">Density independence and DP - Material Design</a></li>
+<li><a href="https://developer.android.com/develop/ui/compose/text/user-input#choose-textfield">Choose TextField implementation - Android Developer</a></li>
+</ul>
+</div>
+<h3 id="react-upon-line-return">React upon line return<a class="headerlink" href="#react-upon-line-return" title="Permanent link">¶</a></h3>
+<p>In its current form, the TextField displays only one line but accepts line returns to create more than one.</p>
+<p>I'd rather have search triggered when the user hits enter/line return and use the content of the <code>TextField</code> to filter the list.
+As a first step, I'll display the filtering string in the bottom bar.</p>
+<p>This can be achieved with <code>TextField</code> built-in <code>keyboardOptions</code> :</p>
+<ul>
+<li>➊ define a state <code>string</code> variable named <code>searchQuery</code> to hold the value of the search</li>
+<li>➋ <code>topBar</code> is unchanged</li>
+<li>➌ the <code>bottomBar</code> will display "Displaying everything" unless <code>searchQuery</code> has content. It will be automatically updated when <code>searchQuery</code> is updated</li>
+<li>➍ pass a function to <code>PersonsList</code> (see below) that takes some text and set it as value of <code>searchQuery</code> </li>
+<li>➎ <code>PersonsList</code> now accepts a function and pass it as is to <code>SearchField</code></li>
+<li>➏ <code>SearchField</code> now accepts a function argument. This function takes a single <code>string</code> argument and returning nothing</li>
+<li>➐ define a state <code>string</code> variable named <code>localText</code> to hold the content of the textfield. Using parameter <code>onValueChange</code> and a lambda, this variable is updated with every change of the <code>TextField</code> content.</li>
+<li>➑ when <code>imeAction</code> is <code>ImeAction.Search</code>, an amplifying glass is displayed on the keyboard. No new line can be added to the <code>TextField</code>, instead a keyboard action called 'search' is triggered.</li>
+<li>➒ define a <code>keyboardActions</code> when 'search' is triggered, function <code>onSearchStringChange</code> is called with the current value of <code>localText</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">AndroLMSScaffold</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="m">1.</span><span class="p">.</span><span class="m">300</span><span class="p">).</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="nb">it</span><span class="p">,</span><span class="w"> </span><span class="s">"fn</span><span class="si">${</span><span class="nb">it</span><span class="si">}</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">it</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="s">"ln</span><span class="si">${</span><span class="nb">it</span><span class="si">}</span><span class="s">"</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">searchQuery</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">persons</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">[</span><span class="p">...</span><span class="o">]</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="n">bottomBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">BottomAppBar</span><span class="p">(</span>
+<span class="w">            </span><span class="n">containerColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primaryContainer</span><span class="p">,</span>
+<span class="w">            </span><span class="n">contentColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primary</span><span class="p">,</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Text</span><span class="p">(</span>
+<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(),</span>
+<span class="w">                </span><span class="n">textAlign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TextAlign</span><span class="p">.</span><span class="na">Center</span><span class="p">,</span>
+<span class="w">                </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">searchQuery</span><span class="p">.</span><span class="na">isNotEmpty</span><span class="p">())</span><span class="w"> </span><span class="s">"Searching for </span><span class="si">${</span><span class="n">searchQuery</span><span class="si">}</span><span class="s">..."</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s">"Displaying everything"</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">innerPadding</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">PersonsList</span><span class="p">(</span>
+<span class="w">            </span><span class="n">persons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">persons</span><span class="p">,</span>
+<span class="w">            </span><span class="n">onSearchStringChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➍</span>
+<span class="w">                </span><span class="n">searchQuery</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">text</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">innerPadding</span><span class="p">)</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">PersonsList</span><span class="p">(</span><span class="n">persons</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">onSearchStringChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➎</span>
+<span class="w">                </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Column</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SearchField</span><span class="p">(</span><span class="n">onSearchStringChange</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➎</span>
+<span class="w">        </span><span class="n">LazyColumn</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.</span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.</span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10.</span><span class="n">dp</span><span class="p">,</span><span class="w"> </span><span class="n">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.</span><span class="n">dp</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">items</span><span class="p">(</span><span class="n">persons</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">item</span><span class="p">:</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">PersonView</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">SearchField</span><span class="p">(</span><span class="n">onSearchStringChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➏</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">localText</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➐</span>
+
+<span class="w">    </span><span class="n">OutlinedTextField</span><span class="p">(</span>
+<span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">localText</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➐</span>
+<span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">localText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➐</span>
+<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"Search"</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="n">keyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="p">(</span><span class="n">imeAction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Search</span><span class="p">),</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➑</span>
+<span class="w">        </span><span class="n">keyboardActions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardActions</span><span class="p">(</span><span class="n">onSearch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➒</span>
+<span class="w">            </span><span class="n">onSearchStringChange</span><span class="p">(</span><span class="n">localText</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="Screenshot Amplifying glass on the keyboard" src="https://www.javatronic.fr/images/2024-10-11_create_an_android_app_from_scratch_part_3/amplifying_glass_on_the_keyboard.png"/></p>
+<p><img alt="Screenshot Search string in bottom bar" src="https://www.javatronic.fr/images/2024-10-11_create_an_android_app_from_scratch_part_3/search_string_in_bottom_bar.png"/></p>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li>In a question on how to hide the keyboard (see <a href="#hide-keyboard-upon-line-return">below</a>), a user demonstrates <a href="https://stackoverflow.com/q/69124822">how to use <code>ImeAction.search</code> - Stackoverflow</a></li>
+<li><a href="https://developer.android.com/develop/ui/compose/text/user-input#state-practices">Best practices with TextField state - Android Developer</a></li>
+<li><a href="https://medium.com/androiddevelopers/effective-state-management-for-textfield-in-compose-d6e5b070fbe5">Effective State Management for TextFields - Medium</a></li>
+</ul>
+</div>
+<h3 id="hide-keyboard-upon-line-return">Hide keyboard upon line return<a class="headerlink" href="#hide-keyboard-upon-line-return" title="Permanent link">¶</a></h3>
+<p>The keyboard taking a big share of the screen, I was immediately frustrated not seing the whole list once I hit search.</p>
+<p>To hide the keyboard upon hitting search:</p>
+<ul>
+<li>➊ trigger the ImeAction <code>Done</code> to hide the keyboard and presumably release focus. <code>TextField</code> keeps it in this case, though. I assume because no other component can take it.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">SearchField</span><span class="p">(</span><span class="n">onSearchStringChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">localText</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">OutlinedTextField</span><span class="p">(</span>
+<span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">localText</span><span class="p">,</span>
+<span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">localText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"Search"</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="n">keyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="p">(</span><span class="n">imeAction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Search</span><span class="p">),</span>
+<span class="w">        </span><span class="n">keyboardActions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardActions</span><span class="p">(</span><span class="n">onSearch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">onSearchStringChange</span><span class="p">(</span><span class="n">localText</span><span class="p">)</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="na">defaultKeyboardAction</span><span class="p">(</span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Done</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">        </span><span class="p">}),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Behavior upon triggering the keyboard action is not specifically defined, and could be platform dependant/change over time.</p>
+<p>An alternative is to use <code>LocalSoftwareKeyboardController</code>, which is specific to the behavior we are looking for, and will
+come in handy when we can't access the <code>KeyboardActionScope</code> (the type exposing function <code>defaultKeyboardAction</code>):</p>
+<ul>
+<li>➊ get the current <code>LocalSoftwareKeyboardController</code></li>
+<li>➋ call the <code>hide</code> function. Usage of <code>?.</code> operator appears to be required. </li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">SearchField</span><span class="p">(</span><span class="n">onSearchStringChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">localText</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">keyboardController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalSoftwareKeyboardController</span><span class="p">.</span><span class="na">current</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+
+<span class="w">    </span><span class="n">OutlinedTextField</span><span class="p">(</span>
+<span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">localText</span><span class="p">,</span>
+<span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">localText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="s">"Search"</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="n">keyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="p">(</span><span class="n">imeAction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Search</span><span class="p">),</span>
+<span class="w">        </span><span class="n">keyboardActions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardActions</span><span class="p">(</span><span class="n">onSearch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">onSearchStringChange</span><span class="p">(</span><span class="n">localText</span><span class="p">)</span>
+<span class="w">            </span><span class="n">keyboardController</span><span class="o">?.</span><span class="na">hide</span><span class="p">()</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">        </span><span class="p">}),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/76600586">Hide the keyboard with ImeAction.Done after hitting search - Stackoverflow</a></li>
+<li><a href="https://stackoverflow.com/a/63696027">Use LocalSoftwareKeyboardController to hide the current software keyboard - Stackoverflow</a></li>
+<li><a href="https://developer.android.com/reference/kotlin/androidx/compose/ui/text/input/ImeAction">IMEAction - API reference</a></li>
+</ul>
+</div>
+<h3 id="add-icon-to-clear-search">Add icon to clear search<a class="headerlink" href="#add-icon-to-clear-search" title="Permanent link">¶</a></h3>
+<p>Out of curiosity rather than out of necessity, I wanted to find out how I could implement a clear button on the search field.</p>
+<p><code>TextField</code> defines a trailing icon out of the box. It's only a matter of adding some behavior to it and find a way to 
+display it only when the TextField is not empty:</p>
+<ul>
+<li>➊ other parameters unchanged</li>
+<li>➋ <code>if</code> could be used and be a little shorter, but I like how using <code>when</code> makes the code more descriptive</li>
+<li>➌ use <code>localText.isNotEmpty()</code> to display the icon only when the TextField has some content</li>
+<li>➍ use system's icon for 'Clear'</li>
+<li>➎ hide the keyboard</li>
+<li>➏ clear the <code>TextField</code></li>
+<li>➐ update the bottom bar</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">SearchField</span><span class="p">(</span><span class="n">onSearchStringChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">localText</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">keyboardController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalSoftwareKeyboardController</span><span class="p">.</span><span class="na">current</span>
+
+<span class="w">    </span><span class="n">OutlinedTextField</span><span class="p">(</span>
+<span class="w">        </span><span class="o">[</span><span class="p">...</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">        </span><span class="n">trailingIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">when</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span>
+<span class="w">                </span><span class="n">localText</span><span class="p">.</span><span class="na">isNotEmpty</span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Icon</span><span class="p">(</span><span class="w">  </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">                    </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Clear</span><span class="p">,</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➍</span>
+<span class="w">                    </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"clear search"</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">clickable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">keyboardController</span><span class="o">?.</span><span class="na">hide</span><span class="p">()</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➎</span>
+<span class="w">                        </span><span class="n">localText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➏</span>
+<span class="w">                        </span><span class="n">onSearchStringChange</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➐</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><img alt="Screenshot Clear TextField button" src="https://www.javatronic.fr/images/2024-10-11_create_an_android_app_from_scratch_part_3/clear_textfield_button.png"/></p>
+<div class="admonition hint">
+<p class="admonition-title"> Sources</p>
+<ul>
+<li><a href="https://stackoverflow.com/a/68483797">Trailing icon to clear TextField - Stackoverflow</a></li>
+<li><a href="https://stackoverflow.com/a/71887430">Display Trailing icon only when TextField is not empty - Stackoverflow</a></li>
+</ul>
+</div>
+<h1 id="filter-the-list-of-persons">Filter the list of persons<a class="headerlink" href="#filter-the-list-of-persons" title="Permanent link">¶</a></h1>
+<p>Finally, it's time to filter the content of the list:</p>
+<ul>
+<li>➊ move variable <code>p</code> with dummy content to a function implementing filtering with (really) dummy code</li>
+<li>➋ assign variable <code>person</code> with list of persons filtered by with an empty search string</li>
+<li>➌ when search string is modified, assign variable <code>person</code> with the filtered list of persons</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">searchPersons</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➊</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="m">1.</span><span class="p">.</span><span class="m">300</span><span class="p">).</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Person</span><span class="p">(</span><span class="nb">it</span><span class="p">,</span><span class="w"> </span><span class="s">"fn</span><span class="si">${</span><span class="nb">it</span><span class="si">}</span><span class="s">"</span><span class="p">,</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">it</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="s">"ln</span><span class="si">${</span><span class="nb">it</span><span class="si">}</span><span class="s">"</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">firstname</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">AndroLMSScaffold</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">persons</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">searchPersons</span><span class="p">(</span><span class="s">""</span><span class="p">))</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➋</span><span class="w"> </span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">searchQuery</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">""</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span>
+<span class="w">        </span><span class="o">[</span><span class="p">...</span><span class="o">]</span>
+<span class="w">    </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">innerPadding</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">PersonsList</span><span class="p">(</span>
+<span class="w">            </span><span class="n">persons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">persons</span><span class="p">,</span>
+<span class="w">            </span><span class="n">onSearchStringChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">text</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                </span><span class="n">searchQuery</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">text</span>
+<span class="w">                </span><span class="n">persons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">searchPersons</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">➌</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">innerPadding</span><span class="p">)</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2024-10-11T00:00:00+02:00">Fri 11 October 2024</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://www.javatronic.fr/categories.html#articles-ref">articles</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://www.javatronic.fr/tags.html#android-ref">Android
+                    <span class="superscript">4</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://linkedin.com/in/sebastien-lesaint/" title="Linkedin profile" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="LinkedIn" role="img" viewBox="0 0 512 512" fill="#fff"><rect width="512" height="512" rx="15%" fill="#0077b5"/><circle cx="142" cy="138" r="37"/><path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198"/><path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32"/></svg>
+    </a>
+    <a href="https://github.com/lesaint/" title="Personal Github" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://github.com/sns-seb/" title="Public Github at SonarSource" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://github.com/lesaint/pelican-theme-elegant/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Personal fork of Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://www.javatronic.fr/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
