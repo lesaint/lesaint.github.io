@@ -2132,7 +2132,7 @@ fn_terminate_script
 &lt;p&gt;Billing info are required to use Google Compute Engine because creating an instance or a disk will cost you from the first minute (but, so little...).&lt;/p&gt;
 &lt;h1 id="google-cloud-sdk"&gt;Google Cloud SDK&lt;a class="headerlink" href="#google-cloud-sdk" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h1&gt;
 &lt;h2 id="install-it"&gt;install it&lt;a class="headerlink" href="#install-it" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;My installation setup is described in &lt;a href="{filename/from_jekyll/tips/2014-10-17-installing_google_cloud_sdk_on_ubuntu_with_oh-my-zsh.md"&gt;Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;My installation setup is described in &lt;a href="https://www.javatronic.fr/posts/2014/10/17/installing-google-cloud-sdk-on-ubuntu-with-oh-my-zsh/"&gt;Installing Google Cloud SDK on Ubuntu with Oh-My-Zsh&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id="authenticate"&gt;authenticate&lt;a class="headerlink" href="#authenticate" title="Permanent link"&gt;¶&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Run:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gcloud&lt;span class="w"&gt; &lt;/span&gt;auth&lt;span class="w"&gt; &lt;/span&gt;init
