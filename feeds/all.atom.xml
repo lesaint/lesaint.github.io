@@ -4014,7 +4014,7 @@ was tough.&lt;/p&gt;
 &lt;p&gt;Nice session. True hands-on session with a nice tutorial progressively diving into Docker towards a real world use case : a Docker container with a Git
 repository which will trigger a build on a Docker container containing a Jenkins server via a git-hook.&lt;/p&gt;
 &lt;p&gt;I don't think many attendees went to the end of the tutorial, especially those like me who had never worked with docker before, but the whole tutorial
-is on &lt;a href="git@github.com:julienvey/docker-hands-on.git"&gt;Github&lt;/a&gt; with the target solution and can be finished later.&lt;/p&gt;
+is on &lt;a href="https://github.com/julienvey/docker-hands-on"&gt;Github&lt;/a&gt; with the target solution and can be finished later.&lt;/p&gt;
 &lt;p&gt;Thanks the Julien Vey for their support. Good thinking setting up a VM to share on USB key during the session to get everyone started quickly.&lt;/p&gt;
 &lt;h2 id="university-java-8-streams-collector-by-jose-paumard-josepaumard"&gt;University: Java 8, Streams &amp;amp; Collector by José Paumard (@JosePaumard)&lt;a class="headerlink" href="#university-java-8-streams-collector-by-jose-paumard-josepaumard" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;José's university was very well prepared and very interesting, going nicely and progressively into the new feature of Java8, featured with detailed
