@@ -11,7 +11,7 @@ Nice session. True hands-on session with a nice tutorial progressively diving in
 repository which will trigger a build on a Docker container containing a Jenkins server via a git-hook.
 
 I don't think many attendees went to the end of the tutorial, especially those like me who had never worked with docker before, but the whole tutorial
-is on [Github](git@github.com:julienvey/docker-hands-on.git) with the target solution and can be finished later.
+is on [Github](https://github.com/julienvey/docker-hands-on) with the target solution and can be finished later.
 
 Thanks the Julien Vey for their support. Good thinking setting up a VM to share on USB key during the session to get everyone started quickly.
 
